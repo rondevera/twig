@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ln -sf `pwd`/bin/twig /usr/local/bin/twig
+
+if [[ `which twig` ]]; then
+  echo 'All set! Run `twig` to list your local branches.'
+else
+  echo 'Argh! Something went wrong. Please try symlinking ./bin/twig to /usr/local/bin/twig, or contact rondevera on GitHub.'
+fi
