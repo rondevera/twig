@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
+
 module Twig
   RESERVED_BRANCH_PROPERTIES = %w[merge remote]
 
@@ -7,7 +9,7 @@ module Twig
   ### Helpers ###
 
   def self.current_branch
-    `git name-rev --name-only head`.strip
+    @_current_branch ||= `git name-rev --name-only head`.strip
   end
 
   def self.branches
@@ -68,6 +70,9 @@ module Twig
     new_string
   end
 
+  def self.version; '1.0.0'; end
+
+
 
   ### Actions ###
 
@@ -90,7 +95,7 @@ module Twig
       # Gather branch properties
       last_commit_time = last_commit_time_for_branch(branch)
       properties = branch_properties.inject({}) do |hsh, property_name|
-        property = get_branch_property(property_name, :branch => branch)
+        property = get_branch_property(branch, property_name)
         hsh.merge(property_name => property)
       end
 
@@ -115,16 +120,13 @@ module Twig
     out << branch_lines.join("\n")
   end
 
-  def self.get_branch_property(key, options = {})
-    branch = options[:branch] || current_branch
+  def self.get_branch_property(branch, key, options = {})
     `git config branch.#{branch}.#{key}`.strip
   end
 
-  def self.set_branch_property(key, value, options = {})
+  def self.set_branch_property(branch, key, value, options = {})
     # Sets the given value for the given property key under the current
     # branch. Returns a confirmation string for printing.
-
-    branch = options[:branch] || current_branch
 
     if value.empty?
       `git config --unset branch.#{branch}.#{key}`
@@ -138,15 +140,35 @@ module Twig
 end
 
 
-# Handle arguments
+# Handle options
+options = {}
+OptionParser.new do |opts|
+  opts.banner = 'Usage: twig <key> [<value>] [-b <branch>] [--help]'
+
+  opts.on('-b BRANCH', Twig.branches, 'Use specific branch') do |branch|
+    if Twig.branches.include?(branch)
+      options[:branch] = branch
+    else
+      abort %{The branch "#{branch}" could not be found.}
+    end
+  end
+
+  opts.on_tail('--version', 'Show version') do
+    puts Twig.version
+    exit
+  end
+end.parse!
+
+# Handle remaining arguments
 args = ARGV.dup
 if args[0]
+  branch = options[:branch] || current_branch
   if args[1]
     # `$ twig <key> <value>`
-    puts Twig.set_branch_property(args[0], args[1])
+    puts Twig.set_branch_property(branch, args[0], args[1])
   else
     # `$ twig <key>`
-    puts Twig.get_branch_property(args[0])
+    puts Twig.get_branch_property(branch, args[0])
   end
 else
   # `$ twig`

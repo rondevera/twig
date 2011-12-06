@@ -12,6 +12,16 @@ Installation
 Usage
 =====
 
+* List branches: `twig`
+* Get current branch key: `twig <key>`
+* Set current branch key: `twig <key> <value>`
+* Get any branch key: `twig <key> -b <branch>`
+* Set any branch key: `twig <key> <value> -b <branch>`
+
+
+Examples
+--------
+
 List your branches, and highlight the current branch:
 
     $ twig
