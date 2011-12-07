@@ -117,6 +117,14 @@ module Twig
     # List most recently modified branches first
     branch_lines.sort!.reverse!
 
+    # Render current branch as bold
+    current_branch_index =
+      branch_lines.index { |line| line =~ /\* #{current_branch}$/ }
+    if current_branch_index
+      line = branch_lines[current_branch_index]
+      branch_lines[current_branch_index] = "\033[1m#{line}\033[0m"
+    end
+
     out << branch_lines.join("\n")
   end
 
@@ -127,6 +135,8 @@ module Twig
   def self.set_branch_property(branch, key, value, options = {})
     # Sets the given value for the given property key under the current
     # branch. Returns a confirmation string for printing.
+
+    value = value.to_s
 
     if value.empty?
       `git config --unset branch.#{branch}.#{key}`
