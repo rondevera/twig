@@ -25,7 +25,7 @@ end.parse!
 # Handle remaining arguments
 args = ARGV.dup
 if args[0]
-  branch = options[:branch] || current_branch
+  branch = options[:branch] || Twig.current_branch
   if args[1]
     # `$ twig <key> <value>`
     puts Twig.set_branch_property(branch, args[0], args[1])
