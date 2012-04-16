@@ -44,19 +44,8 @@ module Twig
   def self.last_commit_time_for_branch(branch)
     @_last_commit_times ||= {}
     @_last_commit_times[branch] ||= begin
-      # time = `git log -1 --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" "#{branch}"`
-      time = `git log -1 --pretty=format:"%ci (%cr)" "#{branch}"`
-
-      # Shorten relative time
-      time.sub!(' years',   'y')
-      time.sub!(' months',  'mo')
-      time.sub!(' weeks',   'w')
-      time.sub!(' days',    'd')
-      time.sub!(' hours',   'h')
-      time.sub!(' minutes', 'm')
-      time.sub!(' seconds', 's')
-
-      time
+      time = `git log -1 --pretty=format:"%ct,%cr" "#{branch}"`
+      Twig::CommitTime.new(time)
     end
   end
 
@@ -96,7 +85,7 @@ module Twig
 
   ### Actions ###
 
-  def self.list_branches
+  def self.list_branches(options = {})
     out = "\n"
 
     # Prepare column headers
@@ -113,12 +102,19 @@ module Twig
       column('  ------', 1, header_options) << "\n"
 
     # Process branches
-    branch_lines = branches.map do |branch|
+    branch_lines = []
+    branches.each do |branch|
       line = ''
       is_current_branch = (branch == current_branch)
 
-      # Gather branch properties
+      # Gather branch ages
       last_commit_time = last_commit_time_for_branch(branch)
+      if options[:max_days_old]
+        max_seconds_old = options[:max_days_old] * 86400
+        next if last_commit_time.to_i < Time.now.to_i - max_seconds_old
+      end
+
+      # Gather branch properties
       properties = branch_properties.inject({}) do |hsh, property_name|
         property = get_branch_property(branch, property_name)
         hsh.merge(property_name => property)
@@ -130,13 +126,15 @@ module Twig
       end
 
       # Format branch properties
-      line << column(last_commit_time, 5) <<
+      line << column(last_commit_time.to_s, 5) <<
              branch_properties.map { |prop| column(properties[prop] || '', 2) }.join
       if is_current_branch
         line << "* #{branch}"
       else
         line << "  #{branch}"
       end
+
+      branch_lines << line
     end
 
     # List most recently modified branches first
