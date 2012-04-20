@@ -27,6 +27,14 @@ OptionParser.new do |opts|
     end
   end
 
+  opts.on('--only-name PATTERN', 'Only list branches whose name matches a given pattern') do |pattern|
+    options[:name_only] = Regexp.new(pattern)
+  end
+
+  opts.on('--except-name PATTERN', 'Do not list branches whose name matches a given pattern') do |pattern|
+    options[:name_except] = Regexp.new(pattern)
+  end
+
   opts.on_tail('--version', 'Show version') do
     puts Twig.version
     exit
@@ -46,6 +54,8 @@ if args[0]
   end
 else
   # `$ twig`
-  branch_list_options = Twig::Util.hash_slice(options, [:max_days_old])
+  branch_list_options = Twig::Util.hash_slice(options, [
+    :max_days_old, :name_except, :name_only
+  ])
   puts Twig.list_branches(branch_list_options)
 end

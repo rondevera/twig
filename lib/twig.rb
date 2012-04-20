@@ -107,6 +107,10 @@ module Twig
       line = ''
       is_current_branch = (branch == current_branch)
 
+      # Filter branch by name
+      next if options[:name_only]   && branch !~ options[:name_only]
+      next if options[:name_except] && branch =~ options[:name_except]
+
       # Gather branch ages
       last_commit_time = last_commit_time_for_branch(branch)
       if options[:max_days_old]
