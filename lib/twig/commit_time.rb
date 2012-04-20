@@ -21,7 +21,7 @@ module Twig
     end
 
     def to_s
-      time_string = @time.strftime('%F %T %z')
+      time_string = @time.strftime('%F %R %z')
       "#{time_string} (#{@time_ago})"
     end
 

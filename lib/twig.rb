@@ -87,6 +87,7 @@ module Twig
 
   def self.list_branches(options = {})
     out = "\n"
+    now = Time.now
 
     # Prepare column headers
     header_options = {:color => :blue}
@@ -115,7 +116,7 @@ module Twig
       last_commit_time = last_commit_time_for_branch(branch)
       if options[:max_days_old]
         max_seconds_old = options[:max_days_old] * 86400
-        next if last_commit_time.to_i < Time.now.to_i - max_seconds_old
+        next if last_commit_time.to_i < now.to_i - max_seconds_old
       end
 
       # Gather branch properties
