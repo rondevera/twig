@@ -1,4 +1,5 @@
 module Twig
+  VERSION = '1.0.0'
   RESERVED_BRANCH_PROPERTIES = %w[merge remote]
   COLORS = {
     :black  => 30,
@@ -78,8 +79,6 @@ module Twig
 
     new_string
   end
-
-  def self.version; '1.0.0'; end
 
 
 

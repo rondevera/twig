@@ -36,7 +36,7 @@ OptionParser.new do |opts|
   end
 
   opts.on_tail('--version', 'Show version') do
-    puts Twig.version
+    puts Twig::VERSION
     exit
   end
 end.parse!
