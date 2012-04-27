@@ -16,7 +16,17 @@ class Twig
     :bold   => 1
   }
 
+  attr_accessor :options
 
+
+  def initialize(options = {})
+    # Options:
+    # - :max_days_old (integer)
+    # - :name_except (Regexp)
+    # - :name_only (Regexp)
+
+    self.options = options
+  end
 
   def current_branch
     @_current_branch ||= `git name-rev --name-only head`.strip
@@ -49,7 +59,7 @@ class Twig
     end
   end
 
-  def column(string = ' ', num_columns = 1, options = {})
+  def column(string = ' ', num_columns = 1, column_options = {})
     # Returns `string` with an exact fixed width. If `string` is too wide,
     # it's truncated with an ellipsis.
     #
@@ -70,9 +80,9 @@ class Twig
       new_string[0, string.size] = string
     end
 
-    if options[:color] || options[:bold]
-      color_options = [COLORS[options[:color]]]
-      color_options << WEIGHTS[:bold] if options[:bold]
+    if column_options[:color] || column_options[:bold]
+      color_options = [COLORS[column_options[:color]]]
+      color_options << WEIGHTS[:bold] if column_options[:bold]
       new_string = "\033[#{color_options.join(';')}m#{new_string}\033[0m"
     end
 
@@ -83,7 +93,7 @@ class Twig
 
   ### Actions ###
 
-  def list_branches(options = {})
+  def list_branches
     out = "\n"
     now = Time.now
 
@@ -154,11 +164,11 @@ class Twig
     out << branch_lines.join("\n")
   end
 
-  def get_branch_property(branch, key, options = {})
+  def get_branch_property(branch, key)
     `git config branch.#{branch}.#{key}`.strip
   end
 
-  def set_branch_property(branch, key, value, options = {})
+  def set_branch_property(branch, key, value)
     # Sets the given value for the given property key under the current
     # branch. Returns a confirmation string for printing.
 
