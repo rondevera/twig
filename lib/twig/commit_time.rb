@@ -1,4 +1,4 @@
-module Twig
+class Twig
   class CommitTime
 
     def initialize(git_time_string)

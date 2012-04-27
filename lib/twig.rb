@@ -1,4 +1,4 @@
-module Twig
+class Twig
   VERSION = '1.0.0'
   RESERVED_BRANCH_PROPERTIES = %w[merge remote]
   COLORS = {
@@ -17,20 +17,19 @@ module Twig
   }
 
 
-  ### Helpers ###
 
-  def self.current_branch
+  def current_branch
     @_current_branch ||= `git name-rev --name-only head`.strip
   end
 
-  def self.branches
+  def branches
     @_branches ||= begin
       refs = `git for-each-ref --format='%(refname)' refs/heads/`.split("\n")
       refs.map! { |ref| ref.sub!('refs/heads/', '') }
     end
   end
 
-  def self.branch_properties
+  def branch_properties
     @_branch_properties ||= begin
       properties = `git config --list`.strip.split("\n").
                       select { |var| var =~ /^branch\./ }.
@@ -42,7 +41,7 @@ module Twig
     end
   end
 
-  def self.last_commit_time_for_branch(branch)
+  def last_commit_time_for_branch(branch)
     @_last_commit_times ||= {}
     @_last_commit_times[branch] ||= begin
       time = `git log -1 --pretty=format:"%ct,%cr" "#{branch}"`
@@ -50,7 +49,7 @@ module Twig
     end
   end
 
-  def self.column(string = ' ', num_columns = 1, options = {})
+  def column(string = ' ', num_columns = 1, options = {})
     # Returns `string` with an exact fixed width. If `string` is too wide,
     # it's truncated with an ellipsis.
     #
@@ -84,7 +83,7 @@ module Twig
 
   ### Actions ###
 
-  def self.list_branches(options = {})
+  def list_branches(options = {})
     out = "\n"
     now = Time.now
 
@@ -155,11 +154,11 @@ module Twig
     out << branch_lines.join("\n")
   end
 
-  def self.get_branch_property(branch, key, options = {})
+  def get_branch_property(branch, key, options = {})
     `git config branch.#{branch}.#{key}`.strip
   end
 
-  def self.set_branch_property(branch, key, value, options = {})
+  def set_branch_property(branch, key, value, options = {})
     # Sets the given value for the given property key under the current
     # branch. Returns a confirmation string for printing.
 

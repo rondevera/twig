@@ -6,13 +6,16 @@ Dir[File.join(File.dirname(File.readlink(__FILE__)), '..', 'lib', 'twig', '*.rb'
 end
 
 
+
+twig = Twig.new
+
 # Handle options
 options = {}
 OptionParser.new do |opts|
   opts.banner = 'Usage: twig <key> [<value>] [-b <branch>] [--help]'
 
-  opts.on('-b BRANCH', Twig.branches, 'Use specific branch') do |branch|
-    if Twig.branches.include?(branch)
+  opts.on('-b BRANCH', twig.branches, 'Use specific branch') do |branch|
+    if twig.branches.include?(branch)
       options[:branch] = branch
     else
       abort %{The branch "#{branch}" could not be found.}
@@ -44,18 +47,18 @@ end.parse!
 # Handle remaining arguments
 args = ARGV.dup
 if args[0]
-  branch = options[:branch] || Twig.current_branch
+  branch = options[:branch] || twig.current_branch
   if args[1]
     # `$ twig <key> <value>`
-    puts Twig.set_branch_property(branch, args[0], args[1])
+    puts twig.set_branch_property(branch, args[0], args[1])
   else
     # `$ twig <key>`
-    puts Twig.get_branch_property(branch, args[0])
+    puts twig.get_branch_property(branch, args[0])
   end
 else
   # `$ twig`
   branch_list_options = Twig::Util.hash_slice(options, [
     :max_days_old, :name_except, :name_only
   ])
-  puts Twig.list_branches(branch_list_options)
+  puts twig.list_branches(branch_list_options)
 end

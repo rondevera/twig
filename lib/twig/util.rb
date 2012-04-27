@@ -1,4 +1,4 @@
-module Twig
+class Twig
   module Util
 
     def self.numeric?(value)
