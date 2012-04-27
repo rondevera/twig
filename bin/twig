@@ -9,32 +9,39 @@ end
 
 twig = Twig.new
 
-# Handle options
-OptionParser.new do |opts|
-  opts.banner = 'Usage: twig <key> [<value>] [-b <branch>] [--help]'
+# Handle options from config file
+File.open(File.expand_path(Twig::CONFIG_FILE)) do |f|
+  opts = f.read.split("\n").inject({}) do |hsh, opt|
+    key, value = opt.split(':', 2)
+    hsh.merge(key.strip => value.strip)
+  end
 
-  opts.on('-b BRANCH', twig.branches, 'Use specific branch') do |branch|
-    if twig.branches.include?(branch)
-      twig.options[:branch] = branch
-    else
-      abort %{The branch "#{branch}" could not be found.}
+  opts.each do |key, value|
+    case key
+    when 'b', 'branch'  then twig.set_option(:branch,       value)
+    when 'max-days-old' then twig.set_option(:max_days_old, value)
+    when 'only-name'    then twig.set_option(:name_only,    value)
+    when 'except-name'  then twig.set_option(:name_except,  value)
     end
+  end
+end
+
+# Handle options from CLI
+OptionParser.new do |opts|
+  opts.on('-b BRANCH', '--branch BRANCH', twig.branches, 'Use specific branch') do |branch|
+    twig.set_option(:branch, branch)
   end
 
   opts.on('--max-days-old AGE', 'Only list branches below a given age') do |age|
-    if Twig::Util.numeric?(age)
-      twig.options[:max_days_old] = age.to_f
-    else
-      abort %{The value `--max-days-old=#{age}` is invalid.}
-    end
+    twig.set_option(:max_days_old, age)
   end
 
   opts.on('--only-name PATTERN', 'Only list branches whose name matches a given pattern') do |pattern|
-    twig.options[:name_only] = Regexp.new(pattern)
+    twig.set_option(:name_only, pattern)
   end
 
   opts.on('--except-name PATTERN', 'Do not list branches whose name matches a given pattern') do |pattern|
-    twig.options[:name_except] = Regexp.new(pattern)
+    twig.set_option(:name_except, pattern)
   end
 
   opts.on_tail('--version', 'Show version') do
