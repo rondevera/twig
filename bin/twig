@@ -53,6 +53,11 @@ end.parse!
 # Handle remaining arguments
 args = ARGV.dup
 if args[0]
+  # Run command binary, if any, and exit here
+  command_path = `which twig-#{args[0]}`.strip
+  exec(command_path) unless command_path.empty?
+
+  # Get/set branch property
   branch = twig.options[:branch] || twig.current_branch
   if args[1]
     # `$ twig <key> <value>`
