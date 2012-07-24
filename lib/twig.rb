@@ -1,3 +1,5 @@
+Dir[File.join(File.dirname(__FILE__), 'twig', '*')].each { |file| require file }
+
 class Twig
   CONFIG_FILE = '~/.twigrc'
   RESERVED_BRANCH_PROPERTIES = %w[merge remote]

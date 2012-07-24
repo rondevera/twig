@@ -1,9 +1,6 @@
 #!/usr/bin/env ruby
 require 'optparse'
 require File.join(File.dirname(File.readlink(__FILE__)), '..', 'lib', 'twig')
-Dir[File.join(File.dirname(File.readlink(__FILE__)), '..', 'lib', 'twig', '*.rb')].each do |file|
-  require file
-end
 
 
 
