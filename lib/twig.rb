@@ -53,6 +53,12 @@ class Twig
     end
   end
 
+  def unset_option(key)
+    if [:max_days_old, :name_except, :name_only].include?(key)
+      options.delete(key)
+    end
+  end
+
   def current_branch
     @_current_branch ||= `git name-rev --name-only head`.strip
   end

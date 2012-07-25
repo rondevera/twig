@@ -41,6 +41,12 @@ OptionParser.new do |opts|
     twig.set_option(:name_except, pattern)
   end
 
+  opts.on('--all', 'Lists all branches regardless of age or name options; useful in .twigrc') do |pattern|
+    twig.unset_option(:max_days_old)
+    twig.unset_option(:name_except)
+    twig.unset_option(:name_only)
+  end
+
   opts.on_tail('--version', 'Show version') do
     puts Twig::VERSION
     exit
