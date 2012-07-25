@@ -61,6 +61,12 @@ class Twig
     @_branches ||= begin
       refs = `git for-each-ref --format='%(refname)' refs/heads/`.split("\n")
       refs.map! { |ref| ref.sub!('refs/heads/', '') }
+
+      # Filter branches by name
+      refs.select! { |ref| ref =~ options[:name_only]   } if options[:name_only]
+      refs.reject! { |ref| ref =~ options[:name_except] } if options[:name_except]
+
+      refs
     end
   end
 
@@ -140,10 +146,6 @@ class Twig
     branches.each do |branch|
       line = ''
       is_current_branch = (branch == current_branch)
-
-      # Filter branch by name
-      next if options[:name_only]   && branch !~ options[:name_only]
-      next if options[:name_except] && branch =~ options[:name_except]
 
       # Gather branch ages
       last_commit_time = last_commit_time_for_branch(branch)
