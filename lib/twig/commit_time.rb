@@ -1,9 +1,8 @@
 class Twig
   class CommitTime
 
-    def initialize(git_time_string)
-      time_string, time_ago = git_time_string.split(',')
-      @time = Time.at(time_string.to_i)
+    def initialize(timestamp, time_ago)
+      @time = Time.at(timestamp)
 
       # Shorten relative time
       @time_ago = time_ago.

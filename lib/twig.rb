@@ -97,8 +97,11 @@ class Twig
       time_strings = `git show #{branches.join(' ')} --format="%ct,%cr" -s`.
         split("\n").
         reject { |time_string| time_string.empty? }
+
       commit_times = time_strings.map do |time_string|
-        Twig::CommitTime.new(time_string)
+        timestamp, time_ago = time_string.split(',')
+        timestamp = timestamp.to_i
+        Twig::CommitTime.new(timestamp, time_ago)
       end
 
       Hash[branches.zip(commit_times)]
