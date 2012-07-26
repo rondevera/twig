@@ -66,7 +66,7 @@ class Twig
   def branches
     @_branches ||= begin
       refs = `git for-each-ref --format='%(refname)' refs/heads/`.split("\n")
-      refs.map! { |ref| ref.sub!('refs/heads/', '') }
+      refs.map! { |ref| ref.sub!('refs/heads/', '') }.sort!
 
       # Filter branches by name
       refs.select! { |ref| ref =~ options[:name_only]   } if options[:name_only]
@@ -89,10 +89,19 @@ class Twig
   end
 
   def last_commit_time_for_branch(branch)
-    @_last_commit_times ||= {}
-    @_last_commit_times[branch] ||= begin
-      time = `git log -1 --pretty=format:"%ct,%cr" "#{branch}"`
-      Twig::CommitTime.new(time)
+    last_commit_times_for_branches[branch]
+  end
+
+  def last_commit_times_for_branches
+    @_last_commit_times ||= begin
+      time_strings = `git show #{branches.join(' ')} --format="%ct,%cr" -s`.
+        split("\n").
+        reject { |time_string| time_string.empty? }
+      commit_times = time_strings.map do |time_string|
+        Twig::CommitTime.new(time_string)
+      end
+
+      Hash[branches.zip(commit_times)]
     end
   end
 
