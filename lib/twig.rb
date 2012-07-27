@@ -1,6 +1,8 @@
 Dir[File.join(File.dirname(__FILE__), 'twig', '*')].each { |file| require file }
 
 class Twig
+  include Options
+
   CONFIG_FILE = '~/.twigrc'
   RESERVED_BRANCH_PROPERTIES = %w[merge remote]
   VERSION = '1.0.0'
@@ -30,33 +32,6 @@ class Twig
     # - :name_only (Regexp)
 
     self.options = options
-  end
-
-  def set_option(key, value)
-    case key
-    when :branch
-      if branches.include?(value)
-        options[:branch] = value
-      else
-        abort %{The branch "#{value}" could not be found.}
-      end
-    when :max_days_old
-      if Twig::Util.numeric?(value)
-        options[:max_days_old] = value.to_f
-      else
-        abort %{The value `--max-days-old=#{value}` is invalid.}
-      end
-    when :name_only
-      options[:name_only] = Regexp.new(value)
-    when :name_except
-      options[:name_except] = Regexp.new(value)
-    end
-  end
-
-  def unset_option(key)
-    if [:max_days_old, :name_except, :name_only].include?(key)
-      options.delete(key)
-    end
   end
 
   def current_branch
