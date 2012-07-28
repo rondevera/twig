@@ -44,5 +44,23 @@ class Twig
 
       new_string
     end
+
+    def branch_list_headers
+      header_options = {:color => :blue}
+
+      out =
+        column(' ', 5) <<
+        branch_properties.map { |prop| column(prop, 2, header_options) }.join <<
+        column('  branch', 1, header_options) <<
+        "\n"
+      out <<
+        column(' ', 5) <<
+        branch_properties.
+          map { |prop| column('-' * prop.size, 2, header_options) }.join <<
+        column('  ------', 1, header_options) <<
+        "\n"
+
+      out
+    end
   end # module Display
 end

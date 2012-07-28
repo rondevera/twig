@@ -74,21 +74,9 @@ class Twig
   ### Actions ###
 
   def list_branches
-    out = "\n"
     now = Time.now
 
-    # Prepare column headers
-    header_options = {:color => :blue}
-    out << column(' ', 5) <<
-      branch_properties.map { |prop|
-        column(prop, 2, header_options)
-      }.join <<
-      column('  branch', 1, header_options) << "\n"
-    out << column(' ', 5) <<
-      branch_properties.map { |prop|
-        column('-' * prop.size, 2, header_options)
-      }.join <<
-      column('  ------', 1, header_options) << "\n"
+    out = "\n" << branch_list_headers
 
     # Process branches
     branch_lines = []
