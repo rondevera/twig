@@ -106,12 +106,11 @@ class Twig
       # Gather branch properties
       properties = branch_properties.inject({}) do |hsh, property_name|
         property = get_branch_property(branch, property_name)
-        hsh.merge(property_name => property)
-      end
 
-      # Add placeholders for empty branch properties
-      properties.each do |key, value|
-        properties[key] = column('-') if value.strip.empty?
+        # Use placeholder if empty
+        property = column('-') if property.strip.empty?
+
+        hsh.merge(property_name => property)
       end
 
       # Format branch properties
