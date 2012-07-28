@@ -75,6 +75,8 @@ class Twig
 
   def list_branches
     now = Time.now
+    max_seconds_old =
+      options[:max_days_old] ? options[:max_days_old] * 86400 : nil
 
     out = "\n" << branch_list_headers
 
@@ -86,10 +88,8 @@ class Twig
 
       # Gather branch ages
       last_commit_time = last_commit_time_for_branch(branch)
-      if options[:max_days_old]
-        max_seconds_old = options[:max_days_old] * 86400
-        next if last_commit_time.to_i < now.to_i - max_seconds_old
-      end
+      seconds_old = now.to_i - last_commit_time.to_i
+      next if max_seconds_old && seconds_old > max_seconds_old
 
       # Gather branch properties
       properties = branch_properties.inject({}) do |hsh, property_name|
@@ -102,8 +102,9 @@ class Twig
       end
 
       # Format branch properties
-      line << column(last_commit_time.to_s, 5) <<
-             branch_properties.map { |prop| column(properties[prop] || '', 2) }.join
+      line <<
+        column(last_commit_time.to_s, 5) <<
+        branch_properties.map { |prop| column(properties[prop] || '', 2) }.join
       if is_current_branch
         line << "* #{branch}"
       else
