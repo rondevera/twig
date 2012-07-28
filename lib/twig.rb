@@ -117,12 +117,13 @@ class Twig
     # List most recently modified branches first
     branch_lines.sort!.reverse!
 
-    # Render current branch as bold
+    # Render current branch as bold; must be done *after* sorting
     current_branch_index =
       branch_lines.index { |line| line =~ /\* #{current_branch}$/ }
     if current_branch_index
-      line = branch_lines[current_branch_index]
-      branch_lines[current_branch_index] = "\033[1m#{line}\033[0m"
+      branch_lines[current_branch_index] = format_string(
+        branch_lines[current_branch_index], :weight => :bold
+      )
     end
 
     out << branch_lines.join("\n")

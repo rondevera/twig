@@ -19,9 +19,9 @@ class Twig
       # Returns `string` with an exact fixed width. If `string` is too wide,
       # it's truncated with an ellipsis.
       #
-      # Options:
-      # - `:color`: `nil` by default. Accepts a key from `COLORS`.
-      # - `:bold`:  `nil` by default. Set `true` for bold text.
+      # `column_options`:
+      # - `:color`:  `nil` by default. Accepts a key from `COLORS`.
+      # - `:weight`: `nil` by default. Accepts a key from `WEIGHTS`.
 
       width_per_column = 8
       total_width = num_columns * width_per_column
@@ -36,11 +36,10 @@ class Twig
         new_string[0, string.size] = string
       end
 
-      if column_options[:color] || column_options[:bold]
-        color_options = [COLORS[column_options[:color]]]
-        color_options << WEIGHTS[:bold] if column_options[:bold]
-        new_string = "\033[#{color_options.join(';')}m#{new_string}\033[0m"
-      end
+      new_string = format_string(
+        new_string,
+        column_options.reject { |k, v| ![:color, :weight].include?(k) }
+      )
 
       new_string
     end
@@ -61,6 +60,19 @@ class Twig
         "\n"
 
       out
+    end
+
+    def format_string(string, options)
+      # Options:
+      # - `:color`:  `nil` by default. Accepts a key from `COLORS`.
+      # - `:weight`: `nil` by default. Accepts a key from `WEIGHTS`.
+
+      string_options = []
+      string_options << COLORS[options[:color]] if options[:color]
+      string_options << WEIGHTS[options[:weight]] if options[:weight]
+      return string if string_options.empty?
+
+      "\033[#{string_options.join(';')}m#{string}\033[0m"
     end
   end # module Display
 end
