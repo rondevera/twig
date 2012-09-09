@@ -145,10 +145,10 @@ class Twig
 
     if value.empty?
       `git config --unset branch.#{branch}.#{key}`
-      %{Removed #{key} for #{branch}}
+      "Removed #{key} for #{branch}"
     else
       `git config branch.#{branch}.#{key} "#{value}"`
-      %{Saved #{key}=#{value} for #{branch}}
+      "Saved #{key}=#{value} for #{branch}"
     end
   end
 
