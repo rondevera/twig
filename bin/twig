@@ -5,6 +5,7 @@ require File.join(File.dirname(File.readlink(__FILE__)), '..', 'lib', 'twig')
 
 
 twig = Twig.new
+abort unless twig.repo?
 
 # Handle options from config file
 File.open(File.expand_path(Twig::CONFIG_FILE)) do |f|

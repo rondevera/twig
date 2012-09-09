@@ -20,6 +20,10 @@ class Twig
     self.options = options
   end
 
+  def repo?
+    `git status`; $?.success?
+  end
+
   def current_branch
     @_current_branch ||= `git name-rev --name-only head`.strip
   end
