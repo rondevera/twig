@@ -70,6 +70,7 @@ class Twig
       time_strings = Twig.
         run(%{git show #{branches.join(' ')} --format="%ct,%cr" -s}).
         split("\n").
+        map { |time_string| time_string.strip }.
         reject { |time_string| time_string.empty? }
 
       commit_times = time_strings.map do |time_string|
