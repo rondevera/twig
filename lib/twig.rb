@@ -133,22 +133,24 @@ class Twig
     out << branch_lines.join("\n")
   end
 
-  def get_branch_property(branch, key)
-    `git config branch.#{branch}.#{key}`.strip
+  def get_branch_property(branch, property)
+    `git config branch.#{branch}.#{property}`.strip
   end
 
-  def set_branch_property(branch, key, value)
-    # Sets the given value for the given property key under the current
-    # branch. Returns a confirmation string for printing.
+  def set_branch_property(branch, property, value)
+    # Sets the given value for the given property under the current branch.
+    # Returns a confirmation string for printing.
 
     value = value.to_s
 
-    if value.empty?
-      `git config --unset branch.#{branch}.#{key}`
-      %{Removed #{key} for branch "#{branch}"}
+    if RESERVED_BRANCH_PROPERTIES.include?(property)
+      %{Can't modify the reserved property "#{property}".}
+    elsif value.empty?
+      Twig.run(%{git config --unset branch.#{branch}.#{property}})
+      %{Removed #{property} for branch "#{branch}".}
     else
-      `git config branch.#{branch}.#{key} "#{value}"`
-      %{Saved #{key} "#{value}" for branch "#{branch}"}
+      Twig.run(%{git config branch.#{branch}.#{property} "#{value}"})
+      %{Saved #{property} "#{value}" for branch "#{branch}".}
     end
   end
 
