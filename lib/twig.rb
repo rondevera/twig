@@ -38,8 +38,12 @@ class Twig
       refs.map! { |ref| ref.sub!('refs/heads/', '') }.sort!
 
       # Filter branches by name
-      refs.select! { |ref| ref =~ options[:name_only]   } if options[:name_only]
-      refs.reject! { |ref| ref =~ options[:name_except] } if options[:name_except]
+      if options[:name_only]
+        refs = refs.select { |ref| ref =~ options[:name_only] }
+      end
+      if options[:name_except]
+        refs = refs.reject { |ref| ref =~ options[:name_except] }
+      end
 
       refs
     end
