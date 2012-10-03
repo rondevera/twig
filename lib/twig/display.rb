@@ -22,8 +22,9 @@ class Twig
       # `column_options`:
       # - `:color`:  `nil` by default. Accepts a key from `COLORS`.
       # - `:weight`: `nil` by default. Accepts a key from `WEIGHTS`.
+      # - `:width`:  8 (characters) by default.
 
-      width_per_column = 8
+      width_per_column = column_options[:width] || 8
       total_width = num_columns * width_per_column
       new_string = string[0, total_width]
       omission = '...'
