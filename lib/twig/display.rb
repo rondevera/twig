@@ -14,6 +14,7 @@ class Twig
       :normal => 0,
       :bold   => 1
     }
+    CURRENT_BRANCH_INDICATOR = '* '
 
     def column(string = ' ', num_columns = 1, column_options = {})
       # Returns `string` with an exact fixed width. If `string` is too wide, it
@@ -46,17 +47,19 @@ class Twig
     end
 
     def branch_list_headers(header_options = { :color => :blue })
+      num_columns_for_date_time = 5
+      branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
 
       out =
-        column(' ', 5) <<
+        column(' ', num_columns_for_date_time) <<
         branch_properties.map { |prop| column(prop, 2, header_options) }.join <<
-        column('  branch', 1, header_options) <<
+        column(branch_indicator_padding + 'branch', 1, header_options) <<
         "\n"
       out <<
-        column(' ', 5) <<
+        column(' ', num_columns_for_date_time) <<
         branch_properties.
           map { |prop| column('-' * prop.size, 2, header_options) }.join <<
-        column('  ------', 1, header_options) <<
+        column(branch_indicator_padding + '------', 1, header_options) <<
         "\n"
 
       out
