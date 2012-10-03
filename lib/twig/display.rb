@@ -16,8 +16,8 @@ class Twig
     }
 
     def column(string = ' ', num_columns = 1, column_options = {})
-      # Returns `string` with an exact fixed width. If `string` is too wide,
-      # it's truncated with an ellipsis.
+      # Returns `string` with an exact fixed width. If `string` is too wide, it
+      # is truncated with an ellipsis and a trailing space to separate columns.
       #
       # `column_options`:
       # - `:color`:  `nil` by default. Accepts a key from `COLORS`.
@@ -27,7 +27,7 @@ class Twig
       width_per_column = column_options[:width] || 8
       total_width = num_columns * width_per_column
       new_string = string[0, total_width]
-      omission = '...'
+      omission = '... '
 
       if string.size > total_width
         # Replace final characters with omission
