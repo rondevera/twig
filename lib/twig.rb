@@ -120,7 +120,7 @@ class Twig
         column(last_commit_time.to_s, 5) <<
         branch_properties.map { |prop| column(properties[prop] || '', 2) }.join
       if is_current_branch
-        line << "* #{branch}"
+        line << Twig::Display::CURRENT_BRANCH_INDICATOR + branch
       else
         line << "  #{branch}"
       end
