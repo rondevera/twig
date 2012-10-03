@@ -45,8 +45,7 @@ class Twig
       new_string
     end
 
-    def branch_list_headers
-      header_options = {:color => :blue}
+    def branch_list_headers(header_options = { :color => :blue })
 
       out =
         column(' ', 5) <<
