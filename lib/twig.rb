@@ -5,7 +5,6 @@ class Twig
   include Options
 
   RESERVED_BRANCH_PROPERTIES = %w[merge remote]
-  VERSION = '1.0.0'
 
   attr_accessor :options
 
