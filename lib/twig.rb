@@ -4,7 +4,6 @@ class Twig
   include Display
   include Options
 
-  CONFIG_FILE = '~/.twigrc'
   RESERVED_BRANCH_PROPERTIES = %w[merge remote]
   VERSION = '1.0.0'
 
