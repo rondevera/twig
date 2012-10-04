@@ -37,7 +37,7 @@ describe Twig::Display do
 
   describe '#branch_list_headers' do
     it 'returns a string of branch properties and underlines' do
-      @twig.should_receive(:branch_properties).
+      @twig.should_receive(:all_branch_properties).
         any_number_of_times.and_return(%w[foo quux])
 
       result = @twig.branch_list_headers({})

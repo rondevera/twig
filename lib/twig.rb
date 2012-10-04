@@ -49,8 +49,8 @@ class Twig
     end
   end
 
-  def branch_properties
-    @_branch_properties ||= begin
+  def all_branch_properties
+    @_all_branch_properties ||= begin
       properties = Twig.run('git config --list').split("\n").
                       select { |var| var =~ /^branch\./ }.
                       map do |var|
@@ -118,7 +118,8 @@ class Twig
       # Format branch properties
       line <<
         column(last_commit_time.to_s, 5) <<
-        branch_properties.map { |prop| column(properties[prop] || '', 2) }.join
+        all_branch_properties.
+          map { |prop| column(properties[prop] || '', 2) }.join
       if is_current_branch
         line << Twig::Display::CURRENT_BRANCH_INDICATOR + branch
       else
