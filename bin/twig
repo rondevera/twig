@@ -9,29 +9,36 @@ twig.read_config_file
 
 # Handle options from CLI
 OptionParser.new do |opts|
-  opts.on('-b BRANCH', '--branch BRANCH', twig.branches, 'Use specific branch') do |branch|
+  desc = 'Use specific branch'
+  opts.on('-b BRANCH', '--branch BRANCH', twig.branches, desc) do |branch|
     twig.set_option(:branch, branch)
   end
 
-  opts.on('--max-days-old AGE', 'Only list branches below a given age') do |age|
+  desc = 'Only list branches below a given age'
+  opts.on('--max-days-old AGE', desc) do |age|
     twig.set_option(:max_days_old, age)
   end
 
-  opts.on('--only-name PATTERN', 'Only list branches whose name matches a given pattern') do |pattern|
+  desc = 'Only list branches whose name matches a given pattern'
+  opts.on('--only-name PATTERN', desc) do |pattern|
     twig.set_option(:name_only, pattern)
   end
 
-  opts.on('--except-name PATTERN', 'Do not list branches whose name matches a given pattern') do |pattern|
+  desc = 'Do not list branches whose name matches a given pattern'
+  opts.on('--except-name PATTERN', desc) do |pattern|
     twig.set_option(:name_except, pattern)
   end
 
-  opts.on('--all', 'Lists all branches regardless of age or name options; useful in .twigrc') do |pattern|
+  desc = 'Lists all branches regardless of age or name options; ' +
+    'useful for overriding ' + File.basename(Twig::Options::CONFIG_FILE)
+  opts.on('--all', desc) do |pattern|
     twig.unset_option(:max_days_old)
     twig.unset_option(:name_except)
     twig.unset_option(:name_only)
   end
 
-  opts.on_tail('--version', 'Show version') do
+  desc = 'Show version'
+  opts.on_tail('--version', desc) do
     puts Twig::VERSION
     exit
   end
