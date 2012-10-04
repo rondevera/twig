@@ -75,7 +75,7 @@ describe Twig do
     end
   end
 
-  describe '#branch_properties' do
+  describe '#all_branch_properties' do
     before :each do
       @twig = Twig.new
       @config = %{
@@ -99,13 +99,13 @@ describe Twig do
     it 'returns the union of properties for all branches' do
       Twig.should_receive(:run).with('git config --list').and_return(@config)
 
-      result = @twig.branch_properties
+      result = @twig.all_branch_properties
       result.should == %w[test0 test1 test2]
     end
 
     it 'memoizes the result' do
       Twig.should_receive(:run).once.and_return(@config)
-      2.times { @twig.branch_properties }
+      2.times { @twig.all_branch_properties }
     end
   end
 
