@@ -2,27 +2,10 @@
 require 'optparse'
 require File.join(File.dirname(File.readlink(__FILE__)), '..', 'lib', 'twig')
 
-
-
 twig = Twig.new
 abort unless twig.repo?
 
-# Handle options from config file
-File.open(File.expand_path(Twig::CONFIG_FILE)) do |f|
-  opts = f.read.split("\n").inject({}) do |hsh, opt|
-    key, value = opt.split(':', 2)
-    hsh.merge(key.strip => value.strip)
-  end
-
-  opts.each do |key, value|
-    case key
-    when 'b', 'branch'  then twig.set_option(:branch,       value)
-    when 'max-days-old' then twig.set_option(:max_days_old, value)
-    when 'only-name'    then twig.set_option(:name_only,    value)
-    when 'except-name'  then twig.set_option(:name_except,  value)
-    end
-  end
-end
+twig.read_config_file
 
 # Handle options from CLI
 OptionParser.new do |opts|
