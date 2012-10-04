@@ -106,7 +106,7 @@ class Twig
       next if max_seconds_old && seconds_old > max_seconds_old
 
       # Gather branch properties
-      properties = branch_properties.inject({}) do |hsh, property_name|
+      properties = all_branch_properties.inject({}) do |hsh, property_name|
         property = get_branch_property(branch, property_name)
 
         # Use placeholder if empty
