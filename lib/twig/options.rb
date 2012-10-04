@@ -22,9 +22,7 @@ class Twig
     end
 
     def unset_option(key)
-      if [:max_days_old, :name_except, :name_only].include?(key)
-        options.delete(key)
-      end
+      options.delete(key)
     end
   end # module Options
 end
