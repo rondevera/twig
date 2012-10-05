@@ -122,7 +122,7 @@ class Twig
       if is_current_branch
         line << Twig::Display::CURRENT_BRANCH_INDICATOR + branch
       else
-        line << "  #{branch}"
+        line << (' ' * Twig::Display::CURRENT_BRANCH_INDICATOR.size) + branch
       end
 
       branch_lines << line
