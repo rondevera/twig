@@ -27,7 +27,8 @@ class Twig
   end
 
   def current_branch
-    @_current_branch ||= Twig.run('git name-rev --name-only head')
+    @_current_branch ||=
+      Twig.run('git symbolic-ref -q HEAD').sub(%r{^refs/heads/}, '')
   end
 
   def branches

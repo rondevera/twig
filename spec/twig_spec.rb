@@ -20,9 +20,9 @@ describe Twig do
       twig   = Twig.new
       branch = 'fix_all_the_things'
       Twig.should_receive(:run).
-        with('git name-rev --name-only head').
+        with('git symbolic-ref -q HEAD').
         once. # Should memoize
-        and_return(branch)
+        and_return("refs/heads/#{branch}")
 
       2.times { twig.current_branch.should == branch }
     end
