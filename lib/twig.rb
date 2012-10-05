@@ -77,7 +77,7 @@ class Twig
         Twig::CommitTime.new(timestamp, time_ago)
       end
 
-      Hash[branches.zip(commit_times)]
+      Hash[*branches.zip(commit_times).flatten]
     end
   end
 
@@ -131,8 +131,16 @@ class Twig
     branch_lines.sort!.reverse!
 
     # Render current branch as bold; must be done *after* sorting
-    current_branch_index =
-      branch_lines.index { |line| line =~ /\* #{current_branch}$/ }
+    current_branch_index = nil
+    branch_lines.each_with_index do |line, i|
+      # Skip `Array#index(&block)` for Ruby 1.8.6 compatibility
+      current_branch_line_substring =
+        Regexp.escape(Twig::Display::CURRENT_BRANCH_INDICATOR) +
+        Regexp.escape(current_branch)
+      if line =~ /#{current_branch_line_substring}$/
+        current_branch_index = i and break
+      end
+    end
     if current_branch_index
       branch_lines[current_branch_index] = format_string(
         branch_lines[current_branch_index], :weight => :bold
