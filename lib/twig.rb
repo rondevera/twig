@@ -26,8 +26,8 @@ class Twig
     $?.success?
   end
 
-  def current_branch
-    @_current_branch ||=
+  def current_branch_name
+    @_current_branch_name ||=
       Twig.run('git symbolic-ref -q HEAD').sub(%r{^refs/heads/}, '')
   end
 
@@ -49,6 +49,8 @@ class Twig
   end
 
   def all_branch_properties
+    # TODO: Move to `Twig::Branch.all_properties`
+    # TODO: Move branch property regexp to constant
     @_all_branch_properties ||= begin
       properties = Twig.run('git config --list').split("\n").
                       select { |var| var =~ /^branch\./ }.
@@ -101,17 +103,21 @@ class Twig
       sort_by { |branch| branch.last_commit_time }.reverse
 
     branch_lines = branches_to_list.inject([]) do |result, branch|
-      result + [branch_list_line(branch.name, branch.last_commit_time)]
+      result + [branch_list_line(branch)]
     end
 
     out << branch_lines.join("\n")
   end
 
-  def get_branch_property(branch, property)
-    Twig.run("git config branch.#{branch}.#{property}")
+  def get_branch_property(branch_name, property)
+    # TODO: Move to `Twig::Branch#get_property`
+
+    Twig.run("git config branch.#{branch_name}.#{property}")
   end
 
-  def set_branch_property(branch, property, value)
+  def set_branch_property(branch_name, property, value)
+    # TODO: Move to `Twig::Branch#set_property`
+
     # Sets the given value for the given property under the current branch.
     # Returns a confirmation string for printing.
 
@@ -120,11 +126,11 @@ class Twig
     if RESERVED_BRANCH_PROPERTIES.include?(property)
       %{Can't modify the reserved property "#{property}".}
     elsif value.empty?
-      Twig.run(%{git config --unset branch.#{branch}.#{property}})
-      %{Removed property "#{property}" for branch "#{branch}".}
+      Twig.run(%{git config --unset branch.#{branch_name}.#{property}})
+      %{Removed property "#{property}" for branch "#{branch_name}".}
     else
-      Twig.run(%{git config branch.#{branch}.#{property} "#{value}"})
-      %{Saved property "#{property}" as "#{value}" for branch "#{branch}".}
+      Twig.run(%{git config branch.#{branch_name}.#{property} "#{value}"})
+      %{Saved property "#{property}" as "#{value}" for branch "#{branch_name}".}
     end
   end
 

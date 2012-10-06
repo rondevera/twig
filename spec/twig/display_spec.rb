@@ -59,29 +59,36 @@ describe Twig::Display do
 
   describe '#branch_list_line' do
     before :each do
-      @current_branch = 'my-branch'
+      @current_branch_name = 'my-branch'
       @twig.stub(:all_branch_properties).and_return(['foo', 'bar'])
-      @twig.should_receive(:get_branch_property).with(anything, 'foo').and_return('foo!')
-      @twig.should_receive(:get_branch_property).with(anything, 'bar').and_return('bar!')
-      @twig.should_receive(:current_branch).and_return(@current_branch)
+      @twig.should_receive(:get_branch_property).
+        with(anything, 'foo').and_return('foo!')
+      @twig.should_receive(:get_branch_property).
+        with(anything, 'bar').and_return('bar!')
+      @twig.should_receive(:current_branch_name).
+        and_return(@current_branch_name)
+      @commit_time = Twig::CommitTime.new(0, '')
+      @commit_time.should_receive(:to_s).and_return('2000-01-01')
     end
 
     it 'returns a line for the current branch' do
       indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
-      branch        = 'my-branch'
-      branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch)}/
+      branch        = Twig::Branch.new(@twig, 'my-branch')
+      branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch.name)}/
+      branch.should_receive(:last_commit_time).and_return(@commit_time)
 
-      result = @twig.branch_list_line(branch, '2000-01-01')
+      result = @twig.branch_list_line(branch)
 
       result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{branch_regexp}/
     end
 
     it 'returns a line for a branch other than the current branch' do
-      branch = 'other-branch'
+      branch = Twig::Branch.new(@twig, 'other-branch')
+      branch.should_receive(:last_commit_time).and_return(@commit_time)
 
-      result = @twig.branch_list_line(branch, '2000-01-01')
+      result = @twig.branch_list_line(branch)
 
-      result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{Regexp.escape(branch)}/
+      result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{Regexp.escape(branch.name)}/
     end
   end
 

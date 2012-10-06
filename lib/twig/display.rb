@@ -69,16 +69,16 @@ class Twig
       out
     end
 
-    def branch_list_line(branch, last_commit_time)
-      is_current_branch = branch == current_branch
+    def branch_list_line(branch)
+      is_current_branch = branch.name == current_branch_name
 
       properties = all_branch_properties.inject({}) do |result, property_name|
-        property = get_branch_property(branch, property_name).strip
+        property = get_branch_property(branch.name, property_name).strip
         property = column(EMPTY_BRANCH_PROPERTY_INDICATOR) if property.empty?
         result.merge(property_name => property)
       end
 
-      line = column(last_commit_time.to_s, 5)
+      line = column(branch.last_commit_time.to_s, 5)
 
       line <<
         all_branch_properties.map do |property_name|
@@ -88,9 +88,9 @@ class Twig
 
       line <<
         if is_current_branch
-          CURRENT_BRANCH_INDICATOR + branch
+          CURRENT_BRANCH_INDICATOR + branch.to_s
         else
-          (' ' * CURRENT_BRANCH_INDICATOR.size) + branch
+          (' ' * CURRENT_BRANCH_INDICATOR.size) + branch.to_s
         end
 
       line = format_string(line, :weight => :bold) if is_current_branch
