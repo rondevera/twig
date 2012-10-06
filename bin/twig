@@ -52,7 +52,7 @@ if args[0]
   exec(command_path) unless command_path.empty?
 
   # Get/set branch property
-  branch = twig.options[:branch] || twig.current_branch
+  branch = twig.options[:branch] || twig.current_branch_name
   if args[1]
     # `$ twig <key> <value>`
     puts twig.set_branch_property(branch, args[0], args[1])
