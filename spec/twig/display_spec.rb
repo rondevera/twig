@@ -37,8 +37,7 @@ describe Twig::Display do
 
   describe '#branch_list_headers' do
     it 'returns a string of branch properties and underlines' do
-      @twig.should_receive(:all_branch_properties).
-        any_number_of_times.and_return(%w[foo quux])
+      Twig::Branch.stub(:all_properties => %w[foo quux])
 
       result = @twig.branch_list_headers({})
       result_lines = result.split("\n")
@@ -60,7 +59,7 @@ describe Twig::Display do
   describe '#branch_list_line' do
     before :each do
       @current_branch_name = 'my-branch'
-      @twig.stub(:all_branch_properties => ['foo', 'bar'])
+      Twig::Branch.stub(:all_properties => ['foo', 'bar'])
       @twig.should_receive(:get_branch_property).
         with(anything, 'foo').and_return('foo!')
       @twig.should_receive(:get_branch_property).

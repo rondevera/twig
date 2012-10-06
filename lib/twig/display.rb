@@ -53,14 +53,14 @@ class Twig
 
       out =
         column(' ', num_columns_for_date_time) <<
-        all_branch_properties.map do |property|
+        Twig::Branch.all_properties.map do |property|
           column(property, num_columns_per_property, header_options)
         end.join <<
         column(branch_indicator_padding + 'branch', 1, header_options) <<
         "\n"
       out <<
         column(' ', num_columns_for_date_time) <<
-        all_branch_properties.map do |property|
+        Twig::Branch.all_properties.map do |property|
           column('-' * property.size, num_columns_per_property, header_options)
         end.join <<
         column(branch_indicator_padding + '------', 1, header_options) <<
@@ -72,7 +72,7 @@ class Twig
     def branch_list_line(branch)
       is_current_branch = branch.name == current_branch_name
 
-      properties = all_branch_properties.inject({}) do |result, property_name|
+      properties = Twig::Branch.all_properties.inject({}) do |result, property_name|
         property = get_branch_property(branch.name, property_name).strip
         property = column(EMPTY_BRANCH_PROPERTY_INDICATOR) if property.empty?
         result.merge(property_name => property)
@@ -81,7 +81,7 @@ class Twig
       line = column(branch.last_commit_time.to_s, 5)
 
       line <<
-        all_branch_properties.map do |property_name|
+        Twig::Branch.all_properties.map do |property_name|
           property = properties[property_name] || ''
           column(property, 2)
         end.join
