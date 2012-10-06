@@ -60,7 +60,7 @@ describe Twig::Display do
   describe '#branch_list_line' do
     before :each do
       @current_branch_name = 'my-branch'
-      @twig.stub(:all_branch_properties).and_return(['foo', 'bar'])
+      @twig.stub(:all_branch_properties => ['foo', 'bar'])
       @twig.should_receive(:get_branch_property).
         with(anything, 'foo').and_return('foo!')
       @twig.should_receive(:get_branch_property).
