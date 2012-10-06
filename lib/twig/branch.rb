@@ -11,6 +11,8 @@ class Twig
       raise ArgumentError, '`name` is required' if name.empty?
     end
 
+    def to_s ; name ; end
+
     def last_commit_time
       twig.last_commit_times_for_branches[name]
     end
