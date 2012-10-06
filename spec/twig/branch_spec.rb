@@ -65,4 +65,58 @@ describe Twig::Branch do
       branch.to_s.should == 'test'
     end
   end
+
+  describe '#get_property' do
+    it 'returns a property value' do
+      branch   = Twig::Branch.new(@twig, 'test')
+      property = 'test'
+      value    = 'value'
+      Twig.should_receive(:run).
+        with(%{git config branch.#{branch.name}.#{property}}).
+        and_return(value)
+
+      result = branch.get_property(property)
+      result.should == value
+    end
+  end
+
+  describe '#set_property' do
+    before :each do
+      @branch = Twig::Branch.new(@twig, 'test')
+    end
+
+    it 'sets a property value' do
+      property = 'test'
+      value    = 'value'
+      Twig.should_receive(:run).
+        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}).
+        and_return(value)
+
+      result = @branch.set_property(property, value)
+      result.should include(
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+      )
+    end
+
+    it 'refuses to set a reserved branch property' do
+      property = 'merge'
+      value    = 'NOOO'
+      Twig.should_not_receive(:run)
+
+      result = @branch.set_property(property, value)
+      result.should include(%{Can't modify the reserved property "#{property}"})
+    end
+
+    it 'unsets a branch property' do
+      property = 'test'
+      Twig.should_receive(:run).
+        with(%{git config --unset branch.#{@branch.name}.#{property}})
+
+      result = @branch.set_property(property, '')
+      result.should include(
+        %{Removed property "#{property}" for branch "#{@branch.name}"}
+      )
+    end
+  end
+
 end

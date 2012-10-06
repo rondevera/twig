@@ -4,8 +4,6 @@ class Twig
   include Display
   include Options
 
-  RESERVED_BRANCH_PROPERTIES = %w[merge remote]
-
   attr_accessor :options
 
   def self.run(command)
@@ -95,29 +93,14 @@ class Twig
     out << branch_lines.join("\n")
   end
 
-  def get_branch_property(branch_name, property)
-    # TODO: Move to `Twig::Branch#get_property`
-
-    Twig.run("git config branch.#{branch_name}.#{property}")
+  def get_branch_property(branch_name, property_name)
+    branch = Branch.new(self, branch_name)
+    branch.get_property(property_name)
   end
 
-  def set_branch_property(branch_name, property, value)
-    # TODO: Move to `Twig::Branch#set_property`
-
-    # Sets the given value for the given property under the current branch.
-    # Returns a confirmation string for printing.
-
-    value = value.to_s
-
-    if RESERVED_BRANCH_PROPERTIES.include?(property)
-      %{Can't modify the reserved property "#{property}".}
-    elsif value.empty?
-      Twig.run(%{git config --unset branch.#{branch_name}.#{property}})
-      %{Removed property "#{property}" for branch "#{branch_name}".}
-    else
-      Twig.run(%{git config branch.#{branch_name}.#{property} "#{value}"})
-      %{Saved property "#{property}" as "#{value}" for branch "#{branch_name}".}
-    end
+  def set_branch_property(branch_name, property_name, value)
+    branch = Branch.new(self, branch_name)
+    branch.set_property(property_name, value)
   end
 
 end
