@@ -12,7 +12,7 @@ describe Twig::Options do
     end
 
     it 'reads and sets a single option' do
-      @twig.stub(:branches).and_return(['test'])
+      @twig.stub(:branch_names).and_return(['test'])
       file = double('file')
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
@@ -27,7 +27,7 @@ describe Twig::Options do
     end
 
     it 'reads and sets multiple options' do
-      @twig.stub(:branches).and_return(['test'])
+      @twig.stub(:branch_names).and_return(['test'])
       file = double('file')
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
@@ -63,13 +63,13 @@ describe Twig::Options do
       end
 
       it 'succeeds' do
-        @twig.should_receive(:branches).and_return(%[foo bar])
+        @twig.should_receive(:branch_names).and_return(%[foo bar])
         @twig.set_option(:branch, 'foo')
         @twig.options[:branch].should == 'foo'
       end
 
       it 'fails if the branch is unknown' do
-        @twig.should_receive(:branches).and_return([])
+        @twig.should_receive(:branch_names).and_return([])
         @twig.should_receive(:abort)
 
         @twig.set_option(:branch, 'foo')

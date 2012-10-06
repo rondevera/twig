@@ -48,14 +48,14 @@ describe Twig do
         with('git for-each-ref --format="%(refname)" refs/heads/').
         and_return(@branch_refs.join("\n"))
 
-      twig.branches.should == @branches.sort
+      twig.branch_names.should == @branches.sort
     end
 
     it 'returns only branches matching a name pattern' do
       twig = Twig.new(:name_only => /fix_some/)
       Twig.should_receive(:run).and_return(@branch_refs.join("\n"))
 
-      branches = twig.branches
+      branches = twig.branch_names
       branches.should == @branches.first(2)
     end
 
@@ -63,7 +63,7 @@ describe Twig do
       twig = Twig.new(:name_except => /fix_some/)
       Twig.should_receive(:run).and_return(@branch_refs.join("\n"))
 
-      branches = twig.branches
+      branches = twig.branch_names
       branches.should == [@branches.last]
     end
 
@@ -71,7 +71,7 @@ describe Twig do
       twig = Twig.new
       Twig.should_receive(:run).once.and_return(@branch_refs.join("\n"))
 
-      2.times { twig.branches }
+      2.times { twig.branch_names }
     end
   end
 
@@ -120,7 +120,7 @@ describe Twig do
         #{@branch_times[1]},#{@branch_relative_times[1]}
 
       }.gsub(/^s+/, '')
-      @twig.should_receive(:branches).
+      @twig.should_receive(:branch_names).
         any_number_of_times.and_return(%w[branch1 branch2])
     end
 
