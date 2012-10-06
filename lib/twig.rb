@@ -47,7 +47,6 @@ class Twig
       refs
     end
   end
-  alias :branches :branch_names # FIXME: Migrate from `:branches` to `:branch_names`
 
   def all_branch_properties
     @_all_branch_properties ||= begin
@@ -61,14 +60,10 @@ class Twig
     end
   end
 
-  def last_commit_time_for_branch(branch)
-    last_commit_times_for_branches[branch]
-  end
-
   def last_commit_times_for_branches
     @_last_commit_times ||= begin
       time_strings = Twig.
-        run(%{git show #{branches.join(' ')} --format="%ct,%cr" -s}).
+        run(%{git show #{branch_names.join(' ')} --format="%ct,%cr" -s}).
         split("\n").
         map { |time_string| time_string.strip }.
         reject { |time_string| time_string.empty? }
@@ -79,7 +74,7 @@ class Twig
         Twig::CommitTime.new(timestamp, time_ago)
       end
 
-      Hash[*branches.zip(commit_times).flatten]
+      Hash[*branch_names.zip(commit_times).flatten]
     end
   end
 
@@ -94,19 +89,18 @@ class Twig
 
     out = "\n" << branch_list_headers
 
-    branches = branch_names.map do |branch_name|
-      last_commit_time = last_commit_time_for_branch(branch_name)
-      seconds_old      = now.to_i - last_commit_time.to_i
+    branches_to_list = branch_names.map do |branch_name|
+      branch      = Branch.new(self, branch_name)
+      seconds_old = now.to_i - branch.last_commit_time.to_i
 
-      if !max_seconds_old || seconds_old <= max_seconds_old
-        Branch.new(branch_name, :last_commit_time => last_commit_time)
-      end
+      branch if !max_seconds_old || seconds_old <= max_seconds_old
     end.compact
 
     # List most recently modified branches first
-    branches = branches.sort_by { |branch| branch.last_commit_time }.reverse
+    branches_to_list = branches_to_list.
+      sort_by { |branch| branch.last_commit_time }.reverse
 
-    branch_lines = branches.inject([]) do |result, branch|
+    branch_lines = branches_to_list.inject([]) do |result, branch|
       result + [branch_list_line(branch.name, branch.last_commit_time)]
     end
 
