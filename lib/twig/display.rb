@@ -48,18 +48,21 @@ class Twig
 
     def branch_list_headers(header_options = { :color => :blue })
       num_columns_for_date_time = 5
-      branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
+      num_columns_per_property  = 2
+      branch_indicator_padding  = ' ' * CURRENT_BRANCH_INDICATOR.size
 
       out =
         column(' ', num_columns_for_date_time) <<
-        all_branch_properties.
-          map { |prop| column(prop, 2, header_options) }.join <<
+        all_branch_properties.map do |property|
+          column(property, num_columns_per_property, header_options)
+        end.join <<
         column(branch_indicator_padding + 'branch', 1, header_options) <<
         "\n"
       out <<
         column(' ', num_columns_for_date_time) <<
-        all_branch_properties.
-          map { |prop| column('-' * prop.size, 2, header_options) }.join <<
+        all_branch_properties.map do |property|
+          column('-' * property.size, num_columns_per_property, header_options)
+        end.join <<
         column(branch_indicator_padding + '------', 1, header_options) <<
         "\n"
 
