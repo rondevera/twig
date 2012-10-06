@@ -75,40 +75,6 @@ describe Twig do
     end
   end
 
-  describe '#all_branch_properties' do
-    before :each do
-      @twig = Twig.new
-      @config = %{
-        user.name=Ron DeVera
-        branch.autosetupmerge=always
-        remote.origin.url=git@github.com:rondevera/twig.git
-        remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
-        branch.master.remote=origin
-        branch.master.merge=refs/heads/master
-        branch.master.test0=value0
-        branch.test_branch_1.remote=origin
-        branch.test_branch_1.merge=refs/heads/test_branch_1
-        branch.test_branch_1.test0=value1
-        branch.test_branch_1.test1=value1
-        branch.test_branch_2.remote=origin
-        branch.test_branch_2.merge=refs/heads/test_branch_2
-        branch.test_branch_2.test2=value2
-      }.gsub(/^\s+/, '')
-    end
-
-    it 'returns the union of properties for all branches' do
-      Twig.should_receive(:run).with('git config --list').and_return(@config)
-
-      result = @twig.all_branch_properties
-      result.should == %w[test0 test1 test2]
-    end
-
-    it 'memoizes the result' do
-      Twig.should_receive(:run).once.and_return(@config)
-      2.times { @twig.all_branch_properties }
-    end
-  end
-
   describe '#last_commit_times_for_branches' do
     before :each do
       @twig = Twig.new

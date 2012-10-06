@@ -48,20 +48,6 @@ class Twig
     end
   end
 
-  def all_branch_properties
-    # TODO: Move to `Twig::Branch.all_properties`
-    # TODO: Move branch property regexp to constant
-    @_all_branch_properties ||= begin
-      properties = Twig.run('git config --list').split("\n").
-                      select { |var| var =~ /^branch\./ }.
-                      map do |var|
-                        match_data = /^branch\.[^.]+\.([^=]+)/.match(var)
-                        match_data[1] if match_data
-                      end
-      properties.uniq.compact.sort - RESERVED_BRANCH_PROPERTIES
-    end
-  end
-
   def last_commit_times_for_branches
     @_last_commit_times ||= begin
       time_strings = Twig.
