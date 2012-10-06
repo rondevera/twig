@@ -31,8 +31,8 @@ class Twig
       Twig.run('git symbolic-ref -q HEAD').sub(%r{^refs/heads/}, '')
   end
 
-  def branches
-    @_branches ||= begin
+  def branch_names
+    @_branch_names ||= begin
       refs = Twig.run('git for-each-ref --format="%(refname)" refs/heads/').split("\n")
       refs.map! { |ref| ref.sub!('refs/heads/', '') }.sort!
 
@@ -47,6 +47,7 @@ class Twig
       refs
     end
   end
+  alias :branches :branch_names # FIXME: Migrate from `:branches` to `:branch_names`
 
   def all_branch_properties
     @_all_branch_properties ||= begin
@@ -93,34 +94,20 @@ class Twig
 
     out = "\n" << branch_list_headers
 
-    # Process branches
-    branch_lines = branches.map do |branch|
-      last_commit_time = last_commit_time_for_branch(branch)
+    branches = branch_names.map do |branch_name|
+      last_commit_time = last_commit_time_for_branch(branch_name)
       seconds_old      = now.to_i - last_commit_time.to_i
-      next if max_seconds_old && seconds_old > max_seconds_old
 
-      branch_list_line(branch, last_commit_time)
+      if !max_seconds_old || seconds_old <= max_seconds_old
+        Branch.new(branch_name, :last_commit_time => last_commit_time)
+      end
     end.compact
 
     # List most recently modified branches first
-    branch_lines.sort!.reverse!
+    branches = branches.sort_by { |branch| branch.last_commit_time }.reverse
 
-    # Render current branch as bold. Must be done *after* sorting because the
-    # bold markers affect the start of the line.
-    current_branch_index = nil
-    branch_lines.each_with_index do |line, i|
-      # Skip `Array#index(&block)` for Ruby 1.8.6 compatibility
-      current_branch_line_substring =
-        Regexp.escape(Twig::Display::CURRENT_BRANCH_INDICATOR) +
-        Regexp.escape(current_branch)
-      if line =~ /#{current_branch_line_substring}$/
-        current_branch_index = i and break
-      end
-    end
-    if current_branch_index
-      branch_lines[current_branch_index] = format_string(
-        branch_lines[current_branch_index], :weight => :bold
-      )
+    branch_lines = branches.inject([]) do |result, branch|
+      result + [branch_list_line(branch.name, branch.last_commit_time)]
     end
 
     out << branch_lines.join("\n")

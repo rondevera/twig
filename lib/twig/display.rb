@@ -70,6 +70,8 @@ class Twig
     end
 
     def branch_list_line(branch, last_commit_time)
+      is_current_branch = branch == current_branch
+
       properties = all_branch_properties.inject({}) do |result, property_name|
         property = get_branch_property(branch, property_name).strip
         property = column(EMPTY_BRANCH_PROPERTY_INDICATOR) if property.empty?
@@ -85,11 +87,13 @@ class Twig
         end.join
 
       line <<
-        if branch == current_branch
+        if is_current_branch
           CURRENT_BRANCH_INDICATOR + branch
         else
           (' ' * CURRENT_BRANCH_INDICATOR.size) + branch
         end
+
+      line = format_string(line, :weight => :bold) if is_current_branch
 
       line
     end
