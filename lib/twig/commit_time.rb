@@ -24,5 +24,9 @@ class Twig
       "#{time_string} (#{@time_ago})"
     end
 
+    def <=>(other)
+      to_i <=> other.to_i
+    end
+
   end
 end
