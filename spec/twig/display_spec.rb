@@ -103,6 +103,7 @@ describe Twig::Display do
     it 'returns a string with a color and weight code 'do
     color_code  = Twig::Display::COLORS[:red]
     weight_code = Twig::Display::WEIGHTS[:bold]
+
     @twig.format_string('foo', :color => :red, :weight => :bold).
       should == "\033[#{color_code};#{weight_code}mfoo\033[0m"
     end

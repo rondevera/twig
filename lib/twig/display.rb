@@ -14,7 +14,7 @@ class Twig
       :normal => 0,
       :bold   => 1
     }
-    CURRENT_BRANCH_INDICATOR = '* '
+    CURRENT_BRANCH_INDICATOR        = '* '
     EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
     def column(string = ' ', num_columns = 1, column_options = {})
@@ -27,12 +27,11 @@ class Twig
       # - `:width`:  8 (characters) by default.
 
       width_per_column = column_options[:width] || 8
-      total_width = num_columns * width_per_column
-      new_string = string[0, total_width]
-      omission = '... '
+      total_width      = num_columns * width_per_column
+      new_string       = string[0, total_width]
+      omission         = '... '
 
       if string.size > total_width
-        # Replace final characters with omission
         new_string[-omission.size, omission.size] = omission
       else
         new_string = ' ' * total_width
@@ -77,18 +76,20 @@ class Twig
         result.merge(property_name => property)
       end
 
-      line =
-        column(last_commit_time.to_s, 5) <<
+      line = column(last_commit_time.to_s, 5)
+
+      line <<
         all_branch_properties.map do |property_name|
           property = properties[property_name] || ''
           column(property, 2)
         end.join
 
-      if branch == current_branch
-        line << CURRENT_BRANCH_INDICATOR + branch
-      else
-        line << (' ' * CURRENT_BRANCH_INDICATOR.size) + branch
-      end
+      line <<
+        if branch == current_branch
+          CURRENT_BRANCH_INDICATOR + branch
+        else
+          (' ' * CURRENT_BRANCH_INDICATOR.size) + branch
+        end
 
       line
     end
