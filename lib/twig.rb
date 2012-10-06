@@ -94,39 +94,13 @@ class Twig
     out = "\n" << branch_list_headers
 
     # Process branches
-    branch_lines = []
-    branches.each do |branch|
-      line = ''
-      is_current_branch = (branch == current_branch)
-
-      # Gather branch ages
+    branch_lines = branches.map do |branch|
       last_commit_time = last_commit_time_for_branch(branch)
       seconds_old = now.to_i - last_commit_time.to_i
       next if max_seconds_old && seconds_old > max_seconds_old
 
-      # Gather branch properties
-      properties = all_branch_properties.inject({}) do |hsh, property_name|
-        property = get_branch_property(branch, property_name)
-
-        # Use placeholder if empty
-        property = column('-') if property.strip.empty?
-
-        hsh.merge(property_name => property)
-      end
-
-      # Format branch properties
-      line <<
-        column(last_commit_time.to_s, 5) <<
-        all_branch_properties.
-          map { |prop| column(properties[prop] || '', 2) }.join
-      if is_current_branch
-        line << Twig::Display::CURRENT_BRANCH_INDICATOR + branch
-      else
-        line << (' ' * Twig::Display::CURRENT_BRANCH_INDICATOR.size) + branch
-      end
-
-      branch_lines << line
-    end
+      branch_list_line(branch, last_commit_time)
+    end.compact
 
     # List most recently modified branches first
     branch_lines.sort!.reverse!
