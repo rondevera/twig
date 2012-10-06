@@ -15,6 +15,7 @@ class Twig
       :bold   => 1
     }
     CURRENT_BRANCH_INDICATOR = '* '
+    EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
     def column(string = ' ', num_columns = 1, column_options = {})
       # Returns `string` with an exact fixed width. If `string` is too wide, it
@@ -67,6 +68,29 @@ class Twig
         "\n"
 
       out
+    end
+
+    def branch_list_line(branch, last_commit_time)
+      properties = all_branch_properties.inject({}) do |result, property_name|
+        property = get_branch_property(branch, property_name).strip
+        property = column(EMPTY_BRANCH_PROPERTY_INDICATOR) if property.empty?
+        result.merge(property_name => property)
+      end
+
+      line =
+        column(last_commit_time.to_s, 5) <<
+        all_branch_properties.map do |property_name|
+          property = properties[property_name] || ''
+          column(property, 2)
+        end.join
+
+      if branch == current_branch
+        line << CURRENT_BRANCH_INDICATOR + branch
+      else
+        line << (' ' * CURRENT_BRANCH_INDICATOR.size) + branch
+      end
+
+      line
     end
 
     def format_string(string, options)

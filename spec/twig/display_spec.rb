@@ -57,6 +57,34 @@ describe Twig::Display do
     end
   end
 
+  describe '#branch_list_line' do
+    before :each do
+      @current_branch = 'my-branch'
+      @twig.stub(:all_branch_properties).and_return(['foo', 'bar'])
+      @twig.should_receive(:get_branch_property).with(anything, 'foo').and_return('foo!')
+      @twig.should_receive(:get_branch_property).with(anything, 'bar').and_return('bar!')
+      @twig.should_receive(:current_branch).and_return(@current_branch)
+    end
+
+    it 'returns a line for the current branch' do
+      indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
+      branch        = 'my-branch'
+      branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch)}/
+
+      result = @twig.branch_list_line(branch, '2000-01-01')
+
+      result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{branch_regexp}/
+    end
+
+    it 'returns a line for a branch other than the current branch' do
+      branch = 'other-branch'
+
+      result = @twig.branch_list_line(branch, '2000-01-01')
+
+      result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{Regexp.escape(branch)}/
+    end
+  end
+
   describe '#format_string' do
     it 'returns a plain string' do
       @twig.format_string('foo', {}).should == 'foo'
