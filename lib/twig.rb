@@ -96,7 +96,7 @@ class Twig
     # Process branches
     branch_lines = branches.map do |branch|
       last_commit_time = last_commit_time_for_branch(branch)
-      seconds_old = now.to_i - last_commit_time.to_i
+      seconds_old      = now.to_i - last_commit_time.to_i
       next if max_seconds_old && seconds_old > max_seconds_old
 
       branch_list_line(branch, last_commit_time)
@@ -105,7 +105,8 @@ class Twig
     # List most recently modified branches first
     branch_lines.sort!.reverse!
 
-    # Render current branch as bold; must be done *after* sorting
+    # Render current branch as bold. Must be done *after* sorting because the
+    # bold markers affect the start of the line.
     current_branch_index = nil
     branch_lines.each_with_index do |line, i|
       # Skip `Array#index(&block)` for Ruby 1.8.6 compatibility
