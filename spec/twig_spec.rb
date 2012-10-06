@@ -148,8 +148,55 @@ describe Twig do
   end
 
   describe '#list_branches' do
-    xit 'lists branches' do
-      # FIXME: Refactor into smaller methods and write tests
+    before :each do
+      @twig = Twig.new
+      @list_headers = '[branch list headers]'
+      @branches = [
+        Twig::Branch.new(@twig, 'foo'),
+        Twig::Branch.new(@twig, 'bar')
+      ]
+      @branch_lines = [ '[foo line]', '[bar line]' ]
+      @commit_times = [
+        Twig::CommitTime.new(0, ''),
+        Twig::CommitTime.new(0, '')
+      ]
+      @commit_times[0].stub(:to_i => 2000_01_01 )
+      @commit_times[0].stub(:to_s =>'2000-01-01')
+      @commit_times[1].stub(:to_i => 2000_01_02 )
+      @commit_times[1].stub(:to_s =>'2000-01-02')
+      @branches[0].stub(:last_commit_time => @commit_times[0])
+      @branches[1].stub(:last_commit_time => @commit_times[1])
+      Twig::Branch.should_receive(:new).with(anything, @branches[0].name).
+        and_return(@branches[0])
+      Twig::Branch.should_receive(:new).with(anything, @branches[1].name).
+        and_return(@branches[1])
+      @twig.should_receive(:branch_list_headers).and_return(@list_headers)
+      @twig.should_receive(:branch_names).
+        and_return(@branches.map { |branch| branch.name })
+    end
+
+    it 'lists branches, most recently modified first' do
+      @twig.should_receive(:branch_list_line).with(@branches[0]).
+        and_return(@branch_lines[0])
+      @twig.should_receive(:branch_list_line).with(@branches[1]).
+        and_return(@branch_lines[1])
+
+      result = @twig.list_branches
+      result.should == "\n" + @list_headers +
+        @branch_lines[1] + "\n" + @branch_lines[0]
+    end
+
+    it 'filters out branches that are too old' do
+      @twig.set_option(:max_days_old, 1)
+      tomorrow = Time.at(Time.now + 86400)
+      @commit_times[1].stub(:to_i => tomorrow.to_i)
+      @commit_times[1].stub(:to_s => tomorrow.strftime('%Y-%m-%d'))
+      @twig.should_not_receive(:branch_list_line).with(@branches[0])
+      @twig.should_receive(:branch_list_line).with(@branches[1]).
+        and_return(@branch_lines[1])
+
+      result = @twig.list_branches
+      result.should == "\n" + @list_headers + @branch_lines[1]
     end
   end
 
