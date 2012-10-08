@@ -45,7 +45,7 @@ describe Twig do
     it 'returns all branches' do
       twig = Twig.new
       Twig.should_receive(:run).
-        with('git for-each-ref --format="%(refname)" refs/heads/').
+        with('git for-each-ref refs/heads/ --format="%(refname)"').
         and_return(@branch_refs.join("\n"))
 
       twig.branch_names.should == @branch_names.sort
@@ -78,7 +78,10 @@ describe Twig do
   describe '#last_commit_times_for_branches' do
     before :each do
       @twig = Twig.new
-      @branch_times = [1348859410, 1348609394]
+      @branch_times = [
+        '2001-01-01 11:11 -0100',
+        '2002-02-02 22:22 -0200'
+      ]
       @branch_relative_times = ['4 days ago', '7 days ago']
       @branch_time_strings_result = %{
         #{@branch_times[0]},#{@branch_relative_times[0]}
@@ -92,17 +95,19 @@ describe Twig do
 
     it 'returns the last commit times for all branches' do
       Twig.should_receive(:run).
-        with(%{git show branch1 branch2 --format="%ct,%cr" -s}).
+        # with(%{git show branch1 branch2 --format="%ct,%cr" -s}).
+        with('git for-each-ref refs/heads/ ' <<
+             '--format="%(committerdate),%(committerdate:relative)"').
         and_return(@branch_time_strings_result)
 
       commit_times = @twig.last_commit_times_for_branches
       commit_times.keys.should =~ %w[branch1 branch2]
       commit_times['branch1'].instance_variable_get(:@time).
-        should == Time.at(@branch_times[0])
+        should == Time.parse(@branch_times[0])
       commit_times['branch1'].instance_variable_get(:@time_ago).
         should == '4d ago'
       commit_times['branch2'].instance_variable_get(:@time).
-        should == Time.at(@branch_times[1])
+        should == Time.parse(@branch_times[1])
       commit_times['branch2'].instance_variable_get(:@time_ago).
         should == '7d ago'
     end
