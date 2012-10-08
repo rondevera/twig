@@ -1,8 +1,8 @@
 class Twig
   class CommitTime
 
-    def initialize(timestamp, time_ago)
-      @time = Time.at(timestamp)
+    def initialize(time, time_ago)
+      @time = time
 
       # Shorten relative time
       @time_ago = time_ago.

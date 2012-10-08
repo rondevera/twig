@@ -66,7 +66,7 @@ describe Twig::Display do
         with(anything, 'bar').and_return('bar!')
       @twig.should_receive(:current_branch_name).
         and_return(@current_branch_name)
-      @commit_time = Twig::CommitTime.new(0, '')
+      @commit_time = Twig::CommitTime.new(Time.now, '')
       @commit_time.should_receive(:to_s).and_return('2000-01-01')
     end
 
