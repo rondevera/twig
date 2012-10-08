@@ -128,8 +128,8 @@ describe Twig do
       ]
       @branch_lines = [ '[foo line]', '[bar line]' ]
       @commit_times = [
-        Twig::CommitTime.new(0, ''),
-        Twig::CommitTime.new(0, '')
+        Twig::CommitTime.new(Time.now, ''),
+        Twig::CommitTime.new(Time.now, '')
       ]
       @commit_times[0].stub(:to_i => 2000_01_01 )
       @commit_times[0].stub(:to_s =>'2000-01-01')

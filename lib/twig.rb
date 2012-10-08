@@ -60,9 +60,9 @@ class Twig
         reject! { |time_string| time_string.empty? }
 
       commit_times = time_strings.map do |time_string|
-        timestamp, time_ago = time_string.split(',')
-        timestamp = Time.parse(timestamp).to_i
-        Twig::CommitTime.new(timestamp, time_ago)
+        time, time_ago = time_string.split(',')
+        time = Time.parse(time)
+        Twig::CommitTime.new(time, time_ago)
       end
 
       Hash[*branch_names.zip(commit_times).flatten]
