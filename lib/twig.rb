@@ -1,4 +1,5 @@
 Dir[File.join(File.dirname(__FILE__), 'twig', '*')].each { |file| require file }
+require 'time'
 
 class Twig
   include Display
@@ -31,7 +32,9 @@ class Twig
 
   def branch_names
     @_branch_names ||= begin
-      refs = Twig.run('git for-each-ref --format="%(refname)" refs/heads/').split("\n")
+      refs = Twig.
+        run('git for-each-ref refs/heads/ --format="%(refname)"').
+        split("\n")
       refs.map! { |ref| ref.sub!('refs/heads/', '') }.sort!
 
       # Filter branches by name
@@ -49,14 +52,16 @@ class Twig
   def last_commit_times_for_branches
     @_last_commit_times ||= begin
       time_strings = Twig.
-        run(%{git show #{branch_names.join(' ')} --format="%ct,%cr" -s}).
-        split("\n").
-        map { |time_string| time_string.strip }.
-        reject { |time_string| time_string.empty? }
+        run('git for-each-ref refs/heads/ ' <<
+            '--format="%(committerdate),%(committerdate:relative)"').
+        split("\n")
+      time_strings.
+        map! { |time_string| time_string.strip }.
+        reject! { |time_string| time_string.empty? }
 
       commit_times = time_strings.map do |time_string|
         timestamp, time_ago = time_string.split(',')
-        timestamp = timestamp.to_i
+        timestamp = Time.parse(timestamp).to_i
         Twig::CommitTime.new(timestamp, time_ago)
       end
 
