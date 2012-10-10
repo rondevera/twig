@@ -83,21 +83,21 @@ describe Twig do
         '2002-02-02 22:22 -0200'
       ]
       @branch_relative_times = ['4 days ago', '7 days ago']
+      branch_names = %w[branch1 branch2]
       @branch_time_strings_result = %{
-        #{@branch_times[0]},#{@branch_relative_times[0]}
+        #{branch_names[0]},#{@branch_times[0]},#{@branch_relative_times[0]}
 
-        #{@branch_times[1]},#{@branch_relative_times[1]}
+        #{branch_names[1]},#{@branch_times[1]},#{@branch_relative_times[1]}
 
       }.gsub(/^s+/, '')
       @twig.should_receive(:branch_names).
-        any_number_of_times.and_return(%w[branch1 branch2])
+        any_number_of_times.and_return(branch_names)
     end
 
     it 'returns the last commit times for all branches' do
       Twig.should_receive(:run).
-        # with(%{git show branch1 branch2 --format="%ct,%cr" -s}).
         with('git for-each-ref refs/heads/ ' <<
-             '--format="%(committerdate),%(committerdate:relative)"').
+             '--format="%(refname),%(committerdate),%(committerdate:relative)"').
         and_return(@branch_time_strings_result)
 
       commit_times = @twig.last_commit_times_for_branches
