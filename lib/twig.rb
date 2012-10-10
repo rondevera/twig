@@ -2,6 +2,7 @@ Dir[File.join(File.dirname(__FILE__), 'twig', '*')].each { |file| require file }
 require 'time'
 
 class Twig
+  include Cli
   include Display
   include Options
 
@@ -36,17 +37,18 @@ class Twig
         run('git for-each-ref refs/heads/ --format="%(refname)"').
         split("\n")
       refs.map! { |ref| ref.sub!('refs/heads/', '') }.sort!
-
-      # Filter branches by name
-      if options[:name_only]
-        refs = refs.select { |ref| ref =~ options[:name_only] }
-      end
-      if options[:name_except]
-        refs = refs.reject { |ref| ref =~ options[:name_except] }
-      end
-
-      refs
     end
+
+    # Filter branches with latest options
+    names = @_branch_names.dup
+    if options[:name_only]
+      names = names.select { |name| name =~ options[:name_only] }
+    end
+    if options[:name_except]
+      names = names.reject { |name| name =~ options[:name_except] }
+    end
+
+    names
   end
 
   def last_commit_times_for_branches
