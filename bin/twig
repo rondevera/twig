@@ -6,43 +6,7 @@ twig = Twig.new
 abort unless twig.repo?
 
 twig.read_config_file
-
-# Handle options from CLI
-OptionParser.new do |opts|
-  desc = 'Use specific branch'
-  opts.on('-b BRANCH', '--branch BRANCH', twig.branch_names, desc) do |branch|
-    twig.set_option(:branch, branch)
-  end
-
-  desc = 'Only list branches below a given age'
-  opts.on('--max-days-old AGE', desc) do |age|
-    twig.set_option(:max_days_old, age)
-  end
-
-  desc = 'Only list branches whose name matches a given pattern'
-  opts.on('--only-name PATTERN', desc) do |pattern|
-    twig.set_option(:name_only, pattern)
-  end
-
-  desc = 'Do not list branches whose name matches a given pattern'
-  opts.on('--except-name PATTERN', desc) do |pattern|
-    twig.set_option(:name_except, pattern)
-  end
-
-  desc = 'Lists all branches regardless of age or name options; ' +
-    'useful for overriding ' + File.basename(Twig::Options::CONFIG_FILE)
-  opts.on('--all', desc) do |pattern|
-    twig.unset_option(:max_days_old)
-    twig.unset_option(:name_except)
-    twig.unset_option(:name_only)
-  end
-
-  desc = 'Show version'
-  opts.on_tail('--version', desc) do
-    puts Twig::VERSION
-    exit
-  end
-end.parse!
+twig.read_cli_options(ARGV)
 
 # Handle remaining arguments
 args = ARGV.dup

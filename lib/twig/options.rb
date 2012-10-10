@@ -1,5 +1,6 @@
 class Twig
   module Options
+
     CONFIG_FILE = '~/.twigrc'
 
     def read_config_file
@@ -47,5 +48,6 @@ class Twig
     def unset_option(key)
       options.delete(key)
     end
+
   end # module Options
 end
