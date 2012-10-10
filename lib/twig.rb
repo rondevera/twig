@@ -53,19 +53,19 @@ class Twig
     @_last_commit_times ||= begin
       time_strings = Twig.
         run('git for-each-ref refs/heads/ ' <<
-            '--format="%(committerdate),%(committerdate:relative)"').
+            '--format="%(refname),%(committerdate),%(committerdate:relative)"').
         split("\n")
+
       time_strings.
         map! { |time_string| time_string.strip }.
         reject! { |time_string| time_string.empty? }
 
-      commit_times = time_strings.map do |time_string|
-        time, time_ago = time_string.split(',')
-        time = Time.parse(time)
-        Twig::CommitTime.new(time, time_ago)
+      time_strings.inject({}) do |result, time_string|
+        branch_name, time_string, time_ago = time_string.split(',')
+        branch_name.sub!('refs/heads/', '')
+        time = Time.parse(time_string)
+        result.merge(branch_name => Twig::CommitTime.new(time, time_ago))
       end
-
-      Hash[*branch_names.zip(commit_times).flatten]
     end
   end
 
