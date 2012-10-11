@@ -1,3 +1,5 @@
+require 'optparse'
+
 class Twig
   module Cli
 
@@ -39,6 +41,27 @@ class Twig
       end
 
       option_parser.parse!(args)
+    end
+
+    def read_cli_args(args)
+      if args[0]
+        # Run command binary, if any, and exit here
+        command_path = Twig.run("which twig-#{args[0]}")
+        exec(command_path) unless command_path.empty?
+
+        # Get/set branch property
+        branch_name = options[:branch] || current_branch_name
+        if args[1]
+          # `$ twig <key> <value>`
+          puts set_branch_property(branch_name, args[0], args[1])
+        else
+          # `$ twig <key>`
+          puts get_branch_property(branch_name, args[0])
+        end
+      else
+        # `$ twig`
+        puts list_branches
+      end
     end
 
   end

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'optparse'
+
 require File.join(File.dirname(File.readlink(__FILE__)), '..', 'lib', 'twig')
 
 twig = Twig.new
@@ -7,24 +7,4 @@ abort unless twig.repo?
 
 twig.read_config_file
 twig.read_cli_options(ARGV)
-
-# Handle remaining arguments
-args = ARGV.dup
-if args[0]
-  # Run command binary, if any, and exit here
-  command_path = `which twig-#{args[0]}`.strip
-  exec(command_path) unless command_path.empty?
-
-  # Get/set branch property
-  branch = twig.options[:branch] || twig.current_branch_name
-  if args[1]
-    # `$ twig <key> <value>`
-    puts twig.set_branch_property(branch, args[0], args[1])
-  else
-    # `$ twig <key>`
-    puts twig.get_branch_property(branch, args[0])
-  end
-else
-  # `$ twig`
-  puts twig.list_branches
-end
+twig.read_cli_args(ARGV)
