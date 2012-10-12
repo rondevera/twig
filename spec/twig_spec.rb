@@ -28,7 +28,7 @@ describe Twig do
     end
   end
 
-  describe '#branches' do
+  describe '#branch_names' do
     before :each do
       @branch_names = %w[
         fix_some_of_the_things
