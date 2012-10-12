@@ -41,6 +41,15 @@ class Twig
 
     # Filter branches with latest options
     names = @_branch_names.dup
+    if options[:max_days_old]
+      now = Time.now
+      max_seconds_old = options[:max_days_old] * 86400
+      names = names.select do |name|
+        branch      = Branch.new(self, name)
+        seconds_old = now.to_i - branch.last_commit_time.to_i
+        seconds_old <= max_seconds_old
+      end
+    end
     if options[:name_only]
       names = names.select { |name| name =~ options[:name_only] }
     end
@@ -76,25 +85,15 @@ class Twig
   ### Actions ###
 
   def list_branches
-    now = Time.now
-    max_seconds_old =
-      options[:max_days_old] ? options[:max_days_old] * 86400 : nil
-
     out = "\n" << branch_list_headers
 
-    branches_to_list = branch_names.map do |branch_name|
-      branch      = Branch.new(self, branch_name)
-      seconds_old = now.to_i - branch.last_commit_time.to_i
-
-      branch if !max_seconds_old || seconds_old <= max_seconds_old
-    end.compact
+    branches = branch_names.map { |branch_name| Branch.new(self, branch_name) }
 
     # List most recently modified branches first
-    branches_to_list = branches_to_list.
-      sort_by { |branch| branch.last_commit_time }.reverse
+    branches = branches.sort_by { |branch| branch.last_commit_time }.reverse
 
-    branch_lines = branches_to_list.inject([]) do |result, branch|
-      result + [branch_list_line(branch)]
+    branch_lines = branches.inject([]) do |result, branch|
+      result << branch_list_line(branch)
     end
 
     out << branch_lines.join("\n")
