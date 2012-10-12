@@ -51,6 +51,20 @@ describe Twig do
       twig.branch_names.should == @branch_names.sort
     end
 
+    it 'returns only branches below a certain age' do
+      twig = Twig.new(:max_days_old => 4)
+      branch_commit_times = {
+        @branch_names[0] => Time.now - (1 * 86400),
+        @branch_names[1] => Time.now - (3 * 86400),
+        @branch_names[2] => Time.now - (5 * 86400)
+      }
+      Twig.should_receive(:run).and_return(@branch_refs.join("\n"))
+      twig.stub(:last_commit_times_for_branches => branch_commit_times)
+
+      branch_names = twig.branch_names
+      branch_names.should == @branch_names.first(2)
+    end
+
     it 'returns only branches matching a name pattern' do
       twig = Twig.new(:name_only => /fix_some/)
       Twig.should_receive(:run).and_return(@branch_refs.join("\n"))
@@ -155,19 +169,6 @@ describe Twig do
       result = @twig.list_branches
       result.should == "\n" + @list_headers +
         @branch_lines[1] + "\n" + @branch_lines[0]
-    end
-
-    it 'filters out branches that are too old' do
-      @twig.set_option(:max_days_old, 1)
-      tomorrow = Time.at(Time.now + 86400)
-      @commit_times[1].stub(:to_i => tomorrow.to_i)
-      @commit_times[1].stub(:to_s => tomorrow.strftime('%Y-%m-%d'))
-      @twig.should_not_receive(:branch_list_line).with(@branches[0])
-      @twig.should_receive(:branch_list_line).with(@branches[1]).
-        and_return(@branch_lines[1])
-
-      result = @twig.list_branches
-      result.should == "\n" + @list_headers + @branch_lines[1]
     end
   end
 
