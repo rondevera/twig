@@ -1,7 +1,7 @@
 class Twig
   class Branch
 
-    RESERVED_BRANCH_PROPERTIES    = %w[merge remote]
+    RESERVED_BRANCH_PROPERTIES    = %w[merge rebase remote]
     PROPERTY_NAME_FROM_GIT_CONFIG = /^branch\.[^.]+\.([^=]+)/
 
     attr_accessor :twig, :name
