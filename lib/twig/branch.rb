@@ -4,7 +4,7 @@ class Twig
     RESERVED_BRANCH_PROPERTIES    = %w[merge rebase remote]
     PROPERTY_NAME_FROM_GIT_CONFIG = /^branch\.[^.]+\.([^=]+)/
 
-    attr_accessor :twig, :name, :last_commit_time
+    attr_accessor :name, :last_commit_time
 
     def self.all_properties
       @_all_properties ||= begin
@@ -17,10 +17,7 @@ class Twig
       end
     end
 
-    def initialize(twig, name, attrs = {})
-      self.twig = twig
-      raise ArgumentError, '`twig` is required' unless twig.respond_to?(:repo?)
-
+    def initialize(name, attrs = {})
       self.name = name
       raise ArgumentError, '`name` is required' if name.empty?
 

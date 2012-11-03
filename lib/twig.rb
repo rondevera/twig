@@ -47,7 +47,7 @@ class Twig
         name        = ref.sub(%r{^#{ REF_PREFIX }}, '')
         time        = Time.parse(time_string)
         commit_time = Twig::CommitTime.new(time, time_ago)
-        branch      = Branch.new(self, name, :last_commit_time => commit_time)
+        branch      = Branch.new(name, :last_commit_time => commit_time)
         result << branch
       end
     end
@@ -94,12 +94,12 @@ class Twig
   end
 
   def get_branch_property(branch_name, property_name)
-    branch = Branch.new(self, branch_name)
+    branch = Branch.new(branch_name)
     branch.get_property(property_name)
   end
 
   def set_branch_property(branch_name, property_name, value)
-    branch = Branch.new(self, branch_name)
+    branch = Branch.new(branch_name)
     branch.set_property(property_name, value)
   end
 

@@ -40,41 +40,32 @@ describe Twig::Branch do
   end
 
   describe '#initialize' do
-    it 'requires a Twig instance' do
-      branch = Twig::Branch.new(@twig, 'test')
-      branch.twig.should == @twig
-
-      lambda { Twig::Branch.new              }.should raise_exception
-      lambda { Twig::Branch.new(nil, 'test') }.should raise_exception
-      lambda { Twig::Branch.new('', 'test')  }.should raise_exception
-    end
-
     it 'requires a name' do
-      branch = Twig::Branch.new(@twig, 'test')
+      branch = Twig::Branch.new('test')
       branch.name.should == 'test'
 
-      lambda { Twig::Branch.new(@twig)      }.should raise_exception
-      lambda { Twig::Branch.new(@twig, nil) }.should raise_exception
-      lambda { Twig::Branch.new(@twig, '')  }.should raise_exception
+      lambda { Twig::Branch.new      }.should raise_exception
+      lambda { Twig::Branch.new(nil) }.should raise_exception
+      lambda { Twig::Branch.new('')  }.should raise_exception
     end
 
     it 'accepts a last commit time' do
       commit_time = Twig::CommitTime.new(Time.now, '99 days ago')
-      branch = Twig::Branch.new(@twig, 'test', :last_commit_time => commit_time)
+      branch = Twig::Branch.new('test', :last_commit_time => commit_time)
       branch.last_commit_time.should == commit_time
     end
   end
 
   describe '#to_s' do
     it 'returns the branch name' do
-      branch = Twig::Branch.new(@twig, 'test')
+      branch = Twig::Branch.new('test')
       branch.to_s.should == 'test'
     end
   end
 
   describe '#get_property' do
     it 'returns a property value' do
-      branch   = Twig::Branch.new(@twig, 'test')
+      branch   = Twig::Branch.new('test')
       property = 'test'
       value    = 'value'
       Twig.should_receive(:run).
@@ -88,7 +79,7 @@ describe Twig::Branch do
 
   describe '#set_property' do
     before :each do
-      @branch = Twig::Branch.new(@twig, 'test')
+      @branch = Twig::Branch.new('test')
     end
 
     it 'sets a property value' do
