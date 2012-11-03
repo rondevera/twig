@@ -4,7 +4,7 @@ class Twig
     RESERVED_BRANCH_PROPERTIES    = %w[merge rebase remote]
     PROPERTY_NAME_FROM_GIT_CONFIG = /^branch\.[^.]+\.([^=]+)/
 
-    attr_accessor :twig, :name
+    attr_accessor :twig, :name, :last_commit_time
 
     def self.all_properties
       @_all_properties ||= begin
@@ -17,19 +17,17 @@ class Twig
       end
     end
 
-    def initialize(twig, name)
+    def initialize(twig, name, attrs = {})
       self.twig = twig
       raise ArgumentError, '`twig` is required' unless twig.respond_to?(:repo?)
 
       self.name = name
       raise ArgumentError, '`name` is required' if name.empty?
+
+      self.last_commit_time = attrs[:last_commit_time]
     end
 
     def to_s ; name ; end
-
-    def last_commit_time
-      twig.last_commit_times_for_branches[name]
-    end
 
     def get_property(property_name)
       Twig.run("git config branch.#{name}.#{property_name}")
