@@ -57,6 +57,12 @@ describe Twig::Branch do
       lambda { Twig::Branch.new(@twig, nil) }.should raise_exception
       lambda { Twig::Branch.new(@twig, '')  }.should raise_exception
     end
+
+    it 'accepts a last commit time' do
+      commit_time = Twig::CommitTime.new(Time.now, '99 days ago')
+      branch = Twig::Branch.new(@twig, 'test', :last_commit_time => commit_time)
+      branch.last_commit_time.should == commit_time
+    end
   end
 
   describe '#to_s' do

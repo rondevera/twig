@@ -22,113 +22,106 @@ describe Twig do
       Twig.should_receive(:run).
         with('git symbolic-ref -q HEAD').
         once. # Should memoize
-        and_return("refs/heads/#{branch_name}")
+        and_return(Twig::REF_PREFIX + branch_name)
 
       2.times { twig.current_branch_name.should == branch_name }
     end
   end
 
-  describe '#branch_names' do
+  describe '#all_branches' do
     before :each do
       @branch_names = %w[
         fix_some_of_the_things
         fix_some_other_of_the_things
         fix_nothing
       ]
-      @branch_refs = %w[
-        refs/heads/fix_some_of_the_things
-        refs/heads/fix_some_other_of_the_things
-        refs/heads/fix_nothing
-      ]
+      branch_refs = @branch_names.map { |name| Twig::REF_PREFIX + name }
+      @commit_time_strings = ['2001-01-01',   '2002-02-02',   '2003-03-03'  ]
+      @commit_time_agos    = ['111 days ago', '222 days ago', '333 days ago']
+      @command =
+        %{git for-each-ref #{Twig::REF_PREFIX} --format="#{Twig::REF_FORMAT}"}
+
+      @branch_tuples = (0..2).map do |i|
+        "#{branch_refs[i]},#{@commit_time_strings[i]},#{@commit_time_agos[i]}"
+      end.join("\n")
     end
 
-    it 'returns all branches' do
+    it 'returns an array of branches' do
+      Twig.should_receive(:run).with(@command).and_return(@branch_tuples)
       twig = Twig.new
-      Twig.should_receive(:run).
-        with('git for-each-ref refs/heads/ --format="%(refname)"').
-        and_return(@branch_refs.join("\n"))
 
-      twig.branch_names.should == @branch_names.sort
-    end
+      branches = twig.all_branches
 
-    it 'returns only branches below a certain age' do
-      twig = Twig.new(:max_days_old => 4)
-      branch_commit_times = {
-        @branch_names[0] => Time.now - (1 * 86400),
-        @branch_names[1] => Time.now - (3 * 86400),
-        @branch_names[2] => Time.now - (5 * 86400)
-      }
-      Twig.should_receive(:run).and_return(@branch_refs.join("\n"))
-      twig.stub(:last_commit_times_for_branches => branch_commit_times)
-
-      branch_names = twig.branch_names
-      branch_names.should == @branch_names.first(2)
-    end
-
-    it 'returns only branches matching a name pattern' do
-      twig = Twig.new(:name_only => /fix_some/)
-      Twig.should_receive(:run).and_return(@branch_refs.join("\n"))
-
-      branch_names = twig.branch_names
-      branch_names.should == @branch_names.first(2)
-    end
-
-    it 'returns all branches except those matching a name pattern' do
-      twig = Twig.new(:name_except => /fix_some/)
-      Twig.should_receive(:run).and_return(@branch_refs.join("\n"))
-
-      branch_names = twig.branch_names
-      branch_names.should == [@branch_names.last]
+      branches[0].name.should == @branch_names[0]
+      branches[0].last_commit_time.to_s.
+        should =~ %r{#{@commit_time_strings[0]} .* \(111d ago\)}
+      branches[1].name.should == @branch_names[1]
+      branches[1].last_commit_time.to_s.
+        should =~ %r{#{@commit_time_strings[1]} .* \(222d ago\)}
+      branches[2].name.should == @branch_names[2]
+      branches[2].last_commit_time.to_s.
+        should =~ %r{#{@commit_time_strings[2]} .* \(333d ago\)}
     end
 
     it 'memoizes the result' do
+      Twig.should_receive(:run).with(@command).once.and_return(@branch_tuples)
       twig = Twig.new
-      Twig.should_receive(:run).once.and_return(@branch_refs.join("\n"))
 
-      2.times { twig.branch_names }
+      2.times { twig.all_branches }
     end
   end
 
-  describe '#last_commit_times_for_branches' do
+  describe '#branches' do
     before :each do
       @twig = Twig.new
-      @branch_times = [
-        '2001-01-01 11:11 -0100',
-        '2002-02-02 22:22 -0200'
+      branch_names = %w[
+        fix_some_of_the_things
+        fix_some_other_of_the_things
+        fix_nothing
       ]
-      @branch_relative_times = ['4 days ago', '7 days ago']
-      branch_names = %w[branch1 branch2]
-      @branch_time_strings_result = %{
-        #{branch_names[0]},#{@branch_times[0]},#{@branch_relative_times[0]}
-
-        #{branch_names[1]},#{@branch_times[1]},#{@branch_relative_times[1]}
-
-      }.gsub(/^s+/, '')
-      @twig.should_receive(:branch_names).
-        any_number_of_times.and_return(branch_names)
+      commit_times = [
+        Twig::CommitTime.new(Time.now - 86400 * 10, '10 days ago'),
+        Twig::CommitTime.new(Time.now - 86400 * 20, '20 days ago'),
+        Twig::CommitTime.new(Time.now - 86400 * 30, '30 days ago')
+      ]
+      @branches = [
+        Twig::Branch.new(@twig, branch_names[0], :last_commit_time => commit_times[0]),
+        Twig::Branch.new(@twig, branch_names[1], :last_commit_time => commit_times[1]),
+        Twig::Branch.new(@twig, branch_names[2], :last_commit_time => commit_times[2])
+      ]
+      @twig.stub(:all_branches => @branches)
     end
 
-    it 'returns the last commit times for all branches' do
-      Twig.should_receive(:run).
-        with('git for-each-ref refs/heads/ ' <<
-             '--format="%(refname),%(committerdate),%(committerdate:relative)"').
-        and_return(@branch_time_strings_result)
-
-      commit_times = @twig.last_commit_times_for_branches
-      commit_times.keys.should =~ %w[branch1 branch2]
-      commit_times['branch1'].instance_variable_get(:@time).
-        should == Time.parse(@branch_times[0])
-      commit_times['branch1'].instance_variable_get(:@time_ago).
-        should == '4d ago'
-      commit_times['branch2'].instance_variable_get(:@time).
-        should == Time.parse(@branch_times[1])
-      commit_times['branch2'].instance_variable_get(:@time_ago).
-        should == '7d ago'
+    it 'returns all branches' do
+      @twig.branches.should == @branches
     end
 
-    it 'memoizes the result' do
-      Twig.should_receive(:run).once.and_return(@branch_time_strings_result)
-      2.times { @twig.last_commit_times_for_branches }
+    it 'returns only branches below a certain age' do
+      @twig.set_option(:max_days_old, 25)
+      @twig.branches.map { |branch| branch.name }.
+        should == [@branches[0].name, @branches[1].name]
+    end
+
+    it 'returns only branches matching a name pattern' do
+      @twig.set_option(:name_only, /fix_some/)
+      @twig.branches.map { |branch| branch.name }.
+        should == [@branches[0].name, @branches[1].name]
+    end
+
+    it 'returns all branches except those matching a name pattern' do
+      @twig.set_option(:name_except, /fix_some/)
+      @twig.branches.map { |branch| branch.name }.should == [@branches[2].name]
+    end
+  end
+
+  describe '#branch_names' do
+    it 'returns an array of branch names' do
+      twig = Twig.new
+      branch_names = %w[foo bar baz]
+      branches = branch_names.map { |name| Twig::Branch.new(twig, name) }
+      twig.should_receive(:branches).and_return(branches)
+
+      twig.branch_names.should == branch_names
     end
   end
 
@@ -136,37 +129,31 @@ describe Twig do
     before :each do
       @twig = Twig.new
       @list_headers = '[branch list headers]'
+      commit_times = [
+        Twig::CommitTime.new(Time.now, '111 days ago'),
+        Twig::CommitTime.new(Time.now, '222 days ago')
+      ]
+      commit_times[0].stub(:to_i => 2000_01_01 )
+      commit_times[0].stub(:to_s =>'2000-01-01')
+      commit_times[1].stub(:to_i => 2000_01_02 )
+      commit_times[1].stub(:to_s =>'2000-01-02')
       @branches = [
-        Twig::Branch.new(@twig, 'foo'),
-        Twig::Branch.new(@twig, 'bar')
+        Twig::Branch.new(@twig, 'foo', :last_commit_time => commit_times[0]),
+        Twig::Branch.new(@twig, 'foo', :last_commit_time => commit_times[1])
       ]
-      @branch_lines = [ '[foo line]', '[bar line]' ]
-      @commit_times = [
-        Twig::CommitTime.new(Time.now, ''),
-        Twig::CommitTime.new(Time.now, '')
-      ]
-      @commit_times[0].stub(:to_i => 2000_01_01 )
-      @commit_times[0].stub(:to_s =>'2000-01-01')
-      @commit_times[1].stub(:to_i => 2000_01_02 )
-      @commit_times[1].stub(:to_s =>'2000-01-02')
-      @branches[0].stub(:last_commit_time => @commit_times[0])
-      @branches[1].stub(:last_commit_time => @commit_times[1])
-      Twig::Branch.should_receive(:new).with(anything, @branches[0].name).
-        and_return(@branches[0])
-      Twig::Branch.should_receive(:new).with(anything, @branches[1].name).
-        and_return(@branches[1])
-      @twig.should_receive(:branch_list_headers).and_return(@list_headers)
-      @twig.should_receive(:branch_names).
-        and_return(@branches.map { |branch| branch.name })
-    end
+      @branch_lines = ['[foo line]', '[bar line]']
 
-    it 'lists branches, most recently modified first' do
+      @twig.should_receive(:branch_list_headers).and_return(@list_headers)
+      @twig.should_receive(:branches).and_return(@branches)
       @twig.should_receive(:branch_list_line).with(@branches[0]).
         and_return(@branch_lines[0])
       @twig.should_receive(:branch_list_line).with(@branches[1]).
         and_return(@branch_lines[1])
+    end
 
+    it 'lists branches, most recently modified first' do
       result = @twig.list_branches
+
       result.should == "\n" + @list_headers +
         @branch_lines[1] + "\n" + @branch_lines[0]
     end
