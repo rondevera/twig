@@ -85,9 +85,9 @@ describe Twig do
         Twig::CommitTime.new(Time.now - 86400 * 30, '30 days ago')
       ]
       @branches = [
-        Twig::Branch.new(@twig, branch_names[0], :last_commit_time => commit_times[0]),
-        Twig::Branch.new(@twig, branch_names[1], :last_commit_time => commit_times[1]),
-        Twig::Branch.new(@twig, branch_names[2], :last_commit_time => commit_times[2])
+        Twig::Branch.new(branch_names[0], :last_commit_time => commit_times[0]),
+        Twig::Branch.new(branch_names[1], :last_commit_time => commit_times[1]),
+        Twig::Branch.new(branch_names[2], :last_commit_time => commit_times[2])
       ]
       @twig.stub(:all_branches => @branches)
     end
@@ -118,7 +118,7 @@ describe Twig do
     it 'returns an array of branch names' do
       twig = Twig.new
       branch_names = %w[foo bar baz]
-      branches = branch_names.map { |name| Twig::Branch.new(twig, name) }
+      branches = branch_names.map { |name| Twig::Branch.new(name) }
       twig.should_receive(:branches).and_return(branches)
 
       twig.branch_names.should == branch_names
@@ -138,8 +138,8 @@ describe Twig do
       commit_times[1].stub(:to_i => 2000_01_02 )
       commit_times[1].stub(:to_s =>'2000-01-02')
       @branches = [
-        Twig::Branch.new(@twig, 'foo', :last_commit_time => commit_times[0]),
-        Twig::Branch.new(@twig, 'foo', :last_commit_time => commit_times[1])
+        Twig::Branch.new('foo', :last_commit_time => commit_times[0]),
+        Twig::Branch.new('foo', :last_commit_time => commit_times[1])
       ]
       @branch_lines = ['[foo line]', '[bar line]']
 
@@ -162,11 +162,10 @@ describe Twig do
   describe '#get_branch_property' do
     it 'calls `Twig::Branch#get_property`' do
       twig           = Twig.new
-      branch         = Twig::Branch.new(twig, 'test')
+      branch         = Twig::Branch.new('test')
       property_name  = 'foo'
       property_value = 'bar'
-      Twig::Branch.should_receive(:new).with(twig, branch.name).
-        and_return(branch)
+      Twig::Branch.should_receive(:new).with(branch.name).and_return(branch)
       branch.should_receive(:get_property).with(property_name).
         and_return(property_value)
 
@@ -178,11 +177,10 @@ describe Twig do
   describe '#set_branch_property' do
     it 'calls `Twig::Branch#set_property`' do
       twig = Twig.new
-      branch = Twig::Branch.new(twig, 'test')
+      branch = Twig::Branch.new('test')
       property_name = 'foo'
       property_value = 'bar'
-      Twig::Branch.should_receive(:new).with(twig, branch.name).
-        and_return(branch)
+      Twig::Branch.should_receive(:new).with(branch.name).and_return(branch)
       branch.should_receive(:set_property).with(property_name, property_value)
 
       twig.set_branch_property(branch.name, property_name, property_value)

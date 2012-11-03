@@ -72,7 +72,7 @@ describe Twig::Display do
 
     it 'returns a line for the current branch' do
       indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
-      branch        = Twig::Branch.new(@twig, 'my-branch')
+      branch        = Twig::Branch.new('my-branch')
       branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch.name)}/
       branch.should_receive(:last_commit_time).and_return(@commit_time)
 
@@ -82,7 +82,7 @@ describe Twig::Display do
     end
 
     it 'returns a line for a branch other than the current branch' do
-      branch = Twig::Branch.new(@twig, 'other-branch')
+      branch = Twig::Branch.new('other-branch')
       branch.should_receive(:last_commit_time).and_return(@commit_time)
 
       result = @twig.branch_list_line(branch)
