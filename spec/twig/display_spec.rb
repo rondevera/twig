@@ -11,7 +11,7 @@ describe Twig::Display do
     end
 
     it 'returns a string that fits a column exactly' do
-      @twig.column('asdf', 1, :width => 4).should == 'asdf'
+      @twig.column('asdfasdf', 1, :width => 8).should == 'asdf... '
     end
 
     it 'truncates a wide string with an ellipsis' do
@@ -43,16 +43,16 @@ describe Twig::Display do
       result_lines = result.split("\n")
 
       column_width = 8
-      num_columns_for_date_time = 5
-      first_column_width = column_width * num_columns_for_date_time
+      columns_for_date_time = 5
+      first_column_width = column_width * columns_for_date_time
       result_lines[0].should == (' ' * first_column_width) +
         'foo     ' + (' ' * column_width) +
         'quux    ' + (' ' * column_width) +
-        '  branch'
+        '  branch' + (' ' * column_width)
       result_lines[1].should == (' ' * first_column_width) +
         '---     ' + (' ' * column_width) +
         '----    ' + (' ' * column_width) +
-        '  ------'
+        '  ------' + (' ' * column_width)
     end
   end
 

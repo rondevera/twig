@@ -31,7 +31,7 @@ class Twig
       new_string       = string[0, total_width]
       omission         = '... '
 
-      if string.size > total_width
+      if string.size >= total_width
         new_string[-omission.size, omission.size] = omission
       else
         new_string = ' ' * total_width
@@ -47,23 +47,25 @@ class Twig
     end
 
     def branch_list_headers(header_options = { :color => :blue })
-      num_columns_for_date_time = 5
-      num_columns_per_property  = 2
-      branch_indicator_padding  = ' ' * CURRENT_BRANCH_INDICATOR.size
+      columns_for_date_time    = 5
+      columns_per_property     = 2
+      branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
 
       out =
-        column(' ', num_columns_for_date_time) <<
+        column(' ', columns_for_date_time) <<
         Twig::Branch.all_properties.map do |property|
-          column(property, num_columns_per_property, header_options)
+          column(property, columns_per_property, header_options)
         end.join <<
-        column(branch_indicator_padding + 'branch', 1, header_options) <<
+        column(branch_indicator_padding + 'branch',
+          columns_per_property, header_options) <<
         "\n"
       out <<
-        column(' ', num_columns_for_date_time) <<
+        column(' ', columns_for_date_time) <<
         Twig::Branch.all_properties.map do |property|
-          column('-' * property.size, num_columns_per_property, header_options)
+          column('-' * property.size, columns_per_property, header_options)
         end.join <<
-        column(branch_indicator_padding + '------', 1, header_options) <<
+        column(branch_indicator_padding + '------',
+          columns_per_property, header_options) <<
         "\n"
 
       out
