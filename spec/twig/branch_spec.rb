@@ -104,6 +104,34 @@ describe Twig::Branch do
       result.should include(%{Can't modify the reserved property "#{property}"})
     end
 
+    it 'removes whitespace from branch property names' do
+      bad_property = '  foo foo  '
+      property     = 'foofoo'
+      value        = 'bar'
+      Twig.should_receive(:run).
+        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}).
+        and_return(value)
+
+      result = @branch.set_property(bad_property, value)
+      result.should include(
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+      )
+    end
+
+    it 'removes underscores from branch property names' do
+      bad_property = 'foo_foo'
+      property     = 'foofoo'
+      value        = 'bar'
+      Twig.should_receive(:run).
+        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}).
+        and_return(value)
+
+      result = @branch.set_property(bad_property, value)
+      result.should include(
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+      )
+    end
+
     it 'unsets a branch property' do
       property = 'test'
       Twig.should_receive(:run).
