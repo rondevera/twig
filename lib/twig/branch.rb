@@ -31,6 +31,7 @@ class Twig
     end
 
     def set_property(property_name, value)
+      property_name = property_name.gsub(/[ _]+/, '')
       value = value.to_s
 
       if RESERVED_BRANCH_PROPERTIES.include?(property_name)
