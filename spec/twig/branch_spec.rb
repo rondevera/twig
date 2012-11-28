@@ -86,12 +86,25 @@ describe Twig::Branch do
       property = 'test'
       value    = 'value'
       Twig.should_receive(:run).
-        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}).
-        and_return(value)
+        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
+          `(exit 0)` # Set `$?` to `0`
+          value
+        end
 
       result = @branch.set_property(property, value)
       result.should include(
         %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+      )
+    end
+
+    it 'does nothing if Git cannot set the property value' do
+      property = 'test'
+      value    = 'value'
+      Twig.stub(:run) { `(exit 1)`; value } # Set `$?` to `1`
+
+      result = @branch.set_property(property, value)
+      result.should include(
+        %{Could not save property "#{property}" as "#{value}" for branch "#{@branch.name}"}
       )
     end
 
@@ -109,8 +122,10 @@ describe Twig::Branch do
       property     = 'foofoo'
       value        = 'bar'
       Twig.should_receive(:run).
-        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}).
-        and_return(value)
+        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
+          `(exit 0)` # Set `$?` to `0`
+          value
+        end
 
       result = @branch.set_property(bad_property, value)
       result.should include(
@@ -123,8 +138,10 @@ describe Twig::Branch do
       property     = 'foofoo'
       value        = 'bar'
       Twig.should_receive(:run).
-        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}).
-        and_return(value)
+        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
+          `(exit 0)` # Set `$?` to `0`
+          value
+        end
 
       result = @branch.set_property(bad_property, value)
       result.should include(

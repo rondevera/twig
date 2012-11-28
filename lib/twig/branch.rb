@@ -41,7 +41,12 @@ class Twig
         %{Removed property "#{property_name}" for branch "#{name}".}
       else
         Twig.run(%{git config branch.#{name}.#{property_name} "#{value}"})
-        %{Saved property "#{property_name}" as "#{value}" for branch "#{name}".}
+        result_body = %{property "#{property_name}" as "#{value}" for branch "#{name}".}
+        if $?.success?
+          "Saved #{result_body}"
+        else
+          "Could not save #{result_body}"
+        end
       end
     end
 
