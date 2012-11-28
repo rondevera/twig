@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Your friendly neighborhood `twig --help` alias.
+twig --help
