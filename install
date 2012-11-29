@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-twig_bin_path = File.expand_path(File.dirname(__FILE__)) + '/../bin/*'
+twig_bin_path = File.expand_path(File.dirname(__FILE__)) + '/bin/**/twig*'
 twig_bins = Dir.glob(twig_bin_path)
 user_bin_path = '~/bin'
 
@@ -10,6 +10,7 @@ end
 
 if `which twig` && $?.success?
   puts 'All set! Run `twig` to list your local branches.'
+  puts 'For more info, run `twig --help`.'
 else
   puts 'Argh! Something went wrong. Please try symlinking the files in '
   puts '`./bin/` to `~/bin/` and ensure that `~/bin/` is in your `$PATH`, or '
