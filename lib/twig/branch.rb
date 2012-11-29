@@ -2,17 +2,22 @@ class Twig
   class Branch
 
     RESERVED_BRANCH_PROPERTIES    = %w[merge rebase remote]
-    PROPERTY_NAME_FROM_GIT_CONFIG = /^branch\.[^.]+\.([^=]+)/
+    PROPERTY_NAME_FROM_GIT_CONFIG = /^branch\.[^.]+\.([^=]+)=.*$/
 
     attr_accessor :name, :last_commit_time
 
     def self.all_properties
       @_all_properties ||= begin
-        properties = Twig.run('git config --list').split("\n").
-                        map do |var|
-                          match_data = PROPERTY_NAME_FROM_GIT_CONFIG.match(var)
-                          match_data[1] if match_data
-                        end.compact
+        config_lines = Twig.run('git config --list').split("\n")
+
+        properties = config_lines.map do |line|
+          # Split by rightmost `=`, allowing branch names to contain `=`:
+          key, value = line.match(/(.+)=(.+)/)[1..2]
+
+          key_parts = key.split('.')
+          key_parts.last if key_parts[0] == 'branch' && key_parts.size > 2
+        end.compact
+
         properties.uniq.sort - RESERVED_BRANCH_PROPERTIES
       end
     end
