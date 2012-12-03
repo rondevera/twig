@@ -50,6 +50,28 @@ describe Twig::Options do
       @twig.options[:max_days_old].should == 30.5
     end
 
+    it 'supports deprecated options' do
+      @twig.stub(:branch_names => ['test'])
+      file = double('file')
+      File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
+      File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
+      file.should_receive(:read).and_return(%{
+        except-name:  test-except
+        only-name:    test-only
+      }.gsub(/^\s+/, ''))
+      @twig.should_receive(:puts).
+        with("\n`--except-name` is deprecated. Please use `--except-branch` instead.\n")
+      @twig.should_receive(:puts).
+        with("\n`--only-name` is deprecated. Please use `--only-branch` instead.\n")
+      @twig.options[:branch_except].should be_nil # Precondition
+      @twig.options[:branch_only].should be_nil # Precondition
+
+      @twig.read_config_file
+
+      @twig.options[:branch_except].should == /test-except/
+      @twig.options[:branch_only].should == /test-only/
+    end
+
     it 'fails gracefully if the config file is not readable' do
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(false)
       lambda { @twig.read_config_file }.should_not raise_exception
