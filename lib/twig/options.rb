@@ -50,6 +50,8 @@ class Twig
         else
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
+      when :unset_property
+        options[:unset_property] = value
       end
     end
 

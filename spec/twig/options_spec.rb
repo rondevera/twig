@@ -100,7 +100,19 @@ describe Twig::Options do
       end
     end
 
-    describe 'when setting a :max_days_old option' do
+    it 'sets a :branch_except option' do
+      @twig.options[:branch_except].should be_nil # Precondition
+      @twig.set_option(:branch_except, 'unwanted_prefix_')
+      @twig.options[:branch_except].should == /unwanted_prefix_/
+    end
+
+    it 'sets a :branch_only option' do
+      @twig.options[:branch_only].should be_nil # Precondition
+      @twig.set_option(:branch_only, 'important_prefix_')
+      @twig.options[:branch_only].should == /important_prefix_/
+    end
+
+    context 'when setting a :max_days_old option' do
       before :each do
         @twig.options[:max_days_old].should be_nil # Precondition
       end
@@ -117,16 +129,10 @@ describe Twig::Options do
       end
     end
 
-    it 'sets a :branch_only option' do
-      @twig.options[:branch_only].should be_nil # Precondition
-      @twig.set_option(:branch_only, 'important_prefix_')
-      @twig.options[:branch_only].should == /important_prefix_/
-    end
-
-    it 'sets a :branch_except option' do
-      @twig.options[:branch_except].should be_nil # Precondition
-      @twig.set_option(:branch_except, 'unwanted_prefix_')
-      @twig.options[:branch_except].should == /unwanted_prefix_/
+    it 'sets an :unset_property option' do
+      @twig.options[:unset_property].should be_nil # Precondition
+      @twig.set_option(:unset_property, 'unwanted_property')
+      @twig.options[:unset_property].should == 'unwanted_property'
     end
   end
 

@@ -55,6 +55,12 @@ describe Twig::Cli do
       @twig.options[:branch_only].should be_nil
     end
 
+    it 'recognizes `--unset` and sets an `:unset_property` option' do
+      @twig.options[:unset_property].should be_nil # Precondition
+      @twig.read_cli_options(%w[--unset test])
+      @twig.options[:unset_property].should == 'test'
+    end
+
     it 'recognizes `--version` and prints the current version' do
       @twig.should_receive(:puts).with(Twig::VERSION)
       @twig.should_receive(:exit)
@@ -176,6 +182,34 @@ describe Twig::Cli do
         @twig.should_receive(:puts).with(@message)
 
         @twig.read_cli_args([@property_name, @property_value])
+      end
+    end
+
+    context 'unsetting properties' do
+      before :each do
+        @branch_name   = 'test'
+        @property_name = 'foo'
+        @message       = 'Removed.'
+        @twig.set_option(:unset_property, @property_name)
+      end
+
+      it 'unsets a property for the current branch' do
+        @twig.should_receive(:current_branch_name).and_return(@branch_name)
+        @twig.should_receive(:set_branch_property).
+          with(@branch_name, @property_name, nil).and_return(@message)
+        @twig.should_receive(:puts).with(@message)
+
+        @twig.read_cli_args([])
+      end
+
+      it 'unsets a property for a specified branch' do
+        @twig.should_receive(:branch_names).and_return([@branch_name])
+        @twig.set_option(:branch, @branch_name)
+        @twig.should_receive(:set_branch_property).
+          with(@branch_name, @property_name, nil).and_return(@message)
+        @twig.should_receive(:puts).with(@message)
+
+        @twig.read_cli_args([])
       end
     end
   end
