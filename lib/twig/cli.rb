@@ -10,27 +10,27 @@ class Twig
           set_option(:branch, branch)
         end
 
-        desc = 'Only list branches below a given age'
-        opts.on('--max-days-old AGE', desc) do |age|
-          set_option(:max_days_old, age)
-        end
-
         desc = 'Only list branches whose name matches a given pattern'
-        opts.on('--only-name PATTERN', desc) do |pattern|
-          set_option(:name_only, pattern)
+        opts.on('--only-branch PATTERN', desc) do |pattern|
+          set_option(:branch_only, pattern)
         end
 
         desc = 'Do not list branches whose name matches a given pattern'
-        opts.on('--except-name PATTERN', desc) do |pattern|
-          set_option(:name_except, pattern)
+        opts.on('--except-branch PATTERN', desc) do |pattern|
+          set_option(:branch_except, pattern)
+        end
+
+        desc = 'Only list branches below a given age'
+        opts.on('--max-days-old AGE', desc) do |age|
+          set_option(:max_days_old, age)
         end
 
         desc = 'Lists all branches regardless of age or name options; ' +
           'useful for overriding ' + File.basename(Twig::Options::CONFIG_FILE)
         opts.on('--all', desc) do |pattern|
           unset_option(:max_days_old)
-          unset_option(:name_except)
-          unset_option(:name_only)
+          unset_option(:branch_except)
+          unset_option(:branch_only)
         end
 
         desc = 'Show version'

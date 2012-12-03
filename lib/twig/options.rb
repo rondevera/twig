@@ -15,10 +15,10 @@ class Twig
 
         opts.each do |key, value|
           case key
-          when 'b', 'branch'  then set_option(:branch,       value)
-          when 'max-days-old' then set_option(:max_days_old, value)
-          when 'only-name'    then set_option(:name_only,    value)
-          when 'except-name'  then set_option(:name_except,  value)
+          when 'b', 'branch'   then set_option(:branch,        value)
+          when 'except-branch' then set_option(:branch_except, value)
+          when 'only-branch'   then set_option(:branch_only,   value)
+          when 'max-days-old'  then set_option(:max_days_old,  value)
           end
         end
       end
@@ -32,16 +32,16 @@ class Twig
         else
           abort %{The branch "#{value}" could not be found.}
         end
+      when :branch_except
+        options[:branch_except] = Regexp.new(value)
+      when :branch_only
+        options[:branch_only] = Regexp.new(value)
       when :max_days_old
         if Twig::Util.numeric?(value)
           options[:max_days_old] = value.to_f
         else
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
-      when :name_only
-        options[:name_only] = Regexp.new(value)
-      when :name_except
-        options[:name_except] = Regexp.new(value)
       end
     end
 
