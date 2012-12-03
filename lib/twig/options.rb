@@ -15,7 +15,7 @@ class Twig
 
         opts.each do |key, value|
           case key
-          when 'b', 'branch'   then set_option(:branch,        value)
+          when 'branch'        then set_option(:branch,        value)
           when 'except-branch' then set_option(:branch_except, value)
           when 'only-branch'   then set_option(:branch_only,   value)
           when 'max-days-old'  then set_option(:max_days_old,  value)

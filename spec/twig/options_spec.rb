@@ -32,7 +32,7 @@ describe Twig::Options do
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
       file.should_receive(:read).and_return(%{
-        b:             test
+        branch:        test
         except-branch: test-except
         only-branch:   test-only
         max-days-old:  30.5
