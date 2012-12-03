@@ -33,6 +33,11 @@ class Twig
           unset_option(:branch_only)
         end
 
+        desc = 'Unset a branch property'
+        opts.on('--unset PROPERTY', desc) do |property_name|
+          set_option(:unset_property, property_name)
+        end
+
         desc = 'Show version'
         opts.on_tail('--version', desc) do
           puts Twig::VERSION
@@ -58,13 +63,15 @@ class Twig
     end
 
     def read_cli_args(args)
+      branch_name = options[:branch] || current_branch_name
+      property_to_unset = options.delete(:unset_property)
+
       if args[0]
         # Run command binary, if any, and exit here
         command_path = Twig.run("which twig-#{args[0]}")
         exec(command_path) unless command_path.empty?
 
         # Get/set branch property
-        branch_name = options[:branch] || current_branch_name
         if args[1]
           # `$ twig <key> <value>`
           puts set_branch_property(branch_name, args[0], args[1])
@@ -72,6 +79,9 @@ class Twig
           # `$ twig <key>`
           puts get_branch_property(branch_name, args[0])
         end
+      elsif property_to_unset
+        # `$ twig --unset <key>`
+        puts set_branch_property(branch_name, property_to_unset, nil)
       else
         # `$ twig`
         puts list_branches
