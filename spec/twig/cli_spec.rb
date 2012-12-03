@@ -8,7 +8,7 @@ describe Twig::Cli do
     end
 
     it 'recognizes `-b` and sets a `:branch` option' do
-      @twig.should_receive(:branch_names).and_return(%w[test])
+      @twig.should_receive(:branch_names).and_return(['test'])
       @twig.options[:branch].should be_nil # Precondition
 
       @twig.read_cli_options(%w[-b test])
@@ -17,12 +17,24 @@ describe Twig::Cli do
     end
 
     it 'recognizes `--branch` and sets a `:branch` option' do
-      @twig.should_receive(:branch_names).and_return(%w[test])
+      @twig.should_receive(:branch_names).and_return(['test'])
       @twig.options[:branch].should be_nil # Precondition
 
       @twig.read_cli_options(%w[--branch test])
 
       @twig.options[:branch].should == 'test'
+    end
+
+    it 'recognizes `--except-branch` and sets a `:branch_except` option' do
+      @twig.options[:branch_except].should be_nil # Precondition
+      @twig.read_cli_options(%w[--except-branch test])
+      @twig.options[:branch_except].should == /test/
+    end
+
+    it 'recognizes `--only-branch` and sets a `:branch_only` option' do
+      @twig.options[:branch_only].should be_nil # Precondition
+      @twig.read_cli_options(%w[--only-branch test])
+      @twig.options[:branch_only].should == /test/
     end
 
     it 'recognizes `--max-days-old` and sets a `:max_days_old` option' do
