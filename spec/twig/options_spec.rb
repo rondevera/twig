@@ -79,7 +79,7 @@ describe Twig::Options do
   end
 
   describe '#set_option' do
-    describe 'when setting a :branch option' do
+    context 'when setting a :branch option' do
       before :each do
         @twig.options[:branch].should be_nil # Precondition
       end

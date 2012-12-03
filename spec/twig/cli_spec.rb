@@ -98,7 +98,7 @@ describe Twig::Cli do
       @twig.read_cli_args([])
     end
 
-    describe 'running a subcommand' do
+    context 'running a subcommand' do
       before :each do
         Twig.stub(:run)
         @twig.stub(:current_branch_name => 'test')
@@ -122,7 +122,7 @@ describe Twig::Cli do
       end
     end
 
-    describe 'getting properties' do
+    context 'getting properties' do
       before :each do
         @branch_name    = 'test'
         @property_name  = 'foo'
@@ -149,7 +149,7 @@ describe Twig::Cli do
       end
     end
 
-    describe 'setting properties' do
+    context 'setting properties' do
       before :each do
         @branch_name    = 'test'
         @property_name  = 'foo'
