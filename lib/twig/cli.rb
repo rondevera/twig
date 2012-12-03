@@ -38,6 +38,20 @@ class Twig
           puts Twig::VERSION
           exit
         end
+
+        # Deprecated:
+
+        desc = 'Deprecated. Use `--only-branch` instead.'
+        opts.on('--only-name PATTERN', desc) do |pattern|
+          puts "\n`--only-name` is deprecated. Please use `--only-branch` instead.\n"
+          set_option(:branch_only, pattern)
+        end
+
+        desc = 'Deprecated. Use `--except-branch` instead.'
+        opts.on('--except-name PATTERN', desc) do |pattern|
+          puts "\n`--except-name` is deprecated. Please use `--except-branch` instead.\n"
+          set_option(:branch_except, pattern)
+        end
       end
 
       option_parser.parse!(args)

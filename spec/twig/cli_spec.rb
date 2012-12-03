@@ -61,6 +61,28 @@ describe Twig::Cli do
 
       @twig.read_cli_options(%w[--version])
     end
+
+    context 'deprecated options' do
+      it 'recognizes `--except-name` and sets a `:branch_except` option' do
+        @twig.options[:branch_except].should be_nil # Precondition
+        @twig.should_receive(:puts).
+          with("\n`--except-name` is deprecated. Please use `--except-branch` instead.\n")
+
+        @twig.read_cli_options(%w[--except-name test])
+
+        @twig.options[:branch_except].should == /test/
+      end
+
+      it 'recognizes `--only-name` and sets a `:branch_only` option' do
+        @twig.options[:branch_only].should be_nil # Precondition
+        @twig.should_receive(:puts).
+          with("\n`--only-name` is deprecated. Please use `--only-branch` instead.\n")
+
+        @twig.read_cli_options(%w[--only-name test])
+
+        @twig.options[:branch_only].should == /test/
+      end
+    end
   end
 
   describe '#read_cli_args' do
