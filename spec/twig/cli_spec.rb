@@ -33,14 +33,14 @@ describe Twig::Cli do
 
     it 'recognizes `--all` and unsets other options except `:branch`' do
       @twig.set_option(:max_days_old, 30)
-      @twig.set_option(:name_except, /test/)
-      @twig.set_option(:name_only, /test/)
+      @twig.set_option(:branch_except, /test/)
+      @twig.set_option(:branch_only, /test/)
 
       @twig.read_cli_options(%w[--all])
 
       @twig.options[:max_days_old].should be_nil
-      @twig.options[:name_except].should be_nil
-      @twig.options[:name_only].should be_nil
+      @twig.options[:branch_except].should be_nil
+      @twig.options[:branch_only].should be_nil
     end
 
     it 'recognizes `--version` and prints the current version' do

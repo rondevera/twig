@@ -19,9 +19,9 @@ class Twig
 
   def initialize(options = {})
     # Options:
+    # - :branch_except (Regexp)
+    # - :branch_only (Regexp)
     # - :max_days_old (integer)
-    # - :name_except (Regexp)
-    # - :name_only (Regexp)
 
     self.options = options
   end
@@ -64,8 +64,8 @@ class Twig
         next if seconds_old > max_seconds_old
       end
 
-      next if options[:name_only]   && branch.name !~ options[:name_only]
-      next if options[:name_except] && branch.name =~ options[:name_except]
+      next if options[:branch_except] && branch.name =~ options[:branch_except]
+      next if options[:branch_only]   && branch.name !~ options[:branch_only]
 
       true
     end

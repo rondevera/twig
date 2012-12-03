@@ -96,21 +96,21 @@ describe Twig do
       @twig.branches.should == @branches
     end
 
-    it 'returns only branches below a certain age' do
-      @twig.set_option(:max_days_old, 25)
-      @twig.branches.map { |branch| branch.name }.
-        should == [@branches[0].name, @branches[1].name]
-    end
-
     it 'returns only branches matching a name pattern' do
-      @twig.set_option(:name_only, /fix_some/)
+      @twig.set_option(:branch_only, /fix_some/)
       @twig.branches.map { |branch| branch.name }.
         should == [@branches[0].name, @branches[1].name]
     end
 
     it 'returns all branches except those matching a name pattern' do
-      @twig.set_option(:name_except, /fix_some/)
+      @twig.set_option(:branch_except, /fix_some/)
       @twig.branches.map { |branch| branch.name }.should == [@branches[2].name]
+    end
+
+    it 'returns only branches below a certain age' do
+      @twig.set_option(:max_days_old, 25)
+      @twig.branches.map { |branch| branch.name }.
+        should == [@branches[0].name, @branches[1].name]
     end
   end
 

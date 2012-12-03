@@ -32,22 +32,22 @@ describe Twig::Options do
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
       file.should_receive(:read).and_return(%{
-        b:            test
-        max-days-old: 30.5
-        only-name:    test-only
-        except-name:  test-except
+        b:             test
+        except-branch: test-except
+        only-branch:   test-only
+        max-days-old:  30.5
       }.gsub(/^\s+/, ''))
       @twig.options[:branch].should be_nil # Precondition
+      @twig.options[:branch_except].should be_nil # Precondition
+      @twig.options[:branch_only].should be_nil # Precondition
       @twig.options[:max_days_old].should be_nil # Precondition
-      @twig.options[:name_only].should be_nil # Precondition
-      @twig.options[:name_except].should be_nil # Precondition
 
       @twig.read_config_file
 
       @twig.options[:branch].should == 'test'
+      @twig.options[:branch_except].should == /test-except/
+      @twig.options[:branch_only].should == /test-only/
       @twig.options[:max_days_old].should == 30.5
-      @twig.options[:name_only].should == /test-only/
-      @twig.options[:name_except].should == /test-except/
     end
 
     it 'fails gracefully if the config file is not readable' do
@@ -95,16 +95,16 @@ describe Twig::Options do
       end
     end
 
-    it 'sets a :name_only option' do
-      @twig.options[:name_only].should be_nil # Precondition
-      @twig.set_option(:name_only, 'important_prefix_')
-      @twig.options[:name_only].should == /important_prefix_/
+    it 'sets a :branch_only option' do
+      @twig.options[:branch_only].should be_nil # Precondition
+      @twig.set_option(:branch_only, 'important_prefix_')
+      @twig.options[:branch_only].should == /important_prefix_/
     end
 
-    it 'sets a :name_except option' do
-      @twig.options[:name_except].should be_nil # Precondition
-      @twig.set_option(:name_except, 'unwanted_prefix_')
-      @twig.options[:name_except].should == /unwanted_prefix_/
+    it 'sets a :branch_except option' do
+      @twig.options[:branch_except].should be_nil # Precondition
+      @twig.set_option(:branch_except, 'unwanted_prefix_')
+      @twig.options[:branch_except].should == /unwanted_prefix_/
     end
   end
 
