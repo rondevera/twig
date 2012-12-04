@@ -57,8 +57,13 @@ class Twig
     end
 
     def unset_property(property_name)
-      Twig.run(%{git config --unset branch.#{name}.#{property_name}})
-      %{Removed property "#{property_name}" for branch "#{name}".}
+      property = get_property(property_name)
+      if property && !property.empty?
+        Twig.run(%{git config --unset branch.#{name}.#{property_name}})
+        %{Removed property "#{property_name}" for branch "#{name}".}
+      else
+        %{The branch "#{name}" does not have the property "#{property_name}".}
+      end
     end
 
   end

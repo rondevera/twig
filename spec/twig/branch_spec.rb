@@ -187,12 +187,23 @@ describe Twig::Branch do
 
     it 'unsets a branch property' do
       property = 'test'
+      @branch.should_receive(:get_property).with(property).and_return('value')
       Twig.should_receive(:run).
         with(%{git config --unset branch.#{@branch.name}.#{property}})
 
       result = @branch.unset_property(property)
       result.should include(
         %{Removed property "#{property}" for branch "#{@branch.name}"}
+      )
+    end
+
+    it 'returns an error if the branch does not have the given property' do
+      property = 'test'
+      @branch.should_receive(:get_property).with(property).and_return('')
+
+      result = @branch.unset_property(property)
+      result.should include(
+        %{The branch "#{@branch.name}" does not have the property "#{property}"}
       )
     end
   end
