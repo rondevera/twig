@@ -138,13 +138,22 @@ describe Twig::Branch do
       )
     end
 
-    it 'refuses to set a reserved branch property' do
+    it 'returns an error if trying to set a reserved branch property' do
       property = 'merge'
       value    = 'NOOO'
       Twig.should_not_receive(:run)
 
       result = @branch.set_property(property, value)
       result.should include(%{Can't modify the reserved property "#{property}"})
+    end
+
+    it 'returns an error if trying to set a branch property to an empty string' do
+      property = 'test'
+      value    = ''
+      Twig.should_not_receive(:run)
+
+      result = @branch.set_property(property, value)
+      result.should include(%{Can't set a branch property to an empty string})
     end
 
     it 'removes whitespace from branch property names' do
