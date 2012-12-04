@@ -45,9 +45,6 @@ class Twig
 
       if RESERVED_BRANCH_PROPERTIES.include?(property_name)
         %{Can't modify the reserved property "#{property_name}".}
-      elsif value.empty?
-        Twig.run(%{git config --unset branch.#{name}.#{property_name}})
-        %{Removed property "#{property_name}" for branch "#{name}".}
       else
         Twig.run(%{git config branch.#{name}.#{property_name} "#{value}"})
         result_body = %{property "#{property_name}" as "#{value}" for branch "#{name}".}
@@ -57,6 +54,11 @@ class Twig
           "Could not save #{result_body}"
         end
       end
+    end
+
+    def unset_property(property_name)
+      Twig.run(%{git config --unset branch.#{name}.#{property_name}})
+      %{Removed property "#{property_name}" for branch "#{name}".}
     end
 
   end
