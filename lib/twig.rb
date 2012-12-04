@@ -95,7 +95,13 @@ class Twig
 
   def get_branch_property(branch_name, property_name)
     branch = Branch.new(branch_name)
-    branch.get_property(property_name)
+    value  = branch.get_property(property_name)
+
+    if value && !value.empty?
+      value
+    else
+      %{The branch "#{branch}" does not have the property "#{property_name}".}
+    end
   end
 
   def set_branch_property(branch_name, property_name, value)
