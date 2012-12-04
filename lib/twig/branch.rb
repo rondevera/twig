@@ -41,7 +41,7 @@ class Twig
 
     def set_property(property_name, value)
       property_name = sanitize_property(property_name)
-      value = value.to_s
+      value = value.to_s.strip
 
       if RESERVED_BRANCH_PROPERTIES.include?(property_name)
         %{Can't modify the reserved property "#{property_name}".}

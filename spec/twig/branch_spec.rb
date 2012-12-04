@@ -187,6 +187,21 @@ describe Twig::Branch do
         %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
       )
     end
+
+    it 'strips whitespace from a value before setting it as a property' do
+      property  = 'test'
+      bad_value = '  foo  '
+      value     = 'foo'
+      Twig.should_receive(:run).
+        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
+          `(exit 0)`; value # Set `$?` to `0`
+        end
+
+      result = @branch.set_property(property, bad_value)
+      result.should include(
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+      )
+    end
   end
 
   describe '#unset_property' do
