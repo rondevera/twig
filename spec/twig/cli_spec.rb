@@ -222,8 +222,8 @@ describe Twig::Cli do
 
       it 'unsets a property for the current branch' do
         @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:set_branch_property).
-          with(@branch_name, @property_name, nil).and_return(@message)
+        @twig.should_receive(:unset_branch_property).
+          with(@branch_name, @property_name).and_return(@message)
         @twig.should_receive(:puts).with(@message)
 
         @twig.read_cli_args([])
@@ -232,8 +232,8 @@ describe Twig::Cli do
       it 'unsets a property for a specified branch' do
         @twig.should_receive(:branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
-        @twig.should_receive(:set_branch_property).
-          with(@branch_name, @property_name, nil).and_return(@message)
+        @twig.should_receive(:unset_branch_property).
+          with(@branch_name, @property_name).and_return(@message)
         @twig.should_receive(:puts).with(@message)
 
         @twig.read_cli_args([])

@@ -179,14 +179,26 @@ describe Twig do
 
   describe '#set_branch_property' do
     it 'calls `Twig::Branch#set_property`' do
-      twig = Twig.new
+      twig   = Twig.new
       branch = Twig::Branch.new('test')
-      property_name = 'foo'
+      property_name  = 'foo'
       property_value = 'bar'
       Twig::Branch.should_receive(:new).with(branch.name).and_return(branch)
       branch.should_receive(:set_property).with(property_name, property_value)
 
       twig.set_branch_property(branch.name, property_name, property_value)
+    end
+  end
+
+  describe '#unset_branch_property' do
+    it 'calls `Twig::Branch#unset_property`' do
+      twig   = Twig.new
+      branch = Twig::Branch.new('test')
+      property_name = 'foo'
+      Twig::Branch.should_receive(:new).with(branch.name).and_return(branch)
+      branch.should_receive(:unset_property).with(property_name)
+
+      twig.unset_branch_property(branch.name, property_name)
     end
   end
 
