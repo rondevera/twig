@@ -103,4 +103,9 @@ class Twig
     branch.set_property(property_name, value)
   end
 
+  def unset_branch_property(branch_name, property_name)
+    branch = Branch.new(branch_name)
+    branch.unset_property(property_name)
+  end
+
 end

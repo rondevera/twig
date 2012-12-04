@@ -86,7 +86,7 @@ class Twig
         end
       elsif property_to_unset
         # `$ twig --unset <key>`
-        puts set_branch_property(branch_name, property_to_unset, nil)
+        puts unset_branch_property(branch_name, property_to_unset)
       else
         # `$ twig`
         puts list_branches
