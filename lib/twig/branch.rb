@@ -31,12 +31,16 @@ class Twig
 
     def to_s ; name ; end
 
+    def sanitize_property(property_name)
+      property_name.gsub(/[ _]+/, '')
+    end
+
     def get_property(property_name)
       Twig.run("git config branch.#{name}.#{property_name}")
     end
 
     def set_property(property_name, value)
-      property_name = property_name.gsub(/[ _]+/, '')
+      property_name = sanitize_property(property_name)
       value = value.to_s
 
       if RESERVED_BRANCH_PROPERTIES.include?(property_name)
