@@ -12,13 +12,13 @@ Installation
 Usage
 =====
 
-* List branches: `twig`
+* List all branches with properties: `twig`
 * Get property for current branch:   `twig <property>`
 * Set property for current branch:   `twig <property> <value>`
 * Unset property for current branch: `twig --unset <property>`
-* Get property for any branch:   `twig <property> -b <branch>`
-* Set property for any branch:   `twig <property> <value> -b <branch>`
-* Unset property for any branch: `twig --unset <property> -b <branch>`
+* Get property for any branch:       `twig <property> -b <branch>`
+* Set property for any branch:       `twig <property> <value> -b <branch>`
+* Unset property for any branch:     `twig --unset <property> -b <branch>`
 
 
 Examples
