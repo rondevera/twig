@@ -99,7 +99,7 @@ describe Twig::Branch do
       property = 'test'
       value    = 'value'
       Twig.should_receive(:run).
-        with(%{git config branch.#{branch.name}.#{property}}).
+        with(%{git config branch.#{branch}.#{property}}).
         and_return(value)
 
       result = branch.get_property(property)
@@ -116,13 +116,13 @@ describe Twig::Branch do
       property = 'test'
       value    = 'value'
       Twig.should_receive(:run).
-        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
+        with(%{git config branch.#{@branch}.#{property} "#{value}"}) do
           `(exit 0)`; value # Set `$?` to `0`
         end
 
       result = @branch.set_property(property, value)
       result.should include(
-        %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
     end
 
@@ -133,7 +133,7 @@ describe Twig::Branch do
 
       result = @branch.set_property(property, value)
       result.should include(
-        %{Could not save property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+        %{Could not save property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
     end
 
@@ -160,13 +160,13 @@ describe Twig::Branch do
       property     = 'foofoo'
       value        = 'bar'
       Twig.should_receive(:run).
-        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
+        with(%{git config branch.#{@branch}.#{property} "#{value}"}) do
           `(exit 0)`; value # Set `$?` to `0`
         end
 
       result = @branch.set_property(bad_property, value)
       result.should include(
-        %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
     end
 
@@ -175,13 +175,13 @@ describe Twig::Branch do
       property     = 'foofoo'
       value        = 'bar'
       Twig.should_receive(:run).
-        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
+        with(%{git config branch.#{@branch}.#{property} "#{value}"}) do
           `(exit 0)`; value # Set `$?` to `0`
         end
 
       result = @branch.set_property(bad_property, value)
       result.should include(
-        %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
     end
 
@@ -190,13 +190,13 @@ describe Twig::Branch do
       bad_value = '  foo  '
       value     = 'foo'
       Twig.should_receive(:run).
-        with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
+        with(%{git config branch.#{@branch}.#{property} "#{value}"}) do
           `(exit 0)`; value # Set `$?` to `0`
         end
 
       result = @branch.set_property(property, bad_value)
       result.should include(
-        %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
     end
   end
@@ -210,11 +210,11 @@ describe Twig::Branch do
       property = 'test'
       @branch.should_receive(:get_property).with(property).and_return('value')
       Twig.should_receive(:run).
-        with(%{git config --unset branch.#{@branch.name}.#{property}})
+        with(%{git config --unset branch.#{@branch}.#{property}})
 
       result = @branch.unset_property(property)
       result.should include(
-        %{Removed property "#{property}" for branch "#{@branch.name}"}
+        %{Removed property "#{property}" for branch "#{@branch}"}
       )
     end
 
@@ -224,7 +224,7 @@ describe Twig::Branch do
 
       result = @branch.unset_property(property)
       result.should include(
-        %{The branch "#{@branch.name}" does not have the property "#{property}"}
+        %{The branch "#{@branch}" does not have the property "#{property}"}
       )
     end
   end
