@@ -79,6 +79,20 @@ describe Twig::Branch do
     end
   end
 
+  describe '#sanitize_property' do
+    before :each do
+      @branch = Twig::Branch.new('test')
+    end
+
+    it 'removes whitespace from branch property names' do
+      @branch.sanitize_property('  foo bar  ').should == 'foobar'
+    end
+
+    it 'removes underscores from branch property names' do
+      @branch.sanitize_property('__foo_bar__').should == 'foobar'
+    end
+  end
+
   describe '#get_property' do
     it 'returns a property value' do
       branch   = Twig::Branch.new('test')
