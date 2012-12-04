@@ -178,13 +178,19 @@ describe Twig::Branch do
         %{Saved property "#{property}" as "#{value}" for branch "#{@branch.name}"}
       )
     end
+  end
+
+  describe '#unset_property' do
+    before :each do
+      @branch = Twig::Branch.new('test')
+    end
 
     it 'unsets a branch property' do
       property = 'test'
       Twig.should_receive(:run).
         with(%{git config --unset branch.#{@branch.name}.#{property}})
 
-      result = @branch.set_property(property, '')
+      result = @branch.unset_property(property)
       result.should include(
         %{Removed property "#{property}" for branch "#{@branch.name}"}
       )
