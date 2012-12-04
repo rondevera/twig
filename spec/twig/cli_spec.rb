@@ -153,6 +153,33 @@ describe Twig::Cli do
 
         @twig.read_cli_args([@property_name])
       end
+
+      it 'shows an error if getting a property that is not set for the current branch' do
+        @twig.should_receive(:current_branch_name).and_return(@branch_name)
+        @twig.should_receive(:get_branch_property).
+          with(@branch_name, @property_name).and_return('')
+        @twig.should_receive(:puts) do |*args|
+          args[0].should include(
+            %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
+          )
+        end
+
+        @twig.read_cli_args([@property_name])
+      end
+
+      it 'shows an error if getting a property that is not set for a specified branch' do
+        @twig.should_receive(:branch_names).and_return([@branch_name])
+        @twig.set_option(:branch, @branch_name)
+        @twig.should_receive(:get_branch_property).
+          with(@branch_name, @property_name).and_return('')
+        @twig.should_receive(:puts) do |*args|
+          args[0].should include(
+            %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
+          )
+        end
+
+        @twig.read_cli_args([@property_name])
+      end
     end
 
     context 'setting properties' do

@@ -175,17 +175,6 @@ describe Twig do
       result = @twig.get_branch_property(@branch.name, property_name)
       result.should == property_value
     end
-
-    it 'returns an error if the branch does not have the given property' do
-      property_name = 'foo'
-      Twig::Branch.should_receive(:new).with(@branch.name).and_return(@branch)
-      @branch.should_receive(:get_property).with(property_name).and_return('')
-
-      result = @twig.get_branch_property(@branch.name, property_name)
-      result.should include(
-        %{The branch "#{@branch}" does not have the property "#{property_name}"}
-      )
-    end
   end
 
   describe '#set_branch_property' do

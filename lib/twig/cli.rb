@@ -77,7 +77,12 @@ class Twig
           puts set_branch_property(branch_name, args[0], args[1])
         else
           # `$ twig <key>`
-          puts get_branch_property(branch_name, args[0])
+          value = get_branch_property(branch_name, args[0])
+          if value && !value.empty?
+            puts value
+          else
+            puts %{The branch "#{branch_name}" does not have the property "#{args[0]}".}
+          end
         end
       elsif property_to_unset
         # `$ twig --unset <key>`
