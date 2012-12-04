@@ -117,8 +117,7 @@ describe Twig::Branch do
       value    = 'value'
       Twig.should_receive(:run).
         with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
-          `(exit 0)` # Set `$?` to `0`
-          value
+          `(exit 0)`; value # Set `$?` to `0`
         end
 
       result = @branch.set_property(property, value)
@@ -162,8 +161,7 @@ describe Twig::Branch do
       value        = 'bar'
       Twig.should_receive(:run).
         with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
-          `(exit 0)` # Set `$?` to `0`
-          value
+          `(exit 0)`; value # Set `$?` to `0`
         end
 
       result = @branch.set_property(bad_property, value)
@@ -178,8 +176,7 @@ describe Twig::Branch do
       value        = 'bar'
       Twig.should_receive(:run).
         with(%{git config branch.#{@branch.name}.#{property} "#{value}"}) do
-          `(exit 0)` # Set `$?` to `0`
-          value
+          `(exit 0)`; value # Set `$?` to `0`
         end
 
       result = @branch.set_property(bad_property, value)
