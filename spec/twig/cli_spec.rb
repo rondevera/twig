@@ -2,6 +2,39 @@ require 'spec_helper'
 
 describe Twig::Cli do
 
+  describe '#help_description' do
+    before :each do
+      @twig = Twig.new
+    end
+
+    it 'returns short text in a single line' do
+      text = 'The quick brown fox.'
+      result = @twig.help_description(text, :width => 80)
+      result.should == [text, ' ']
+    end
+
+    it 'returns long text in a string with line breaks' do
+      text = 'The quick brown fox jumps over the lazy, lazy dog.'
+      result = @twig.help_description(text, :width => 20)
+      result.should == [
+        'The quick brown fox',
+        'jumps over the lazy,',
+        'lazy dog.',
+        ' '
+      ]
+    end
+
+    it 'breaks a long word by max line length' do
+      text = 'Thequickbrownfoxjumpsoverthelazydog.'
+      result = @twig.help_description(text, :width => 20)
+      result.should == [
+        'Thequickbrownfoxjump',
+        'soverthelazydog.',
+        ' '
+      ]
+    end
+  end
+
   describe '#read_cli_options' do
     before :each do
       @twig = Twig.new
