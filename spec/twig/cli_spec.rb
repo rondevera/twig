@@ -135,51 +135,59 @@ describe Twig::Cli do
         @property_value = 'bar'
       end
 
-      it 'gets a property for the current branch' do
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:get_branch_property).
-          with(@branch_name, @property_name).and_return(@property_value)
-        @twig.should_receive(:puts).with(@property_value)
-
-        @twig.read_cli_args([@property_name])
-      end
-
-      it 'gets a property for a specified branch' do
-        @twig.should_receive(:branch_names).and_return([@branch_name])
-        @twig.set_option(:branch, @branch_name)
-        @twig.should_receive(:get_branch_property).
-          with(@branch_name, @property_name).and_return(@property_value)
-        @twig.should_receive(:puts).with(@property_value)
-
-        @twig.read_cli_args([@property_name])
-      end
-
-      it 'shows an error if getting a property that is not set for the current branch' do
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:get_branch_property).
-          with(@branch_name, @property_name).and_return('')
-        @twig.should_receive(:puts) do |*args|
-          args[0].should include(
-            %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
-          )
+      context 'with the current branch' do
+        before :each do
+          @twig.should_receive(:current_branch_name).and_return(@branch_name)
         end
 
-        @twig.read_cli_args([@property_name])
-      end
+        it 'gets a property' do
+          @twig.should_receive(:get_branch_property).
+            with(@branch_name, @property_name).and_return(@property_value)
+          @twig.should_receive(:puts).with(@property_value)
 
-      it 'shows an error if getting a property that is not set for a specified branch' do
-        @twig.should_receive(:branch_names).and_return([@branch_name])
-        @twig.set_option(:branch, @branch_name)
-        @twig.should_receive(:get_branch_property).
-          with(@branch_name, @property_name).and_return('')
-        @twig.should_receive(:puts) do |*args|
-          args[0].should include(
-            %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
-          )
+          @twig.read_cli_args([@property_name])
         end
 
-        @twig.read_cli_args([@property_name])
+        it 'shows an error if getting a property that is not set' do
+          @twig.should_receive(:get_branch_property).
+            with(@branch_name, @property_name).and_return('')
+          @twig.should_receive(:puts) do |error|
+            error.should include(
+              %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
+            )
+          end
+
+          @twig.read_cli_args([@property_name])
+        end
       end
+
+      context 'with a specified branch' do
+        before :each do
+          @twig.should_receive(:branch_names).and_return([@branch_name])
+          @twig.set_option(:branch, @branch_name)
+        end
+
+        it 'gets a property' do
+          @twig.should_receive(:get_branch_property).
+            with(@branch_name, @property_name).and_return(@property_value)
+          @twig.should_receive(:puts).with(@property_value)
+
+          @twig.read_cli_args([@property_name])
+        end
+
+        it 'shows an error if getting a property that is not set' do
+          @twig.should_receive(:get_branch_property).
+            with(@branch_name, @property_name).and_return('')
+          @twig.should_receive(:puts) do |error|
+            error.should include(
+              %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
+            )
+          end
+
+          @twig.read_cli_args([@property_name])
+        end
+      end
+
     end
 
     context 'setting properties' do
