@@ -3,12 +3,51 @@ require 'optparse'
 class Twig
   module Cli
 
+    def help_intro
+      version_string = "Twig v#{Twig::VERSION}"
+
+      <<-BANNER.gsub(/^[ ]+/, '')
+
+        #{version_string}
+        #{'-' * version_string.size}
+
+        Twig tracks ticket ids, tasks, and other metadata for your Git branches.
+        https://github.com/rondevera/twig
+
+      BANNER
+    end
+
+    def help_separator(option_parser, text)
+      option_parser.separator "\n#{text}\n\n"
+    end
+
     def read_cli_options(args)
       option_parser = OptionParser.new do |opts|
+        opts.banner = help_intro
+
+        help_separator(opts, 'Common options:')
+
         desc = 'Use specific branch'
         opts.on('-b BRANCH', '--branch BRANCH', desc) do |branch|
           set_option(:branch, branch)
         end
+
+        desc = 'Unset a branch property'
+        opts.on('--unset PROPERTY', desc) do |property_name|
+          set_option(:unset_property, property_name)
+        end
+
+        desc = 'Show this help content'
+        opts.on('--help', desc) do
+          puts opts; exit
+        end
+
+        desc = 'Show Twig version'
+        opts.on('--version', desc) do
+          puts Twig::VERSION; exit
+        end
+
+        help_separator(opts, 'Filtering branches:')
 
         desc = 'Only list branches whose name matches a given pattern'
         opts.on('--only-branch PATTERN', desc) do |pattern|
@@ -33,18 +72,7 @@ class Twig
           unset_option(:branch_only)
         end
 
-        desc = 'Unset a branch property'
-        opts.on('--unset PROPERTY', desc) do |property_name|
-          set_option(:unset_property, property_name)
-        end
-
-        desc = 'Show version'
-        opts.on_tail('--version', desc) do
-          puts Twig::VERSION
-          exit
-        end
-
-        # Deprecated:
+        help_separator(opts, 'Deprecated:')
 
         desc = 'Deprecated. Use `--only-branch` instead.'
         opts.on('--only-name PATTERN', desc) do |pattern|
