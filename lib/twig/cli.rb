@@ -66,22 +66,24 @@ class Twig
       branch_name = options[:branch] || current_branch_name
       property_to_unset = options.delete(:unset_property)
 
-      if args[0]
+      if args.any?
+        property_name, property_value = args[0], args[1]
+
         # Run command binary, if any, and exit here
-        command_path = Twig.run("which twig-#{args[0]}")
+        command_path = Twig.run("which twig-#{property_name}")
         exec(command_path) unless command_path.empty?
 
         # Get/set branch property
-        if args[1]
+        if property_value
           # `$ twig <key> <value>`
-          puts set_branch_property(branch_name, args[0], args[1])
+          puts set_branch_property(branch_name, property_name, property_value)
         else
           # `$ twig <key>`
-          value = get_branch_property(branch_name, args[0])
+          value = get_branch_property(branch_name, property_name)
           if value && !value.empty?
             puts value
           else
-            puts %{The branch "#{branch_name}" does not have the property "#{args[0]}".}
+            puts %{The branch "#{branch_name}" does not have the property "#{property_name}".}
           end
         end
       elsif property_to_unset
