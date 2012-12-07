@@ -3,7 +3,7 @@ class Twig
 
     CONFIG_FILE = '~/.twigrc'
 
-    def read_config_file
+    def read_config_file!
       config_file_path = File.expand_path(Twig::CONFIG_FILE)
       return unless File.readable?(config_file_path)
 

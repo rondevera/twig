@@ -35,7 +35,7 @@ describe Twig::Cli do
     end
   end
 
-  describe '#read_cli_options' do
+  describe '#read_cli_options!' do
     before :each do
       @twig = Twig.new
     end
@@ -44,7 +44,7 @@ describe Twig::Cli do
       @twig.should_receive(:branch_names).and_return(['test'])
       @twig.options[:branch].should be_nil # Precondition
 
-      @twig.read_cli_options(%w[-b test])
+      @twig.read_cli_options!(%w[-b test])
 
       @twig.options[:branch].should == 'test'
     end
@@ -53,26 +53,26 @@ describe Twig::Cli do
       @twig.should_receive(:branch_names).and_return(['test'])
       @twig.options[:branch].should be_nil # Precondition
 
-      @twig.read_cli_options(%w[--branch test])
+      @twig.read_cli_options!(%w[--branch test])
 
       @twig.options[:branch].should == 'test'
     end
 
     it 'recognizes `--except-branch` and sets a `:branch_except` option' do
       @twig.options[:branch_except].should be_nil # Precondition
-      @twig.read_cli_options(%w[--except-branch test])
+      @twig.read_cli_options!(%w[--except-branch test])
       @twig.options[:branch_except].should == /test/
     end
 
     it 'recognizes `--only-branch` and sets a `:branch_only` option' do
       @twig.options[:branch_only].should be_nil # Precondition
-      @twig.read_cli_options(%w[--only-branch test])
+      @twig.read_cli_options!(%w[--only-branch test])
       @twig.options[:branch_only].should == /test/
     end
 
     it 'recognizes `--max-days-old` and sets a `:max_days_old` option' do
       @twig.options[:max_days_old].should be_nil # Precondition
-      @twig.read_cli_options(%w[--max-days-old 30])
+      @twig.read_cli_options!(%w[--max-days-old 30])
       @twig.options[:max_days_old].should == 30
     end
 
@@ -81,7 +81,7 @@ describe Twig::Cli do
       @twig.set_option(:branch_except, /test/)
       @twig.set_option(:branch_only, /test/)
 
-      @twig.read_cli_options(%w[--all])
+      @twig.read_cli_options!(%w[--all])
 
       @twig.options[:max_days_old].should be_nil
       @twig.options[:branch_except].should be_nil
@@ -90,7 +90,7 @@ describe Twig::Cli do
 
     it 'recognizes `--unset` and sets an `:unset_property` option' do
       @twig.options[:unset_property].should be_nil # Precondition
-      @twig.read_cli_options(%w[--unset test])
+      @twig.read_cli_options!(%w[--unset test])
       @twig.options[:unset_property].should == 'test'
     end
 
@@ -98,7 +98,7 @@ describe Twig::Cli do
       @twig.should_receive(:puts).with(Twig::VERSION)
       @twig.should_receive(:exit)
 
-      @twig.read_cli_options(%w[--version])
+      @twig.read_cli_options!(%w[--version])
     end
 
     context 'deprecated options' do
@@ -107,7 +107,7 @@ describe Twig::Cli do
         @twig.should_receive(:puts).
           with("\n`--except-name` is deprecated. Please use `--except-branch` instead.\n")
 
-        @twig.read_cli_options(%w[--except-name test])
+        @twig.read_cli_options!(%w[--except-name test])
 
         @twig.options[:branch_except].should == /test/
       end
@@ -117,14 +117,14 @@ describe Twig::Cli do
         @twig.should_receive(:puts).
           with("\n`--only-name` is deprecated. Please use `--only-branch` instead.\n")
 
-        @twig.read_cli_options(%w[--only-name test])
+        @twig.read_cli_options!(%w[--only-name test])
 
         @twig.options[:branch_only].should == /test/
       end
     end
   end
 
-  describe '#read_cli_args' do
+  describe '#read_cli_args!' do
     before :each do
       @twig = Twig.new
     end
@@ -134,7 +134,7 @@ describe Twig::Cli do
       @twig.should_receive(:list_branches).and_return(branch_list)
       @twig.should_receive(:puts).with(branch_list)
 
-      @twig.read_cli_args([])
+      @twig.read_cli_args!([])
     end
 
     context 'running a subcommand' do
@@ -150,14 +150,14 @@ describe Twig::Cli do
           and_return(command_path)
         @twig.should_receive(:exec).with(command_path)
 
-        @twig.read_cli_args(['subcommand'])
+        @twig.read_cli_args!(['subcommand'])
       end
 
       it 'does not recognize a subcommand' do
         Twig.should_receive(:run).with('which twig-subcommand').and_return('')
         @twig.should_not_receive(:exec)
 
-        @twig.read_cli_args(['subcommand'])
+        @twig.read_cli_args!(['subcommand'])
       end
     end
 
@@ -178,7 +178,7 @@ describe Twig::Cli do
             with(@branch_name, @property_name).and_return(@property_value)
           @twig.should_receive(:puts).with(@property_value)
 
-          @twig.read_cli_args([@property_name])
+          @twig.read_cli_args!([@property_name])
         end
 
         it 'shows an error if getting a property that is not set' do
@@ -190,7 +190,7 @@ describe Twig::Cli do
             )
           end
 
-          @twig.read_cli_args([@property_name])
+          @twig.read_cli_args!([@property_name])
         end
       end
 
@@ -205,7 +205,7 @@ describe Twig::Cli do
             with(@branch_name, @property_name).and_return(@property_value)
           @twig.should_receive(:puts).with(@property_value)
 
-          @twig.read_cli_args([@property_name])
+          @twig.read_cli_args!([@property_name])
         end
 
         it 'shows an error if getting a property that is not set' do
@@ -217,7 +217,7 @@ describe Twig::Cli do
             )
           end
 
-          @twig.read_cli_args([@property_name])
+          @twig.read_cli_args!([@property_name])
         end
       end
 
@@ -238,7 +238,7 @@ describe Twig::Cli do
           and_return(@message)
         @twig.should_receive(:puts).with(@message)
 
-        @twig.read_cli_args([@property_name, @property_value])
+        @twig.read_cli_args!([@property_name, @property_value])
       end
 
       it 'sets a property for a specified branch' do
@@ -249,7 +249,7 @@ describe Twig::Cli do
           and_return(@message)
         @twig.should_receive(:puts).with(@message)
 
-        @twig.read_cli_args([@property_name, @property_value])
+        @twig.read_cli_args!([@property_name, @property_value])
       end
     end
 
@@ -267,7 +267,7 @@ describe Twig::Cli do
           with(@branch_name, @property_name).and_return(@message)
         @twig.should_receive(:puts).with(@message)
 
-        @twig.read_cli_args([])
+        @twig.read_cli_args!([])
       end
 
       it 'unsets a property for a specified branch' do
@@ -277,7 +277,7 @@ describe Twig::Cli do
           with(@branch_name, @property_name).and_return(@message)
         @twig.should_receive(:puts).with(@message)
 
-        @twig.read_cli_args([])
+        @twig.read_cli_args!([])
       end
     end
   end
