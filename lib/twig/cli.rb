@@ -40,7 +40,7 @@ class Twig
       lines + [' '] # Add a blank line
     end
 
-    def read_cli_options(args)
+    def read_cli_options!(args)
       option_parser = OptionParser.new do |opts|
         opts.banner         = help_intro
         opts.summary_indent = ' ' * 2
@@ -130,16 +130,26 @@ class Twig
       option_parser.parse!(args)
     end
 
-    def read_cli_args(args)
+    def read_cli_args!(args)
+      if args.any?
+        # Run subcommand binary, if any, and exit here
+        possible_subcommand_name = args[0]
+        command_path = Twig.run("which twig-#{possible_subcommand_name}")
+        unless command_path.empty?
+          command = ([command_path] + args[1..-1]).join(' ')
+          exec(command)
+        end
+      end
+
+      read_cli_options!(args)
       branch_name = options[:branch] || current_branch_name
       property_to_unset = options.delete(:unset_property)
 
+      # Handle remaining arguments, if any
       if args.any?
         property_name, property_value = args[0], args[1]
 
-        # Run command binary, if any, and exit here
-        command_path = Twig.run("which twig-#{property_name}")
-        exec(command_path) unless command_path.empty?
+        read_cli_options!(args)
 
         # Get/set branch property
         if property_value

@@ -5,7 +5,7 @@ describe Twig::Options do
     @twig = Twig.new
   end
 
-  describe '#read_config_file' do
+  describe '#read_config_file!' do
     before :each do
       File.should_receive(:expand_path).with(Twig::CONFIG_FILE).
         and_return(Twig::CONFIG_FILE)
@@ -21,7 +21,7 @@ describe Twig::Options do
       }.gsub(/^\s+/, ''))
       @twig.options[:branch].should be_nil # Precondition
 
-      @twig.read_config_file
+      @twig.read_config_file!
 
       @twig.options[:branch].should == 'test'
     end
@@ -42,7 +42,7 @@ describe Twig::Options do
       @twig.options[:branch_only].should be_nil # Precondition
       @twig.options[:max_days_old].should be_nil # Precondition
 
-      @twig.read_config_file
+      @twig.read_config_file!
 
       @twig.options[:branch].should == 'test'
       @twig.options[:branch_except].should == /test-except/
@@ -66,7 +66,7 @@ describe Twig::Options do
       @twig.options[:branch_except].should be_nil # Precondition
       @twig.options[:branch_only].should be_nil # Precondition
 
-      @twig.read_config_file
+      @twig.read_config_file!
 
       @twig.options[:branch_except].should == /test-except/
       @twig.options[:branch_only].should == /test-only/
@@ -74,7 +74,7 @@ describe Twig::Options do
 
     it 'fails gracefully if the config file is not readable' do
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(false)
-      lambda { @twig.read_config_file }.should_not raise_exception
+      lambda { @twig.read_config_file! }.should_not raise_exception
     end
   end
 
