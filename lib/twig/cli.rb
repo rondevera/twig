@@ -22,7 +22,7 @@ class Twig
     end
 
     def help_description(text, options={})
-      width = options[:width] || 80
+      width = options[:width] || 40
       text  = text.dup
 
       # Split into lines
@@ -45,7 +45,6 @@ class Twig
         opts.banner         = help_intro
         opts.summary_indent = ' ' * 2
         opts.summary_width  = 32
-        desc_width          = 40
 
 
 
@@ -76,23 +75,21 @@ class Twig
         help_separator(opts, 'Filtering branches:')
 
         desc = help_description(
-          'Only list branches whose name matches a given pattern.',
-          :width => desc_width
+          'Only list branches whose name matches a given pattern.'
         )
         opts.on('--only-branch PATTERN', *desc) do |pattern|
           set_option(:branch_only, pattern)
         end
 
         desc = help_description(
-          'Do not list branches whose name matches a given pattern.',
-          :width => desc_width
+          'Do not list branches whose name matches a given pattern.'
         )
         opts.on('--except-branch PATTERN', *desc) do |pattern|
           set_option(:branch_except, pattern)
         end
 
         desc = help_description(
-          'Only list branches below a given age.', :width => desc_width
+          'Only list branches below a given age.'
         )
         opts.on('--max-days-old AGE', *desc) do |age|
           set_option(:max_days_old, age)
@@ -101,8 +98,7 @@ class Twig
         desc = help_description(
           'Lists all branches regardless of age or name options. ' +
           'Useful for overriding options in ' +
-          File.basename(Twig::Options::CONFIG_FILE) + '.',
-          :width => desc_width
+          File.basename(Twig::Options::CONFIG_FILE) + '.'
         )
         opts.on('--all', *desc) do |pattern|
           unset_option(:max_days_old)
