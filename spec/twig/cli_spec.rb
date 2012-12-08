@@ -10,7 +10,7 @@ describe Twig::Cli do
     it 'returns short text in a single line' do
       text = 'The quick brown fox.'
       result = @twig.help_description(text, :width => 80)
-      result.should == [text, ' ']
+      result.should == [text]
     end
 
     it 'returns long text in a string with line breaks' do
@@ -19,8 +19,7 @@ describe Twig::Cli do
       result.should == [
         'The quick brown fox',
         'jumps over the lazy,',
-        'lazy dog.',
-        ' '
+        'lazy dog.'
       ]
     end
 
@@ -29,9 +28,14 @@ describe Twig::Cli do
       result = @twig.help_description(text, :width => 20)
       result.should == [
         'Thequickbrownfoxjump',
-        'soverthelazydog.',
-        ' '
+        'soverthelazydog.'
       ]
+    end
+
+    it 'adds a separator line' do
+      text = 'The quick brown fox.'
+      result = @twig.help_description(text, :width => 80, :add_separator => true)
+      result.should == [text, ' ']
     end
   end
 
