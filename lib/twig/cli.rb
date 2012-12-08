@@ -37,7 +37,9 @@ class Twig
         end
       end
 
-      lines + [' '] # Add a blank line
+      lines << ' ' if options[:add_separator]
+
+      lines
     end
 
     def read_cli_options!(args)
@@ -51,22 +53,24 @@ class Twig
         help_separator(opts, 'Common options:')
 
         desc = 'Use a specific branch.'
-        opts.on('-b BRANCH', '--branch BRANCH', desc) do |branch|
+        opts.on(
+          '-b BRANCH', '--branch BRANCH', *help_description(desc)
+        ) do |branch|
           set_option(:branch, branch)
         end
 
         desc = 'Unset a branch property.'
-        opts.on('--unset PROPERTY', desc) do |property_name|
+        opts.on('--unset PROPERTY', *help_description(desc)) do |property_name|
           set_option(:unset_property, property_name)
         end
 
         desc = 'Show this help content.'
-        opts.on('--help', desc) do
+        opts.on('--help', *help_description(desc)) do
           puts opts; exit
         end
 
         desc = 'Show Twig version.'
-        opts.on('--version', desc) do
+        opts.on('--version', *help_description(desc)) do
           puts Twig::VERSION; exit
         end
 
@@ -74,33 +78,36 @@ class Twig
 
         help_separator(opts, 'Filtering branches:')
 
-        desc = help_description(
-          'Only list branches whose name matches a given pattern.'
-        )
-        opts.on('--only-branch PATTERN', *desc) do |pattern|
+        desc = 'Only list branches whose name matches a given pattern.'
+        opts.on(
+          '--only-branch PATTERN',
+          *help_description(desc, :add_separator => true)
+        ) do |pattern|
           set_option(:branch_only, pattern)
         end
 
-        desc = help_description(
-          'Do not list branches whose name matches a given pattern.'
-        )
-        opts.on('--except-branch PATTERN', *desc) do |pattern|
+        desc = 'Do not list branches whose name matches a given pattern.'
+        opts.on(
+          '--except-branch PATTERN',
+          *help_description(desc, :add_separator => true)
+        ) do |pattern|
           set_option(:branch_except, pattern)
         end
 
-        desc = help_description(
-          'Only list branches below a given age.'
-        )
-        opts.on('--max-days-old AGE', *desc) do |age|
+        desc = 'Only list branches below a given age.'
+        opts.on(
+          '--max-days-old AGE', *help_description(desc, :add_separator => true)
+        ) do |age|
           set_option(:max_days_old, age)
         end
 
-        desc = help_description(
+        desc =
           'Lists all branches regardless of age or name options. ' +
           'Useful for overriding options in ' +
           File.basename(Twig::Options::CONFIG_FILE) + '.'
-        )
-        opts.on('--all', *desc) do |pattern|
+        opts.on(
+          '--all', *help_description(desc, :add_separator => true)
+        ) do |pattern|
           unset_option(:max_days_old)
           unset_option(:branch_except)
           unset_option(:branch_only)
@@ -111,13 +118,13 @@ class Twig
         help_separator(opts, 'Deprecated:')
 
         desc = 'Deprecated. Use `--only-branch` instead.'
-        opts.on('--only-name PATTERN', desc) do |pattern|
+        opts.on('--only-name PATTERN', *help_description(desc)) do |pattern|
           puts "\n`--only-name` is deprecated. Please use `--only-branch` instead.\n"
           set_option(:branch_only, pattern)
         end
 
         desc = 'Deprecated. Use `--except-branch` instead.'
-        opts.on('--except-name PATTERN', desc) do |pattern|
+        opts.on('--except-name PATTERN', *help_description(desc)) do |pattern|
           puts "\n`--except-name` is deprecated. Please use `--except-branch` instead.\n"
           set_option(:branch_except, pattern)
         end
