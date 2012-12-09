@@ -131,6 +131,10 @@ class Twig
       end
 
       option_parser.parse!(args)
+    rescue OptionParser::InvalidOption => exception
+      puts exception.to_s
+      puts 'For a list of options, run `twig --help`.'
+      exit
     end
 
     def read_cli_args!(args)

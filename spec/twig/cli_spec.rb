@@ -126,6 +126,18 @@ describe Twig::Cli do
         @twig.options[:branch_only].should == /test/
       end
     end
+
+    it 'handles invalid options' do
+      @twig.should_receive(:puts) do |message|
+        message.should include('invalid option: --foo')
+      end
+      @twig.should_receive(:puts) do |message|
+        message.should include('`twig --help`')
+      end
+      @twig.should_receive(:exit)
+
+      @twig.read_cli_options!(%w[--foo])
+    end
   end
 
   describe '#read_cli_args!' do
