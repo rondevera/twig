@@ -85,7 +85,7 @@ describe Twig::Cli do
       @twig.set_option(:branch_except, /test/)
       @twig.set_option(:branch_only, /test/)
 
-      @twig.read_cli_options!(%w[--all])
+      @twig.read_cli_options!(['--all'])
 
       @twig.options[:max_days_old].should be_nil
       @twig.options[:branch_except].should be_nil
@@ -102,7 +102,7 @@ describe Twig::Cli do
       @twig.should_receive(:puts).with(Twig::VERSION)
       @twig.should_receive(:exit)
 
-      @twig.read_cli_options!(%w[--version])
+      @twig.read_cli_options!(['--version'])
     end
 
     context 'deprecated options' do
@@ -136,7 +136,7 @@ describe Twig::Cli do
       end
       @twig.should_receive(:exit)
 
-      @twig.read_cli_options!(%w[--foo])
+      @twig.read_cli_options!(['--foo'])
     end
 
     it 'handles missing arguments' do
