@@ -138,6 +138,18 @@ describe Twig::Cli do
 
       @twig.read_cli_options!(%w[--foo])
     end
+
+    it 'handles missing arguments' do
+      @twig.should_receive(:puts) do |message|
+        message.should include('missing argument: --branch')
+      end
+      @twig.should_receive(:puts) do |message|
+        message.should include('`twig --help`')
+      end
+      @twig.should_receive(:exit)
+
+      @twig.read_cli_options!(['--branch'])
+    end
   end
 
   describe '#read_cli_args!' do
