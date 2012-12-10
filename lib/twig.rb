@@ -80,6 +80,14 @@ class Twig
   ### Actions ###
 
   def list_branches
+    if branches.empty?
+      if all_branches.any?
+        return 'There are no branches matching your selected options.'
+      else
+        return 'This repository has no branches.'
+      end
+    end
+
     out = "\n" << branch_list_headers
 
     # List most recently modified branches first

@@ -142,20 +142,35 @@ describe Twig do
         Twig::Branch.new('foo', :last_commit_time => commit_times[1])
       ]
       @branch_lines = ['[foo line]', '[bar line]']
+    end
 
+    it 'returns a list of branches, most recently modified first' do
+      @twig.should_receive(:branches).at_least(:once).and_return(@branches)
       @twig.should_receive(:branch_list_headers).and_return(@list_headers)
-      @twig.should_receive(:branches).and_return(@branches)
       @twig.should_receive(:branch_list_line).with(@branches[0]).
         and_return(@branch_lines[0])
       @twig.should_receive(:branch_list_line).with(@branches[1]).
         and_return(@branch_lines[1])
-    end
-
-    it 'lists branches, most recently modified first' do
       result = @twig.list_branches
 
       result.should == "\n" + @list_headers +
         @branch_lines[1] + "\n" + @branch_lines[0]
+    end
+
+    it 'returns a message if all branches were filtered out by options' do
+      @twig.stub(:all_branches => %[foo bar])
+      @twig.stub(:branches => [])
+
+      @twig.list_branches.should include(
+        'There are no branches matching your selected options'
+      )
+    end
+
+    it 'returns a message if the repo has no branches' do
+      @twig.stub(:all_branches => [])
+      @twig.stub(:branches => [])
+
+      @twig.list_branches.should include('This repository has no branches')
     end
   end
 
