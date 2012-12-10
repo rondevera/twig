@@ -105,13 +105,19 @@ class Twig
           'Lists all branches regardless of age or name options. ' +
           'Useful for overriding options in ' +
           File.basename(Twig::Options::CONFIG_FILE) + '.'
-        opts.on(
-          '--all', *help_description(desc, :add_separator => true)
-        ) do |pattern|
+        opts.on('--all', *help_description(desc)) do |pattern|
           unset_option(:max_days_old)
           unset_option(:branch_except)
           unset_option(:branch_only)
         end
+
+        help_separator(opts, [
+          'You can put your most frequently used branch filtering options in',
+          "#{Twig::Options::CONFIG_FILE}. Example:",
+          '',
+          '      except-name:  staging',
+          '      max-days-old: 30'
+        ].join("\n"))
 
 
 
