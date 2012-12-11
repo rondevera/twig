@@ -4,25 +4,38 @@
 #
 # Author: Ron DeVera <http://rondevera.com>
 
-def abort_for_non_github_repo
-  abort 'This does not appear to be a GitHub repository.'
+class TwigGithubRepo
+  def initialize
+    if origin_url.empty? || username.empty? || repository.empty?
+      abort_for_non_github_repo
+    end
+
+    yield(self)
+  end
+
+  def origin_url
+    @origin_url ||= `git config remote.origin.url`.strip
+  end
+
+  def origin_url_parts
+    @origin_url_parts ||= origin_url.split(/[\/:]/)
+  end
+
+  def username
+    @username ||= origin_url_parts[-2] || ''
+  end
+
+  def repository
+    @repo ||= origin_url_parts[-1].sub(/\.git$/, '') || ''
+  end
+
+  def abort_for_non_github_repo
+    abort 'This does not appear to be a GitHub repository.'
+  end
 end
 
-origin_url = `git config remote.origin.url`.strip
-  # Possible formats:
-  # - git://github.com/username/project.git
-  # - git@github.com:username/project.git
-
-abort_for_non_github_repo if origin_url.empty?
-
-origin_url_parts = origin_url.split(/[\/:]/)
-username = origin_url_parts[-2]
-project  = origin_url_parts[-1].sub(/\.git$/, '')
-
-if username.nil? || username.empty? || project.nil? || project.empty?
-  abort_for_non_github_repo
-else
-  url = "https://github.com/#{username}/#{project}"
+TwigGithubRepo.new do |gh_repo|
+  url = "https://github.com/#{gh_repo.username}/#{gh_repo.repository}"
   puts "GitHub URL: #{url}"
   `which open && open #{url}`
 end
