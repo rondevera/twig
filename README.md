@@ -4,9 +4,7 @@ Twig lets you track progress on your topic branches.
 Installation
 ============
 
-    cd /usr/local/src
-    git clone git://github.com/rondevera/twig
-    ./install
+    gem install twig
 
 
 Usage
