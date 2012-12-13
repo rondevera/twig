@@ -4,7 +4,7 @@
 #
 # Author: Ron DeVera <http://rondevera.com>
 
-require File.join(File.dirname(File.readlink(__FILE__)), '..', 'lib', 'twig')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'twig')
 require 'rubygems'
 require 'json'
 require 'net/https'
