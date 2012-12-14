@@ -5,5 +5,6 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'twig')
 twig = Twig.new
 abort unless twig.repo?
 
+# Gettin' twiggy wit' it.
 twig.read_config_file!
 twig.read_cli_args!(ARGV)

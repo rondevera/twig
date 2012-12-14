@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env ruby
 
 # Your friendly neighborhood `twig --help` alias.
-twig --help
+puts `twig --help`
