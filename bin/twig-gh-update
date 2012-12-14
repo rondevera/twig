@@ -70,7 +70,8 @@ TwigGithubRepo.new do |gh_repo|
           issues[issue_data['number']] = issue_data
         end
       else
-        puts "Couldn't get open issues from GitHub. (Response: #{response.code})"
+        puts "\nERROR: Couldn't get open issues from GitHub. " <<
+          "(Response: #{response.code})"
       end
     end
   end
