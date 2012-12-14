@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^spec/})
 
   spec.required_ruby_version = '>= 1.8.7'
-  spec.add_development_dependency 'rake', '~> 0.9.2'
+  spec.add_runtime_dependency     'json',  '~> 1.7.5'
+  spec.add_development_dependency 'rake',  '~> 0.9.2'
   spec.add_development_dependency 'rspec', '~> 2.11.0'
 end
