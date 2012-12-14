@@ -11,11 +11,20 @@ Gem::Specification.new do |spec|
   spec.email         = ["hello@rondevera.com"]
   spec.homepage      = 'https://github.com/rondevera/twig'
   spec.summary       = %{Track progress on your Git branches.}
-  spec.description   = <<-DESC
-    Twig is a command-line tool for tracking progress on your Git branches,
-    remembering ticket ids for each branch, and more. Twig supports subcommands
-    for managing branches in your own way.
-  DESC
+  spec.description   =
+    'Twig is a command-line tool for tracking progress on your Git ' <<
+    'branches, remembering ticket ids for each branch, and more. Twig ' <<
+    'supports subcommands for managing branches in your own way.'
+  spec.post_install_message =
+    "\n**************************************************************" <<
+    "\n*                                                            *" <<
+    "\n* Twig!                                                      *" <<
+    "\n*                                                            *" <<
+    "\n* To get started, run `twig` to list your Git branches, and  *" <<
+    "\n* `twig --help` for more info.                               *" <<
+    "\n*                                                            *" <<
+    "\n**************************************************************" <<
+    "\n\n"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}).map { |file| File.basename(file) }
