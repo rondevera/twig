@@ -54,6 +54,13 @@ Filtering branches
 * `twig --all`:
   List all branches regardless of other filtering options
 
+You can put your most frequently used options into `~/.twigrc`, and they'll be
+automatically included when you run `twig`. Example:
+
+    # ~/.twigrc:
+    except-branch: staging
+    max-days-old:  30
+
 
 Examples
 --------
