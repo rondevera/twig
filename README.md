@@ -143,3 +143,23 @@ Some ideas for subcommands:
 * Fetch each branch's status for any bug tracking system, like JIRA or FogBugz.
 * Generate a formatted list of your branches from the past week. Useful for
   sending progress updates.
+
+
+About
+=====
+
+- **Requirements:** Tested with Git 1.6.5.1 and Ruby 1.8.7. Probably works with
+  older software, but it's not guaranteed.
+- **Contributing:** Found a bug or have a suggestion? [Please open an
+  issue][issues] or ping [@ronalddevera on Twitter][twitter]. If you want to
+  hack on some features or contribute a subcommand you've written, feel free to
+  fork and send a pull request for the **[development branch][dev branch]**.
+  (The master branch is for stable builds only.)
+- **History:** [History/changelog for Twig][history]
+- **License:** Twig is released under the [MIT License][license].
+
+[issues]:     https://github.com/rondevera/twig/issues
+[twitter]:    https://twitter.com/ronalddevera
+[dev branch]: https://github.com/rondevera/twig/commits/development
+[history]:    https://github.com/rondevera/twig/blob/master/HISTORY.md
+[license]:    https://github.com/rondevera/twig/blob/master/LICENSE.md
