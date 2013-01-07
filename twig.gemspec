@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.description   =
     'Twig is a command-line tool for tracking progress on your Git ' <<
     'branches, remembering ticket ids for each branch, and more. Twig ' <<
-    'supports subcommands for managing branches in your own way.'
+    'supports subcommands for managing branches however you want.'
   spec.post_install_message =
     "\n**************************************************************" <<
     "\n*                                                            *" <<

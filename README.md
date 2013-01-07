@@ -75,7 +75,7 @@ List your branches, and highlight the current branch:
 
     $ twig
 
-    2012-11-26 18:00:21 (7m ago)  * refactor_all_the_things
+    2012-11-26 18:07:21 (7m ago)  * refactor_all_the_things
     2012-11-24 17:12:09 (2d ago)    development
     2012-11-23 19:45:42 (3d ago)    master
 
@@ -86,7 +86,7 @@ run `twig <your key> <your value>`:
 
                                   issue    branch
                                   -----    ------
-    2012-11-26 18:00:21 (7m ago)  159    * refactor_all_the_things
+    2012-11-26 18:07:21 (7m ago)  159    * refactor_all_the_things
     2012-11-24 17:12:09 (2d ago)  -        development
     2012-11-23 19:45:42 (3d ago)  -        master
 
@@ -103,7 +103,7 @@ Set more info about the current branch (`twig <another key> <another value>`):
 
                                   issue  status   todo            branch
                                   -----  ------   ----            ------
-    2012-11-26 18:00:21 (7m ago)  159    Shipped  Test in prod  * refactor_all_the_things
+    2012-11-26 18:07:21 (7m ago)  159    Shipped  Test in prod  * refactor_all_the_things
     2012-11-24 17:12:09 (2d ago)  -      -        -               development
     2012-11-23 19:45:42 (3d ago)  -      -        -               master
 
@@ -115,9 +115,9 @@ come up with:
 
                                   issue  status       todo            branch
                                   -----  ------       ----            ------
-    2012-12-01 18:00:21 (7m ago)  486    In progress  Rebase          optimize_all_the_things
-    2012-12-01 16:49:21 (2h ago)  268    In progress  -               whitespace_all_the_things
-    2012-11-26 18:00:21 (5d ago)  159    Shipped      Test in prod  * refactor_all_the_things
+    2012-12-01 18:02:58 (7m ago)  486    In progress  Rebase          optimize_all_the_things
+    2012-12-01 16:49:45 (2h ago)  268    In progress  -               whitespace_all_the_things
+    2012-11-26 18:07:21 (5d ago)  159    Shipped      Test in prod  * refactor_all_the_things
     2012-11-24 17:12:09 (7d ago)  -      -            -               development
     2012-11-23 19:45:42 (8d ago)  -      -            -               master
 
@@ -125,8 +125,8 @@ come up with:
 Subcommands
 ===========
 
-If you're working on an issue for a GitHub repository, you can use the `gh-update`
-subcommand that comes with Twig. To use it:
+If you're working on an issue for a GitHub repository, you can use the
+`gh-update` subcommand that comes with Twig. To use it:
 
 1.  Check out the topic branch: `git checkout <branch>`.
 2.  Set the GitHub issue number for the branch: `twig issue <issue number>`.
