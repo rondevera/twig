@@ -114,3 +114,32 @@ come up with:
     2012-11-23 18:35:21 (3d ago)  159    Shipped      Test in prod  * refactor_all_the_things
     2012-11-24 17:12:09 (4d ago)  -      -            -               development
     2012-11-26 19:45:42 (6d ago)  -      -            -               master
+
+
+Subcommands
+===========
+
+If you're working on an issue for a GitHub repository, you can use the `gh-update`
+subcommand that comes with Twig. To use it:
+
+1.  Check out the topic branch: `git checkout <branch>`.
+2.  Set the GitHub issue number for the branch: `twig issue <issue number>`.
+3.  Run `twig gh-update`. This automatically looks up the GitHub issue status
+    for each branch, and saves it locally.
+
+Run `twig` again, and it'll list each branch with its GitHub issue status.
+Periodically, you can run `twig gh-update` again to update each branch's status.
+
+You can write any Twig subcommand that fits your own Git workflow. To write a
+Twig subcommand:
+
+1.  Write a script. Any language will do.
+2.  Save it with the `twig-` prefix in your `$PATH`,
+    e.g., `~/bin/twig-my-subcommand`.
+3.  Make it executable: `chmod ugo+x ~/bin/twig-my-subcommand`.
+
+Some ideas for subcommands:
+
+* Fetch each branch's status for any bug tracking system, like JIRA or FogBugz.
+* Generate a formatted list of your branches from the past week. Useful for
+  sending progress updates.

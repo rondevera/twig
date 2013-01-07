@@ -84,7 +84,7 @@ TwigGithubRepo.new do |gh_repo|
     next unless issue
 
     state = issue['state']
-    branch.set_property('state', state) unless state.nil? || state.empty?
+    branch.set_property('status', state) unless state.nil? || state.empty?
 
     print '.'
   end
