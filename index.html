@@ -9,14 +9,128 @@ repo-url:   https://github.com/rondevera/twig
   <meta charset="utf-8" />
   <title>Twig</title>
   <style>
+
+    /*** Colors ***
+     * Green:         #060    Links
+     * Light green:   #090    Links (hover)
+     */
+
+    /*** Global > Layout ***/
+
+    body {
+      margin: 0 auto;
+      padding: 0;
+      background: #2c1c16;
+      color: #ccc;
+      font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    }
+    a, a:link, a:hover, a:focus, a:visited {
+      border-bottom: 1px dotted #060;
+      color: #060;
+      text-decoration: none;
+    }
+    a:hover, a:focus,
+    #header h1 a:hover,
+    #header h1 a:focus {
+      border-bottom: 1px solid #090;
+      color: #090;
+    }
+    #header {
+      padding: 3em 0 2em;
+      background: #d3dff0;
+      background: -webkit-gradient(linear, left top, left bottom,
+        from(#d3dff0), to(#fff));
+      background:    -moz-linear-gradient(top, #d3dff0, #fff);
+      background: -webkit-linear-gradient(top, #d3dff0, #fff);
+      background: -webkit-linear-gradient(top, #d3dff0, #fff);
+      background:         linear-gradient(top, #d3dff0, #fff);
+      border-bottom: 3px solid #060;
+      text-shadow: 0 1px 0 #fff;
+    }
+    #header,
+    #header h1 a {
+      color: #333;
+    }
+    #header h1 a,
+    #header h1 a:hover,
+    #header h1 a:focus {
+      border-bottom: none;
+    }
+    #main {
+      padding: 0 0 3em;
+    }
+    .section-content {
+      width: 600px;
+      margin: 0 auto;
+    }
+
+    /*** Header ***/
+
+    h1 {
+      margin: 0;
+      font-size: 3em;
+    }
+
+    /*** Main ***/
+
+    h2 {
+      margin: 2em 0 0;
+      font-weight: normal;
+    }
+    code {
+      display: block;
+      margin: 1em 0;
+      padding: 1em 2em;
+      background: #111;
+      border-radius: 4px;
+      border-bottom: 1px solid #33231c;
+      color: #ccc;
+    }
+
   </style>
 </head>
 <body>
-<div id="page">
 
-<h1>Twig</h1>
+<div id="header">
+  <div class="section-content">
+    <h1>
+      <a href="{{page.repo-url}}" title="See the code on GitHub">Twig</a>
+    </h1>
 
-</div> <!-- #page -->
+    <p class="description">
+      Track ticket ids, reminders, and more for your Git branches.
+    </p>
+
+    <p class="github">
+      <a href="{{page.repo-url}}">View on GitHub</a>
+    </p>
+  </div>
+</div>
+
+<div id="main">
+  <div class="section-content">
+    <h2 id="install">Install</h2>
+    <code>gem install twig</code>
+
+    <h2 id="usage">Usage</h2>
+    <p>...</p>
+
+    <h2 id="contact">Contact</h2>
+    <p>
+      <a href="https://github.com/rondevera">rondevera @ github</a> /
+      <a href="https://twitter.com/ronalddevera">ronalddevera @ twitter</a> /
+      <a href="{{page.repo-url}}/issues">twig @ github issues</a>
+    </p>
+    <p>
+      <!-- Tweet button: -->
+      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://rondevera.github.com/twig/" data-text="Twig: Track ticket ids, reminders, and more for your Git branches." data-via="ronalddevera" data-lang="en" data-size="small" data-count="none">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+      <!-- Star (GitHub) button: -->
+      <iframe src="http://ghbtns.com/github-btn.html?user=rondevera&repo=twig&type=watch" allowtransparency="true" frameborder="0" scrolling="0" width="172px" height="20px"></iframe>
+    </p>
+  </div>
+</div>
 
 <script>
 var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-8250595-2'],['_trackPageview'],['_trackPageLoadTime']);!function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=!0;g.src=('https:'===d.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s);}(document,'script');
