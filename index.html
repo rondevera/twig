@@ -95,15 +95,47 @@ repo-url:   https://github.com/rondevera/twig
       font-weight: 300;
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     }
+    h2#install {
+      margin-top: 0;
+    }
+    pre, code {
+      margin: 0;
+      padding: 0;
+    }
     code {
+      color: #f9e5cd;
+      font-family: "Courier New", Courier, monospace;
+    }
+    pre.overview {
+      position: relative;
+      left: -49px;   /* = image shadow width */
+      width: 600px;  /* = image width - horizontal padding */
+      height: 189px; /* = image height - vertical padding */
+      padding: 50px 49px 71px 49px;
+      background: transparent url(img/terminal.png) 0 0 no-repeat;
+    }
+    pre.overview code {
       display: block;
+      width: 584px;  /* = image body width - horizontal padding */
+      height: 165px; /* = image body height - vertical padding */
+      padding: 12px 8px;
+      overflow: auto;
+      font-size: 10px;
+    }
+    pre.example {
       margin: 1em 0;
-      padding: 1em 2em;
+      padding: 0 2em;
       background: #111;
       border-radius: 4px;
       border-bottom: 1px solid #33231c;
       box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25), 0 1px 0 rgba(255, 255, 255, 0.5);
-      color: #f9e5cd;
+    }
+    code .prompt {
+      opacity: 0.75;
+    }
+    code b {
+      color: #fff;
+      font-weight: bold;
     }
 
   </style>
@@ -126,8 +158,22 @@ repo-url:   https://github.com/rondevera/twig
 </div>
 
 <div id="main">
+  <pre class="overview"><code>
+<span class="prompt">$</span> twig
+
+                              issue  status       todo            branch
+                              -----  ------       ----            ------
+2012-12-01 18:00:25 (7m ago)  486    In progress  Rebase          optimize_all_the_things
+2012-12-01 16:49:47 (2h ago)  268    In progress  -               whitespace_all_the_things
+<b>2012-11-23 18:35:12 (3d ago)  159    Shipped      Test in prod  * refactor_all_the_things</b>
+2012-11-24 17:12:23 (4d ago)  -      -            -               development
+2012-11-26 19:45:54 (6d ago)  -      -            -               master
+  </code></pre>
+
   <h2 id="install">Install</h2>
-  <code>gem install twig</code>
+  <pre class="example"><code>
+<span class="prompt">$</span> gem install twig
+  </code></pre>
 
   <h2 id="usage">Usage</h2>
   <p>...</p>
