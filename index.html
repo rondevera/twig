@@ -92,6 +92,44 @@ repo-url:   https://github.com/rondevera/twig
     .description {
       margin-top: 0.5em;
     }
+    .github {
+      display: inline-block;
+      margin-left: 0.5em;
+      padding: 0.25em 1em;
+      background-color: #e9d5bd;
+      background-image:    -moz-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+      background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+      background-image:         linear-gradient(top, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+      border: 1px solid #99856d;
+      border-radius: 2em;
+      box-shadow:
+        0 -1px 0 rgba(0, 0, 0, 0.05),
+        0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+      color: #4c453d;
+      font-size: 0.875em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        -moz-transition:    all 0.1s ease-out;
+        -webkit-transition: all 0.1s ease-out;
+      transition:           all 0.1s ease-out;
+    }
+    .github:hover,
+    .github:focus {
+      background-color: #f9e5cd;
+      border-bottom-color: #99856d;
+      color: #4c453d;
+    }
+    .github:active {
+      background-color: #e9d5bd;
+      box-shadow:
+        0 -1px 0 rgba(0, 0, 0, 0.05),
+        0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 3px 10px rgba(0, 0, 0, 0.25);
+        -moz-transition:    none;
+        -webkit-transition: none;
+      transition:           none;
+    }
 
     /*** Main ***/
 
@@ -155,10 +193,7 @@ repo-url:   https://github.com/rondevera/twig
 
   <p class="description">
     Track ticket ids, reminders, and more for your Git branches.
-  </p>
-
-  <p class="github">
-    <a href="{{page.repo-url}}">View on GitHub</a>
+    <a class="github" href="{{page.repo-url}}">View on GitHub</a>
   </p>
 </div>
 
