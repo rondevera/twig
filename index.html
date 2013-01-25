@@ -49,6 +49,12 @@ repo-url:   https://github.com/rondevera/twig
       border-bottom: 1px solid #739875;
       color: #739875;
     }
+    strong {
+      font-weight: 900;
+    }
+    p {
+      line-height: 1.25;
+    }
 
     /*** Header ***/
 
@@ -133,21 +139,25 @@ repo-url:   https://github.com/rondevera/twig
 
     /*** Main ***/
 
-    h2 {
+    h2, h3 {
       margin: 2em 0 0;
       font-weight: 300;
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-    }
-    h2#install {
-      margin-top: 0;
     }
     pre, code {
       margin: 0;
       padding: 0;
     }
     code {
-      color: #f9e5cd;
       font-family: Inconsolata, "Courier New", Courier, monospace;
+    }
+    p code {
+      padding: 0 0.25em;
+      background: #b9a58d;
+      border-radius: 4px;
+    }
+    pre code {
+      color: #f9e5cd;
     }
     pre.overview {
       position: relative;
@@ -163,7 +173,7 @@ repo-url:   https://github.com/rondevera/twig
       height: 189px; /* = image body height - vertical padding */
       padding: 0 8px;
       overflow: auto;
-      font-size: 11px;
+      font-size: 12px;
     }
     pre.example {
       margin: 1em 0;
@@ -180,6 +190,9 @@ repo-url:   https://github.com/rondevera/twig
       color: #fff;
       font-weight: bold;
     }
+    .intro {
+      margin-top: -1em;
+    }
 
   </style>
 </head>
@@ -192,7 +205,7 @@ repo-url:   https://github.com/rondevera/twig
   </h1>
 
   <p class="description">
-    Track ticket ids, reminders, and more for your Git branches.
+    Your personal Git branch assistant.
     <a class="github" href="{{page.repo-url}}">View v{{page.version}} on GitHub</a>
   </p>
 </div>
@@ -210,6 +223,19 @@ repo-url:   https://github.com/rondevera/twig
 2012-11-26 19:45:54 (6d ago)  -      -            -               master
   </code></pre>
 
+  <p class="intro">
+    It's hard enough trying to remember the names of all of your Git branches.
+    You also need those branches' issue tracker ids, issue statuses, and
+    reminders of what to do next with each branch. <code>git branch</code> just
+    isn't cutting it.
+  </p>
+  <p>
+    <strong>Twig shows you your most recent branches, and remembers branch
+    details for you.</strong> It supports subcommands, like automatically
+    fetching statuses from your issue tracking system. It's flexible enough to
+    fit your everyday Git workflow, and will save you a ton of time.
+  </p>
+
   <h2 id="install">Install</h2>
   <pre class="example"><code>
 <span class="prompt">$</span> gem install twig
@@ -218,11 +244,20 @@ repo-url:   https://github.com/rondevera/twig
   <h2 id="usage">Usage</h2>
   <p>...</p>
 
+  <h3>Filtering branches</h3>
+  <p>...</p>
+
+  <h2 id="subcommands">Subcommands</h2>
+  <p>...</p>
+
   <h2 id="contact">Contact</h2>
   <p>
-    <a href="https://github.com/rondevera">rondevera @ github</a> /
-    <a href="https://twitter.com/ronalddevera">ronalddevera @ twitter</a> /
+    Bug fixes and subcommands are welcome!
     <a href="{{page.repo-url}}/issues">twig @ github issues</a>
+  </p>
+  <p>
+    <a href="https://github.com/rondevera">rondevera @ github</a> /
+    <a href="https://twitter.com/ronalddevera">ronalddevera @ twitter</a>
   </p>
   <p>
     <!-- Tweet button: -->
