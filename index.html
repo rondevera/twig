@@ -168,7 +168,7 @@ repo-url:   https://github.com/rondevera/twig
 
     /*** Main ***/
 
-    h2, h3 {
+    h2 {
       margin: 2em 0 0;
       font-weight: 300;
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -255,14 +255,14 @@ repo-url:   https://github.com/rondevera/twig
 
   <h2 id="usage">Usage</h2>
 
-  <p>
-    Twig lets you get/set custom properties for each branch, and list branches
-    chronologically with their properties. Here are the most common uses:
-  </p>
+  <p>Here are the most common uses:</p>
 
   <dl>
     <dt><code>twig</code></dt>
-    <dd>List all branches with properties</dd>
+    <dd>List all branches with properties, newest first</dd>
+
+    <dt><code>twig --max-days-old 30</code></dt>
+    <dd>Only list branches modified in the last 30 days</dd>
 
     <dt><code>twig &lt;property&gt;</code></dt>
     <dd>Get property for current branch</dd>
@@ -337,12 +337,10 @@ Saved property "rebase-onto" as "branch1" for branch "branch2".
   </p>
 
   <p>
-    To see what else Twig can do, run <code>twig --help</code> or read the
-    <a href="{{page.readme-url}}">Twig docs</a>.
+    Twig lists all of your branches by default (newest first), but you can
+    filter them by name and age. To learn more, run <code>twig --help</code> or
+    read the <a href="{{page.readme-url}}">Twig docs</a>.
   </p>
-
-  <h3>Filtering branches</h3>
-  <p>...</p>
 
   <h2 id="subcommands">Subcommands</h2>
   <p>...</p>
