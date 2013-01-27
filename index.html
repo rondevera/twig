@@ -1,7 +1,9 @@
 ---
-version:    1.0
-readme-url: https://github.com/rondevera/twig/#readme
-repo-url:   https://github.com/rondevera/twig
+version:         1.0
+issues-url:      https://github.com/rondevera/twig/issues
+readme-url:      https://github.com/rondevera/twig/#readme
+repo-url:        https://github.com/rondevera/twig
+subcommands-url: https://github.com/rondevera/twig#subcommands
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -352,14 +354,81 @@ Saved property "rebase-onto" as "branch1" for branch "branch2".
   </p>
 
   <h2 id="subcommands">Subcommands</h2>
-  <p>...</p>
+
+  <p>
+    If you&rsquo;re working on an issue for a GitHub repository, you can use the
+    <code>gh-update</code> subcommand that comes with Twig. To use it:
+  </p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> git checkout add-feature
+Switched to branch 'add-feature'.
+
+<span class="prompt">$</span> twig issue 222
+Saved property "issue" as "222" for branch "add-feature".
+
+<span class="prompt">$</span> twig
+
+                              issue  status    branch
+                              -----  ------    ------
+<b>2013-01-26 18:00:25 (7m ago)  222    -       * add-feature</b>
+2013-01-23 18:35:12 (3d ago)  111    -         fix-bug
+2013-01-22 17:12:23 (4d ago)  -      -         master
+
+<span class="prompt">$</span> twig gh-update
+<span class="comment"># Automatically looks up the GitHub issue status for each
+of your local branches, and saves it locally.</span>
+
+<span class="prompt">$</span> twig
+
+                              issue  status    branch
+                              -----  ------    ------
+<b>2013-01-26 18:00:25 (7m ago)  222    open    * add-feature</b>
+2013-01-23 18:35:12 (3d ago)  111    closed    fix-bug
+2013-01-22 17:12:23 (4d ago)  -      -         master
+  </code></pre>
+
+  <p>
+    Run <code>twig gh-update</code> periodically to keep up with GitHub issues
+    locally.
+  </p>
+
+  <p>
+    You can write any Twig subcommand that fits your Git workflow. Some ideas:
+  </p>
+
+  <ul>
+    <li>
+      Get each branch&rsquo;s status for any issue tracking system that has an
+      API, like
+      <a href="http://www.atlassian.com/software/jira/overview">JIRA</a>,
+      <a href="http://www.fogcreek.com/fogbugz/">FogBugz</a>, or
+      <a href="http://lighthouseapp.com/">Lighthouse</a>.
+    </li>
+    <li>
+      Given an issue tracker id, check out that ticket&rsquo;s branch locally.
+      Great for following teammates&rsquo; branches, remembering their ticket
+      ids, and knowing when they&rsquo;re shipped.
+    </li>
+    <li>
+      Generate a formatted list of your branches from the past week. Useful for
+      emailing your team about what you&rsquo;re up to.
+    </li>
+  </ul>
+
+  <p>
+    To learn how to write a Twig subcommand, check the
+    <a href="{{page.subcommands-url}}">Twig docs</a>. If you write one that
+    others can appreciate, send a pull request!
+  </p>
 
   <h2 id="more-info">More info</h2>
+
   <ul>
     <li><a href="{{page.readme-url}}">Full documentation for Twig</a></li>
     <li>
       Bug fixes and subcommands are welcome!
-      <a href="{{page.repo-url}}/issues">Twig&rsquo;s issue tracker on GitHub</a>
+      <a href="{{page.issues-url}}">Twig&rsquo;s issue tracker on GitHub</a>
     </li>
     <li>
       Questions and comments? Send me a message:
