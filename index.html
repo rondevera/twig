@@ -50,10 +50,39 @@ repo-url:   https://github.com/rondevera/twig
       color: #739875;
     }
     strong {
-      font-weight: 900;
+      font-weight: bold;
     }
     p {
       line-height: 1.25;
+    }
+    dt {
+      margin-top: 0.5em;
+    }
+    dd {
+      margin: 0.25em 0 0 1em;
+    }
+    code {
+      font-family: Inconsolata, "Courier New", Courier, monospace;
+    }
+    p code,
+    dl code {
+      padding: 0 0.25em;
+      background: #b9a58d;
+      border-radius: 4px;
+    }
+    pre code {
+      color: #f9e5cd;
+    }
+    code .prompt,
+    code .comment {
+      opacity: 0.5;
+    }
+    code .comment {
+      font-style: italic;
+    }
+    code b {
+      color: #fff;
+      font-weight: bold;
     }
 
     /*** Header ***/
@@ -148,17 +177,6 @@ repo-url:   https://github.com/rondevera/twig
       margin: 0;
       padding: 0;
     }
-    code {
-      font-family: Inconsolata, "Courier New", Courier, monospace;
-    }
-    p code {
-      padding: 0 0.25em;
-      background: #b9a58d;
-      border-radius: 4px;
-    }
-    pre code {
-      color: #f9e5cd;
-    }
     pre.overview {
       position: relative;
       left: -49px;   /* = image shadow width */
@@ -178,17 +196,11 @@ repo-url:   https://github.com/rondevera/twig
     pre.example {
       margin: 1em 0;
       padding: 0 2em;
+      overflow: auto;
       background: #111;
       border-radius: 4px;
       border-bottom: 1px solid #33231c;
       box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25), 0 1px 0 rgba(255, 255, 255, 0.5);
-    }
-    code .prompt {
-      opacity: 0.75;
-    }
-    code b {
-      color: #fff;
-      font-weight: bold;
     }
     .intro {
       margin-top: -1em;
@@ -216,11 +228,11 @@ repo-url:   https://github.com/rondevera/twig
 
                               issue  status       todo            branch
                               -----  ------       ----            ------
-2012-12-01 18:00:25 (7m ago)  486    In progress  Rebase          optimize_all_the_things
-2012-12-01 16:49:47 (2h ago)  268    In progress  -               whitespace_all_the_things
-<b>2012-11-23 18:35:12 (3d ago)  159    Shipped      Test in prod  * refactor_all_the_things</b>
-2012-11-24 17:12:23 (4d ago)  -      -            -               development
-2012-11-26 19:45:54 (6d ago)  -      -            -               master
+2013-01-26 18:00:25 (7m ago)  486    In progress  Rebase          optimize_all_the_things
+2013-01-26 16:49:47 (2h ago)  268    In progress  -               whitespace_all_the_things
+<b>2013-01-23 18:35:12 (3d ago)  159    Shipped      Test in prod  * refactor_all_the_things</b>
+2013-01-22 17:12:23 (4d ago)  -      -            -               development
+2013-01-20 19:45:54 (6d ago)  -      -            -               master
   </code></pre>
 
   <p class="intro">
@@ -242,7 +254,92 @@ repo-url:   https://github.com/rondevera/twig
   </code></pre>
 
   <h2 id="usage">Usage</h2>
-  <p>...</p>
+
+  <p>
+    Twig lets you get/set custom properties for each branch, and list branches
+    chronologically with their properties. Here are the most common uses:
+  </p>
+
+  <dl>
+    <dt><code>twig</code></dt>
+    <dd>List all branches with properties</dd>
+
+    <dt><code>twig &lt;property&gt;</code></dt>
+    <dd>Get property for current branch</dd>
+
+    <dt><code>twig &lt;property&gt; &lt;value&gt;</code></dt>
+    <dd>Set property for current branch</dd>
+
+    <dt><code>twig --unset &lt;property&gt;</code></dt>
+    <dd>Unset property for current branch</dd>
+  </dl>
+
+  <p>For example, remember a branch&rsquo;s issue tracker id like this:</p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> git checkout my-branch
+Switched to branch 'my-branch'.
+
+<span class="prompt">$</span> twig issue 123
+Saved property "issue" as "123" for branch "my-branch".
+<span class="comment"># Nearly any property name will do, like "bug" or "ticket".</span>
+
+<span class="prompt">$</span> twig issue
+123
+
+<span class="prompt">$</span> open "https://github.com/myname/myproject/issues/`twig issue`"
+<span class="comment"># Opens a browser window for this GitHub issue (in OS X).</span>
+  </code></pre>
+
+  <p>Keep notes on what you need to do with each branch:</p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> twig todo "Run tests"
+Saved property "todo" as "Run tests" for branch "my-branch".
+
+<span class="prompt">$</span> twig todo "Deploy" -b finished-branch
+Saved property "todo" as "Deploy" for branch "finished-branch".
+
+<span class="prompt">$</span> twig
+
+                              todo         branch
+                              ----         ------
+<b>2013-01-26 18:00:25 (7m ago)  Run tests  * my-branch</b>
+2013-01-23 18:35:12 (3d ago)  Deploy       finished-branch
+2013-01-22 17:12:23 (4d ago)  -            master
+  </code></pre>
+
+  <p>Remember the order in which you were rebasing your stack of branches:</p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> git checkout master
+Switched to branch 'master'.
+
+<span class="prompt">$</span> twig rebase-onto branch2 -b branch3
+Saved property "rebase-onto" as "branch2" for branch "branch3".
+
+<span class="prompt">$</span> twig rebase-onto branch1 -b branch2
+Saved property "rebase-onto" as "branch1" for branch "branch2".
+
+<span class="prompt">$</span> twig
+
+                              rebase-onto    branch
+                              -----------    ------
+2013-01-26 18:00:25 (7m ago)  branch2        branch3
+2013-01-26 16:49:47 (2h ago)  branch1        branch2
+2013-01-23 18:35:12 (3d ago)  -              branch1
+<b>2013-01-22 17:12:23 (4d ago)  -            * master</b>
+  </code></pre>
+
+  <p>
+    You can set just about any custom property you need to remember for each
+    branch.
+  </p>
+
+  <p>
+    To see what else Twig can do, run <code>twig --help</code> or read the
+    <a href="{{page.readme-url}}">Twig docs</a>.
+  </p>
 
   <h3>Filtering branches</h3>
   <p>...</p>
