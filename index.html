@@ -52,14 +52,20 @@ repo-url:   https://github.com/rondevera/twig
     strong {
       font-weight: bold;
     }
-    p {
+    p, li, dt, dd {
       line-height: 1.25;
     }
+    ul {
+      padding: 0 0 0 1.25em;
+    }
+    li {
+      margin: 0.5em 0 0;
+    }
     dt {
-      margin-top: 1em;
+      margin: 1em 0 0;
     }
     dd {
-      margin: 0.25em 0 0 1em;
+      margin: 0 0 0 1em;
     }
     code {
       font-family: Inconsolata, "Courier New", Courier, monospace;
@@ -205,6 +211,9 @@ repo-url:   https://github.com/rondevera/twig
     .intro {
       margin-top: -1em;
     }
+    .contact {
+      white-space: nowrap;
+    }
 
   </style>
 </head>
@@ -345,23 +354,29 @@ Saved property "rebase-onto" as "branch1" for branch "branch2".
   <h2 id="subcommands">Subcommands</h2>
   <p>...</p>
 
-  <h2 id="contact">Contact</h2>
-  <p>
-    Bug fixes and subcommands are welcome!
-    <a href="{{page.repo-url}}/issues">twig @ github issues</a>
-  </p>
-  <p>
-    <a href="https://github.com/rondevera">rondevera @ github</a> /
-    <a href="https://twitter.com/ronalddevera">ronalddevera @ twitter</a>
-  </p>
-  <p>
+  <h2 id="more-info">More info</h2>
+  <ul>
+    <li><a href="{{page.readme-url}}">Full documentation for Twig</a></li>
+    <li>
+      Bug fixes and subcommands are welcome!
+      <a href="{{page.repo-url}}/issues">Twig&rsquo;s issue tracker on GitHub</a>
+    </li>
+    <li>
+      Questions and comments? Send me a message:
+      <span class="contact">
+        <a href="https://github.com/rondevera">rondevera @ GitHub</a> /
+        <a href="https://twitter.com/ronalddevera">ronalddevera @ Twitter</a>
+      </span>
+    </li>
+  </ul>
+  <div class="social">
     <!-- Tweet button: -->
     <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://rondevera.github.com/twig/" data-text="Twig: Track ticket ids, reminders, and more for your Git branches." data-via="ronalddevera" data-lang="en" data-size="small" data-count="none">Tweet</a>
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
     <!-- Star (GitHub) button: -->
     <iframe src="http://ghbtns.com/github-btn.html?user=rondevera&repo=twig&type=watch" allowtransparency="true" frameborder="0" scrolling="0" width="172px" height="20px"></iframe>
-  </p>
+  </div>
 </div>
 
 <script>
