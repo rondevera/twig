@@ -32,6 +32,11 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
       font-size: 16px;
       font-weight: 300;
     }
+    @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+      body {
+        background-size: 100px 100px; /* = half of original image dimensions */
+      }
+    }
     #page {
       width: 600px;
       margin: 0 auto;
@@ -118,6 +123,12 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
       background: transparent url(img/twig.png) left bottom no-repeat;
       text-indent: -999em;
     }
+    @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+      h1 a {
+        background-image: url(img/twig@2x.png);
+        background-size: 100%;
+      }
+    }
     h1 a,
     h1 a:hover,
     h1 a:focus {
@@ -132,6 +143,12 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
       height: 19px;
       background: transparent url(img/leaf.png) 0 0 no-repeat;
       content: ' ';
+    }
+    @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+      h1 a:after {
+        background-image: url(img/leaf@2x.png);
+        background-size: 100%;
+      }
     }
     h1 a:hover:after,
     h1 a:focus:after {
