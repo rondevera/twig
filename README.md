@@ -165,8 +165,8 @@ Some ideas for subcommands:
   sending progress updates.
 
 
-About
-=====
+More info
+=========
 
 - **Requirements:** Tested with Git 1.6.5 and Ruby 1.8.7. Probably works with
   older software, but it's not guaranteed.
