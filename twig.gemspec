@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.post_install_message =
     "\n**************************************************************" <<
     "\n*                                                            *" <<
-    "\n* Twig!                                                      *" <<
+    "\n* Welcome to Twig!                                           *" <<
     "\n*                                                            *" <<
     "\n* To get started, run `twig` to list your Git branches, and  *" <<
     "\n* `twig --help` for more info.                               *" <<

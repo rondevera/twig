@@ -11,8 +11,11 @@ class Twig
         #{version_string}
         #{'-' * version_string.size}
 
-        Twig tracks ticket ids, tasks, and other metadata for your Git branches.
-        https://github.com/rondevera/twig
+        Twig is your personal Git branch assistant. It shows you your most
+        recent branches, and tracks issue tracker ids, tasks, and other metadata
+        for your Git branches.
+
+        https://rondevera.github.com/twig
 
       BANNER
     end
@@ -113,7 +116,7 @@ class Twig
 
         help_separator(opts, [
           'You can put your most frequently used branch filtering options in',
-          "#{Twig::Options::CONFIG_FILE}. Example:",
+          "#{Twig::Options::CONFIG_FILE}. For example:",
           '',
           '      except-branch: staging',
           '      max-days-old:  30'

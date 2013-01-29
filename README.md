@@ -1,29 +1,27 @@
-Twig
-====
+Twig: Your personal Git branch assistant.
+=========================================
 
-**Twig** lets you track ticket ids, reminders, and other metadata for your Git
-branches.
+It's hard enough trying to remember the names of all of your Git branches. You
+also need those branches' issue tracker ids, issue statuses, and reminders of
+what to do next with each branch. `git branch` only lists them in alphabetical
+order, which just doesn't cut it.
 
-If you use lots of Git branches, you know the struggle. You need to remember the
-last few branches you worked on, but `git branch` just lists your branches
-alphabetically. It's as useful as listing them in random order. You also need
-those branches' ticket ids and ticket statuses, and some reminders of what to do
-next with each branch.
+**Twig shows you your most recent branches, and remembers branch details for
+you.** It supports subcommands, like automatically fetching statuses from your
+issue tracking system. It's flexible enough to fit your everyday Git workflow,
+and will save you a ton of time.
 
-Here's what Twig can do for you:
+Here's how Twig looks in action:
 
     $ twig
 
                                   issue  status       todo            branch
                                   -----  ------       ----            ------
-    2012-12-01 18:00:21 (7m ago)  486    In progress  Rebase          optimize_all_the_things
-    2012-12-01 16:49:21 (2h ago)  268    In progress  -               whitespace_all_the_things
-    2012-11-23 18:35:21 (3d ago)  159    Shipped      Test in prod  * refactor_all_the_things
-    2012-11-24 17:12:09 (4d ago)  -      -            -               development
-    2012-11-26 19:45:42 (6d ago)  -      -            -               master
-
-Twig makes it crazy simple to work with lots of branches. It's flexible enough
-to fit your daily Git workflow.
+    2013-01-26 18:00:21 (7m ago)  486    In progress  Rebase          optimize_all_the_things
+    2013-01-26 16:49:21 (2h ago)  268    In progress  -               whitespace_all_the_things
+    2013-01-23 18:35:21 (3d ago)  159    Shipped      Test in prod  * refactor_all_the_things
+    2013-01-22 17:12:09 (4d ago)  -      -            -               development
+    2013-01-20 19:45:42 (6d ago)  -      -            -               master
 
 
 Installation
@@ -38,10 +36,10 @@ Usage
 Twig lets you get/set custom properties for each branch, and list branches
 chronologically with their properties.
 
-* `twig`:                                List all branches with properties
-* `twig <property>`:                     Get property for current branch
-* `twig <property> <value>`:             Set property for current branch
-* `twig --unset <property>`:             Unset property for current branch
+* `twig`:                                List all branches with properties, newest first
+* `twig <property>`:                     Get a property for the current branch
+* `twig <property> <value>`:             Set a property for the current branch
+* `twig --unset <property>`:             Unset a property for the current branch
 * `twig <property> -b <branch>`:         Get property for any branch
 * `twig <property> <value> -b <branch>`: Set property for any branch
 * `twig --unset <property> -b <branch>`: Unset property for any branch
@@ -50,6 +48,9 @@ chronologically with their properties.
 
 Filtering branches
 ------------------
+
+Twig lists all of your branches by default (newest first), but you can filter
+them by name and age:
 
 * `twig --only-branch <pattern>`:
   Only list branches whose name matches a given pattern
@@ -75,51 +76,62 @@ List your branches, and highlight the current branch:
 
     $ twig
 
-    2012-11-26 18:07:21 (7m ago)  * refactor_all_the_things
-    2012-11-24 17:12:09 (2d ago)    development
-    2012-11-23 19:45:42 (3d ago)    master
+    2013-01-26 18:07:21 (7m ago)  * refactor_all_the_things
+    2013-01-24 17:12:09 (2d ago)    development
+    2013-01-23 19:45:42 (3d ago)    master
 
-Set custom info about the current branch, e.g., which ticket it refers to. Just
-run `twig <your key> <your value>`:
+Remember a branch's issue tracker id:
 
-    $ twig issue 159
+    $ git checkout my-branch
+    Switched to branch 'my-branch'.
 
-                                  issue    branch
-                                  -----    ------
-    2012-11-26 18:07:21 (7m ago)  159    * refactor_all_the_things
-    2012-11-24 17:12:09 (2d ago)  -        development
-    2012-11-23 19:45:42 (3d ago)  -        master
-
-Show a single property of the current branch (`twig <your key>`):
+    $ twig issue 123
+    Saved property "issue" as "123" for branch "my-branch".
+    # Nearly any property name will do, like "bug" or "ticket".
 
     $ twig issue
+    123
 
-    159
+    $ open "https://github.com/myname/myproject/issues/`twig issue`"
+    # Opens a browser window for this GitHub issue (in OS X).
 
-Set more info about the current branch (`twig <another key> <another value>`):
+Keep notes on what you need to do with each branch:
 
-    $ twig status "Shipped"
-    $ twig todo "Test in prod"
+    $ twig todo "Run tests"
+    Saved property "todo" as "Run tests" for branch "my-branch".
 
-                                  issue  status   todo            branch
-                                  -----  ------   ----            ------
-    2012-11-26 18:07:21 (7m ago)  159    Shipped  Test in prod  * refactor_all_the_things
-    2012-11-24 17:12:09 (2d ago)  -      -        -               development
-    2012-11-23 19:45:42 (3d ago)  -      -        -               master
-
-Over time, you can track progress on multiple topic branches in parallel, leave
-yourself reminders of what to do next for each branch, and anything else you can
-come up with:
+    $ twig todo "Deploy" -b finished-branch
+    Saved property "todo" as "Deploy" for branch "finished-branch".
 
     $ twig
 
-                                  issue  status       todo            branch
-                                  -----  ------       ----            ------
-    2012-12-01 18:02:58 (7m ago)  486    In progress  Rebase          optimize_all_the_things
-    2012-12-01 16:49:45 (2h ago)  268    In progress  -               whitespace_all_the_things
-    2012-11-26 18:07:21 (5d ago)  159    Shipped      Test in prod  * refactor_all_the_things
-    2012-11-24 17:12:09 (7d ago)  -      -            -               development
-    2012-11-23 19:45:42 (8d ago)  -      -            -               master
+                                  todo         branch
+                                  ----         ------
+    2013-01-26 18:00:25 (7m ago)  Run tests  * my-branch
+    2013-01-23 18:35:12 (3d ago)  Deploy       finished-branch
+    2013-01-22 17:12:23 (4d ago)  -            master
+
+Remember the order in which you were rebasing your stack of branches:
+
+    $ git checkout master
+    Switched to branch 'master'.
+
+    $ twig rebase-onto branch2 -b branch3
+    Saved property "rebase-onto" as "branch2" for branch "branch3".
+
+    $ twig rebase-onto branch1 -b branch2
+    Saved property "rebase-onto" as "branch1" for branch "branch2".
+
+    $ twig
+
+                                  rebase-onto    branch
+                                  -----------    ------
+    2013-01-26 18:00:25 (7m ago)  branch2        branch3
+    2013-01-26 16:49:47 (2h ago)  branch1        branch2
+    2013-01-23 18:35:12 (3d ago)  -              branch1
+    2013-01-22 17:12:23 (4d ago)  -            * master
+
+You can set just about any custom property you need to remember for each branch.
 
 
 Subcommands
