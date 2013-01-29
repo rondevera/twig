@@ -389,8 +389,26 @@ Saved property "rebase-onto" as "branch1" for branch "branch2".
   <h2 id="subcommands">Subcommands</h2>
 
   <p>
-    If you&rsquo;re working on an issue for a GitHub repository, you can use the
-    <code>gh-update</code> subcommand that comes with Twig. To use it:
+    Twig comes with two subcommands, <code>gh-open</code> and
+    <code>gh-update</code>, which are handy for use with GitHub repositories.
+  </p>
+
+  <p>
+    While inside a Git repo, run <code>twig gh-open</code> to see the repo's
+    GitHub URL, and open a browser window if possible:
+  </p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> cd myproject
+
+<span class="prompt">$</span> twig gh-open
+GitHub URL: https://github.com/myname/myproject
+<span class="comment"># Also opens a browser window (OS X only).</span>
+  </code></pre>
+
+  <p>
+    If you&rsquo;re working on an issue for a GitHub repository, you can also
+    use the <code>gh-update</code> subcommand:
   </p>
 
   <pre class="example"><code>
