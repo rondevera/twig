@@ -17,9 +17,9 @@ Here's how Twig looks in action:
 
                                   issue  status       todo            branch
                                   -----  ------       ----            ------
-    2013-01-26 18:00:21 (7m ago)  486    In progress  Rebase          optimize_all_the_things
-    2013-01-26 16:49:21 (2h ago)  268    In progress  -               whitespace_all_the_things
-    2013-01-23 18:35:21 (3d ago)  159    Shipped      Test in prod  * refactor_all_the_things
+    2013-01-26 18:00:21 (7m ago)  486    In progress  Rebase          optimize-all-the-things
+    2013-01-26 16:49:21 (2h ago)  268    In progress  -               whitespace-all-the-things
+    2013-01-23 18:35:21 (3d ago)  159    Shipped      Test in prod  * refactor-all-the-things
     2013-01-22 17:12:09 (4d ago)  -      -            -               development
     2013-01-20 19:45:42 (6d ago)  -      -            -               master
 
@@ -76,7 +76,7 @@ List your branches, and highlight the current branch:
 
     $ twig
 
-    2013-01-26 18:07:21 (7m ago)  * refactor_all_the_things
+    2013-01-26 18:07:21 (7m ago)  * refactor-all-the-things
     2013-01-24 17:12:09 (2d ago)    development
     2013-01-23 19:45:42 (3d ago)    master
 
