@@ -137,18 +137,48 @@ You can set just about any custom property you need to remember for each branch.
 Subcommands
 ===========
 
-If you're working on an issue for a GitHub repository, you can use the
-`gh-update` subcommand that comes with Twig. To use it:
+Twig comes with two subcommands, `gh-open` and `gh-update`, which are handy for
+use with GitHub repositories.
 
-1.  Check out the topic branch: `git checkout <branch>`.
-2.  Set the GitHub issue number for the branch: `twig issue <issue number>`.
-    * To set an issue number for another branch:
-      `twig issue <issue number> -b <branch>`.
-3.  Run `twig gh-update`. This automatically looks up the GitHub issue status
-    for each branch, and saves it locally.
+While inside a Git repo, run `twig gh-open` to see the repo's GitHub URL, and open
+a browser window if possible:
 
-Run `twig` again, and it'll list each branch with its GitHub issue status.
-Periodically, you can run `twig gh-update` again to update each branch's status.
+    $ cd myproject
+
+    $ twig gh-open
+    GitHub URL: https://github.com/myname/myproject
+    # Also opens a browser window (OS X only).
+
+If you're working on an issue for a GitHub repository, you can also use the
+`gh-update` subcommand:
+
+    $ git checkout add-feature
+    Switched to branch 'add-feature'.
+
+    $ twig issue 222
+    Saved property "issue" as "222" for branch "add-feature".
+
+    $ twig
+
+                                  issue  status    branch
+                                  -----  ------    ------
+    2013-01-26 18:00:25 (7m ago)  222    -       * add-feature
+    2013-01-23 18:35:12 (3d ago)  111    -         fix-bug
+    2013-01-22 17:12:23 (4d ago)  -      -         master
+
+    $ twig gh-update
+    # Automatically looks up the GitHub issue status for each
+    # of your local branches, and saves it locally.
+
+    $ twig
+
+                                  issue  status    branch
+                                  -----  ------    ------
+    2013-01-26 18:00:25 (7m ago)  222    open    * add-feature
+    2013-01-23 18:35:12 (3d ago)  111    closed    fix-bug
+    2013-01-22 17:12:23 (4d ago)  -      -         master
+
+Run `twig gh-update` periodically to keep up with GitHub issues locally.
 
 You can write any Twig subcommand that fits your own Git workflow. To write a
 Twig subcommand:
@@ -160,9 +190,17 @@ Twig subcommand:
 
 Some ideas for subcommands:
 
-* Fetch each branch's status for any bug tracking system, like JIRA or FogBugz.
+* Get each branch's status for any issue tracking system that has an API,
+  like [JIRA](http://www.atlassian.com/software/jira/overview),
+  [FogBugz](http://www.fogcreek.com/fogbugz/), or
+  [Lighthouse](http://lighthouseapp.com/).
+* Given an issue tracker id, check out that issue's branch locally. Great for
+  following teammates' branches, remembering their issue ids, and knowing when
+  they've shipped.
 * Generate a formatted list of your branches from the past week. Useful for
-  sending progress updates.
+  emailing your team about what you're up to.
+
+If you write a subcommand that others can appreciate, send a pull request!
 
 
 More info
