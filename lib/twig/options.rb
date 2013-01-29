@@ -19,14 +19,6 @@ class Twig
           when 'except-branch' then set_option(:branch_except, value)
           when 'only-branch'   then set_option(:branch_only,   value)
           when 'max-days-old'  then set_option(:max_days_old,  value)
-
-          # Deprecated:
-          when 'except-name'
-            puts "\n`--except-name` is deprecated. Please use `--except-branch` instead.\n"
-            set_option(:branch_except, value)
-          when 'only-name'
-            puts "\n`--only-name` is deprecated. Please use `--only-branch` instead.\n"
-            set_option(:branch_only, value)
           end
         end
       end

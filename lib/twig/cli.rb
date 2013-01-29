@@ -115,25 +115,9 @@ class Twig
           'You can put your most frequently used branch filtering options in',
           "#{Twig::Options::CONFIG_FILE}. Example:",
           '',
-          '      except-name:  staging',
-          '      max-days-old: 30'
+          '      except-branch: staging',
+          '      max-days-old:  30'
         ].join("\n"))
-
-
-
-        help_separator(opts, 'Deprecated:')
-
-        desc = 'Deprecated. Use `--only-branch` instead.'
-        opts.on('--only-name PATTERN', *help_description(desc)) do |pattern|
-          puts "\n`--only-name` is deprecated. Please use `--only-branch` instead.\n"
-          set_option(:branch_only, pattern)
-        end
-
-        desc = 'Deprecated. Use `--except-branch` instead.'
-        opts.on('--except-name PATTERN', *help_description(desc)) do |pattern|
-          puts "\n`--except-name` is deprecated. Please use `--except-branch` instead.\n"
-          set_option(:branch_except, pattern)
-        end
       end
 
       option_parser.parse!(args)
