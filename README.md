@@ -218,13 +218,15 @@ More info
   issue][issues] or ping [@ronalddevera on Twitter][twitter]. If you want to
   hack on some features or contribute a subcommand you've written, feel free to
   fork and send a pull request for the **[development branch][dev branch]**.
-  (The master branch is for stable builds only.)
+  (The master branch is for stable builds only.) See the full details in the
+  [Contributing][contributing] instructions.
 - **History:** [History/changelog for Twig][history]
 - **License:** Twig is released under the [MIT License][license].
 
-[issues]:     https://github.com/rondevera/twig/issues
-[wiki]:       https://github.com/rondevera/twig/wiki
-[twitter]:    https://twitter.com/ronalddevera
-[dev branch]: https://github.com/rondevera/twig/commits/development
-[history]:    https://github.com/rondevera/twig/blob/master/HISTORY.md
-[license]:    https://github.com/rondevera/twig/blob/master/LICENSE.md
+[issues]:         https://github.com/rondevera/twig/issues
+[wiki]:           https://github.com/rondevera/twig/wiki
+[twitter]:        https://twitter.com/ronalddevera
+[dev branch]:     https://github.com/rondevera/twig/commits/development
+[contributing]:   https://github.com/rondevera/twig/blob/master/CONTRIBUTING.md
+[history]:        https://github.com/rondevera/twig/blob/master/HISTORY.md
+[license]:        https://github.com/rondevera/twig/blob/master/LICENSE.md
