@@ -205,7 +205,8 @@ Some ideas for subcommands:
 * Generate a formatted list of your branches from the past week. Useful for
   emailing your team about what you're up to.
 
-If you write a subcommand that others can appreciate, send a pull request!
+If you write a subcommand that others can appreciate, send a pull request or add
+it to the [Twig wiki][wiki]!
 
 
 More info
@@ -222,6 +223,7 @@ More info
 - **License:** Twig is released under the [MIT License][license].
 
 [issues]:     https://github.com/rondevera/twig/issues
+[wiki]:       https://github.com/rondevera/twig/wiki
 [twitter]:    https://twitter.com/ronalddevera
 [dev branch]: https://github.com/rondevera/twig/commits/development
 [history]:    https://github.com/rondevera/twig/blob/master/HISTORY.md
