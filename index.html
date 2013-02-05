@@ -31,6 +31,12 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 16px;
       font-weight: 300;
+      -webkit-text-size-adjust: 100%;
+    }
+    @media only screen and (max-device-width: 480px) {
+      body {
+        font-size: 28px;
+      }
     }
     @media only screen and (-webkit-min-device-pixel-ratio: 2) {
       body {
@@ -40,7 +46,7 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
     #page {
       width: 600px;
       margin: 0 auto;
-      padding: 2em 2em 3em;
+      padding: 30px 30px 40px;
     }
 
     /*** Global > Typography ***/
@@ -108,8 +114,8 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
 
     h1 {
       position: relative;
-      width: 79px;
-      height: 54px; /* = image height + 10px for leaf */
+      width: 118px;
+      height: 75px; /* = image height + 22px (arbitrary) for leaf */
       left: -1px;
       margin: 0;
       font-size: 3em;
@@ -133,11 +139,11 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
     }
     h1 a:after {
       position: absolute;
-      left: 52px;
+      left: 78px;
       top: 0px;
       display: block;
-      width: 20px;
-      height: 19px;
+      width: 27px;
+      height: 25px;
       background: transparent url(img/leaf.png) 0 0 no-repeat;
       content: ' ';
     }
@@ -149,14 +155,16 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
     }
     h1 a:hover:after,
     h1 a:focus:after {
-      left: 54px;
-      top: 1px;
         -moz-transform:    rotate(6deg);
         -webkit-transform: rotate(6deg);
       transform:           rotate(6deg);
+        -moz-transform-origin:    left bottom;
+        -webkit-transform-origin: left bottom;
+      transform-origin:           left bottom;
     }
     .description {
       margin-top: 0.5em;
+      font-size: 1.25em;
     }
     .github {
       display: inline-block;
@@ -179,6 +187,11 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
         -moz-transition:    all 0.1s ease-out;
         -webkit-transition: all 0.1s ease-out;
       transition:           all 0.1s ease-out;
+    }
+    @media only screen and (max-device-width: 480px) {
+      .github {
+        margin: 0.5em 0 0;
+      }
     }
     .github:hover,
     .github:focus {
