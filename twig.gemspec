@@ -9,12 +9,13 @@ Gem::Specification.new do |spec|
   spec.date          = '2012-12-13'
   spec.authors       = ['Ron DeVera']
   spec.email         = ["hello@rondevera.com"]
-  spec.homepage      = 'https://github.com/rondevera/twig'
-  spec.summary       = %{Track progress on your Git branches.}
+  spec.homepage      = 'http://rondevera.github.com/twig'
+  spec.summary       = %{Your personal Git branch assistant.}
   spec.description   =
-    'Twig is a command-line tool for tracking progress on your Git ' <<
-    'branches, remembering ticket ids for each branch, and more. Twig ' <<
-    'supports subcommands for managing branches however you want.'
+    'Twig is your personal Git branch assistant. It\'s a command-line tool ' <<
+    'for tracking progress on your branches, remembering ticket ids for ' <<
+    'each branch, and more. Twig supports subcommands for managing branches ' <<
+    'however you want.'
   spec.post_install_message =
     "\n**************************************************************" <<
     "\n*                                                            *" <<
