@@ -114,6 +114,15 @@ class Twig
           unset_option(:branch_only)
         end
 
+        colors = Twig::Display::COLORS.keys
+        weights = Twig::Display::WEIGHTS.keys
+        desc = "Set header color and weight. Valid colors are " +
+          "#{colors.join(', ')}, valid weights are #{weights.join(', ')}. " +
+          "Default is blue:normal."
+        opts.on('--header-style COLOR[:WEIGHT]', *help_description(desc)) do |style|
+          set_option(:header_style, style)
+        end
+
         help_separator(opts, [
           'You can put your most frequently used branch filtering options in',
           "#{Twig::Options::CONFIG_FILE}. For example:",

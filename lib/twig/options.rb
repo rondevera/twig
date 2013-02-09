@@ -19,6 +19,7 @@ class Twig
           when 'except-branch' then set_option(:branch_except, value)
           when 'only-branch'   then set_option(:branch_only,   value)
           when 'max-days-old'  then set_option(:max_days_old,  value)
+          when 'header-style'  then set_option(:header_style,  value)
           end
         end
       end

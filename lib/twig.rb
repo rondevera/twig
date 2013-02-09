@@ -88,7 +88,7 @@ class Twig
       end
     end
 
-    out = "\n" << branch_list_headers
+    out = "\n" << branch_list_headers(options)
 
     # List most recently modified branches first
     listable_branches =
