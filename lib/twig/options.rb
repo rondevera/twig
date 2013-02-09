@@ -42,6 +42,13 @@ class Twig
         else
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
+      when :header_style
+        colors = Twig::Display::COLORS.keys
+        weights = Twig::Display::WEIGHTS.keys
+        value =~ /(#{colors.join('|')})(:(#{weights.join('|')}))?/
+        color, weight = $1, $3
+        options[:header_color] = color.to_sym  if color
+        options[:header_weight] = weight.to_sym  if weight
       when :unset_property
         options[:unset_property] = value
       end
