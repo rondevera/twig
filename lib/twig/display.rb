@@ -46,10 +46,21 @@ class Twig
       new_string
     end
 
-    def branch_list_headers(header_options = { :color => :blue })
+    def branch_list_headers(header_options = {})
       columns_for_date_time    = 5
       columns_per_property     = 2
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
+      header_options = { color: :blue }.merge(
+        header_options.reduce({}) do |m,(k,v)|
+          if k == :header_color
+            m[:color] = v
+          elsif k == :header_weight
+            m[:weight] = v
+          else
+            m[k] = v
+          end
+          m
+        end)
 
       out =
         column(' ', columns_for_date_time) <<
@@ -106,8 +117,8 @@ class Twig
       # - `:weight`: `nil` by default. Accepts a key from `WEIGHTS`.
 
       string_options = []
-      string_options << COLORS[options[:color]] if options[:color]
       string_options << WEIGHTS[options[:weight]] if options[:weight]
+      string_options << COLORS[options[:color]] if options[:color]
       return string if string_options.empty?
 
       "\033[#{string_options.join(';')}m#{string}\033[0m"
