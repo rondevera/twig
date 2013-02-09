@@ -40,7 +40,7 @@ class Twig
 
       new_string = format_string(
         new_string,
-        column_options.reject { |k, v| ![:color, :weight].include?(k) }
+        column_options.select { |k, v| [:color, :weight].include?(k) }
       )
 
       new_string
