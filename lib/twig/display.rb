@@ -46,11 +46,11 @@ class Twig
       new_string
     end
 
-    def branch_list_headers(header_options = {})
+    def branch_list_headers(header_options = { color: :blue })
       columns_for_date_time    = 5
       columns_per_property     = 2
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
-      header_options = { color: :blue }.merge(
+      header_options = header_options.merge(
         header_options.reduce({}) do |m,(k,v)|
           if k == :header_color
             m[:color] = v
