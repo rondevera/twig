@@ -1,7 +1,9 @@
 require 'optparse'
+require_relative 'display'
 
 class Twig
   module Cli
+    include Display
 
     def help_intro
       version_string = "Twig v#{Twig::VERSION}"
@@ -114,11 +116,15 @@ class Twig
           unset_option(:branch_only)
         end
 
-        colors = Twig::Display::COLORS.keys
-        weights = Twig::Display::WEIGHTS.keys
-        desc = "Set header color and weight. Valid colors are " +
-          "#{colors.join(', ')}, valid weights are #{weights.join(', ')}. " +
-          "Default is blue:normal."
+        colors = COLORS.keys.map do |value|
+          format_string(value, { color: value })
+        end.join(', ')
+        weights = WEIGHTS.keys.map do |value|
+          format_string(value, { weight: value })
+        end.join(' and ')
+        desc = "Set header color and weight. Valid colors are #{colors}. " <<
+          "Valid weights are #{weights}. " <<
+          "Default is #{format_string('blue:normal', { color: :blue })}."
         opts.on('--header-style COLOR[:WEIGHT]', *help_description(desc)) do |style|
           set_option(:header_style, style)
         end
