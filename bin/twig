@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require File.join(File.dirname(__FILE__), '..', 'lib', 'twig')
+require_relative File.join('..', 'lib', 'twig')
 
 twig = Twig.new
 abort unless twig.repo?
