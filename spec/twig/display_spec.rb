@@ -54,6 +54,22 @@ describe Twig::Display do
         '----    ' + (' ' * column_width) +
         '  ------' + (' ' * column_width)
     end
+
+    it 'returns colorful headers' do
+      Twig::Branch.stub(:all_properties => %w[foo quux])
+      result = @twig.branch_list_headers({ header_color: :red, header_weight: :bold })
+      header_line = result.split("\n").first
+      header_line.gsub(/\s/, '').should ==
+        "\e[31;1mfoo\e[0m\e[31;1mquux\e[0m\e[31;1mbranch\e[0m"
+      result = @twig.branch_list_headers({ header_color: :green })
+      header_line = result.split("\n").first
+      header_line.gsub(/\s/, '').should ==
+        "\e[32mfoo\e[0m\e[32mquux\e[0m\e[32mbranch\e[0m"
+      result = @twig.branch_list_headers({ header_weight: :bold })
+      header_line = result.split("\n").first
+      header_line.gsub(/\s/, '').should ==
+        "\e[1mfoo\e[0m\e[1mquux\e[0m\e[1mbranch\e[0m"
+    end
   end
 
   describe '#branch_list_line' do
@@ -111,7 +127,7 @@ describe Twig::Display do
     weight_code = Twig::Display::WEIGHTS[:bold]
 
     @twig.format_string('foo', :color => :red, :weight => :bold).
-      should == "\033[#{weight_code};#{color_code}mfoo\033[0m"
+      should == "\033[#{color_code};#{weight_code}mfoo\033[0m"
     end
   end
 end

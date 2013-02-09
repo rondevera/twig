@@ -117,8 +117,8 @@ class Twig
       # - `:weight`: `nil` by default. Accepts a key from `WEIGHTS`.
 
       string_options = []
-      string_options << WEIGHTS[options[:weight]] if options[:weight]
       string_options << COLORS[options[:color]] if options[:color]
+      string_options << WEIGHTS[options[:weight]] if options[:weight]
       return string if string_options.empty?
 
       "\033[#{string_options.join(';')}m#{string}\033[0m"

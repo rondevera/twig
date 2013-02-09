@@ -36,11 +36,14 @@ describe Twig::Options do
         except-branch: test-except
         only-branch:   test-only
         max-days-old:  30.5
+        header-style:  green:bold
       }.gsub(/^\s+/, ''))
       @twig.options[:branch].should be_nil # Precondition
       @twig.options[:branch_except].should be_nil # Precondition
       @twig.options[:branch_only].should be_nil # Precondition
       @twig.options[:max_days_old].should be_nil # Precondition
+      @twig.options[:header_color].should be_nil # Precondition
+      @twig.options[:header_weight].should be_nil # Precondition
 
       @twig.read_config_file!
 
@@ -48,6 +51,8 @@ describe Twig::Options do
       @twig.options[:branch_except].should == /test-except/
       @twig.options[:branch_only].should == /test-only/
       @twig.options[:max_days_old].should == 30.5
+      @twig.options[:header_color].should == :green
+      @twig.options[:header_weight].should == :bold
     end
 
     it 'fails gracefully if the config file is not readable' do
