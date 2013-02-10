@@ -158,7 +158,7 @@ describe Twig do
     end
 
     it 'returns a message if all branches were filtered out by options' do
-      @twig.stub(:all_branches => %w(foo bar))
+      @twig.stub(:all_branches => %w[foo bar])
       @twig.stub(:branches => [])
 
       @twig.list_branches.should include(
