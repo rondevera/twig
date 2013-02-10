@@ -40,13 +40,13 @@ class Twig
 
       new_string = format_string(
         new_string,
-        column_options.select { |k, v| [:color, :weight].include?(k) }
+        column_options.reject { |k, v| ![:color, :weight].include?(k) }
       )
 
       new_string
     end
 
-    def branch_list_headers(header_options = { color: :blue })
+    def branch_list_headers(header_options = { :color => :blue })
       columns_for_date_time    = 5
       columns_per_property     = 2
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size

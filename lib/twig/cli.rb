@@ -1,5 +1,5 @@
 require 'optparse'
-require_relative 'display'
+require File.expand_path(File.join(File.dirname(__FILE__), 'display'))
 
 class Twig
   module Cli
@@ -117,14 +117,14 @@ class Twig
         end
 
         colors = COLORS.keys.map do |value|
-          format_string(value, { color: value })
+          format_string(value, { :color => value })
         end.join(', ')
         weights = WEIGHTS.keys.map do |value|
-          format_string(value, { weight: value })
+          format_string(value, { :weight => value })
         end.join(' and ')
         desc = "Set header color and weight. Valid colors are #{colors}. " <<
           "Valid weights are #{weights}. " <<
-          "Default is #{format_string('blue:normal', { color: :blue })}."
+          "Default is #{format_string('blue:normal', { :color => :blue })}."
         opts.on('--header-style COLOR[:WEIGHT]', *help_description(desc)) do |style|
           set_option(:header_style, style)
         end
