@@ -122,10 +122,12 @@ class Twig
         weights = WEIGHTS.keys.map do |value|
           format_string(value, { :weight => value })
         end.join(' and ')
-        desc = "Set header color and weight. Valid colors are #{colors}. " <<
-          "Valid weights are #{weights}. " <<
-          "Default is #{format_string('blue:normal', { :color => :blue })}."
-        opts.on('--header-style "COLOR [WEIGHT]"', *help_description(desc)) do |style|
+        desc = (<<-TXT).gsub(/\n?\s+/, ' ').strip
+          STYLE has to be at least one color or weight or one of each, separated
+          by a space. Valid colors are #{colors}. Valid weights are #{weights}.
+          The default is "#{format_string('blue normal', { :color => :blue })}".
+        TXT
+        opts.on('--header-style "STYLE"', *help_description(desc)) do |style|
           set_option(:header_style, style)
         end
 
