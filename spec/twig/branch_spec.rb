@@ -49,6 +49,13 @@ describe Twig::Branch do
       result.should == %w[eqproperty test0 test1 test2]
     end
 
+    it 'skips path values with an equal sign but no value' do
+      @config << 'foo_path='
+      Twig.should_receive(:run).with('git config --list').and_return(@config)
+      result = Twig::Branch.all_properties
+      result.should_not include 'foo_path'
+    end
+
     it 'memoizes the result' do
       Twig.should_receive(:run).once.and_return(@config)
       2.times { Twig::Branch.all_properties }
