@@ -28,22 +28,26 @@ class Twig
 
     def help_description(text, options={})
       width = options[:width] || 40
-      text  = text.dup
+      text  = text.gsub(/\n?\s+/, ' ').strip.split(' ')
 
       # Split into lines
       lines = []
+
+      # returns a text's lenght without shell color codes
+      printable_size = lambda {|t| t.gsub(/\033\[[0-9]+(;[0-9]+)?m/, '').size }
+
       until text.empty?
-        if text.size > width
-          split_index = text[0..width].rindex(' ') || width
-          lines << text.slice!(0, split_index)
-          text.strip!
+        current = text.shift
+        if lines.last &&
+          (printable_size[lines.last] + printable_size[current] + 1) < width
+
+          lines.last << ' ' << current
         else
-          lines << text.slice!(0..-1)
+          lines << current
         end
       end
 
       lines << ' ' if options[:add_separator]
-
       lines
     end
 
@@ -122,7 +126,7 @@ class Twig
         weights = WEIGHTS.keys.map do |value|
           format_string(value, { :weight => value })
         end.join(' and ')
-        desc = (<<-TXT).gsub(/\n?\s+/, ' ').strip
+        desc = <<-TXT
           STYLE has to be at least one color or weight or one of each, separated
           by a space. Valid colors are #{colors}. Valid weights are #{weights}.
           The default is "#{format_string('blue normal', { :color => :blue })}".
