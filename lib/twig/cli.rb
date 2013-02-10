@@ -134,7 +134,7 @@ class Twig
       if args.any?
         # Run subcommand binary, if any, and exit here
         possible_subcommand_name = args[0]
-        command_path = Twig.run("which twig-#{possible_subcommand_name}")
+        command_path = Twig.run("which twig-#{possible_subcommand_name} 2>/dev/null")
         unless command_path.empty?
           command = ([command_path] + args[1..-1]).join(' ')
           exec(command)
