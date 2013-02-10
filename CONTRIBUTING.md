@@ -13,7 +13,9 @@ If you want to hack on some code, even better! Here are the basics:
     for stable builds only.
 3.  Run the tests to make sure that they pass on your machine: `bundle && rake`
 4.  Add one or more failing tests for your feature or bug fix.
-5.  Write your feature or bug fix to make the test(s) pass.
+5.  Write your feature or bug fix to make the test(s) pass. Tests should pass in
+    the latest **Ruby 1.8.7** and **Ruby 1.9.3**, which you can do with
+    [rvm][rvm] or [rbenv][rbenv].
 6.  Test the change manually:
     1.  `gem build twig.gemspec`
     2.  `gem install twig-x.y.z.gem` (fill in the current version number)
@@ -24,3 +26,5 @@ Thanks for contributing!
 [issues]:     https://github.com/rondevera/twig/issues
 [twitter]:    https://twitter.com/ronalddevera
 [dev branch]: https://github.com/rondevera/twig/commits/development
+[rvm]:        https://rvm.io/
+[rbenv]:      http://rbenv.org/
