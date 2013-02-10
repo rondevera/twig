@@ -125,7 +125,7 @@ class Twig
         desc = "Set header color and weight. Valid colors are #{colors}. " <<
           "Valid weights are #{weights}. " <<
           "Default is #{format_string('blue:normal', { :color => :blue })}."
-        opts.on('--header-style COLOR[:WEIGHT]', *help_description(desc)) do |style|
+        opts.on('--header-style "COLOR [WEIGHT]"', *help_description(desc)) do |style|
           set_option(:header_style, style)
         end
 
