@@ -59,16 +59,20 @@ describe Twig::Display do
       Twig::Branch.stub(:all_properties => %w[foo quux])
       result = @twig.branch_list_headers({ :header_color => :red, :header_weight => :bold })
       header_line = result.split("\n").first
+      color, weight = Twig::Display::COLORS[:red], Twig::Display::WEIGHTS[:bold]
       header_line.gsub(/\s/, '').should ==
-        "\e[31;1mfoo\e[0m\e[31;1mquux\e[0m\e[31;1mbranch\e[0m"
+        "\e[#{color};#{weight}mfoo\e[0m\e[#{color};#{weight}mquux" <<
+        "\e[0m\e[#{color};#{weight}mbranch\e[0m"
       result = @twig.branch_list_headers({ :header_color => :green })
       header_line = result.split("\n").first
+      color = Twig::Display::COLORS[:green]
       header_line.gsub(/\s/, '').should ==
-        "\e[32mfoo\e[0m\e[32mquux\e[0m\e[32mbranch\e[0m"
+        "\e[#{color}mfoo\e[0m\e[#{color}mquux\e[0m\e[#{color}mbranch\e[0m"
       result = @twig.branch_list_headers({ :header_weight => :bold })
       header_line = result.split("\n").first
+      weight = Twig::Display::WEIGHTS[:bold]
       header_line.gsub(/\s/, '').should ==
-        "\e[1mfoo\e[0m\e[1mquux\e[0m\e[1mbranch\e[0m"
+        "\e[#{weight}mfoo\e[0m\e[#{weight}mquux\e[0m\e[#{weight}mbranch\e[0m"
     end
   end
 
