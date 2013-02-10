@@ -152,7 +152,7 @@ describe Twig::Cli do
 
       it 'recognizes a subcommand' do
         command_path = '/path/to/bin/twig-subcommand'
-        Twig.should_receive(:run).with('which twig-subcommand').
+        Twig.should_receive(:run).with('which twig-subcommand 2>/dev/null').
           and_return(command_path)
         @twig.should_receive(:exec).with(command_path)
 
@@ -160,7 +160,7 @@ describe Twig::Cli do
       end
 
       it 'does not recognize a subcommand' do
-        Twig.should_receive(:run).with('which twig-subcommand').and_return('')
+        Twig.should_receive(:run).with('which twig-subcommand 2>/dev/null').and_return('')
         @twig.should_not_receive(:exec)
 
         @twig.read_cli_args!(['subcommand'])
