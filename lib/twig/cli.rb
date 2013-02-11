@@ -39,9 +39,12 @@ class Twig
       until text.empty?
         current = text.shift
         if lines.last &&
-          (printable_size[lines.last] + printable_size[current] + 1) < width
+          (printable_size[lines.last] + printable_size[current] + 1) <= width
 
           lines.last << ' ' << current
+        elsif printable_size[current] >= width
+          lines << current[0...width]
+          text.unshift(current[width..-1])
         else
           lines << current
         end
