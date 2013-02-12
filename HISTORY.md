@@ -9,6 +9,7 @@ Twig
   (GH-7. Thanks [joelmoss](https://github.com/joelmoss)!)
 * FIX: Suppress `which` errors.
   (GH-9. Thanks [badboy](https://github.com/badboy)!)
+* FIX: In list view, render line breaks (in properties) as spaces.
 
 1.0 (2013-02-05)
 ----------------

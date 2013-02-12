@@ -59,7 +59,7 @@ describe Twig::Display do
   describe '#branch_list_line' do
     before :each do
       @current_branch_name = 'my-branch'
-      Twig::Branch.stub(:all_properties => ['foo', 'bar'])
+      Twig::Branch.stub(:all_properties => %w[foo bar])
       @twig.should_receive(:get_branch_property).
         with(anything, 'foo').and_return('foo!')
       @twig.should_receive(:get_branch_property).
@@ -88,6 +88,18 @@ describe Twig::Display do
       result = @twig.branch_list_line(branch)
 
       result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{Regexp.escape(branch.name)}/
+    end
+
+    it 'changes line break characters to spaces' do
+      branch = Twig::Branch.new('my-branch')
+      branch.should_receive(:last_commit_time).and_return(@commit_time)
+      Twig::Branch.stub(:all_properties => %w[foo bar linebreaks])
+      @twig.should_receive(:get_branch_property).
+        with(anything, 'linebreaks').and_return("line\r\nbreaks!")
+
+      result = @twig.branch_list_line(branch)
+
+      result.should include('line breaks')
     end
   end
 
