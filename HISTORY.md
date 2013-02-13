@@ -3,6 +3,8 @@ Twig
 
 1.0.1
 -----
+* ENHANCEMENT: Add Travis CI integration for running tests in multiple versions
+  of Ruby.
 * FIX: Gracefully handle Git config settings where the value is missing.
   (GH-1. Thanks [chrismanderson](https://github.com/chrismanderson)!)
 * FIX: Fix failing test in Ruby 1.9.3.
