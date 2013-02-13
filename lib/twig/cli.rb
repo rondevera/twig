@@ -161,7 +161,7 @@ class Twig
           if value && !value.empty?
             puts value
           else
-            puts %{The branch "#{branch_name}" does not have the property "#{property_name}".}
+            abort %{The branch "#{branch_name}" does not have the property "#{property_name}".}
           end
         end
       elsif property_to_unset

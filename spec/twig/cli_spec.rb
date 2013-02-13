@@ -146,22 +146,34 @@ describe Twig::Cli do
     context 'running a subcommand' do
       before :each do
         Twig.stub(:run)
-        @twig.stub(:current_branch_name => 'test')
-        @twig.stub(:puts)
+        @branch_name = 'test'
+        @twig.stub(:current_branch_name => @branch_name)
       end
 
       it 'recognizes a subcommand' do
         command_path = '/path/to/bin/twig-subcommand'
         Twig.should_receive(:run).with('which twig-subcommand 2>/dev/null').
           and_return(command_path)
-        @twig.should_receive(:exec).with(command_path)
+        @twig.should_receive(:exec).with(command_path) { exit }
 
-        @twig.read_cli_args!(['subcommand'])
+        # Since we're stubbing `exec` (with an expectation), we still need it
+        # to exit early like the real implementation. The following handles the
+        # exit somewhat gracefully.
+        expected_exception = nil
+        begin
+          @twig.read_cli_args!(['subcommand'])
+        rescue SystemExit => exception
+          expected_exception = exception
+        end
+
+        expected_exception.should_not be_nil
+        expected_exception.status.should == 0
       end
 
       it 'does not recognize a subcommand' do
         Twig.should_receive(:run).with('which twig-subcommand 2>/dev/null').and_return('')
         @twig.should_not_receive(:exec)
+        @twig.stub(:abort)
 
         @twig.read_cli_args!(['subcommand'])
       end
@@ -190,8 +202,8 @@ describe Twig::Cli do
         it 'shows an error if getting a property that is not set' do
           @twig.should_receive(:get_branch_property).
             with(@branch_name, @property_name).and_return('')
-          @twig.should_receive(:puts) do |error|
-            error.should include(
+          @twig.should_receive(:abort) do |message|
+            message.should include(
               %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
             )
           end
@@ -217,8 +229,8 @@ describe Twig::Cli do
         it 'shows an error if getting a property that is not set' do
           @twig.should_receive(:get_branch_property).
             with(@branch_name, @property_name).and_return('')
-          @twig.should_receive(:puts) do |error|
-            error.should include(
+          @twig.should_receive(:abort) do |message|
+            message.should include(
               %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
             )
           end
