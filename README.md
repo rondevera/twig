@@ -212,16 +212,16 @@ it to the [Twig wiki][wiki]!
 More info
 =========
 
-- **Requirements:** Tested with Git 1.6.5 and Ruby 1.8.7/1.9.2/1.9.3. Probably
+* **Requirements:** Tested with Git 1.6.5 and Ruby 1.8.7/1.9.2/1.9.3. Probably
   works with older software, but it's not guaranteed.
-- **Contributing:** Found a bug or have a suggestion? [Please open an
+* **Contributing:** Found a bug or have a suggestion? [Please open an
   issue][issues] or ping [@ronalddevera on Twitter][twitter]. If you want to
   hack on some features or contribute a subcommand you've written, feel free to
   fork and send a pull request for the **[development branch][dev branch]**.
   (The master branch is for stable builds only.) See the full details in the
   [Contributing][contributing] instructions.
-- **History:** [History/changelog for Twig][history]
-- **License:** Twig is released under the [MIT License][license].
+* **History:** [History/changelog for Twig][history]
+* **License:** Twig is released under the [MIT License][license].
 
 [issues]:         https://github.com/rondevera/twig/issues
 [wiki]:           https://github.com/rondevera/twig/wiki
