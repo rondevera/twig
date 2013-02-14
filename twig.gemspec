@@ -6,7 +6,6 @@ require 'twig/version'
 Gem::Specification.new do |spec|
   spec.name          = 'twig'
   spec.version       = Twig::VERSION
-  spec.date          = '2012-12-13'
   spec.authors       = ['Ron DeVera']
   spec.email         = ["hello@rondevera.com"]
   spec.homepage      = 'http://rondevera.github.com/twig'
