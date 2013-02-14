@@ -53,19 +53,19 @@ class Twig
 
       out =
         column(' ', columns_for_date_time) <<
+        column(branch_indicator_padding + 'branch',
+          5, header_options) <<
         Twig::Branch.all_properties.map do |property|
           column(property, columns_per_property, header_options)
         end.join <<
-        column(branch_indicator_padding + 'branch',
-          columns_per_property, header_options) <<
         "\n"
       out <<
         column(' ', columns_for_date_time) <<
+        column(branch_indicator_padding + '------',
+          5, header_options) <<
         Twig::Branch.all_properties.map do |property|
           column('-' * property.size, columns_per_property, header_options)
         end.join <<
-        column(branch_indicator_padding + '------',
-          columns_per_property, header_options) <<
         "\n"
 
       out
@@ -83,18 +83,18 @@ class Twig
 
       line = column(branch.last_commit_time.to_s, 5)
 
-      line <<
-        Twig::Branch.all_properties.map do |property_name|
-          property = properties[property_name] || ''
-          column(property, 2)
-        end.join
-
-      line <<
-        if is_current_branch
-          CURRENT_BRANCH_INDICATOR + branch.to_s
+      br = if is_current_branch
+          CURRENT_BRANCH_INDICATOR + branch.to_s + "  "
         else
           (' ' * CURRENT_BRANCH_INDICATOR.size) + branch.to_s
         end
+      line << column(br, 5)
+
+      line <<
+        Twig::Branch.all_properties.map do |property_name|
+          property = properties[property_name] || ''
+          column(property, 20)
+        end.join
 
       line = format_string(line, :weight => :bold) if is_current_branch
 
