@@ -1,6 +1,9 @@
 Twig
 ====
 
+* FIX: Make `branch` a reserved property name, along with `merge`, `rebase`, and
+  `remote`.
+
 1.0.1 (2013-02-13)
 ------------------
 * ENHANCEMENT: Add Travis CI integration for running tests in multiple versions
