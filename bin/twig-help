@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
 
 # Your friendly neighborhood `twig --help` alias.
+#
+# Author: Ron DeVera <http://rondevera.com>
+
 puts `twig --help`
