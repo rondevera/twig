@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+# Initializes the shell environment for Twig, including tab completion. To use
+# this, add `twig init-completion` to your `.bashrc` or equivalent.
+#
+# Author: Ron DeVera <http://rondevera.com>
+
+bash_version = `echo $BASH_VERSION`.strip
+exec('twig-init-completion-bash') if bash_version != ''
+
+abort 'Could not initialize Twig tab completion for this shell.'

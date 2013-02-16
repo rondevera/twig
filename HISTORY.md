@@ -1,6 +1,8 @@
 Twig
 ====
 
+* ENHANCEMENT: Add branch name tab completion for `-b` and `--branch` options.
+  (GH-12)
 * FIX: Make `branch` a reserved property name, along with `merge`, `rebase`, and
   `remote`.
 
