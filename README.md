@@ -43,6 +43,7 @@ chronologically with their properties.
 * `twig <property> -b <branch>`:         Get property for any branch
 * `twig <property> <value> -b <branch>`: Set property for any branch
 * `twig --unset <property> -b <branch>`: Unset property for any branch
+* `twig init-completion`:                Set up tab completion for `-b` and `--branch`
 * `twig --help`:                         More info
 
 

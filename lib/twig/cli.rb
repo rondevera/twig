@@ -20,8 +20,9 @@ class Twig
       BANNER
     end
 
-    def help_separator(option_parser, text)
-      option_parser.separator "\n#{text}\n\n"
+    def help_separator(option_parser, text, options={})
+      options[:trailing] ||= "\n\n"
+      option_parser.separator "\n#{text}#{options[:trailing]}"
     end
 
     def help_description(text, options={})
@@ -120,6 +121,11 @@ class Twig
           '',
           '      except-branch: staging',
           '      max-days-old:  30'
+        ].join("\n"), :trailing => '')
+
+        help_separator(opts, [
+          'To enable tab completion for Twig, run `twig init-completion` and',
+          'follow the instructions.'
         ].join("\n"))
       end
 
