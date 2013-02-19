@@ -1,9 +1,7 @@
 require 'optparse'
-require File.expand_path(File.join(File.dirname(__FILE__), 'display'))
 
 class Twig
   module Cli
-    include Display
 
     def help_intro
       version_string = "Twig v#{Twig::VERSION}"
@@ -124,10 +122,10 @@ class Twig
           unset_option(:branch_only)
         end
 
-        colors = COLORS.keys.map do |value|
+        colors = Twig::Display::COLORS.keys.map do |value|
           format_string(value, { :color => value })
         end.join(', ')
-        weights = WEIGHTS.keys.map do |value|
+        weights = Twig::Display::WEIGHTS.keys.map do |value|
           format_string(value, { :weight => value })
         end.join(' and ')
         desc = <<-TXT
