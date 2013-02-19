@@ -19,6 +19,7 @@ class Twig
           when 'except-branch' then set_option(:branch_except, value)
           when 'only-branch'   then set_option(:branch_only,   value)
           when 'max-days-old'  then set_option(:max_days_old,  value)
+          when 'header-style'  then set_option(:header_style,  value)
           end
         end
       end
@@ -42,6 +43,14 @@ class Twig
         else
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
+      when :header_style
+        values = value.split(/\s/).map(&:to_sym)
+        colors = Twig::Display::COLORS.keys
+        weights = Twig::Display::WEIGHTS.keys
+        color = values.find {|v| colors.include?(v) }
+        weight = values.find {|v| weights.include?(v) }
+        options[:header_color] = color  if color
+        options[:header_weight] = weight  if weight
       when :unset_property
         options[:unset_property] = value
       end

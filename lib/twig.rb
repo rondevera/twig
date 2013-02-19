@@ -1,4 +1,4 @@
-Dir[File.join(File.dirname(__FILE__), 'twig', '*')].each { |file| require file }
+Dir[File.join(File.dirname(__FILE__), 'twig', '*.rb')].each { |file| require file }
 require 'time'
 
 class Twig
@@ -88,7 +88,7 @@ class Twig
       end
     end
 
-    out = "\n" << branch_list_headers
+    out = "\n" << branch_list_headers(options)
 
     # List most recently modified branches first
     listable_branches =
