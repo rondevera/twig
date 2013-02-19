@@ -1,7 +1,9 @@
 require 'optparse'
+require File.expand_path(File.join(File.dirname(__FILE__), 'display'))
 
 class Twig
   module Cli
+    include Display
 
     def help_intro
       version_string = "Twig v#{Twig::VERSION}"
@@ -26,22 +28,29 @@ class Twig
 
     def help_description(text, options={})
       width = options[:width] || 40
-      text  = text.dup
+      text  = text.gsub(/\n?\s+/, ' ').strip.split(' ')
 
       # Split into lines
       lines = []
+
+      # returns a text's lenght without shell color codes
+      printable_size = lambda {|t| t.gsub(/\033\[[0-9]+(;[0-9]+)?m/, '').size }
+
       until text.empty?
-        if text.size > width
-          split_index = text[0..width].rindex(' ') || width
-          lines << text.slice!(0, split_index)
-          text.strip!
+        current = text.shift
+        if lines.last &&
+          (printable_size[lines.last] + printable_size[current] + 1) <= width
+
+          lines.last << ' ' << current
+        elsif printable_size[current] >= width
+          lines << current[0...width]
+          text.unshift(current[width..-1])
         else
-          lines << text.slice!(0..-1)
+          lines << current
         end
       end
 
       lines << ' ' if options[:add_separator]
-
       lines
     end
 
@@ -112,6 +121,21 @@ class Twig
           unset_option(:max_days_old)
           unset_option(:branch_except)
           unset_option(:branch_only)
+        end
+
+        colors = COLORS.keys.map do |value|
+          format_string(value, { :color => value })
+        end.join(', ')
+        weights = WEIGHTS.keys.map do |value|
+          format_string(value, { :weight => value })
+        end.join(' and ')
+        desc = <<-TXT
+          STYLE has to be at least one color or weight or one of each, separated
+          by a space. Valid colors are #{colors}. Valid weights are #{weights}.
+          The default is "#{format_string('blue normal', { :color => :blue })}".
+        TXT
+        opts.on('--header-style "STYLE"', *help_description(desc)) do |style|
+          set_option(:header_style, style)
         end
 
         help_separator(opts, [

@@ -54,6 +54,26 @@ describe Twig::Display do
         '----    ' + (' ' * column_width) +
         '  ------' + (' ' * column_width)
     end
+
+    it 'returns colorful headers' do
+      Twig::Branch.stub(:all_properties => %w[foo quux])
+      result = @twig.branch_list_headers({ :header_color => :red, :header_weight => :bold })
+      header_line = result.split("\n").first
+      color, weight = Twig::Display::COLORS[:red], Twig::Display::WEIGHTS[:bold]
+      header_line.gsub(/\s/, '').should ==
+        "\e[#{color};#{weight}mfoo\e[0m\e[#{color};#{weight}mquux" <<
+        "\e[0m\e[#{color};#{weight}mbranch\e[0m"
+      result = @twig.branch_list_headers({ :header_color => :green })
+      header_line = result.split("\n").first
+      color = Twig::Display::COLORS[:green]
+      header_line.gsub(/\s/, '').should ==
+        "\e[#{color}mfoo\e[0m\e[#{color}mquux\e[0m\e[#{color}mbranch\e[0m"
+      result = @twig.branch_list_headers({ :header_weight => :bold })
+      header_line = result.split("\n").first
+      weight = Twig::Display::WEIGHTS[:bold]
+      header_line.gsub(/\s/, '').should ==
+        "\e[#{weight}mfoo\e[0m\e[#{weight}mquux\e[0m\e[#{weight}mbranch\e[0m"
+    end
   end
 
   describe '#branch_list_line' do
