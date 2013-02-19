@@ -12,6 +12,7 @@ class Twig
   REF_FORMAT = %w[refname committerdate committerdate:relative].
                 map { |field| '%(' + field + ')' }.join(REF_FORMAT_SEPARATOR)
   REF_PREFIX = 'refs/heads/'
+  DEFAULT_HEADER_COLOR = :blue
 
   def self.run(command)
     `#{command}`.strip
@@ -19,6 +20,9 @@ class Twig
 
   def initialize
     self.options = {}
+
+    # Set defaults
+    set_option(:header_style, DEFAULT_HEADER_COLOR.to_s)
   end
 
   def repo?

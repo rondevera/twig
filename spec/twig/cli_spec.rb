@@ -106,10 +106,10 @@ describe Twig::Cli do
     end
 
     it 'recognizes `--header-style`' do
-      @twig.options[:header_color].should be_nil
+      @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
       @twig.options[:header_weight].should be_nil
-      @twig.read_cli_options!(['--header-style', 'blue bold'])
-      @twig.options[:header_color].should == :blue
+      @twig.read_cli_options!(['--header-style', 'green bold'])
+      @twig.options[:header_color].should == :green
       @twig.options[:header_weight].should == :bold
     end
 

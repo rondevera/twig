@@ -4,7 +4,9 @@ describe Twig do
   describe '#initialize' do
     it 'creates a Twig instance' do
       twig = Twig.new
-      twig.options.should == {}
+      twig.options.should == {
+        :header_color => Twig::DEFAULT_HEADER_COLOR
+      }
     end
   end
 

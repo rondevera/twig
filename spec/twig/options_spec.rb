@@ -38,12 +38,14 @@ describe Twig::Options do
         max-days-old:  30.5
         header-style:  green bold
       }.gsub(/^\s+/, ''))
-      @twig.options[:branch].should be_nil # Precondition
-      @twig.options[:branch_except].should be_nil # Precondition
-      @twig.options[:branch_only].should be_nil # Precondition
-      @twig.options[:max_days_old].should be_nil # Precondition
-      @twig.options[:header_color].should be_nil # Precondition
-      @twig.options[:header_weight].should be_nil # Precondition
+
+      # Check preconditions
+      @twig.options[:branch].should be_nil
+      @twig.options[:branch_except].should be_nil
+      @twig.options[:branch_only].should be_nil
+      @twig.options[:max_days_old].should be_nil
+      @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
+      @twig.options[:header_weight].should be_nil
 
       @twig.read_config_file!
 
