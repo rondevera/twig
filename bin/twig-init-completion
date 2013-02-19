@@ -9,6 +9,7 @@ debug = ARGV.include?('--debug')
 bash_version = `echo $BASH_VERSION`.strip
 
 if debug
+  puts "- Ruby version: #{`ruby --version`.strip}"
   puts "- bash_version: #{bash_version.inspect}"
 end
 
