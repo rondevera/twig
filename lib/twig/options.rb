@@ -37,20 +37,20 @@ class Twig
         options[:branch_except] = Regexp.new(value)
       when :branch_only
         options[:branch_only] = Regexp.new(value)
+      when :header_style
+        values  = value.split(/\s/).map(&:to_sym)
+        colors  = Twig::Display::COLORS.keys
+        weights = Twig::Display::WEIGHTS.keys
+        color   = values.find { |value| colors.include?(value)  }
+        weight  = values.find { |value| weights.include?(value) }
+        options[:header_color]  = color  if color
+        options[:header_weight] = weight if weight
       when :max_days_old
         if Twig::Util.numeric?(value)
           options[:max_days_old] = value.to_f
         else
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
-      when :header_style
-        values = value.split(/\s/).map(&:to_sym)
-        colors = Twig::Display::COLORS.keys
-        weights = Twig::Display::WEIGHTS.keys
-        color = values.find {|v| colors.include?(v) }
-        weight = values.find {|v| weights.include?(v) }
-        options[:header_color] = color  if color
-        options[:header_weight] = weight  if weight
       when :unset_property
         options[:unset_property] = value
       end
