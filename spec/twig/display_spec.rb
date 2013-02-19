@@ -62,7 +62,9 @@ describe Twig::Display do
       header_line = result.split("\n").first
       color = Twig::Display::COLORS[:green]
       header_line.gsub(/\s/, '').should ==
-        "\e[#{color}mfoo\e[0m\e[#{color}mquux\e[0m\e[#{color}mbranch\e[0m"
+        "\e[#{color}mfoo\e[0m" <<
+        "\e[#{color}mquux\e[0m" <<
+        "\e[#{color}mbranch\e[0m"
     end
 
     it 'sets a header weight' do
@@ -70,7 +72,9 @@ describe Twig::Display do
       header_line = result.split("\n").first
       weight = Twig::Display::WEIGHTS[:bold]
       header_line.gsub(/\s/, '').should ==
-        "\e[#{weight}mfoo\e[0m\e[#{weight}mquux\e[0m\e[#{weight}mbranch\e[0m"
+        "\e[#{weight}mfoo\e[0m" <<
+        "\e[#{weight}mquux\e[0m" <<
+        "\e[#{weight}mbranch\e[0m"
     end
 
     it 'sets a header color and weight' do
@@ -78,8 +82,9 @@ describe Twig::Display do
       header_line = result.split("\n").first
       color, weight = Twig::Display::COLORS[:red], Twig::Display::WEIGHTS[:bold]
       header_line.gsub(/\s/, '').should ==
-        "\e[#{color};#{weight}mfoo\e[0m\e[#{color};#{weight}mquux" <<
-        "\e[0m\e[#{color};#{weight}mbranch\e[0m"
+        "\e[#{color};#{weight}mfoo\e[0m" <<
+        "\e[#{color};#{weight}mquux\e[0m" <<
+        "\e[#{color};#{weight}mbranch\e[0m"
     end
   end
 
