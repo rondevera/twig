@@ -57,8 +57,6 @@ class Twig
             opts[:color] = value
           elsif key == :header_weight
             opts[:weight] = value
-          else
-            opts[key] = value
           end
           opts
         end
