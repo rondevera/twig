@@ -122,6 +122,10 @@ class Twig
           unset_option(:branch_only)
         end
 
+
+
+        help_separator(opts, 'Listing branches:')
+
         colors = Twig::Display::COLORS.keys.map do |value|
           format_string(value, { :color => value })
         end.join(', ')
@@ -136,6 +140,8 @@ class Twig
         opts.on('--header-style "STYLE"', *help_description(desc)) do |style|
           set_option(:header_style, style)
         end
+
+
 
         help_separator(opts, [
           'You can put your most frequently used branch filtering options in',
