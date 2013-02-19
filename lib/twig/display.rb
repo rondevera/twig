@@ -122,7 +122,7 @@ class Twig
       string_options << WEIGHTS[options[:weight]] if options[:weight]
       return string if string_options.empty?
 
-      "\033[#{string_options.join(';')}m#{string}\033[0m"
+      "\e[#{string_options.join(';')}m#{string}\e[0m"
     end
   end # module Display
 end

@@ -31,7 +31,7 @@ class Twig
 
       # Returns a text's length without shell color codes
       printable_size = lambda do |string|
-        string.gsub(/\033\[[0-9]+(;[0-9]+)?m/, '').size
+        string.gsub(/\e\[[0-9]+(;[0-9]+)?m/, '').size
       end
 
       # Split text into lines
