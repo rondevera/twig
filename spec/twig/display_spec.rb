@@ -36,9 +36,11 @@ describe Twig::Display do
   end
 
   describe '#branch_list_headers' do
-    it 'returns a string of branch properties and underlines' do
+    before :each do
       Twig::Branch.stub(:all_properties => %w[foo quux])
+    end
 
+    it 'returns a string of branch properties and underlines' do
       result = @twig.branch_list_headers({})
       result_lines = result.split("\n")
 
@@ -56,7 +58,6 @@ describe Twig::Display do
     end
 
     it 'returns colorful headers' do
-      Twig::Branch.stub(:all_properties => %w[foo quux])
       result = @twig.branch_list_headers({ :header_color => :red, :header_weight => :bold })
       header_line = result.split("\n").first
       color, weight = Twig::Display::COLORS[:red], Twig::Display::WEIGHTS[:bold]
