@@ -128,11 +128,11 @@ class Twig
         weights = Twig::Display::WEIGHTS.keys.map do |value|
           format_string(value, { :weight => value })
         end.join(' and ')
-        desc = <<-TXT
-          STYLE has to be at least one color or weight or one of each, separated
-          by a space. Valid colors are #{colors}. Valid weights are #{weights}.
+        desc = <<-DESC
+          STYLE is a color, weight, or a space-separated pair of one of each.
+          Valid colors are #{colors}. Valid weights are #{weights}.
           The default is "#{format_string('blue normal', { :color => :blue })}".
-        TXT
+        DESC
         opts.on('--header-style "STYLE"', *help_description(desc)) do |style|
           set_option(:header_style, style)
         end
