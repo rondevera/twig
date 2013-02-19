@@ -6,13 +6,6 @@ describe Twig do
       twig = Twig.new
       twig.options.should == {}
     end
-
-    it 'creates a Twig instance with arbitrary options' do
-      options = {:foo => 'bar'}
-      twig = Twig.new(options)
-
-      twig.options.should == options
-    end
   end
 
   describe '#current_branch_name' do

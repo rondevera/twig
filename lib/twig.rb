@@ -17,13 +17,8 @@ class Twig
     `#{command}`.strip
   end
 
-  def initialize(options = {})
-    # Options:
-    # - :branch_except (Regexp)
-    # - :branch_only (Regexp)
-    # - :max_days_old (integer)
-
-    self.options = options
+  def initialize
+    self.options = {}
   end
 
   def repo?
