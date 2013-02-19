@@ -46,7 +46,7 @@ class Twig
       new_string
     end
 
-    def branch_list_headers(header_options = { :color => :blue })
+    def branch_list_headers(header_options = {})
       columns_for_date_time    = 5
       columns_per_property     = 2
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
