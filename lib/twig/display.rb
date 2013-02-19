@@ -50,17 +50,19 @@ class Twig
       columns_for_date_time    = 5
       columns_per_property     = 2
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
-      header_options = header_options.merge(
-        header_options.reduce({}) do |m,(k,v)|
-          if k == :header_color
-            m[:color] = v
-          elsif k == :header_weight
-            m[:weight] = v
+
+      header_options.merge!(
+        header_options.inject({}) do |opts, (key, value)|
+          if key == :header_color
+            opts[:color] = value
+          elsif key == :header_weight
+            opts[:weight] = value
           else
-            m[k] = v
+            opts[key] = value
           end
-          m
-        end)
+          opts
+        end
+      )
 
       out =
         column(' ', columns_for_date_time) <<

@@ -29,13 +29,14 @@ class Twig
     def help_description(text, options={})
       width = options[:width] || 40
       text  = text.gsub(/\n?\s+/, ' ').strip.split(' ')
-
-      # Split into lines
       lines = []
 
-      # returns a text's lenght without shell color codes
-      printable_size = lambda {|t| t.gsub(/\033\[[0-9]+(;[0-9]+)?m/, '').size }
+      # Returns a text's length without shell color codes
+      printable_size = lambda do |string|
+        string.gsub(/\033\[[0-9]+(;[0-9]+)?m/, '').size
+      end
 
+      # Split text into lines
       until text.empty?
         current = text.shift
         if lines.last &&
