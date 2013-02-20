@@ -6,7 +6,7 @@
 # Author: Ron DeVera <http://rondevera.com>
 
 debug = ARGV.include?('--debug')
-bash_version = `echo $BASH_VERSION`.strip
+bash_version = `bash -c 'echo $BASH_VERSION'`.strip
 
 if debug
   puts "- Ruby version: #{`ruby --version`.strip}"
