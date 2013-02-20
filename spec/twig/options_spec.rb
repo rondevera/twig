@@ -16,9 +16,7 @@ describe Twig::Options do
       file = double('file')
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
-      file.should_receive(:read).and_return(%{
-        branch: test
-      }.gsub(/^\s+/, ''))
+      file.should_receive(:read).and_return('branch: test')
       @twig.options[:branch].should be_nil # Precondition
 
       @twig.read_config_file!
@@ -31,13 +29,13 @@ describe Twig::Options do
       file = double('file')
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
-      file.should_receive(:read).and_return(%{
-        branch:        test
-        except-branch: test-except
-        only-branch:   test-only
-        max-days-old:  30.5
-        header-style:  green bold
-      }.gsub(/^\s+/, ''))
+      file.should_receive(:read).and_return([
+        'branch:        test',
+        'except-branch: test-except',
+        'only-branch:   test-only',
+        'max-days-old:  30.5',
+        'header-style:  green bold'
+      ].join("\n"))
 
       # Check preconditions
       @twig.options[:branch].should be_nil
@@ -61,11 +59,11 @@ describe Twig::Options do
       file = double('file')
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
-      file.should_receive(:read).and_return(%{
-        # max-days-old: 40
-        max-days-old: 30
-        # max-days-old: 20
-      }.gsub(/^\s+/, ''))
+      file.should_receive(:read).and_return([
+        '# max-days-old: 40',
+        'max-days-old: 30',
+        '# max-days-old: 20'
+      ].join("\n"))
       @twig.options[:max_days_old].should be_nil # Precondition
 
       @twig.read_config_file!
