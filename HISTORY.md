@@ -7,6 +7,7 @@ Twig
   colors and weights. (GH-11. Thanks [tsujigiri](https://github.com/tsujigiri)!)
 * FIX: Make `branch` a reserved property name, along with `merge`, `rebase`, and
   `remote`.
+* FIX: Handle line breaks gracefully in `~/.twigrc` config file.
 
 1.0.1 (2013-02-13)
 ------------------

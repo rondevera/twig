@@ -10,7 +10,8 @@ class Twig
       File.open(config_file_path) do |f|
         opts = f.read.split("\n").inject({}) do |hsh, opt|
           key, value = opt.split(':', 2)
-          hsh.merge(key.strip => value.strip)
+          hsh[key.strip] = value.strip if key && value
+          hsh
         end
 
         opts.each do |key, value|

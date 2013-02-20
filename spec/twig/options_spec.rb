@@ -57,6 +57,42 @@ describe Twig::Options do
       @twig.options[:header_weight].should == :bold
     end
 
+    it 'skips comments' do
+      file = double('file')
+      File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
+      File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
+      file.should_receive(:read).and_return(%{
+        # max-days-old: 40
+        max-days-old: 30
+        # max-days-old: 20
+      }.gsub(/^\s+/, ''))
+      @twig.options[:max_days_old].should be_nil # Precondition
+
+      @twig.read_config_file!
+
+      @twig.options[:max_days_old].should == 30
+    end
+
+    it 'skips line breaks' do
+      file = double('file')
+      File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
+      File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
+      file.should_receive(:read).and_return([
+        'except-branch: test-except',
+        '',
+        'only-branch:   test-only'
+      ].join("\n"))
+
+      # Check preconditions
+      @twig.options[:branch_except].should be_nil
+      @twig.options[:branch_only].should be_nil
+
+      @twig.read_config_file!
+
+      @twig.options[:branch_except].should == /test-except/
+      @twig.options[:branch_only].should == /test-only/
+    end
+
     it 'fails gracefully if the config file is not readable' do
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(false)
       lambda { @twig.read_config_file! }.should_not raise_exception
