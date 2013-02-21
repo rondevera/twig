@@ -68,6 +68,7 @@ automatically included when you run `twig`. Example:
 
     # ~/.twigrc:
     except-branch: staging
+    header-style:  green bold
     max-days-old:  30
 
 
