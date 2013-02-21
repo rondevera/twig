@@ -3,6 +3,8 @@ Twig
 
 1.1
 ---
+* ENHANCEMENT: Add branch name tab completion for `-b` and `--branch` options.
+  (GH-12)
 * ENHANCEMENT: Add `--header-style` option for changing the column headers'
   colors and weights. (GH-11. Thanks [tsujigiri](https://github.com/tsujigiri)!)
 * FIX: Make `branch` a reserved property name, along with `merge`, `rebase`, and

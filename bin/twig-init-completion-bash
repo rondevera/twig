@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+# Initializes bash tab completion for Twig. To use this, run
+# `twig init-completion` and follow the instructions.
+#
+# Author: Ron DeVera <http://rondevera.com>
+
+require 'fileutils'
+
+version = `twig --version`.strip
+script = <<-SCRIPT
+
+#!/usr/bin/env bash
+
+# AUTO-GENERATED with Twig v#{version}. Regenerate with `twig init-completion`.
+#
+# Initializes bash tab completion for Twig. To use this, run
+# `twig init-completion` and follow the instructions.
+#
+# Author: Ron DeVera <http://rondevera.com>
+
+__twig_branches() {
+  local current words
+  current="${COMP_WORDS[COMP_CWORD]}"
+  words="$(git for-each-ref refs/heads/ --format="%(refname:short)" | tr '\n' ' ')"
+  COMPREPLY=($(compgen -W "$words" -- "$current"))
+  return 0
+}
+
+__twig() {
+  if [ -z "$(git rev-parse HEAD 2>/dev/null)" ]; then
+    return 0;
+  fi
+
+  local previous=${COMP_WORDS[COMP_CWORD-1]}
+
+  case "${previous}" in
+  -b|--branch)  __twig_branches ;;
+  esac
+
+  return 0
+}
+
+complete -F __twig twig
+
+SCRIPT
+script = script.strip + "\n"
+
+
+
+twig_dir = '~/.twig'
+FileUtils.mkdir_p(File.expand_path(twig_dir))
+
+script_path = File.join(twig_dir, '/twig-completion.bash')
+full_script_path = File.expand_path(script_path)
+unless File.exists?(full_script_path)
+  File.open(full_script_path, 'w') do |file|
+    file.write script
+  end
+  puts "Created #{script_path}."
+end
+
+puts
+puts 'To enable tab completion for Twig, add the following to your `~/.bashrc`'
+puts 'or equivalent:'
+puts
+puts "  [[ -s #{script_path} ]] && source #{script_path}"
+puts
+puts 'To finish setup, open a new command-line window or run `source ~/.bashrc`.'

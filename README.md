@@ -44,6 +44,7 @@ chronologically with their properties.
 * `twig <property> <value> -b <branch>`: Set property for any branch
 * `twig --unset <property> -b <branch>`: Unset property for any branch
 * `twig --header-style <format>`:        Change the header style, e.g., "red", "green bold"
+* `twig init-completion`:                Set up tab completion for `-b` and `--branch`
 * `twig --help`:                         More info
 
 
