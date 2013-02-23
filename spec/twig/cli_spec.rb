@@ -39,6 +39,26 @@ describe Twig::Cli do
     end
   end
 
+  describe '#help_paragraph' do
+    before :each do
+      @twig = Twig.new
+    end
+
+    it 'returns long text in a paragraph with line breaks' do
+      text = Array.new(5) {
+        'The quick brown fox jumps over the lazy dog.'
+      }.join(' ')
+
+      result = @twig.help_paragraph(text)
+
+      result.should == [
+        "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the",
+        "lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps",
+        "over the lazy dog. The quick brown fox jumps over the lazy dog."
+      ].join("\n")
+    end
+  end
+
   describe '#read_cli_options!' do
     before :each do
       @twig = Twig.new

@@ -50,6 +50,10 @@ class Twig
       lines
     end
 
+    def help_paragraph(text)
+      help_description(text, :width => 80).join("\n")
+    end
+
     def read_cli_options!(args)
       option_parser = OptionParser.new do |opts|
         opts.banner         = help_intro
