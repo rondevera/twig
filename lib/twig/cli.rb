@@ -27,26 +27,22 @@ class Twig
 
     def help_description(text, options={})
       width = options[:width] || 40
-      text  = text.gsub(/\n?\s+/, ' ').strip.split(' ')
+      words = text.gsub(/\n?\s+/, ' ').strip.split(' ')
       lines = []
 
-      # Returns a text's length without shell color codes
-      printable_size = lambda do |string|
-        string.gsub(/\e\[[0-9]+(;[0-9]+)?m/, '').size
-      end
+      # Split words into lines
+      while words.any?
+        current_word = words.shift
+        current_word_size = formatted_string_display_size(current_word)
+        last_line_size = lines.last && formatted_string_display_size(lines.last)
 
-      # Split text into lines
-      until text.empty?
-        current = text.shift
-        if lines.last &&
-          (printable_size[lines.last] + printable_size[current] + 1) <= width
-
-          lines.last << ' ' << current
-        elsif printable_size[current] >= width
-          lines << current[0...width]
-          text.unshift(current[width..-1])
+        if last_line_size && (last_line_size + current_word_size + 1 <= width)
+          lines.last << ' ' << current_word
+        elsif current_word_size >= width
+          lines << current_word[0...width]
+          words.unshift(current_word[width..-1])
         else
-          lines << current
+          lines << current_word
         end
       end
 
