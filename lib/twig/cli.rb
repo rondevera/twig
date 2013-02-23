@@ -6,14 +6,18 @@ class Twig
     def help_intro
       version_string = "Twig v#{Twig::VERSION}"
 
+      intro = help_paragraph(%{
+        Twig is your personal Git branch assistant. It shows you your most
+        recent branches, and tracks issue tracker ids, tasks, and other metadata
+        for your Git branches.
+      })
+
       <<-BANNER.gsub(/^[ ]+/, '')
 
         #{version_string}
         #{'-' * version_string.size}
 
-        Twig is your personal Git branch assistant. It shows you your most
-        recent branches, and tracks issue tracker ids, tasks, and other metadata
-        for your Git branches.
+        #{intro}
 
         https://rondevera.github.com/twig
 
@@ -148,18 +152,20 @@ class Twig
 
 
 
+        help_separator(opts, help_paragraph(%{
+          You can put your most frequently used branch filtering options in
+          #{Twig::Options::CONFIG_FILE}. For example:
+        }), :trailing => '')
+
         help_separator(opts, [
-          'You can put your most frequently used branch filtering options in',
-          "#{Twig::Options::CONFIG_FILE}. For example:",
-          '',
           '      except-branch: staging',
           '      max-days-old:  30'
         ].join("\n"), :trailing => '')
 
-        help_separator(opts, [
-          'To enable tab completion for Twig, run `twig init-completion` and',
-          'follow the instructions.'
-        ].join("\n"))
+        help_separator(opts, help_paragraph(%{
+          To enable tab completion for Twig, run `twig init-completion` and
+          follow the instructions.
+        }))
       end
 
       option_parser.parse!(args)
