@@ -124,5 +124,9 @@ class Twig
 
       "\e[#{string_options.join(';')}m#{string}\e[0m"
     end
+
+    def formatted_string_display_size(string)
+      string.gsub(/\e\[[0-9]+(;[0-9]+)?m/, '').size
+    end
   end # module Display
 end

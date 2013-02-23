@@ -158,4 +158,31 @@ describe Twig::Display do
       should == "\e[#{color_code};#{weight_code}mfoo\e[0m"
     end
   end
+
+  describe '#formatted_string_display_size' do
+    it 'returns the width of a plain text string' do
+      @twig.formatted_string_display_size('foo').should == 3
+    end
+
+    it 'returns the width of a string with color' do
+      string = @twig.format_string('foo', :color => :red)
+      string.size.should > 3 # Precondition
+
+      @twig.formatted_string_display_size(string).should == 3
+    end
+
+    it 'returns the width of a string with weight' do
+      string = @twig.format_string('foo', :weight => :bold)
+      string.size.should > 3 # Precondition
+
+      @twig.formatted_string_display_size(string).should == 3
+    end
+
+    it 'returns the width of a string with color and weight' do
+      string = @twig.format_string('foo', :color => :red, :weight => :bold)
+      string.size.should > 3 # Precondition
+
+      @twig.formatted_string_display_size(string).should == 3
+    end
+  end
 end
