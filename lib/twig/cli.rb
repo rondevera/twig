@@ -153,12 +153,13 @@ class Twig
 
 
         help_separator(opts, help_paragraph(%{
-          You can put your most frequently used branch filtering options in
-          #{Twig::Options::CONFIG_FILE}. For example:
+          You can put your most frequently used options for filtering and
+          listing branches into #{Twig::Options::CONFIG_FILE}. For example:
         }), :trailing => '')
 
         help_separator(opts, [
           '      except-branch: staging',
+          '      header-style:  green bold',
           '      max-days-old:  30'
         ].join("\n"), :trailing => '')
 
