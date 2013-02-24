@@ -30,14 +30,13 @@ describe Twig do
         fix_some_other_of_the_things
         fix_nothing
       ]
-      branch_refs = @branch_names.map { |name| Twig::REF_PREFIX + name }
       @commit_time_strings = ['2001-01-01',   '2002-02-02',   '2003-03-03'  ]
       @commit_time_agos    = ['111 days ago', '222 days ago', '333 days ago']
       @command =
         %{git for-each-ref #{Twig::REF_PREFIX} --format="#{Twig::REF_FORMAT}"}
 
       @branch_tuples = (0..2).map do |i|
-        "#{branch_refs[i]},#{@commit_time_strings[i]},#{@commit_time_agos[i]}"
+        "#{@branch_names[i]},#{@commit_time_strings[i]},#{@commit_time_agos[i]}"
       end.join("\n")
     end
 

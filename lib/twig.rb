@@ -9,7 +9,7 @@ class Twig
   attr_accessor :options
 
   REF_FORMAT_SEPARATOR = ','
-  REF_FORMAT = %w[refname committerdate committerdate:relative].
+  REF_FORMAT = %w[refname:short committerdate committerdate:relative].
                 map { |field| '%(' + field + ')' }.join(REF_FORMAT_SEPARATOR)
   REF_PREFIX = 'refs/heads/'
   DEFAULT_HEADER_COLOR = :blue
@@ -43,10 +43,9 @@ class Twig
 
       branch_tuples.inject([]) do |result, branch_tuple|
         ref, time_string, time_ago = branch_tuple.split(REF_FORMAT_SEPARATOR)
-        name        = ref.sub(%r{^#{ REF_PREFIX }}, '')
         time        = Time.parse(time_string)
         commit_time = Twig::CommitTime.new(time, time_ago)
-        branch      = Branch.new(name, :last_commit_time => commit_time)
+        branch      = Branch.new(ref, :last_commit_time => commit_time)
         result << branch
       end
     end
