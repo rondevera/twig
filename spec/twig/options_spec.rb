@@ -131,6 +131,38 @@ describe Twig::Options do
       @twig.options[:branch_only].should == /important_prefix_/
     end
 
+    context 'when setting a :header_style option' do
+      before :each do
+        # Preconditions:
+        @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
+        @twig.options[:header_weight].should be_nil
+      end
+
+      it 'succeeds at setting a color option' do
+        @twig.set_option(:header_style, 'red')
+        @twig.options[:header_color].should == :red
+        @twig.options[:header_weight].should be_nil
+      end
+
+      it 'succeeds at setting a weight option' do
+        @twig.set_option(:header_style, 'bold')
+        @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
+        @twig.options[:header_weight].should == :bold
+      end
+
+      it 'succeeds at setting color and weight options, color first' do
+        @twig.set_option(:header_style, 'red bold')
+        @twig.options[:header_color].should == :red
+        @twig.options[:header_weight].should == :bold
+      end
+
+      it 'succeeds at setting color and weight options, weight first' do
+        @twig.set_option(:header_style, 'bold red')
+        @twig.options[:header_color].should == :red
+        @twig.options[:header_weight].should == :bold
+      end
+    end
+
     context 'when setting a :max_days_old option' do
       before :each do
         @twig.options[:max_days_old].should be_nil # Precondition
