@@ -46,9 +46,9 @@ class Twig
         weight  = nil
 
         style_values.each do |style_value|
-          if colors.include?(style_value)
+          if !color && colors.include?(style_value)
             color = style_value
-          elsif weights.include?(style_value)
+          elsif !weight && weights.include?(style_value)
             weight = style_value
           else
             abort %{The value `--header-style=#{value}` is invalid.}

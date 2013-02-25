@@ -190,6 +190,24 @@ describe Twig::Options do
 
         @twig.set_option(:header_style, style)
       end
+
+      it 'fails if there are two colors' do
+        style = 'red green'
+        @twig.should_receive(:abort) do |message|
+          message.should include("`--header-style=#{style}` is invalid")
+        end
+
+        @twig.set_option(:header_style, style)
+      end
+
+      it 'fails if there are two weights' do
+        style = 'bold bold'
+        @twig.should_receive(:abort) do |message|
+          message.should include("`--header-style=#{style}` is invalid")
+        end
+
+        @twig.set_option(:header_style, style)
+      end
     end
 
     context 'when setting a :max_days_old option' do
