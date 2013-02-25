@@ -163,11 +163,32 @@ describe Twig::Options do
       end
 
       it 'fails if the one-word option is invalid' do
-        @twig.should_receive(:abort)
-        @twig.set_option(:header_style, 'handsofblue') # Two by two...
+        style = 'handsofblue' # Two by two...
+        @twig.should_receive(:abort) do |message|
+          message.should include("`--header-style=#{style}` is invalid")
+        end
+        @twig.set_option(:header_style, style)
 
         @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
         @twig.options[:header_weight].should be_nil
+      end
+
+      it 'fails if the color of the two-word option is invalid' do
+        style = 'handsofblue bold'
+        @twig.should_receive(:abort) do |message|
+          message.should include("`--header-style=#{style}` is invalid")
+        end
+
+        @twig.set_option(:header_style, style)
+      end
+
+      it 'fails if the weight of the two-word option is invalid' do
+        style = 'red extrabold'
+        @twig.should_receive(:abort) do |message|
+          message.should include("`--header-style=#{style}` is invalid")
+        end
+
+        @twig.set_option(:header_style, style)
       end
     end
 
