@@ -42,10 +42,19 @@ class Twig
         values  = value.split(/\s/).map(&:to_sym)
         colors  = Twig::Display::COLORS.keys
         weights = Twig::Display::WEIGHTS.keys
-        color   = values.find { |value| colors.include?(value)  }
-        weight  = values.find { |value| weights.include?(value) }
-        options[:header_color]  = color  if color
-        options[:header_weight] = weight if weight
+
+        values.each do |value|
+          color  = value if colors.include?(value)
+          weight = value if weights.include?(value)
+
+          if color
+            options[:header_color] = color
+          elsif weight
+            options[:header_weight] = weight
+          else
+            abort %{The value `--header-style=#{value}` is invalid.}
+          end
+        end
       when :max_days_old
         if Twig::Util.numeric?(value)
           options[:max_days_old] = value.to_f

@@ -161,6 +161,14 @@ describe Twig::Options do
         @twig.options[:header_color].should == :red
         @twig.options[:header_weight].should == :bold
       end
+
+      it 'fails if the one-word option is invalid' do
+        @twig.should_receive(:abort)
+        @twig.set_option(:header_style, 'handsofblue') # Two by two...
+
+        @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
+        @twig.options[:header_weight].should be_nil
+      end
     end
 
     context 'when setting a :max_days_old option' do
@@ -176,6 +184,7 @@ describe Twig::Options do
       it 'fails if the option is not numeric' do
         @twig.should_receive(:abort)
         @twig.set_option(:max_days_old, 'blargh')
+
         @twig.options[:max_days_old].should be_nil
       end
     end
