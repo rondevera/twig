@@ -131,83 +131,11 @@ describe Twig::Options do
       @twig.options[:branch_only].should == /important_prefix_/
     end
 
-    context 'when setting a :header_style option' do
-      before :each do
-        # Preconditions:
-        @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
-        @twig.options[:header_weight].should be_nil
-      end
+    it 'sets a :header_style option' do
+      style = 'red bold'
+      @twig.should_receive(:set_header_style_option).with(style)
 
-      it 'succeeds at setting a color option' do
-        @twig.set_option(:header_style, 'red')
-        @twig.options[:header_color].should == :red
-        @twig.options[:header_weight].should be_nil
-      end
-
-      it 'succeeds at setting a weight option' do
-        @twig.set_option(:header_style, 'bold')
-        @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
-        @twig.options[:header_weight].should == :bold
-      end
-
-      it 'succeeds at setting color and weight options, color first' do
-        @twig.set_option(:header_style, 'red bold')
-        @twig.options[:header_color].should == :red
-        @twig.options[:header_weight].should == :bold
-      end
-
-      it 'succeeds at setting color and weight options, weight first' do
-        @twig.set_option(:header_style, 'bold red')
-        @twig.options[:header_color].should == :red
-        @twig.options[:header_weight].should == :bold
-      end
-
-      it 'fails if the one-word option is invalid' do
-        style = 'handsofblue' # Two by two...
-        @twig.should_receive(:abort) do |message|
-          message.should include("`--header-style=#{style}` is invalid")
-        end
-        @twig.set_option(:header_style, style)
-
-        @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
-        @twig.options[:header_weight].should be_nil
-      end
-
-      it 'fails if the color of the two-word option is invalid' do
-        style = 'handsofblue bold'
-        @twig.should_receive(:abort) do |message|
-          message.should include("`--header-style=#{style}` is invalid")
-        end
-
-        @twig.set_option(:header_style, style)
-      end
-
-      it 'fails if the weight of the two-word option is invalid' do
-        style = 'red extrabold'
-        @twig.should_receive(:abort) do |message|
-          message.should include("`--header-style=#{style}` is invalid")
-        end
-
-        @twig.set_option(:header_style, style)
-      end
-
-      it 'fails if there are two colors' do
-        style = 'red green'
-        @twig.should_receive(:abort) do |message|
-          message.should include("`--header-style=#{style}` is invalid")
-        end
-
-        @twig.set_option(:header_style, style)
-      end
-
-      it 'fails if there are two weights' do
-        style = 'bold bold'
-        @twig.should_receive(:abort) do |message|
-          message.should include("`--header-style=#{style}` is invalid")
-        end
-
-        @twig.set_option(:header_style, style)
-      end
+      @twig.set_option(:header_style, style)
     end
 
     context 'when setting a :max_days_old option' do
@@ -232,6 +160,85 @@ describe Twig::Options do
       @twig.options[:unset_property].should be_nil # Precondition
       @twig.set_option(:unset_property, 'unwanted_property')
       @twig.options[:unset_property].should == 'unwanted_property'
+    end
+  end
+
+  describe '#set_header_style_option' do
+    before :each do
+      # Preconditions:
+      @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
+      @twig.options[:header_weight].should be_nil
+    end
+
+    it 'succeeds at setting a color option' do
+      @twig.set_header_style_option('red')
+      @twig.options[:header_color].should == :red
+      @twig.options[:header_weight].should be_nil
+    end
+
+    it 'succeeds at setting a weight option' do
+      @twig.set_header_style_option('bold')
+      @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
+      @twig.options[:header_weight].should == :bold
+    end
+
+    it 'succeeds at setting color and weight options, color first' do
+      @twig.set_header_style_option('red bold')
+      @twig.options[:header_color].should == :red
+      @twig.options[:header_weight].should == :bold
+    end
+
+    it 'succeeds at setting color and weight options, weight first' do
+      @twig.set_header_style_option('bold red')
+      @twig.options[:header_color].should == :red
+      @twig.options[:header_weight].should == :bold
+    end
+
+    it 'fails if the one-word option is invalid' do
+      style = 'handsofblue' # Two by two...
+      @twig.should_receive(:abort) do |message|
+        message.should include("`--header-style=#{style}` is invalid")
+      end
+      @twig.set_header_style_option(style)
+
+      @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
+      @twig.options[:header_weight].should be_nil
+    end
+
+    it 'fails if the color of the two-word option is invalid' do
+      style = 'handsofblue bold'
+      @twig.should_receive(:abort) do |message|
+        message.should include("`--header-style=#{style}` is invalid")
+      end
+
+      @twig.set_header_style_option(style)
+    end
+
+    it 'fails if the weight of the two-word option is invalid' do
+      style = 'red extrabold'
+      @twig.should_receive(:abort) do |message|
+        message.should include("`--header-style=#{style}` is invalid")
+      end
+
+      @twig.set_header_style_option(style)
+    end
+
+    it 'fails if there are two colors' do
+      style = 'red green'
+      @twig.should_receive(:abort) do |message|
+        message.should include("`--header-style=#{style}` is invalid")
+      end
+
+      @twig.set_header_style_option(style)
+    end
+
+    it 'fails if there are two weights' do
+      style = 'bold bold'
+      @twig.should_receive(:abort) do |message|
+        message.should include("`--header-style=#{style}` is invalid")
+      end
+
+      @twig.set_header_style_option(style)
     end
   end
 

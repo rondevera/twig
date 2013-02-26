@@ -39,24 +39,7 @@ class Twig
       when :branch_only
         options[:branch_only] = Regexp.new(value)
       when :header_style
-        style_values = value.split(/\s/).map(&:to_sym)
-        colors  = Twig::Display::COLORS.keys
-        weights = Twig::Display::WEIGHTS.keys
-        color   = nil
-        weight  = nil
-
-        style_values.each do |style_value|
-          if !color && colors.include?(style_value)
-            color = style_value
-          elsif !weight && weights.include?(style_value)
-            weight = style_value
-          else
-            abort %{The value `--header-style=#{value}` is invalid.}
-          end
-        end
-
-        options[:header_color]  = color  if color
-        options[:header_weight] = weight if weight
+        set_header_style_option(value)
       when :max_days_old
         if Twig::Util.numeric?(value)
           options[:max_days_old] = value.to_f
@@ -66,6 +49,27 @@ class Twig
       when :unset_property
         options[:unset_property] = value
       end
+    end
+
+    def set_header_style_option(value)
+      style_values = value.split(/\s/).map(&:to_sym)
+      colors  = Twig::Display::COLORS.keys
+      weights = Twig::Display::WEIGHTS.keys
+      color   = nil
+      weight  = nil
+
+      style_values.each do |style_value|
+        if !color && colors.include?(style_value)
+          color = style_value
+        elsif !weight && weights.include?(style_value)
+          weight = style_value
+        else
+          abort %{The value `--header-style=#{value}` is invalid.}
+        end
+      end
+
+      options[:header_color]  = color  if color
+      options[:header_weight] = weight if weight
     end
 
     def unset_option(key)
