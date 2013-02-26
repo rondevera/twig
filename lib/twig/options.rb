@@ -52,7 +52,7 @@ class Twig
     end
 
     def set_header_style_option(value)
-      style_values = value.split(/\s/).map(&:to_sym)
+      style_values = value.split(/\s+/).map(&:to_sym)
       colors  = Twig::Display::COLORS.keys
       weights = Twig::Display::WEIGHTS.keys
       color   = nil

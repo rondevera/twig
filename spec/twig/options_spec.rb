@@ -194,6 +194,12 @@ describe Twig::Options do
       @twig.options[:header_weight].should == :bold
     end
 
+    it 'succeeds at setting color and weight options with extra space between words' do
+      @twig.set_header_style_option('red   bold')
+      @twig.options[:header_color].should == :red
+      @twig.options[:header_weight].should == :bold
+    end
+
     it 'fails if the one-word option is invalid' do
       style = 'handsofblue' # Two by two...
       @twig.should_receive(:abort) do |message|
