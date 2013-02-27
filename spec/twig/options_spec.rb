@@ -104,16 +104,22 @@ describe Twig::Options do
       end
 
       it 'succeeds' do
+        branch_name = 'foo'
         @twig.should_receive(:branch_names).and_return(%[foo bar])
-        @twig.set_option(:branch, 'foo')
-        @twig.options[:branch].should == 'foo'
+
+        @twig.set_option(:branch, branch_name)
+
+        @twig.options[:branch].should == branch_name
       end
 
       it 'fails if the branch is unknown' do
+        branch_name = 'foo'
         @twig.should_receive(:branch_names).and_return([])
-        @twig.should_receive(:abort)
+        @twig.should_receive(:abort) do |message|
+          message.should include(%{branch "#{branch_name}" could not be found})
+        end
 
-        @twig.set_option(:branch, 'foo')
+        @twig.set_option(:branch, branch_name)
 
         @twig.options[:branch].should be_nil
       end
@@ -149,8 +155,11 @@ describe Twig::Options do
       end
 
       it 'fails if the option is not numeric' do
-        @twig.should_receive(:abort)
-        @twig.set_option(:max_days_old, 'blargh')
+        value = 'blargh'
+        @twig.should_receive(:abort) do |message|
+          message.should include("`--max-days-old=#{value}` is invalid")
+        end
+        @twig.set_option(:max_days_old, value)
 
         @twig.options[:max_days_old].should be_nil
       end
