@@ -207,6 +207,7 @@ Some ideas for subcommands:
   they've shipped.
 * Generate a formatted list of your branches from the past week. Useful for
   emailing your team about what you're up to.
+* Create a gem that contains your team's favorite custom Twig subcommands.
 
 If you write a subcommand that others can appreciate, send a pull request or add
 it to the [Twig wiki][wiki]!
