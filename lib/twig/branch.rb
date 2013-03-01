@@ -38,7 +38,8 @@ class Twig
     end
 
     def get_property(property_name)
-      Twig.run("git config branch.#{name}.#{property_name}")
+      value = Twig.run("git config branch.#{name}.#{property_name}")
+      value == '' ? nil : value
     end
 
     def set_property(property_name, value)
@@ -62,7 +63,7 @@ class Twig
 
     def unset_property(property_name)
       value = get_property(property_name)
-      if value && !value.empty?
+      if value
         Twig.run(%{git config --unset branch.#{name}.#{property_name}})
         %{Removed property "#{property_name}" for branch "#{name}".}
       else

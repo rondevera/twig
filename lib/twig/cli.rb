@@ -204,7 +204,7 @@ class Twig
         else
           # `$ twig <key>`
           value = get_branch_property(branch_name, property_name)
-          if value && !value.empty?
+          if value
             puts value
           else
             abort %{The branch "#{branch_name}" does not have the property "#{property_name}".}

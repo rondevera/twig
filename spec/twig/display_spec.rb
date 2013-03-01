@@ -122,6 +122,19 @@ describe Twig::Display do
       result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{Regexp.escape(branch.name)}/
     end
 
+    it 'returns a line containing an empty branch property' do
+      Twig::Branch.stub(:all_properties => %w[foo bar baz])
+      @twig.should_receive(:get_branch_property).
+        with(anything, 'baz').and_return(nil)
+      branch = Twig::Branch.new('other-branch')
+      branch.should_receive(:last_commit_time).and_return(@commit_time)
+
+      result = @twig.branch_list_line(branch)
+
+      empty_indicator = Twig::Display::EMPTY_BRANCH_PROPERTY_INDICATOR
+      result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{empty_indicator}\s+#{Regexp.escape(branch.name)}/
+    end
+
     it 'changes line break characters to spaces' do
       branch = Twig::Branch.new('my-branch')
       branch.should_receive(:last_commit_time).and_return(@commit_time)

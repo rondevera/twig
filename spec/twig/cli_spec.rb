@@ -229,7 +229,7 @@ describe Twig::Cli do
 
         it 'shows an error if getting a property that is not set' do
           @twig.should_receive(:get_branch_property).
-            with(@branch_name, @property_name).and_return('')
+            with(@branch_name, @property_name).and_return(nil)
           @twig.should_receive(:abort) do |message|
             message.should include(
               %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
@@ -256,7 +256,7 @@ describe Twig::Cli do
 
         it 'shows an error if getting a property that is not set' do
           @twig.should_receive(:get_branch_property).
-            with(@branch_name, @property_name).and_return('')
+            with(@branch_name, @property_name).and_return(nil)
           @twig.should_receive(:abort) do |message|
             message.should include(
               %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}

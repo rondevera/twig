@@ -101,16 +101,28 @@ describe Twig::Branch do
   end
 
   describe '#get_property' do
+    before :each do
+      @branch = Twig::Branch.new('test')
+    end
     it 'returns a property value' do
-      branch   = Twig::Branch.new('test')
       property = 'test'
       value    = 'value'
       Twig.should_receive(:run).
-        with(%{git config branch.#{branch}.#{property}}).
+        with(%{git config branch.#{@branch}.#{property}}).
         and_return(value)
 
-      result = branch.get_property(property)
+      result = @branch.get_property(property)
       result.should == value
+    end
+
+    it 'returns nil if the property value is an empty string' do
+      property = 'test'
+      Twig.should_receive(:run).
+        with(%{git config branch.#{@branch}.#{property}}).
+        and_return('')
+
+      result = @branch.get_property(property)
+      result.should == nil
     end
   end
 
@@ -227,7 +239,7 @@ describe Twig::Branch do
 
     it 'returns an error if the branch does not have the given property' do
       property = 'test'
-      @branch.should_receive(:get_property).with(property).and_return('')
+      @branch.should_receive(:get_property).with(property).and_return(nil)
 
       result = @branch.unset_property(property)
       result.should include(
