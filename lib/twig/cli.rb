@@ -200,7 +200,11 @@ class Twig
         # Get/set branch property
         if property_value
           # `$ twig <key> <value>`
-          puts set_branch_property(branch_name, property_name, property_value)
+          begin
+            puts set_branch_property(branch_name, property_name, property_value)
+          rescue ArgumentError => exception
+            abort exception.message
+          end
         else
           # `$ twig <key>`
           value = get_branch_property(branch_name, property_name)
