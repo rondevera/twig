@@ -47,9 +47,11 @@ class Twig
       value = value.to_s.strip
 
       if RESERVED_BRANCH_PROPERTIES.include?(property_name)
-        %{Can't modify the reserved property "#{property_name}".}
+        raise ArgumentError,
+          %{Can't modify the reserved property "#{property_name}".}
       elsif value.empty?
-        %{Can't set a branch property to an empty string.}
+        raise ArgumentError,
+          %{Can't set a branch property to an empty string.}
       else
         Twig.run(%{git config branch.#{name}.#{property_name} "#{value}"})
         result_body = %{property "#{property_name}" as "#{value}" for branch "#{name}".}
