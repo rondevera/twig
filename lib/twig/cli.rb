@@ -202,7 +202,7 @@ class Twig
           # `$ twig <key> <value>`
           begin
             puts set_branch_property(branch_name, property_name, property_value)
-          rescue ArgumentError => exception
+          rescue ArgumentError, RuntimeError => exception
             abort exception.message
           end
         else

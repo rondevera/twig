@@ -309,6 +309,18 @@ describe Twig::Cli do
 
         @twig.read_cli_args!([@property_name, ''])
       end
+
+      it 'handles RuntimeError when setting an invalid branch property' do
+        error_message = 'test error'
+        @twig.should_receive(:current_branch_name).and_return(@branch_name)
+        @twig.should_receive(:set_branch_property).
+          with(@branch_name, @property_name, '') do
+            raise RuntimeError, error_message
+          end
+        @twig.should_receive(:abort).with(error_message)
+
+        @twig.read_cli_args!([@property_name, ''])
+      end
     end
 
     context 'unsetting properties' do
