@@ -166,7 +166,7 @@ describe Twig::Branch do
       rescue ArgumentError => exception
         expected_exception = exception
       end
-      exception.message.should include(
+      expected_exception.message.should include(
         %{Can't modify the reserved property "#{property}"}
       )
     end
@@ -181,7 +181,7 @@ describe Twig::Branch do
       rescue ArgumentError => exception
         expected_exception = exception
       end
-      exception.message.should include(
+      expected_exception.message.should include(
         %{Can't set a branch property to an empty string}
       )
     end
