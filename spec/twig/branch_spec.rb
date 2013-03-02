@@ -145,13 +145,17 @@ describe Twig::Branch do
       )
     end
 
-    it 'does nothing if Git cannot set the property value' do
+    it 'raises an error if Git cannot set the property value' do
       property = 'test'
       value    = 'value'
       Twig.stub(:run) { `(exit 1)`; value } # Set `$?` to `1`
 
-      result = @branch.set_property(property, value)
-      result.should include(
+      begin
+        @branch.set_property(property, value)
+      rescue RuntimeError => exception
+        expected_exception = exception
+      end
+      expected_exception.message.should include(
         %{Could not save property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
     end

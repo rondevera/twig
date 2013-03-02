@@ -58,7 +58,7 @@ class Twig
         if $?.success?
           "Saved #{result_body}"
         else
-          "Could not save #{result_body}"
+          raise RuntimeError, "Could not save #{result_body}"
         end
       end
     end
