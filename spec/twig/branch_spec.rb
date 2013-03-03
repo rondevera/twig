@@ -155,6 +155,7 @@ describe Twig::Branch do
       rescue RuntimeError => exception
         expected_exception = exception
       end
+
       expected_exception.message.should include(
         %{Could not save property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
@@ -170,6 +171,7 @@ describe Twig::Branch do
       rescue ArgumentError => exception
         expected_exception = exception
       end
+
       expected_exception.message.should include(
         %{Can't modify the reserved property "#{property}"}
       )
@@ -185,6 +187,7 @@ describe Twig::Branch do
       rescue ArgumentError => exception
         expected_exception = exception
       end
+
       expected_exception.message.should include(
         %{Can't set a branch property to an empty string}
       )
