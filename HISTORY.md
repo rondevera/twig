@@ -10,8 +10,8 @@ Twig
 * FIX: Make `branch` a reserved property name, along with `merge`, `rebase`, and
   `remote`.
 * FIX: Handle line breaks gracefully in `~/.twigrc` config file.
-* FIX: Exit with a non-zero status when trying to set a branch property to an
-  invalid value.
+* FIX: Exit with a non-zero status when trying to get or unset a branch property
+  that isn't set, or trying to set a branch property to an invalid value.
 
 1.0.1 (2013-02-13)
 ------------------
