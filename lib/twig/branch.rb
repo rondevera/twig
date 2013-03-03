@@ -68,7 +68,9 @@ class Twig
     end
 
     def unset_property(property_name)
+      property_name = sanitize_property(property_name)
       value = get_property(property_name)
+
       if value
         Twig.run(%{git config --unset branch.#{name}.#{property_name}})
         %{Removed property "#{property_name}" for branch "#{name}".}
