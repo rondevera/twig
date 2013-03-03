@@ -256,12 +256,17 @@ describe Twig::Branch do
       )
     end
 
-    it 'returns an error if the branch does not have the given property' do
+    it 'raises an error if the branch does not have the given property' do
       property = 'test'
       @branch.should_receive(:get_property).with(property).and_return(nil)
 
-      result = @branch.unset_property(property)
-      result.should include(
+      begin
+        @branch.unset_property(property)
+      rescue Twig::Branch::MissingPropertyError => exception
+        expected_exception = exception
+      end
+
+      expected_exception.message.should include(
         %{The branch "#{@branch}" does not have the property "#{property}"}
       )
     end

@@ -4,6 +4,8 @@ class Twig
     RESERVED_BRANCH_PROPERTIES    = %w[branch merge rebase remote]
     PROPERTY_NAME_FROM_GIT_CONFIG = /^branch\.[^.]+\.([^=]+)=.*$/
 
+    class MissingPropertyError < StandardError; end
+
     attr_accessor :name, :last_commit_time
 
     def self.all_properties
@@ -69,7 +71,8 @@ class Twig
         Twig.run(%{git config --unset branch.#{name}.#{property_name}})
         %{Removed property "#{property_name}" for branch "#{name}".}
       else
-        %{The branch "#{name}" does not have the property "#{property_name}".}
+        raise MissingPropertyError,
+          %{The branch "#{name}" does not have the property "#{property_name}".}
       end
     end
 
