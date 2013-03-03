@@ -104,6 +104,7 @@ describe Twig::Branch do
     before :each do
       @branch = Twig::Branch.new('test')
     end
+
     it 'returns a property value' do
       property = 'test'
       value    = 'value'
@@ -112,6 +113,18 @@ describe Twig::Branch do
         and_return(value)
 
       result = @branch.get_property(property)
+      result.should == value
+    end
+
+    it 'removes whitespace from branch property names' do
+      bad_property = '  foo foo  '
+      property     = 'foofoo'
+      value        = 'bar'
+      Twig.should_receive(:run).
+        with(%{git config branch.#{@branch}.#{property}}).
+        and_return(value)
+
+      result = @branch.get_property(bad_property)
       result.should == value
     end
 

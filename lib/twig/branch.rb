@@ -40,6 +40,8 @@ class Twig
     end
 
     def get_property(property_name)
+      property_name = sanitize_property(property_name)
+
       value = Twig.run("git config branch.#{name}.#{property_name}")
       value == '' ? nil : value
     end
