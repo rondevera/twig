@@ -148,9 +148,7 @@ describe Twig::Branch do
         expected_exception = exception
       end
 
-      expected_exception.message.should include(
-        %{Branch property names cannot be empty strings}
-      )
+      expected_exception.message.should == Twig::Branch::EMPTY_PROPERTY_NAME_ERROR
     end
   end
 
@@ -187,6 +185,20 @@ describe Twig::Branch do
       expected_exception.message.should include(
         %{Could not save property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
+    end
+
+    it 'raises an error if the property name is an empty string' do
+      property = ' '
+      value    = 'value'
+      Twig.should_not_receive(:run)
+
+      begin
+        @branch.set_property(property, value)
+      rescue ArgumentError => exception
+        expected_exception = exception
+      end
+
+      expected_exception.message.should == Twig::Branch::EMPTY_PROPERTY_NAME_ERROR
     end
 
     it 'raises an error if trying to set a reserved branch property' do
