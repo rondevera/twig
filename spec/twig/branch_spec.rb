@@ -137,6 +137,21 @@ describe Twig::Branch do
       result = @branch.get_property(property)
       result.should == nil
     end
+
+    it 'raises an error if the property name is an empty string' do
+      property = ' '
+      Twig.should_not_receive(:run)
+
+      begin
+        @branch.get_property(property)
+      rescue ArgumentError => exception
+        expected_exception = exception
+      end
+
+      expected_exception.message.should include(
+        %{Branch property names cannot be empty strings}
+      )
+    end
   end
 
   describe '#set_property' do

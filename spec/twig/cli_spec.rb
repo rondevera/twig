@@ -238,6 +238,18 @@ describe Twig::Cli do
 
           @twig.read_cli_args!([@property_name])
         end
+
+        it 'shows an error if getting a property whose name is an empty string' do
+          property_name = ' '
+          error_message = 'test error'
+          @twig.should_receive(:get_branch_property).
+            with(@branch_name, property_name) do
+              raise ArgumentError, error_message
+            end
+          @twig.should_receive(:abort).with(error_message)
+
+          @twig.read_cli_args!([property_name])
+        end
       end
 
       context 'with a specified branch' do

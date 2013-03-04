@@ -207,11 +207,15 @@ class Twig
           end
         else
           # `$ twig <key>`
-          value = get_branch_property(branch_name, property_name)
-          if value
-            puts value
-          else
-            abort %{The branch "#{branch_name}" does not have the property "#{property_name}".}
+          begin
+            value = get_branch_property(branch_name, property_name)
+            if value
+              puts value
+            else
+              abort %{The branch "#{branch_name}" does not have the property "#{property_name}".}
+            end
+          rescue ArgumentError => exception
+            abort exception.message
           end
         end
       elsif property_to_unset

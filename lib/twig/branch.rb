@@ -42,6 +42,10 @@ class Twig
     def get_property(property_name)
       property_name = sanitize_property(property_name)
 
+      if property_name.empty?
+        raise ArgumentError, 'Branch property names cannot be empty strings.'
+      end
+
       value = Twig.run("git config branch.#{name}.#{property_name}")
       value == '' ? nil : value
     end
