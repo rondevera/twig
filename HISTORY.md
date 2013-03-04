@@ -12,6 +12,8 @@ Twig
 * FIX: Handle line breaks gracefully in `~/.twigrc` config file.
 * FIX: Exit with a non-zero status when trying to get or unset a branch property
   that isn't set, or trying to set a branch property to an invalid value.
+* FIX : Don't allow getting/setting/unsetting a branch property whose name is an
+  empty string.
 
 1.0.1 (2013-02-13)
 ------------------

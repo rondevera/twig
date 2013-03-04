@@ -76,6 +76,11 @@ class Twig
 
     def unset_property(property_name)
       property_name = sanitize_property(property_name)
+
+      if property_name.empty?
+        raise ArgumentError, EMPTY_PROPERTY_NAME_ERROR
+      end
+
       value = get_property(property_name)
 
       if value

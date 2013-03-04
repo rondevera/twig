@@ -362,6 +362,18 @@ describe Twig::Cli do
         @twig.read_cli_args!([])
       end
 
+      it 'handles ArgumentError when unsetting an invalid branch property' do
+        error_message = 'test error'
+        @twig.should_receive(:current_branch_name).and_return(@branch_name)
+        @twig.should_receive(:unset_branch_property).
+          with(@branch_name, @property_name) do
+            raise ArgumentError, error_message
+          end
+        @twig.should_receive(:abort).with(error_message)
+
+        @twig.read_cli_args!([])
+      end
+
       it 'handles MissingPropertyError when unsetting a missing branch property' do
         error_message = 'test error'
         @twig.should_receive(:current_branch_name).and_return(@branch_name)

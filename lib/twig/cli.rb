@@ -222,7 +222,7 @@ class Twig
         # `$ twig --unset <key>`
         begin
           puts unset_branch_property(branch_name, property_to_unset)
-        rescue Twig::Branch::MissingPropertyError => exception
+        rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
           abort exception.message
         end
       else
