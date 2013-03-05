@@ -5,6 +5,12 @@ class Twig
     PROPERTY_NAME_FROM_GIT_CONFIG = /^branch\.[^.]+\.([^=]+)=.*$/
     RESERVED_BRANCH_PROPERTIES    = %w[branch merge rebase remote]
 
+    class EmptyPropertyNameError < ArgumentError
+      def initialize(message = nil)
+        message ||= EMPTY_PROPERTY_NAME_ERROR
+        super
+      end
+    end
     class MissingPropertyError < StandardError; end
 
     attr_accessor :name, :last_commit_time
@@ -42,10 +48,7 @@ class Twig
 
     def get_property(property_name)
       property_name = sanitize_property(property_name)
-
-      if property_name.empty?
-        raise ArgumentError, EMPTY_PROPERTY_NAME_ERROR
-      end
+      raise EmptyPropertyNameError if property_name.empty?
 
       value = Twig.run("git config branch.#{name}.#{property_name}")
       value == '' ? nil : value
@@ -56,7 +59,7 @@ class Twig
       value = value.to_s.strip
 
       if property_name.empty?
-        raise ArgumentError, EMPTY_PROPERTY_NAME_ERROR
+        raise EmptyPropertyNameError
       elsif RESERVED_BRANCH_PROPERTIES.include?(property_name)
         raise ArgumentError,
           %{Can't modify the reserved property "#{property_name}".}
@@ -76,10 +79,7 @@ class Twig
 
     def unset_property(property_name)
       property_name = sanitize_property(property_name)
-
-      if property_name.empty?
-        raise ArgumentError, EMPTY_PROPERTY_NAME_ERROR
-      end
+      raise EmptyPropertyNameError if property_name.empty?
 
       value = get_property(property_name)
 

@@ -144,7 +144,7 @@ describe Twig::Branch do
 
       begin
         @branch.get_property(property)
-      rescue ArgumentError => exception
+      rescue Twig::Branch::EmptyPropertyNameError => exception
         expected_exception = exception
       end
 
@@ -194,7 +194,7 @@ describe Twig::Branch do
 
       begin
         @branch.set_property(property, value)
-      rescue ArgumentError => exception
+      rescue Twig::Branch::EmptyPropertyNameError => exception
         expected_exception = exception
       end
 
@@ -317,7 +317,7 @@ describe Twig::Branch do
 
       begin
         @branch.unset_property(bad_property)
-      rescue ArgumentError => exception
+      rescue Twig::Branch::EmptyPropertyNameError => exception
         expected_exception = exception
       end
 
