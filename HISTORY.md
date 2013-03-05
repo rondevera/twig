@@ -7,6 +7,8 @@ Twig
   (GH-12)
 * ENHANCEMENT: Add `--header-style` option for changing the column headers'
   colors and weights. (GH-11. Thanks [tsujigiri](https://github.com/tsujigiri)!)
+* ENHANCEMENT: Add `twig gh-open-issue` for opening a branch's GitHub issue, if
+  any, in a browser.
 * FIX: Make `branch` a reserved property name, along with `merge`, `rebase`, and
   `remote`.
 * FIX: Handle line breaks gracefully in `~/.twigrc` config file.

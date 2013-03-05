@@ -140,8 +140,8 @@ You can set just about any custom property you need to remember for each branch.
 Subcommands
 ===========
 
-Twig comes with two subcommands, `gh-open` and `gh-update`, which are handy for
-use with GitHub repositories.
+Twig comes with a few subcommands that are handy for use with GitHub
+repositories: `gh-open`, `gh-open-issue`, and `gh-update`.
 
 While inside a Git repo, run `twig gh-open` to see the repo's GitHub URL, and open
 a browser window if possible:
@@ -152,8 +152,8 @@ a browser window if possible:
     GitHub URL: https://github.com/myname/myproject
     # Also opens a browser window (OS X only).
 
-If you're working on an issue for a GitHub repository, you can also use the
-`gh-update` subcommand:
+If you're working on an issue for a GitHub repository, the `gh-update`
+subcommand syncs issue statuses with GitHub:
 
     $ git checkout add-feature
     Switched to branch 'add-feature'.
@@ -182,6 +182,18 @@ If you're working on an issue for a GitHub repository, you can also use the
     2013-01-22 17:12:23 (4d ago)  -      -         master
 
 Run `twig gh-update` periodically to keep up with GitHub issues locally.
+
+For any branch that has an `issue` property, you can use the `gh-open-issue`
+subcommand to view that issue on GitHub:
+
+    # Current branch:
+    $ twig gh-open-issue
+    GitHub issue URL: https://github.com/myname/myproject/issues/111
+    # Also opens a browser window (OS X only).
+
+    # Any branch:
+    $ twig gh-open-issue -b <branch name>
+    GitHub issue URL: https://github.com/myname/myproject/issues/222
 
 You can write any Twig subcommand that fits your own Git workflow. To write a
 Twig subcommand:
