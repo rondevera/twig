@@ -1,8 +1,8 @@
 Twig
 ====
 
-1.1
----
+1.1 (2013-03-06)
+----------------
 * ENHANCEMENT: Add branch name tab completion for `-b` and `--branch` options.
   (GH-12)
 * ENHANCEMENT: Add `--header-style` option for changing the column headers'
