@@ -34,18 +34,23 @@ class Twig
         else
           abort %{The branch "#{value}" could not be found.}
         end
+
       when :branch_except
         options[:branch_except] = Regexp.new(value)
+
       when :branch_only
         options[:branch_only] = Regexp.new(value)
+
       when :header_style
         set_header_style_option(value)
+
       when :max_days_old
         if Twig::Util.numeric?(value)
           options[:max_days_old] = value.to_f
         else
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
+
       when :unset_property
         options[:unset_property] = value
       end
