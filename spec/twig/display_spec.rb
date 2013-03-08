@@ -172,30 +172,34 @@ describe Twig::Display do
     end
   end
 
-  describe '#formatted_string_display_size' do
-    it 'returns the width of a plain text string' do
-      @twig.formatted_string_display_size('foo').should == 3
+  describe '#unformat_string' do
+    it 'unformats a plain text string' do
+      string = 'foo'
+      @twig.unformat_string(string).should == string
     end
 
-    it 'returns the width of a string with color' do
-      string = @twig.format_string('foo', :color => :red)
-      string.size.should > 3 # Precondition
+    it 'unformats a string with color' do
+      string = 'foo'
+      formatted_string = @twig.format_string(string, :color => :red)
+      formatted_string.size.should > 3 # Precondition
 
-      @twig.formatted_string_display_size(string).should == 3
+      @twig.unformat_string(formatted_string).should == string
     end
 
-    it 'returns the width of a string with weight' do
-      string = @twig.format_string('foo', :weight => :bold)
-      string.size.should > 3 # Precondition
+    it 'unformats a string with weight' do
+      string = 'foo'
+      formatted_string = @twig.format_string(string, :weight => :bold)
+      formatted_string.size.should > 3 # Precondition
 
-      @twig.formatted_string_display_size(string).should == 3
+      @twig.unformat_string(formatted_string).should == string
     end
 
-    it 'returns the width of a string with color and weight' do
-      string = @twig.format_string('foo', :color => :red, :weight => :bold)
-      string.size.should > 3 # Precondition
+    it 'unformats a string with color and weight' do
+      string = 'foo'
+      formatted_string = @twig.format_string(string, :color => :red, :weight => :bold)
+      formatted_string.size.should > 3 # Precondition
 
-      @twig.formatted_string_display_size(string).should == 3
+      @twig.unformat_string(formatted_string).should == string
     end
   end
 end

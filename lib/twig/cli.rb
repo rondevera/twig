@@ -37,8 +37,8 @@ class Twig
       # Split words into lines
       while words.any?
         current_word = words.shift
-        current_word_size = formatted_string_display_size(current_word)
-        last_line_size = lines.last && formatted_string_display_size(lines.last)
+        current_word_size = unformat_string(current_word).size
+        last_line_size = lines.last && unformat_string(lines.last).size
 
         if last_line_size && (last_line_size + current_word_size + 1 <= width)
           lines.last << ' ' << current_word
