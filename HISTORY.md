@@ -1,6 +1,8 @@
 Twig
 ====
 
+* ENHANCEMENT: Simplify setup for writing GitHub-related Twig subcommands.
+
 1.1 (2013-03-06)
 ----------------
 * ENHANCEMENT: Add branch name tab completion for `-b` and `--branch` options.
