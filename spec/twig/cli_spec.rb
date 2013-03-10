@@ -187,7 +187,6 @@ describe Twig::Cli do
         # Since we're stubbing `exec` (with an expectation), we still need it
         # to exit early like the real implementation. The following handles the
         # exit somewhat gracefully.
-        expected_exception = nil
         begin
           @twig.read_cli_args!(['subcommand'])
         rescue SystemExit => exception
