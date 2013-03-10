@@ -134,27 +134,38 @@ describe Twig::Cli do
     end
 
     it 'handles invalid options' do
-      @twig.should_receive(:puts) do |message|
-        message.should include('invalid option: --foo')
+      @twig.should_receive(:abort_for_option_exception) do |exception|
+        exception.should be_a(OptionParser::InvalidOption)
+        exception.message.should include('invalid option: --foo')
       end
-      @twig.should_receive(:puts) do |message|
-        message.should include('`twig --help`')
-      end
-      @twig.should_receive(:exit)
 
       @twig.read_cli_options!(['--foo'])
     end
 
     it 'handles missing arguments' do
-      @twig.should_receive(:puts) do |message|
-        message.should include('missing argument: --branch')
+      @twig.should_receive(:abort_for_option_exception) do |exception|
+        exception.should be_a(OptionParser::MissingArgument)
+        exception.message.should include('missing argument: --branch')
       end
+
+      @twig.read_cli_options!(['--branch'])
+    end
+  end
+
+  describe '#abort_for_option_exception' do
+    before :each do
+      @twig = Twig.new
+    end
+
+    it 'prints a message and exits' do
+      exception = Exception.new('test exception')
+      @twig.should_receive(:puts).with(exception.message)
       @twig.should_receive(:puts) do |message|
         message.should include('`twig --help`')
       end
       @twig.should_receive(:exit)
 
-      @twig.read_cli_options!(['--branch'])
+      @twig.abort_for_option_exception(exception)
     end
   end
 
