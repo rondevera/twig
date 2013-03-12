@@ -355,9 +355,8 @@ describe Twig::Cli do
 
       it 'unsets a property for the current branch' do
         @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:unset_branch_property).
-          with(@branch_name, @property_name).and_return(@message)
-        @twig.should_receive(:puts).with(@message)
+        @twig.should_receive(:unset_branch_property_for_cli).
+          with(@branch_name, @property_name)
 
         @twig.read_cli_args!([])
       end
@@ -365,36 +364,50 @@ describe Twig::Cli do
       it 'unsets a property for a specified branch' do
         @twig.should_receive(:branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
-        @twig.should_receive(:unset_branch_property).
-          with(@branch_name, @property_name).and_return(@message)
-        @twig.should_receive(:puts).with(@message)
+        @twig.should_receive(:unset_branch_property_for_cli).
+          with(@branch_name, @property_name)
 
         @twig.read_cli_args!([])
       end
+    end
+  end
 
-      it 'handles ArgumentError when unsetting an invalid branch property' do
-        error_message = 'test error'
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:unset_branch_property).
-          with(@branch_name, @property_name) do
-            raise ArgumentError, error_message
-          end
-        @twig.should_receive(:abort).with(error_message)
+  describe '#unset_branch_property_for_cli' do
+    before :each do
+      @twig          = Twig.new
+      @branch_name   = 'test'
+      @property_name = 'foo'
+    end
 
-        @twig.read_cli_args!([])
-      end
+    it 'unsets a property for the specified branch' do
+      success_message = 'test success'
+      @twig.should_receive(:unset_branch_property).
+        with(@branch_name, @property_name).and_return(success_message)
+      @twig.should_receive(:puts).with(success_message)
 
-      it 'handles MissingPropertyError when unsetting a missing branch property' do
-        error_message = 'test error'
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:unset_branch_property).
-          with(@branch_name, @property_name) do
-            raise Twig::Branch::MissingPropertyError, error_message
-          end
-        @twig.should_receive(:abort).with(error_message)
+      @twig.unset_branch_property_for_cli(@branch_name, @property_name)
+    end
 
-        @twig.read_cli_args!([])
-      end
+    it 'handles ArgumentError when unsetting an invalid branch property' do
+      error_message = 'test error'
+      @twig.should_receive(:unset_branch_property).
+        with(@branch_name, @property_name) do
+          raise ArgumentError, error_message
+        end
+      @twig.should_receive(:abort).with(error_message)
+
+      @twig.unset_branch_property_for_cli(@branch_name, @property_name)
+    end
+
+    it 'handles MissingPropertyError when unsetting a missing branch property' do
+      error_message = 'test error'
+      @twig.should_receive(:unset_branch_property).
+        with(@branch_name, @property_name) do
+          raise Twig::Branch::MissingPropertyError, error_message
+        end
+      @twig.should_receive(:abort).with(error_message)
+
+      @twig.unset_branch_property_for_cli(@branch_name, @property_name)
     end
   end
 

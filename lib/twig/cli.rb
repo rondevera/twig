@@ -224,14 +224,18 @@ class Twig
         end
       elsif property_to_unset
         # `$ twig --unset <key>`
-        begin
-          puts unset_branch_property(branch_name, property_to_unset)
-        rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
-          abort exception.message
-        end
+        unset_branch_property_for_cli(branch_name, property_to_unset)
       else
         # `$ twig`
         puts list_branches
+      end
+    end
+
+    def unset_branch_property_for_cli(branch_name, property_name)
+      begin
+        puts unset_branch_property(branch_name, property_name)
+      rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
+        abort exception.message
       end
     end
 
