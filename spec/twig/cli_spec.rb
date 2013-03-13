@@ -301,10 +301,8 @@ describe Twig::Cli do
 
       it 'sets a property for the current branch' do
         @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:set_branch_property).
-          with(@branch_name, @property_name, @property_value).
-          and_return(@message)
-        @twig.should_receive(:puts).with(@message)
+        @twig.should_receive(:set_branch_property_for_cli).
+          with(@branch_name, @property_name, @property_value)
 
         @twig.read_cli_args!([@property_name, @property_value])
       end
@@ -312,36 +310,11 @@ describe Twig::Cli do
       it 'sets a property for a specified branch' do
         @twig.should_receive(:branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
-        @twig.should_receive(:set_branch_property).
+        @twig.should_receive(:set_branch_property_for_cli).
           with(@branch_name, @property_name, @property_value).
           and_return(@message)
-        @twig.should_receive(:puts).with(@message)
 
         @twig.read_cli_args!([@property_name, @property_value])
-      end
-
-      it 'handles ArgumentError when setting an invalid branch property' do
-        error_message = 'test error'
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:set_branch_property).
-          with(@branch_name, @property_name, '') do
-            raise ArgumentError, error_message
-          end
-        @twig.should_receive(:abort).with(error_message)
-
-        @twig.read_cli_args!([@property_name, ''])
-      end
-
-      it 'handles RuntimeError when setting an invalid branch property' do
-        error_message = 'test error'
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:set_branch_property).
-          with(@branch_name, @property_name, '') do
-            raise RuntimeError, error_message
-          end
-        @twig.should_receive(:abort).with(error_message)
-
-        @twig.read_cli_args!([@property_name, ''])
       end
     end
 
@@ -369,6 +342,49 @@ describe Twig::Cli do
 
         @twig.read_cli_args!([])
       end
+    end
+  end
+
+  describe '#set_branch_property_for_cli' do
+    before :each do
+      @twig          = Twig.new
+      @branch_name   = 'test'
+      @property_name = 'foo'
+    end
+
+    it 'sets a property for the specified branch' do
+      success_message = 'test success'
+      property_value  = 'bar'
+      @twig.should_receive(:set_branch_property).
+        with(@branch_name, @property_name, property_value).
+        and_return(success_message)
+      @twig.should_receive(:puts).with(success_message)
+
+      @twig.set_branch_property_for_cli(@branch_name, @property_name, property_value)
+    end
+
+    it 'handles ArgumentError when unsetting an invalid branch property' do
+      error_message  = 'test error'
+      property_value = ''
+      @twig.should_receive(:set_branch_property).
+        with(@branch_name, @property_name, property_value) do
+          raise ArgumentError, error_message
+        end
+      @twig.should_receive(:abort).with(error_message)
+
+      @twig.set_branch_property_for_cli(@branch_name, @property_name, property_value)
+    end
+
+    it 'handles RuntimeError when setting an invalid branch property' do
+      error_message  = 'test error'
+      property_value = ''
+      @twig.should_receive(:set_branch_property).
+        with(@branch_name, @property_name, property_value) do
+          raise RuntimeError, error_message
+        end
+      @twig.should_receive(:abort).with(error_message)
+
+      @twig.set_branch_property_for_cli(@branch_name, @property_name, property_value)
     end
   end
 
