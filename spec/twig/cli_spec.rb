@@ -224,71 +224,22 @@ describe Twig::Cli do
         @property_value = 'bar'
       end
 
-      context 'with the current branch' do
-        before :each do
-          @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        end
+      it 'gets a property for the current branch' do
+        @twig.should_receive(:current_branch_name).and_return(@branch_name)
+        @twig.should_receive(:get_branch_property_for_cli).
+          with(@branch_name, @property_name)
 
-        it 'gets a property' do
-          @twig.should_receive(:get_branch_property).
-            with(@branch_name, @property_name).and_return(@property_value)
-          @twig.should_receive(:puts).with(@property_value)
-
-          @twig.read_cli_args!([@property_name])
-        end
-
-        it 'shows an error if getting a property that is not set' do
-          @twig.should_receive(:get_branch_property).
-            with(@branch_name, @property_name).and_return(nil)
-          @twig.should_receive(:abort) do |message|
-            message.should include(
-              %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
-            )
-          end
-
-          @twig.read_cli_args!([@property_name])
-        end
-
-        it 'shows an error if getting a property whose name is an empty string' do
-          property_name = ' '
-          error_message = 'test error'
-          @twig.should_receive(:get_branch_property).
-            with(@branch_name, property_name) do
-              raise ArgumentError, error_message
-            end
-          @twig.should_receive(:abort).with(error_message)
-
-          @twig.read_cli_args!([property_name])
-        end
+        @twig.read_cli_args!([@property_name])
       end
 
-      context 'with a specified branch' do
-        before :each do
-          @twig.should_receive(:branch_names).and_return([@branch_name])
-          @twig.set_option(:branch, @branch_name)
-        end
+      it 'gets a property for a specified branch' do
+        @twig.should_receive(:branch_names).and_return([@branch_name])
+        @twig.set_option(:branch, @branch_name)
+        @twig.should_receive(:get_branch_property_for_cli).
+          with(@branch_name, @property_name)
 
-        it 'gets a property' do
-          @twig.should_receive(:get_branch_property).
-            with(@branch_name, @property_name).and_return(@property_value)
-          @twig.should_receive(:puts).with(@property_value)
-
-          @twig.read_cli_args!([@property_name])
-        end
-
-        it 'shows an error if getting a property that is not set' do
-          @twig.should_receive(:get_branch_property).
-            with(@branch_name, @property_name).and_return(nil)
-          @twig.should_receive(:abort) do |message|
-            message.should include(
-              %{The branch "#{@branch_name}" does not have the property "#{@property_name}"}
-            )
-          end
-
-          @twig.read_cli_args!([@property_name])
-        end
+        @twig.read_cli_args!([@property_name])
       end
-
     end
 
     context 'setting properties' do
@@ -342,6 +293,46 @@ describe Twig::Cli do
 
         @twig.read_cli_args!([])
       end
+    end
+  end
+
+  describe '#get_branch_property_for_cli' do
+    before :each do
+      @twig          = Twig.new
+      @branch_name   = 'test'
+      @property_name = 'foo'
+    end
+
+    it 'gets a property' do
+      property_value = 'bar'
+      @twig.should_receive(:get_branch_property).
+        with(@branch_name, @property_name).and_return(property_value)
+      @twig.should_receive(:puts).with(property_value)
+
+      @twig.get_branch_property_for_cli(@branch_name, @property_name)
+    end
+
+    it 'shows an error when getting a property that is not set' do
+      error_message = 'test error'
+      @twig.should_receive(:get_branch_property).
+        with(@branch_name, @property_name).and_return(nil)
+      Twig::Branch::MissingPropertyError.any_instance.
+        stub(:message) { error_message }
+      @twig.should_receive(:abort).with(error_message)
+
+      @twig.get_branch_property_for_cli(@branch_name, @property_name)
+    end
+
+    it 'handles ArgumentError when getting an invalid branch property name' do
+      bad_property_name = ''
+      error_message     = 'test error'
+      @twig.should_receive(:get_branch_property).
+        with(@branch_name, bad_property_name) do
+          raise ArgumentError, error_message
+        end
+      @twig.should_receive(:abort).with(error_message)
+
+      @twig.get_branch_property_for_cli(@branch_name, bad_property_name)
     end
   end
 

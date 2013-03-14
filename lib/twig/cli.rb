@@ -207,16 +207,7 @@ class Twig
           set_branch_property_for_cli(branch_name, property_name, property_value)
         else
           # `$ twig <key>`
-          begin
-            value = get_branch_property(branch_name, property_name)
-            if value
-              puts value
-            else
-              abort %{The branch "#{branch_name}" does not have the property "#{property_name}".}
-            end
-          rescue ArgumentError => exception
-            abort exception.message
-          end
+          get_branch_property_for_cli(branch_name, property_name)
         end
       elsif property_to_unset
         # `$ twig --unset <key>`
@@ -224,6 +215,20 @@ class Twig
       else
         # `$ twig`
         puts list_branches
+      end
+    end
+
+    def get_branch_property_for_cli(branch_name, property_name)
+      begin
+        value = get_branch_property(branch_name, property_name)
+        if value
+          puts value
+        else
+          raise Twig::Branch::MissingPropertyError,
+            %{The branch "#{branch_name}" does not have the property "#{property_name}".}
+        end
+      rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
+        abort exception.message
       end
     end
 
