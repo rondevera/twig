@@ -354,7 +354,7 @@ describe Twig::Cli do
       @twig.set_branch_property_for_cli(@branch_name, @property_name, property_value)
     end
 
-    it 'handles ArgumentError when unsetting an invalid branch property' do
+    it 'handles ArgumentError when unsetting an invalid branch property name' do
       error_message  = 'test error'
       property_value = ''
       @twig.should_receive(:set_branch_property).
@@ -366,7 +366,7 @@ describe Twig::Cli do
       @twig.set_branch_property_for_cli(@branch_name, @property_name, property_value)
     end
 
-    it 'handles RuntimeError when setting an invalid branch property' do
+    it 'handles RuntimeError when Git is unable to set a branch property' do
       error_message  = 'test error'
       property_value = ''
       @twig.should_receive(:set_branch_property).
@@ -395,7 +395,7 @@ describe Twig::Cli do
       @twig.unset_branch_property_for_cli(@branch_name, @property_name)
     end
 
-    it 'handles ArgumentError when unsetting an invalid branch property' do
+    it 'handles ArgumentError when unsetting an invalid branch property name' do
       error_message = 'test error'
       @twig.should_receive(:unset_branch_property).
         with(@branch_name, @property_name) do
@@ -406,7 +406,7 @@ describe Twig::Cli do
       @twig.unset_branch_property_for_cli(@branch_name, @property_name)
     end
 
-    it 'handles MissingPropertyError when unsetting a missing branch property' do
+    it 'handles MissingPropertyError when unsetting a branch property that is not set' do
       error_message = 'test error'
       @twig.should_receive(:unset_branch_property).
         with(@branch_name, @property_name) do
