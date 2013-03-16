@@ -94,6 +94,13 @@ class Twig
 
         help_separator(opts, 'Filtering branches:')
 
+        desc = 'Only list branches below a given age.'
+        opts.on(
+          '--max-days-old AGE', *help_description(desc, :add_separator => true)
+        ) do |age|
+          set_option(:max_days_old, age)
+        end
+
         desc = 'Only list branches whose name matches a given pattern.'
         opts.on(
           '--only-branch PATTERN',
@@ -108,13 +115,6 @@ class Twig
           *help_description(desc, :add_separator => true)
         ) do |pattern|
           set_option(:branch_except, pattern)
-        end
-
-        desc = 'Only list branches below a given age.'
-        opts.on(
-          '--max-days-old AGE', *help_description(desc, :add_separator => true)
-        ) do |age|
-          set_option(:max_days_old, age)
         end
 
         desc =
