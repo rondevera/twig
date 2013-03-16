@@ -2,6 +2,8 @@ Twig
 ====
 
 * ENHANCEMENT: Simplify setup for writing GitHub-related Twig subcommands.
+* FIX: Fix the project's homepage URL in `twig --help`. (GH-17. Thanks
+  [ryangreenberg](https://github.com/ryangreenberg)!)
 
 1.1 (2013-03-06)
 ----------------
