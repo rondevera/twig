@@ -106,7 +106,7 @@ class Twig
           '--only-branch PATTERN',
           *help_description(desc, :add_separator => true)
         ) do |pattern|
-          set_option(:branch_only, pattern)
+          set_option(:property_only, :branch => pattern)
         end
 
         desc = 'Do not list branches whose name matches a given pattern.'
@@ -124,7 +124,7 @@ class Twig
         opts.on('--all', *help_description(desc)) do |pattern|
           unset_option(:max_days_old)
           unset_option(:branch_except)
-          unset_option(:branch_only)
+          unset_option(:property_only)
         end
 
 

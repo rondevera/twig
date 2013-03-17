@@ -18,9 +18,9 @@ class Twig
           case key
           when 'branch'        then set_option(:branch,        value)
           when 'except-branch' then set_option(:branch_except, value)
-          when 'only-branch'   then set_option(:branch_only,   value)
-          when 'max-days-old'  then set_option(:max_days_old,  value)
           when 'header-style'  then set_option(:header_style,  value)
+          when 'max-days-old'  then set_option(:max_days_old,  value)
+          when 'only-branch'   then set_option(:property_only, :branch => value)
           end
         end
       end
@@ -35,12 +35,6 @@ class Twig
           abort %{The branch "#{value}" could not be found.}
         end
 
-      when :branch_except
-        options[:branch_except] = Regexp.new(value)
-
-      when :branch_only
-        options[:branch_only] = Regexp.new(value)
-
       when :header_style
         set_header_style_option(value)
 
@@ -50,6 +44,16 @@ class Twig
         else
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
+
+      when :branch_except
+        options[:branch_except] = Regexp.new(value)
+
+      when :property_only
+        property_hash = value.inject({}) do |hsh, (property, val)|
+          hsh.merge(property => Regexp.new(val))
+        end
+        options[:property_only] ||= {}
+        options[:property_only].merge!(property_hash)
 
       when :unset_property
         options[:unset_property] = value

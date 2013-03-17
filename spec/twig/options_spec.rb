@@ -39,20 +39,20 @@ describe Twig::Options do
 
       # Check preconditions
       @twig.options[:branch].should be_nil
-      @twig.options[:branch_except].should be_nil
-      @twig.options[:branch_only].should be_nil
-      @twig.options[:max_days_old].should be_nil
       @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
       @twig.options[:header_weight].should be_nil
+      @twig.options[:max_days_old].should be_nil
+      @twig.options[:branch_except].should be_nil
+      @twig.options[:property_only].should be_nil
 
       @twig.read_config_file!
 
       @twig.options[:branch].should == 'test'
-      @twig.options[:branch_except].should == /test-except/
-      @twig.options[:branch_only].should == /test-only/
-      @twig.options[:max_days_old].should == 30.5
       @twig.options[:header_color].should == :green
       @twig.options[:header_weight].should == :bold
+      @twig.options[:max_days_old].should == 30.5
+      @twig.options[:branch_except].should == /test-except/
+      @twig.options[:property_only].should == { :branch => /test-only/ }
     end
 
     it 'skips comments' do
@@ -83,12 +83,12 @@ describe Twig::Options do
 
       # Check preconditions
       @twig.options[:branch_except].should be_nil
-      @twig.options[:branch_only].should be_nil
+      @twig.options[:property_only].should be_nil
 
       @twig.read_config_file!
 
       @twig.options[:branch_except].should == /test-except/
-      @twig.options[:branch_only].should == /test-only/
+      @twig.options[:property_only].should == { :branch => /test-only/ }
     end
 
     it 'fails gracefully if the config file is not readable' do
@@ -125,18 +125,6 @@ describe Twig::Options do
       end
     end
 
-    it 'sets a :branch_except option' do
-      @twig.options[:branch_except].should be_nil # Precondition
-      @twig.set_option(:branch_except, 'unwanted_prefix_')
-      @twig.options[:branch_except].should == /unwanted_prefix_/
-    end
-
-    it 'sets a :branch_only option' do
-      @twig.options[:branch_only].should be_nil # Precondition
-      @twig.set_option(:branch_only, 'important_prefix_')
-      @twig.options[:branch_only].should == /important_prefix_/
-    end
-
     it 'sets a :header_style option' do
       style = 'red bold'
       @twig.should_receive(:set_header_style_option).with(style)
@@ -163,6 +151,18 @@ describe Twig::Options do
 
         @twig.options[:max_days_old].should be_nil
       end
+    end
+
+    it 'sets a :branch_except option' do
+      @twig.options[:branch_except].should be_nil # Precondition
+      @twig.set_option(:branch_except, 'unwanted_prefix_')
+      @twig.options[:branch_except].should == /unwanted_prefix_/
+    end
+
+    it 'sets a :property_only option' do
+      @twig.options[:property_only].should be_nil # Precondition
+      @twig.set_option(:property_only, :branch => 'important_prefix_')
+      @twig.options[:property_only].should == { :branch => /important_prefix_/ }
     end
 
     it 'sets an :unset_property option' do
