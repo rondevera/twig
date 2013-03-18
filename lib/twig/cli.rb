@@ -114,7 +114,7 @@ class Twig
           '--except-branch PATTERN',
           *help_description(desc, :add_separator => true)
         ) do |pattern|
-          set_option(:branch_except, pattern)
+          set_option(:property_except, :branch => pattern)
         end
 
         desc =
@@ -123,7 +123,7 @@ class Twig
           File.basename(Twig::Options::CONFIG_FILE) + '.'
         opts.on('--all', *help_description(desc)) do |pattern|
           unset_option(:max_days_old)
-          unset_option(:branch_except)
+          unset_option(:property_except)
           unset_option(:property_only)
         end
 

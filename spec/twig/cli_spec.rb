@@ -88,10 +88,10 @@ describe Twig::Cli do
       @twig.options[:max_days_old].should == 30
     end
 
-    it 'recognizes `--except-branch` and sets a `:branch_except` option' do
-      @twig.options[:branch_except].should be_nil # Precondition
+    it 'recognizes `--except-branch` and sets a `:property_except` option' do
+      @twig.options[:property_except].should be_nil # Precondition
       @twig.read_cli_options!(%w[--except-branch test])
-      @twig.options[:branch_except].should == /test/
+      @twig.options[:property_except].should == { :branch => /test/ }
     end
 
     it 'recognizes `--only-branch` and sets a `:property_only` option' do
@@ -102,13 +102,13 @@ describe Twig::Cli do
 
     it 'recognizes `--all` and unsets other options except `:branch`' do
       @twig.set_option(:max_days_old, 30)
-      @twig.set_option(:branch_except, /test/)
-      @twig.set_option(:property_only, :branch => /test/)
+      @twig.set_option(:property_except, :branch => /test/)
+      @twig.set_option(:property_only,   :branch => /test/)
 
       @twig.read_cli_options!(['--all'])
 
       @twig.options[:max_days_old].should be_nil
-      @twig.options[:branch_except].should be_nil
+      @twig.options[:property_except].should be_nil
       @twig.options[:property_only].should be_nil
     end
 

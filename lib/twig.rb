@@ -62,7 +62,9 @@ class Twig
         next if seconds_old > max_seconds_old
       end
 
-      next if options[:branch_except] && branch.name =~ options[:branch_except]
+      next if options[:property_except] &&
+        options[:property_except][:branch] &&
+        branch.name =~ options[:property_except][:branch]
       next if options[:property_only] &&
         options[:property_only][:branch] &&
         branch.name !~ options[:property_only][:branch]

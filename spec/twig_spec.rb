@@ -96,15 +96,15 @@ describe Twig do
         should == [@branches[0].name, @branches[1].name]
     end
 
+    it 'returns all branches except those matching a name pattern' do
+      @twig.set_option(:property_except, :branch => /fix_some/)
+      @twig.branches.map { |branch| branch.name }.should == [@branches[2].name]
+    end
+
     it 'returns only branches matching a name pattern' do
       @twig.set_option(:property_only, :branch => /fix_some/)
       @twig.branches.map { |branch| branch.name }.
         should == [@branches[0].name, @branches[1].name]
-    end
-
-    it 'returns all branches except those matching a name pattern' do
-      @twig.set_option(:branch_except, /fix_some/)
-      @twig.branches.map { |branch| branch.name }.should == [@branches[2].name]
     end
   end
 

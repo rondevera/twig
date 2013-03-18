@@ -17,10 +17,10 @@ class Twig
         opts.each do |key, value|
           case key
           when 'branch'        then set_option(:branch,        value)
-          when 'except-branch' then set_option(:branch_except, value)
           when 'header-style'  then set_option(:header_style,  value)
           when 'max-days-old'  then set_option(:max_days_old,  value)
-          when 'only-branch'   then set_option(:property_only, :branch => value)
+          when 'except-branch' then set_option(:property_except, :branch => value)
+          when 'only-branch'   then set_option(:property_only,   :branch => value)
           end
         end
       end
@@ -45,8 +45,12 @@ class Twig
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
 
-      when :branch_except
-        options[:branch_except] = Regexp.new(value)
+      when :property_except
+        property_hash = value.inject({}) do |hsh, (property, val)|
+          hsh.merge(property => Regexp.new(val))
+        end
+        options[:property_except] ||= {}
+        options[:property_except].merge!(property_hash)
 
       when :property_only
         property_hash = value.inject({}) do |hsh, (property, val)|
