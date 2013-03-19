@@ -91,7 +91,12 @@ class Twig
               !line.include?('--only-branch') &&
               !line.include?('--only-PROPERTY')
             )
-            unless is_custom_property_only
+            is_custom_property_except = (
+              line.include?('--except-') &&
+              !line.include?('--except-branch') &&
+              !line.include?('--except-PROPERTY')
+            )
+            unless is_custom_property_only || is_custom_property_except
               puts line
             end
           end
@@ -138,11 +143,18 @@ class Twig
           opts.on("--only-#{property_name} PATTERN") do |pattern|
             set_option(:property_only, property_name.to_sym => pattern)
           end
+
+          opts.on("--except-#{property_name} PATTERN") do |pattern|
+            set_option(:property_except, property_name.to_sym => pattern)
+          end
         end
 
         custom_properties_desc_lines = [
-          ['--only-PROPERTY PATTERN', 'Only list branches with a given property'],
-          ['',                        'that matches a given pattern.']
+          ['--only-PROPERTY PATTERN',   'Only list branches with a given property'],
+          ['',                          'that matches a given pattern.'],
+          ['', ''],
+          ['--except-PROPERTY PATTERN', 'Do not list branches with a given property'],
+          ['',                          'that matches a given pattern.']
         ]
         custom_properties_desc = custom_properties_desc_lines.inject('') do |desc, line_parts|
           desc + sprintf('      %-29s', line_parts[0]) + line_parts[1] + "\n"

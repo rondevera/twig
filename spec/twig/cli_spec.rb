@@ -100,7 +100,7 @@ describe Twig::Cli do
       @twig.options[:property_only].should == { :branch => /test/ }
     end
 
-    context 'with custom property filtering' do
+    context 'with custom property "only" filtering' do
       it 'recognizes `--only-<property>` and sets a `:property_only` option' do
         Twig::Branch.stub(:all_properties) { %w[foo] }
         @twig.options[:property_only].should be_nil # Precondition
@@ -136,6 +136,46 @@ describe Twig::Cli do
         expected_exception.should_not be_nil
         expected_exception.status.should == 0
         @twig.options[:property_only].should be_nil
+      end
+    end
+
+    context 'with custom property "except" filtering' do
+      it 'recognizes `--except-<property>` and sets a `:property_except` option' do
+        Twig::Branch.stub(:all_properties) { %w[foo] }
+        @twig.options[:property_except].should be_nil # Precondition
+
+        @twig.read_cli_options!(%w[--except-foo test])
+
+        @twig.options[:property_except].should == { :foo => /test/ }
+      end
+
+      it 'recognizes `--except-branch` and `--except-<property>` together' do
+        Twig::Branch.stub(:all_properties) { %w[foo] }
+        @twig.options[:property_except].should be_nil # Precondition
+
+        @twig.read_cli_options!(%w[--except-branch test --except-foo bar])
+
+        @twig.options[:property_except].should == {
+          :branch => /test/,
+          :foo    => /bar/
+        }
+      end
+
+      it 'does not recognize `--except-<property>` for a missing property' do
+        property_name = 'foo'
+        Twig::Branch.all_properties.should_not include(property_name) # Precondition
+        @twig.options[:property_except].should be_nil # Precondition
+        @twig.stub(:puts)
+
+        begin
+          @twig.read_cli_options!(["--except-#{property_name}", 'test'])
+        rescue SystemExit => exception
+          expected_exception = exception
+        end
+
+        expected_exception.should_not be_nil
+        expected_exception.status.should == 0
+        @twig.options[:property_except].should be_nil
       end
     end
 
