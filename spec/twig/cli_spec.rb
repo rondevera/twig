@@ -100,6 +100,45 @@ describe Twig::Cli do
       @twig.options[:property_only].should == { :branch => /test/ }
     end
 
+    context 'with custom property filtering' do
+      it 'recognizes `--only-<property>` and sets a `:property_only` option' do
+        Twig::Branch.stub(:all_properties) { %w[foo] }
+        @twig.options[:property_only].should be_nil # Precondition
+
+        @twig.read_cli_options!(%w[--only-foo test])
+
+        @twig.options[:property_only].should == { :foo => /test/ }
+      end
+
+      it 'recognizes `--only-branch` and `--only-<property>` together' do
+        Twig::Branch.stub(:all_properties) { %w[foo] }
+        @twig.options[:property_only].should be_nil # Precondition
+
+        @twig.read_cli_options!(%w[--only-branch test --only-foo bar])
+
+        @twig.options[:property_only].should == {
+          :branch => /test/,
+          :foo    => /bar/
+        }
+      end
+
+      it 'does not recognize `--only-<property>` for a missing property' do
+        Twig::Branch.all_properties.should_not include('foo') # Precondition
+        @twig.options[:property_only].should be_nil # Precondition
+        @twig.stub(:puts)
+
+        begin
+          @twig.read_cli_options!(%w[--only-foo test])
+        rescue SystemExit => exception
+          expected_exception = exception
+        end
+
+        expected_exception.should_not be_nil
+        expected_exception.status.should == 0
+        @twig.options[:property_only].should be_nil
+      end
+    end
+
     it 'recognizes `--all` and unsets other options except `:branch`' do
       @twig.set_option(:max_days_old, 30)
       @twig.set_option(:property_except, :branch => /test/)

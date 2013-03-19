@@ -117,8 +117,15 @@ class Twig
           set_option(:property_except, :branch => pattern)
         end
 
+        custom_properties = Twig::Branch.all_properties
+        custom_properties.each do |property_name|
+          opts.on("--only-#{property_name} PATTERN") do |pattern|
+            set_option(:property_only, property_name.to_sym => pattern)
+          end
+        end
+
         desc =
-          'Lists all branches regardless of age or name options. ' +
+          'Lists all branches regardless of other filtering options. ' +
           'Useful for overriding options in ' +
           File.basename(Twig::Options::CONFIG_FILE) + '.'
         opts.on('--all', *help_description(desc)) do |pattern|
