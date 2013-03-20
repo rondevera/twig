@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'tmpdir'
 
 describe Twig do
   describe '#initialize' do
@@ -211,4 +212,25 @@ describe Twig do
     end
   end
 
+  describe '#repo?' do
+    it 'is true when the working directory is a git repository' do
+      Dir.chdir(File.dirname(__FILE__)) do
+        Twig.new.should be_repo
+      end
+    end
+
+    it 'is false when the working directory is not a git repository' do
+      Dir.mktmpdir do |tmpdir|
+        Dir.chdir(tmpdir) do
+          Twig.new.should_not be_repo
+        end
+      end
+    end
+
+    it 'captures stderr' do
+      Twig.should_receive(:run).with(/2>&1/)
+      twig = Twig.new
+      twig.repo?
+    end
+  end
 end
