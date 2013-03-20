@@ -26,7 +26,7 @@ class Twig
   end
 
   def repo?
-    Twig.run('git rev-parse')
+    Twig.run('git rev-parse 2>&1')
     $?.success?
   end
 
