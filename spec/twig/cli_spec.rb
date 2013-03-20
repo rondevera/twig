@@ -101,18 +101,18 @@ describe Twig::Cli do
     end
 
     context 'with custom property "only" filtering' do
+      before :each do
+        @twig.options[:property_only].should be_nil # Precondition
+      end
+
       it 'recognizes `--only-<property>` and sets a `:property_only` option' do
         Twig::Branch.stub(:all_properties) { %w[foo] }
-        @twig.options[:property_only].should be_nil # Precondition
-
         @twig.read_cli_options!(%w[--only-foo test])
-
         @twig.options[:property_only].should == { :foo => /test/ }
       end
 
       it 'recognizes `--only-branch` and `--only-<property>` together' do
         Twig::Branch.stub(:all_properties) { %w[foo] }
-        @twig.options[:property_only].should be_nil # Precondition
 
         @twig.read_cli_options!(%w[--only-branch test --only-foo bar])
 
@@ -123,12 +123,12 @@ describe Twig::Cli do
       end
 
       it 'does not recognize `--only-<property>` for a missing property' do
-        Twig::Branch.all_properties.should_not include('foo') # Precondition
-        @twig.options[:property_only].should be_nil # Precondition
+        property_name = 'foo'
+        Twig::Branch.all_properties.should_not include(property_name) # Precondition
         @twig.stub(:puts)
 
         begin
-          @twig.read_cli_options!(%w[--only-foo test])
+          @twig.read_cli_options!(["--only-#{property_name}", 'test'])
         rescue SystemExit => exception
           expected_exception = exception
         end
@@ -140,18 +140,18 @@ describe Twig::Cli do
     end
 
     context 'with custom property "except" filtering' do
+      before :each do
+        @twig.options[:property_except].should be_nil # Precondition
+      end
+
       it 'recognizes `--except-<property>` and sets a `:property_except` option' do
         Twig::Branch.stub(:all_properties) { %w[foo] }
-        @twig.options[:property_except].should be_nil # Precondition
-
         @twig.read_cli_options!(%w[--except-foo test])
-
         @twig.options[:property_except].should == { :foo => /test/ }
       end
 
       it 'recognizes `--except-branch` and `--except-<property>` together' do
         Twig::Branch.stub(:all_properties) { %w[foo] }
-        @twig.options[:property_except].should be_nil # Precondition
 
         @twig.read_cli_options!(%w[--except-branch test --except-foo bar])
 
@@ -164,7 +164,6 @@ describe Twig::Cli do
       it 'does not recognize `--except-<property>` for a missing property' do
         property_name = 'foo'
         Twig::Branch.all_properties.should_not include(property_name) # Precondition
-        @twig.options[:property_except].should be_nil # Precondition
         @twig.stub(:puts)
 
         begin
