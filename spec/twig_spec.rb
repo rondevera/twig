@@ -73,16 +73,19 @@ describe Twig do
         fix_some_of_the_things
         fix_some_other_of_the_things
         fix_nothing
+        fix_everything
       ]
       commit_times = [
         Twig::CommitTime.new(Time.now - 86400 * 10, '10 days ago'),
         Twig::CommitTime.new(Time.now - 86400 * 20, '20 days ago'),
-        Twig::CommitTime.new(Time.now - 86400 * 30, '30 days ago')
+        Twig::CommitTime.new(Time.now - 86400 * 30, '30 days ago'),
+        Twig::CommitTime.new(Time.now - 86400 * 40, '40 days ago')
       ]
       @branches = [
         Twig::Branch.new(branch_names[0], :last_commit_time => commit_times[0]),
         Twig::Branch.new(branch_names[1], :last_commit_time => commit_times[1]),
-        Twig::Branch.new(branch_names[2], :last_commit_time => commit_times[2])
+        Twig::Branch.new(branch_names[2], :last_commit_time => commit_times[2]),
+        Twig::Branch.new(branch_names[3], :last_commit_time => commit_times[3])
       ]
       @twig.stub(:all_branches => @branches)
     end
@@ -99,13 +102,35 @@ describe Twig do
 
     it 'returns all branches except those matching a name pattern' do
       @twig.set_option(:property_except, :branch => /fix_some/)
-      @twig.branches.map { |branch| branch.name }.should == [@branches[2].name]
+      @twig.branches.map { |branch| branch.name }.
+        should == [@branches[2].name, @branches[3].name]
     end
 
     it 'returns only branches matching a name pattern' do
       @twig.set_option(:property_only, :branch => /fix_some/)
       @twig.branches.map { |branch| branch.name }.
         should == [@branches[0].name, @branches[1].name]
+    end
+
+    context 'with property filtering' do
+      before :each do
+        @branches[0].stub(:get_property).with('foo') { 'bar1' }
+        @branches[1].stub(:get_property).with('foo') { 'bar2' }
+        @branches[2].stub(:get_property).with('foo') { 'baz' }
+        @branches[3].stub(:get_property).with('foo') { nil }
+      end
+
+      it 'returns all branches except those matching a property pattern' do
+        @twig.set_option(:property_except, :foo => /bar/)
+        @twig.branches.map { |branch| branch.name }.
+          should == [@branches[2].name, @branches[3].name]
+      end
+
+      it 'returns only branches matching a property pattern' do
+        @twig.set_option(:property_only, :foo => /bar/)
+        @twig.branches.map { |branch| branch.name }.
+          should == [@branches[0].name, @branches[1].name]
+      end
     end
   end
 

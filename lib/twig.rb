@@ -57,19 +57,30 @@ class Twig
     max_seconds_old = options[:max_days_old] * 86400 if options[:max_days_old]
 
     branches.select do |branch|
-      if max_seconds_old
-        seconds_old = now.to_i - branch.last_commit_time.to_i
-        next if seconds_old > max_seconds_old
+      catch :skip_branch do
+        if max_seconds_old
+          seconds_old = now.to_i - branch.last_commit_time.to_i
+          next if seconds_old > max_seconds_old
+        end
+
+        (options[:property_except] || {}).each do |property_name, property_value|
+          if property_name == :branch
+            throw :skip_branch if branch.name =~ property_value
+          elsif branch.get_property(property_name.to_s) =~ property_value
+            throw :skip_branch
+          end
+        end
+
+        (options[:property_only] || {}).each do |property_name, property_value|
+          if property_name == :branch
+            throw :skip_branch if branch.name !~ property_value
+          elsif branch.get_property(property_name.to_s) !~ property_value
+            throw :skip_branch
+          end
+        end
+
+        true
       end
-
-      next if options[:property_except] &&
-        options[:property_except][:branch] &&
-        branch.name =~ options[:property_except][:branch]
-      next if options[:property_only] &&
-        options[:property_only][:branch] &&
-        branch.name !~ options[:property_only][:branch]
-
-      true
     end
   end
 
