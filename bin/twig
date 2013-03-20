@@ -3,7 +3,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'twig'))
 
 twig = Twig.new
-abort unless twig.repo? || ARGV.include?("--help")
+abort unless twig.repo? || (ARGV == ['--help'] || ARGV == ['help'])
 
 # Gettin' twiggy wit' it.
 twig.read_config_file!
