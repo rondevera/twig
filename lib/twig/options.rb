@@ -19,8 +19,12 @@ class Twig
           when 'branch'        then set_option(:branch,        value)
           when 'header-style'  then set_option(:header_style,  value)
           when 'max-days-old'  then set_option(:max_days_old,  value)
-          when 'except-branch' then set_option(:property_except, :branch => value)
-          when 'only-branch'   then set_option(:property_only,   :branch => value)
+          when /^except-/
+            property_name = key.sub(/^except-/, '').to_sym
+            set_option(:property_except, property_name => value)
+          when /^only-/
+            property_name = key.sub(/^only-/, '').to_sym
+            set_option(:property_only, property_name => value)
           end
         end
       end

@@ -31,10 +31,12 @@ describe Twig::Options do
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
       file.should_receive(:read).and_return([
         'branch:        test',
-        'except-branch: test-except',
-        'only-branch:   test-only',
+        'header-style:  green bold',
         'max-days-old:  30.5',
-        'header-style:  green bold'
+        'except-branch: test-except-branch',
+        'only-branch:   test-only-branch',
+        'except-foo:    test-except-foo',
+        'only-foo:      test-only-foo'
       ].join("\n"))
 
       # Check preconditions
@@ -51,8 +53,14 @@ describe Twig::Options do
       @twig.options[:header_color].should == :green
       @twig.options[:header_weight].should == :bold
       @twig.options[:max_days_old].should == 30.5
-      @twig.options[:property_except].should == { :branch => /test-except/ }
-      @twig.options[:property_only].should == { :branch => /test-only/ }
+      @twig.options[:property_except].should == {
+        :branch => /test-except-branch/,
+        :foo    => /test-except-foo/
+      }
+      @twig.options[:property_only].should == {
+        :branch => /test-only-branch/,
+        :foo    => /test-only-foo/
+      }
     end
 
     it 'skips comments' do
