@@ -1,6 +1,8 @@
 Twig
 ====
 
+* ENHANCEMENT: Add `--only-<property>` and `--except-<property>` options for
+  filtering custom properties by value.
 * ENHANCEMENT: Simplify setup for writing GitHub-related Twig subcommands.
 * FIX: Fix showing `twig --help` outside of a Git repository. (GH-16. Thanks
   [ryangreenberg](https://github.com/ryangreenberg)!)

@@ -52,14 +52,18 @@ Filtering branches
 ------------------
 
 Twig lists all of your branches by default (newest first), but you can filter
-them by name and age:
+them by age, name, and custom properties:
 
+* `twig --max-days-old <age>`:
+  Only list branches below a given age
 * `twig --only-branch <pattern>`:
   Only list branches whose name matches a given pattern
 * `twig --except-branch <pattern>`:
   Don't list branches whose name matches a given pattern
-* `twig --max-days-old <age>`:
-  Only list branches below a given age
+* `twig --only-<property> <pattern>`:
+  Only list branches with a given property that matches a given pattern
+* `twig --except-<property> <pattern>`:
+  Don't list branches with a given property that matches a given pattern
 * `twig --all`:
   List all branches regardless of other filtering options
 
