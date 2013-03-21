@@ -1,6 +1,8 @@
 Twig
 ====
 
+1.2 (2013-03-21)
+----------------
 * ENHANCEMENT: Add `--only-<property>` and `--except-<property>` options for
   filtering custom properties by value.
 * ENHANCEMENT: Simplify setup for writing GitHub-related Twig subcommands.
