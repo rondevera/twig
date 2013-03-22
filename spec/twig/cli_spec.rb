@@ -65,7 +65,7 @@ describe Twig::Cli do
     end
 
     it 'recognizes `-b` and sets a `:branch` option' do
-      @twig.should_receive(:branch_names).and_return(['test'])
+      @twig.should_receive(:all_branch_names).and_return(['test'])
       @twig.options[:branch].should be_nil # Precondition
 
       @twig.read_cli_options!(%w[-b test])
@@ -74,7 +74,7 @@ describe Twig::Cli do
     end
 
     it 'recognizes `--branch` and sets a `:branch` option' do
-      @twig.should_receive(:branch_names).and_return(['test'])
+      @twig.should_receive(:all_branch_names).and_return(['test'])
       @twig.options[:branch].should be_nil # Precondition
 
       @twig.read_cli_options!(%w[--branch test])
@@ -311,7 +311,7 @@ describe Twig::Cli do
       end
 
       it 'gets a property for a specified branch' do
-        @twig.should_receive(:branch_names).and_return([@branch_name])
+        @twig.should_receive(:all_branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
         @twig.should_receive(:get_branch_property_for_cli).
           with(@branch_name, @property_name)
@@ -337,7 +337,7 @@ describe Twig::Cli do
       end
 
       it 'sets a property for a specified branch' do
-        @twig.should_receive(:branch_names).and_return([@branch_name])
+        @twig.should_receive(:all_branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
         @twig.should_receive(:set_branch_property_for_cli).
           with(@branch_name, @property_name, @property_value).
@@ -364,7 +364,7 @@ describe Twig::Cli do
       end
 
       it 'unsets a property for a specified branch' do
-        @twig.should_receive(:branch_names).and_return([@branch_name])
+        @twig.should_receive(:all_branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
         @twig.should_receive(:unset_branch_property_for_cli).
           with(@branch_name, @property_name)

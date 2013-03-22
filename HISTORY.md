@@ -1,6 +1,9 @@
 Twig
 ====
 
+* FIX: Allow getting, setting, and unsetting properties for branches older than
+  the `max-days-old` option, if given.
+
 1.2 (2013-03-21)
 ----------------
 * ENHANCEMENT: Add `--only-<property>` and `--except-<property>` options for
