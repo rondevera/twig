@@ -145,17 +145,6 @@ describe Twig do
     end
   end
 
-  describe '#branch_names' do
-    it 'returns an array of branch names' do
-      twig = Twig.new
-      branch_names = %w[foo bar baz]
-      branches = branch_names.map { |name| Twig::Branch.new(name) }
-      twig.should_receive(:branches).and_return(branches)
-
-      twig.branch_names.should == branch_names
-    end
-  end
-
   describe '#list_branches' do
     before :each do
       @twig = Twig.new

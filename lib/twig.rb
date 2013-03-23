@@ -88,10 +88,6 @@ class Twig
     all_branches.map { |branch| branch.name }
   end
 
-  def branch_names
-    branches.map { |branch| branch.name }
-  end
-
 
 
   ### Actions ###
