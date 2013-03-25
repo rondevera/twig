@@ -44,4 +44,21 @@ describe Twig::GithubRepo do
     end
   end
 
+  describe '#origin_url' do
+    before :each do
+      Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
+      Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
+    end
+
+    it 'gets the origin URL from the repo config' do
+      origin_url = 'origin url'
+      Twig::GithubRepo.should_receive(:run).
+        with('git config remote.origin.url').once { origin_url }
+
+      Twig::GithubRepo.new do |gh_repo|
+        2.times { gh_repo.origin_url }
+      end
+    end
+  end
+
 end
