@@ -61,4 +61,27 @@ describe Twig::GithubRepo do
     end
   end
 
+  describe '#origin_url_parts' do
+    before :each do
+      Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
+      Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
+    end
+
+    it 'splits the origin URL into useful parts' do
+      origin_url = 'git@github.com:rondevera/twig.git'
+      Twig::GithubRepo.any_instance.stub(:origin_url) { origin_url }
+
+      origin_url_parts = nil
+      Twig::GithubRepo.new do |gh_repo|
+        origin_url_parts = gh_repo.origin_url_parts
+      end
+
+      origin_url_parts.should == %w[
+        git@github.com
+        rondevera
+        twig.git
+      ]
+    end
+  end
+
 end
