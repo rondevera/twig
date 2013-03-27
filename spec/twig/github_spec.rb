@@ -2,9 +2,13 @@ require 'spec_helper'
 
 describe Twig::GithubRepo do
 
+  before :each do
+    @git_ssh_read_write_url = 'git@github.com:rondevera/twig.git'
+  end
+
   describe '#initialize' do
     it 'runs the given block' do
-      Twig::GithubRepo.any_instance.stub(:origin_url) { 'origin URL' }
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
 
@@ -26,7 +30,7 @@ describe Twig::GithubRepo do
     end
 
     it 'aborts if the repo username is empty' do
-      Twig::GithubRepo.any_instance.stub(:origin_url) { 'origin url' }
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { '' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
       Twig::GithubRepo.any_instance.should_receive(:abort_for_non_github_repo)
@@ -35,7 +39,7 @@ describe Twig::GithubRepo do
     end
 
     it 'aborts if the repo name is empty' do
-      Twig::GithubRepo.any_instance.stub(:origin_url) { 'origin url' }
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { '' }
       Twig::GithubRepo.any_instance.should_receive(:abort_for_non_github_repo)
@@ -51,7 +55,7 @@ describe Twig::GithubRepo do
     end
 
     it 'gets the origin URL from the repo config' do
-      origin_url = 'origin url'
+      origin_url = @git_ssh_read_write_url
       Twig::GithubRepo.should_receive(:run).
         with('git config remote.origin.url').once { origin_url }
 
@@ -68,7 +72,7 @@ describe Twig::GithubRepo do
     end
 
     it 'splits the origin URL into useful parts' do
-      origin_url = 'git@github.com:rondevera/twig.git'
+      origin_url = @git_ssh_read_write_url
       Twig::GithubRepo.any_instance.stub(:origin_url) { origin_url }
 
       origin_url_parts = nil
