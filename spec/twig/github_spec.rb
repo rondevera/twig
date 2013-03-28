@@ -88,4 +88,20 @@ describe Twig::GithubRepo do
     end
   end
 
+  describe '#username' do
+    before :each do
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
+      Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
+    end
+
+    it 'gets the username from the repo config' do
+      username = nil
+      Twig::GithubRepo.new do |gh_repo|
+        username = gh_repo.username
+      end
+
+      username.should == 'rondevera'
+    end
+  end
+
 end
