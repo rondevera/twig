@@ -104,4 +104,20 @@ describe Twig::GithubRepo do
     end
   end
 
+  describe '#repository' do
+    before :each do
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
+      Twig::GithubRepo.any_instance.stub(:username)   { 'repository' }
+    end
+
+    it 'gets the repository name from the repo config' do
+      repository = nil
+      Twig::GithubRepo.new do |gh_repo|
+        repository = gh_repo.repository
+      end
+
+      repository.should == 'twig'
+    end
+  end
+
 end
