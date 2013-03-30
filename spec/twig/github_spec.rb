@@ -3,6 +3,9 @@ require 'spec_helper'
 describe Twig::GithubRepo do
 
   before :each do
+    @git_https_url          = 'https://github.com/rondevera/twig.git'
+                                # Read-only or read/write
+    @git_read_only_url      = 'git://github.com/rondevera/twig.git'
     @git_ssh_read_write_url = 'git@github.com:rondevera/twig.git'
   end
 
@@ -90,11 +93,31 @@ describe Twig::GithubRepo do
 
   describe '#username' do
     before :each do
-      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
     end
 
-    it 'gets the username from the repo config' do
+    it 'gets the username for a HTTPS repo' do
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
+      username = nil
+      Twig::GithubRepo.new do |gh_repo|
+        username = gh_repo.username
+      end
+
+      username.should == 'rondevera'
+    end
+
+    it 'gets the username for a Git read-only repo' do
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_read_only_url }
+      username = nil
+      Twig::GithubRepo.new do |gh_repo|
+        username = gh_repo.username
+      end
+
+      username.should == 'rondevera'
+    end
+
+    it 'gets the username for a SSH read/write repo' do
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
       username = nil
       Twig::GithubRepo.new do |gh_repo|
         username = gh_repo.username
@@ -106,11 +129,31 @@ describe Twig::GithubRepo do
 
   describe '#repository' do
     before :each do
-      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
-      Twig::GithubRepo.any_instance.stub(:username)   { 'repository' }
+      Twig::GithubRepo.any_instance.stub(:username) { 'repository' }
     end
 
-    it 'gets the repository name from the repo config' do
+    it 'gets the repo name for a HTTPS repo' do
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_https_url }
+      repository = nil
+      Twig::GithubRepo.new do |gh_repo|
+        repository = gh_repo.repository
+      end
+
+      repository.should == 'twig'
+    end
+
+    it 'gets the repo name for a Git read-only repo' do
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_read_only_url }
+      repository = nil
+      Twig::GithubRepo.new do |gh_repo|
+        repository = gh_repo.repository
+      end
+
+      repository.should == 'twig'
+    end
+
+    it 'gets the repo name for a SSH read/write repo' do
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @git_ssh_read_write_url }
       repository = nil
       Twig::GithubRepo.new do |gh_repo|
         repository = gh_repo.repository
