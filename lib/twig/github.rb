@@ -6,7 +6,7 @@ class Twig
     end
 
     def initialize
-      if origin_url.empty? || username.empty? || repository.empty?
+      if origin_url.empty? || !github_repo? || username.empty? || repository.empty?
         abort_for_non_github_repo
       end
 
@@ -19,6 +19,10 @@ class Twig
 
     def origin_url_parts
       @origin_url_parts ||= origin_url.split(/[\/:]/)
+    end
+
+    def github_repo?
+      origin_url.include?('github.com')
     end
 
     def username

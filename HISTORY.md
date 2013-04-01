@@ -3,6 +3,8 @@ Twig
 
 * FIX: Allow getting, setting, and unsetting properties for branches older than
   the `max-days-old` option, if given.
+* FIX: Abort `twig gh-*` subcommands early if working in a non-Github
+  repository.
 
 1.2 (2013-03-21)
 ----------------
