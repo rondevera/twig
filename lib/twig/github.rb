@@ -1,10 +1,5 @@
 class Twig
   class GithubRepo
-    def self.run(command)
-      # Duplicated from `Twig.run` for making lightweight subcommands.
-      `#{command}`.strip
-    end
-
     def initialize
       if origin_url.empty? || !github_repo? || username.empty? || repository.empty?
         abort_for_non_github_repo
@@ -14,7 +9,7 @@ class Twig
     end
 
     def origin_url
-      @origin_url ||= Twig::GithubRepo.run('git config remote.origin.url')
+      @origin_url ||= Twig.run('git config remote.origin.url')
     end
 
     def origin_url_parts

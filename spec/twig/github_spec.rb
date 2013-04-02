@@ -72,7 +72,7 @@ describe Twig::GithubRepo do
 
     it 'gets the origin URL from the repo config' do
       origin_url = @github_ssh_read_write_url
-      Twig::GithubRepo.should_receive(:run).
+      Twig.should_receive(:run).
         with('git config remote.origin.url').once { origin_url }
 
       Twig::GithubRepo.new do |gh_repo|

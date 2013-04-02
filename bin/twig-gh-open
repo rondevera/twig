@@ -5,7 +5,7 @@
 # Author: Ron DeVera <http://rondevera.com>
 
 require 'rubygems'
-require 'twig/github'
+require 'twig'
 
 Twig::GithubRepo.new do |gh_repo|
   url = "https://github.com/#{gh_repo.username}/#{gh_repo.repository}"
