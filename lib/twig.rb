@@ -18,16 +18,16 @@ class Twig
     `#{command}`.strip
   end
 
+  def self.repo?
+    Twig.run('git rev-parse 2>&1')
+    $?.success?
+  end
+
   def initialize
     self.options = {}
 
     # Set defaults
     set_option(:header_style, DEFAULT_HEADER_COLOR.to_s)
-  end
-
-  def repo?
-    Twig.run('git rev-parse 2>&1')
-    $?.success?
   end
 
   def current_branch_name
