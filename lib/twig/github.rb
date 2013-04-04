@@ -1,6 +1,10 @@
 class Twig
   class GithubRepo
     def initialize
+      unless Twig.repo?
+        abort 'Current directory is not a git repository.'
+      end
+
       if origin_url.empty? || !github_repo? || username.empty? || repository.empty?
         abort_for_non_github_repo
       end

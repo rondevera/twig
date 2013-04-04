@@ -15,6 +15,7 @@ describe Twig::GithubRepo do
 
   describe '#initialize' do
     it 'runs the given block' do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:origin_url) { @github_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
@@ -27,7 +28,20 @@ describe Twig::GithubRepo do
       block_has_run.should be_true
     end
 
+    it 'aborts if this is not a Git repo' do
+      Twig.stub(:repo?) { false }
+      Twig::GithubRepo.any_instance.stub(:origin_url) { @github_ssh_read_write_url }
+      Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
+      Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
+      Twig::GithubRepo.any_instance.should_receive(:abort) do |message|
+        message.should include('not a git repository')
+      end
+
+      Twig::GithubRepo.new { |gh_repo| } # Do nothing
+    end
+
     it 'aborts if the repo origin URL is empty' do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:origin_url) { '' }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
@@ -37,6 +51,7 @@ describe Twig::GithubRepo do
     end
 
     it 'aborts if the repo username is empty' do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:origin_url) { @github_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { '' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
@@ -46,6 +61,7 @@ describe Twig::GithubRepo do
     end
 
     it 'aborts if the repo name is empty' do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:origin_url) { @github_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { '' }
@@ -55,6 +71,7 @@ describe Twig::GithubRepo do
     end
 
     it 'aborts if the repo is not hosted by Github' do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:origin_url) { @generic_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
@@ -66,6 +83,7 @@ describe Twig::GithubRepo do
 
   describe '#origin_url' do
     before :each do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
     end
@@ -83,6 +101,7 @@ describe Twig::GithubRepo do
 
   describe '#origin_url_parts' do
     before :each do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
     end
@@ -105,6 +124,10 @@ describe Twig::GithubRepo do
   end
 
   describe '#github_repo?' do
+    before :each do
+      Twig.stub(:repo?) { true }
+    end
+
     context 'with a Github HTTPS URL' do
       before :each do
         Twig::GithubRepo.any_instance.stub(:origin_url) { @github_https_url }
@@ -201,6 +224,7 @@ describe Twig::GithubRepo do
 
   describe '#username' do
     before :each do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
     end
 
@@ -237,6 +261,7 @@ describe Twig::GithubRepo do
 
   describe '#repository' do
     before :each do
+      Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:username) { 'repository' }
     end
 
