@@ -17,7 +17,7 @@ class Twig
     CURRENT_BRANCH_INDICATOR        = '* '
     EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
-    def column(string = ' ', num_columns = 1, column_options = {})
+    def column(string, num_columns = 1, column_options = {})
       # Returns `string` with an exact fixed width. If `string` is too wide, it
       # is truncated with an ellipsis and a trailing space to separate columns.
       #
@@ -26,6 +26,7 @@ class Twig
       # - `:weight`: `nil` by default. Accepts a key from `WEIGHTS`.
       # - `:width`:  8 (characters) by default.
 
+      string ||= ' '
       width_per_column = column_options[:width] || 8
       total_width      = num_columns * width_per_column
       new_string       = string[0, total_width]
