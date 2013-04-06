@@ -17,39 +17,38 @@ class Twig
     CURRENT_BRANCH_INDICATOR        = '* '
     EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
-    def column(string, num_columns = 1, column_options = {})
+    def column(string, options = {})
       # Returns `string` with an exact fixed width. If `string` is too wide, it
       # is truncated with an ellipsis and a trailing space to separate columns.
       #
-      # `column_options`:
+      # `options`:
       # - `:color`:  `nil` by default. Accepts a key from `COLORS`.
       # - `:weight`: `nil` by default. Accepts a key from `WEIGHTS`.
       # - `:width`:  8 (characters) by default.
 
       string ||= ' '
-      width_per_column = column_options[:width] || 8
-      total_width      = num_columns * width_per_column
-      new_string       = string[0, total_width]
-      omission         = '... '
+      width      = options[:width] || 8
+      new_string = string[0, width]
+      omission   = '... '
 
-      if string.size >= total_width
+      if string.size >= width
         new_string[-omission.size, omission.size] = omission
       else
-        new_string = ' ' * total_width
+        new_string = ' ' * width
         new_string[0, string.size] = string
       end
 
       new_string = format_string(
         new_string,
-        column_options.reject { |k, v| ![:color, :weight].include?(k) }
+        options.reject { |k, v| ![:color, :weight].include?(k) }
       )
 
       new_string
     end
 
     def branch_list_headers(header_options = {})
-      columns_for_date_time    = 5
-      columns_per_property     = 2
+      date_time_column_width = 40
+      property_column_width  = 16
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
 
       header_options.merge!(
@@ -61,23 +60,21 @@ class Twig
           end
           opts
         end
-      )
+      ).merge!(:width => property_column_width)
 
       out =
-        column(' ', columns_for_date_time) <<
+        column(' ', :width => date_time_column_width) <<
         Twig::Branch.all_properties.map do |property|
-          column(property, columns_per_property, header_options)
+          column(property, header_options)
         end.join <<
-        column(branch_indicator_padding + 'branch',
-          columns_per_property, header_options) <<
+        column(branch_indicator_padding + 'branch', header_options) <<
         "\n"
       out <<
-        column(' ', columns_for_date_time) <<
+        column(' ', :width => date_time_column_width) <<
         Twig::Branch.all_properties.map do |property|
-          column('-' * property.size, columns_per_property, header_options)
+          column('-' * property.size, header_options)
         end.join <<
-        column(branch_indicator_padding + '------',
-          columns_per_property, header_options) <<
+        column(branch_indicator_padding + '------', header_options) <<
         "\n"
 
       out
@@ -85,6 +82,8 @@ class Twig
 
     def branch_list_line(branch)
       is_current_branch = branch.name == current_branch_name
+      date_time_column_width = 40
+      property_column_width  = 16
 
       properties = Twig::Branch.all_properties.inject({}) do |result, property_name|
         property = (get_branch_property(branch.name, property_name) || '').strip
@@ -93,12 +92,12 @@ class Twig
         result.merge(property_name => property)
       end
 
-      line = column(branch.last_commit_time.to_s, 5)
+      line = column(branch.last_commit_time.to_s, :width => date_time_column_width)
 
       line <<
         Twig::Branch.all_properties.map do |property_name|
           property = properties[property_name] || ''
-          column(property, 2)
+          column(property, :width => property_column_width)
         end.join
 
       line <<

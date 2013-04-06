@@ -7,23 +7,23 @@ describe Twig::Display do
 
   describe '#column' do
     it 'returns a string with an exact fixed width' do
-      @twig.column('foo', 1, :width => 8).should == 'foo' + (' ' * 5)
+      @twig.column('foo', :width => 8).should == 'foo' + (' ' * 5)
     end
 
     it 'returns a string that fits a column exactly' do
-      @twig.column('asdfasdf', 1, :width => 8).should == 'asdf... '
+      @twig.column('asdfasdf', :width => 8).should == 'asdf... '
     end
 
     it 'truncates a wide string with an ellipsis' do
-      @twig.column('asdfasdfasdf', 1, :width => 8).should == 'asdf... '
+      @twig.column('asdfasdfasdf', :width => 8).should == 'asdf... '
     end
 
     it 'returns a string that spans multiple columns' do
-      @twig.column('foo', 2, :width => 8).should == 'foo' + (' ' * 13)
+      @twig.column('foo', :width => 16).should == 'foo' + (' ' * 13)
     end
 
     it 'returns a string that spans multiple columns and is truncated' do
-      @twig.column('asdf' * 5, 2, :width => 8).should == 'asdfasdfasdf... '
+      @twig.column('asdf' * 5, :width => 16).should == 'asdfasdfasdf... '
     end
 
     it 'passes options through to `format_string`' do
@@ -31,7 +31,7 @@ describe Twig::Display do
       @twig.should_receive(:format_string).
         with('foo' + (' ' * 5), format_options)
 
-      @twig.column('foo', 1, format_options)
+      @twig.column('foo', format_options)
     end
   end
 
@@ -44,17 +44,16 @@ describe Twig::Display do
       result = @twig.branch_list_headers({})
       result_lines = result.split("\n")
 
-      column_width = 8
-      columns_for_date_time = 5
-      first_column_width = column_width * columns_for_date_time
-      result_lines[0].should == (' ' * first_column_width) +
-        'foo     ' + (' ' * column_width) +
-        'quux    ' + (' ' * column_width) +
-        '  branch' + (' ' * column_width)
-      result_lines[1].should == (' ' * first_column_width) +
-        '---     ' + (' ' * column_width) +
-        '----    ' + (' ' * column_width) +
-        '  ------' + (' ' * column_width)
+      date_time_column_width = 40
+      property_column_width  = 8
+      result_lines[0].should == (' ' * date_time_column_width) +
+        'foo     ' + (' ' * property_column_width) +
+        'quux    ' + (' ' * property_column_width) +
+        '  branch' + (' ' * property_column_width)
+      result_lines[1].should == (' ' * date_time_column_width) +
+        '---     ' + (' ' * property_column_width) +
+        '----    ' + (' ' * property_column_width) +
+        '  ------' + (' ' * property_column_width)
     end
 
     it 'sets a header color' do
