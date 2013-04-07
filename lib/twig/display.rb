@@ -46,9 +46,10 @@ class Twig
       new_string
     end
 
+    def date_time_column_width; 40; end
+    def property_column_width;  16; end
+
     def branch_list_headers(header_options = {})
-      date_time_column_width = 40
-      property_column_width  = 16
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
 
       header_options.merge!(
@@ -82,8 +83,6 @@ class Twig
 
     def branch_list_line(branch)
       is_current_branch = branch.name == current_branch_name
-      date_time_column_width = 40
-      property_column_width  = 16
 
       properties = Twig::Branch.all_properties.inject({}) do |result, property_name|
         property = (get_branch_property(branch.name, property_name) || '').strip
