@@ -176,10 +176,10 @@ class Twig
         help_separator(opts, 'Listing branches:')
 
         colors = Twig::Display::COLORS.keys.map do |value|
-          format_string(value, { :color => value })
+          format_string(value, :color => value)
         end.join(', ')
         weights = Twig::Display::WEIGHTS.keys.map do |value|
-          format_string(value, { :weight => value })
+          format_string(value, :weight => value)
         end.join(' and ')
         default_color = format_string(
           Twig::DEFAULT_HEADER_COLOR.to_s,
