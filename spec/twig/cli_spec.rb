@@ -64,6 +64,19 @@ describe Twig::Cli do
       @twig = Twig.new
     end
 
+    it 'recognizes `--unset` and sets an `:unset_property` option' do
+      @twig.options[:unset_property].should be_nil # Precondition
+      @twig.read_cli_options!(%w[--unset test])
+      @twig.options[:unset_property].should == 'test'
+    end
+
+    it 'recognizes `--version` and prints the current version' do
+      @twig.should_receive(:puts).with(Twig::VERSION)
+      @twig.should_receive(:exit)
+
+      @twig.read_cli_options!(['--version'])
+    end
+
     it 'recognizes `-b` and sets a `:branch` option' do
       @twig.should_receive(:all_branch_names).and_return(['test'])
       @twig.options[:branch].should be_nil # Precondition
@@ -188,19 +201,6 @@ describe Twig::Cli do
       @twig.options[:max_days_old].should be_nil
       @twig.options[:property_except].should be_nil
       @twig.options[:property_only].should be_nil
-    end
-
-    it 'recognizes `--unset` and sets an `:unset_property` option' do
-      @twig.options[:unset_property].should be_nil # Precondition
-      @twig.read_cli_options!(%w[--unset test])
-      @twig.options[:unset_property].should == 'test'
-    end
-
-    it 'recognizes `--version` and prints the current version' do
-      @twig.should_receive(:puts).with(Twig::VERSION)
-      @twig.should_receive(:exit)
-
-      @twig.read_cli_options!(['--version'])
     end
 
     it 'recognizes `--header-style`' do
