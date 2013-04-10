@@ -70,6 +70,17 @@ describe Twig::Cli do
       @twig.options[:unset_property].should == 'test'
     end
 
+    it 'recognizes `--help` and prints the help content' do
+      help_lines = []
+      @twig.stub(:puts) { |message| help_lines << message.strip }
+      @twig.should_receive(:exit)
+
+      @twig.read_cli_options!(['--help'])
+
+      help_lines.should include("Twig v#{Twig::VERSION}")
+      help_lines.should include('http://rondevera.github.com/twig')
+    end
+
     it 'recognizes `--version` and prints the current version' do
       @twig.should_receive(:puts).with(Twig::VERSION)
       @twig.should_receive(:exit)
