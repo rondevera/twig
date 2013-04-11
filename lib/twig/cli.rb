@@ -82,7 +82,7 @@ class Twig
 
         desc = 'Show this help content.'
         opts.on('--help', *help_description(desc)) do
-          summary_lines = opts.to_a
+          summary_lines = opts.to_s.split("\n")
 
           # Filter out `--only-PROPERTY` lines
           summary_lines.each do |line|
