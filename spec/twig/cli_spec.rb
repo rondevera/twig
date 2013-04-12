@@ -214,6 +214,22 @@ describe Twig::Cli do
       @twig.options[:property_only].should be_nil
     end
 
+    context 'with custom property widths' do
+      before :each do
+        @twig.options[:property_width].should be_nil
+      end
+
+      xit 'recognizes `--<property>-width`' do
+        @twig.read_cli_options!(['--foo-width', '10'])
+        @twig.options[:property_width].should == { :foo => 10 }
+      end
+
+      xit 'requires a number for `--<property>-width`' do
+        @twig.read_cli_options!(['--foo-width', 'asdf'])
+        @twig.options[:property_width].should be_nil
+      end
+    end
+
     it 'recognizes `--header-style`' do
       @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
       @twig.options[:header_weight].should be_nil
