@@ -78,7 +78,7 @@ describe Twig::Cli do
       @twig.read_cli_options!(['--help'])
 
       help_lines.should include("Twig v#{Twig::VERSION}")
-      help_lines.should include('http://rondevera.github.io/twig')
+      help_lines.should include('http://rondevera.github.io/twig/')
     end
 
     it 'recognizes `--version` and prints the current version' do
