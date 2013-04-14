@@ -31,8 +31,7 @@ class Twig
   end
 
   def current_branch_name
-    @_current_branch_name ||=
-      Twig.run('git symbolic-ref -q HEAD').sub(%r{^#{ REF_PREFIX }}, '')
+    @_current_branch_name ||= Twig.run('git rev-parse --abbrev-ref HEAD')
   end
 
   def all_branches

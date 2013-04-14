@@ -37,9 +37,9 @@ describe Twig do
       twig        = Twig.new
       branch_name = 'fix_all_the_things'
       Twig.should_receive(:run).
-        with('git symbolic-ref -q HEAD').
+        with('git rev-parse --abbrev-ref HEAD').
         once. # Should memoize
-        and_return(Twig::REF_PREFIX + branch_name)
+        and_return(branch_name)
 
       2.times { twig.current_branch_name.should == branch_name }
     end
