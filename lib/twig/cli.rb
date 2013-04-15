@@ -60,6 +60,8 @@ class Twig
     end
 
     def read_cli_options!(args)
+      custom_properties = Twig::Branch.all_properties
+
       option_parser = OptionParser.new do |opts|
         opts.banner         = help_intro
         opts.summary_indent = ' ' * 2
@@ -85,23 +87,34 @@ class Twig
         opts.on('--help', *help_description(desc)) do
           summary_lines = opts.to_s.split("\n")
 
-          # Filter out `--only-PROPERTY` lines
+          # Filter out custom property lines
+          prev_line = nil
           summary_lines.each do |line|
             # Squash successive blank lines
             next if line == "\n" && prev_line == "\n"
 
-            is_custom_property_only = (
-              line.include?('--only-') &&
-              !line.include?('--only-branch') &&
-              !line.include?('--only-PROPERTY')
-            )
             is_custom_property_except = (
               line.include?('--except-') &&
               !line.include?('--except-branch') &&
               !line.include?('--except-PROPERTY')
             )
-            unless is_custom_property_only || is_custom_property_except
+            is_custom_property_only = (
+              line.include?('--only-') &&
+              !line.include?('--only-branch') &&
+              !line.include?('--only-PROPERTY')
+            )
+            is_custom_property_width = (
+              line =~ /--.*-width/ &&
+              !line.include?('--PROPERTY-width')
+            )
+
+            unless (
+              is_custom_property_only ||
+              is_custom_property_except ||
+              is_custom_property_width
+            )
               puts line
+              prev_line = line
             end
           end
 
@@ -137,7 +150,6 @@ class Twig
           set_option(:property_except, :branch => pattern)
         end
 
-        custom_properties = Twig::Branch.all_properties
         custom_properties.each do |property_name|
           opts.on("--only-#{property_name} PATTERN") do |pattern|
             set_option(:property_only, property_name.to_sym => pattern)
@@ -173,6 +185,19 @@ class Twig
 
 
         help_separator(opts, 'Listing branches:')
+
+        custom_properties.each do |property_name|
+          opts.on("--#{property_name}-width NUMBER") do |width|
+            set_option(:property_width, property_name.to_sym => width)
+          end
+        end
+        custom_properties_desc_lines = [
+          ['--PROPERTY-width NUMBER', 'Set column width for a given property.']
+        ]
+        custom_properties_desc = custom_properties_desc_lines.inject('') do |desc, line_parts|
+          desc + sprintf('      %-29s', line_parts[0]) + line_parts[1] + "\n"
+        end
+        help_separator(opts, custom_properties_desc, :trailing => "\n")
 
         colors = Twig::Display::COLORS.keys.map do |value|
           format_string(value, :color => value)
