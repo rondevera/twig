@@ -59,6 +59,27 @@ class Twig
       help_description(text, :width => 80).join("\n")
     end
 
+    def help_line_for_custom_property?(line)
+      is_custom_property_except = (
+        line.include?('--except-') &&
+        !line.include?('--except-branch') &&
+        !line.include?('--except-PROPERTY')
+      )
+      is_custom_property_only = (
+        line.include?('--only-') &&
+        !line.include?('--only-branch') &&
+        !line.include?('--only-PROPERTY')
+      )
+      is_custom_property_width = (
+        line =~ /--.*-width/ &&
+        !line.include?('--PROPERTY-width')
+      )
+
+      is_custom_property_except ||
+      is_custom_property_only ||
+      is_custom_property_width
+    end
+
     def read_cli_options!(args)
       custom_properties = Twig::Branch.all_properties
 
@@ -93,26 +114,7 @@ class Twig
             # Squash successive blank lines
             next if line == "\n" && prev_line == "\n"
 
-            is_custom_property_except = (
-              line.include?('--except-') &&
-              !line.include?('--except-branch') &&
-              !line.include?('--except-PROPERTY')
-            )
-            is_custom_property_only = (
-              line.include?('--only-') &&
-              !line.include?('--only-branch') &&
-              !line.include?('--only-PROPERTY')
-            )
-            is_custom_property_width = (
-              line =~ /--.*-width/ &&
-              !line.include?('--PROPERTY-width')
-            )
-
-            unless (
-              is_custom_property_only ||
-              is_custom_property_except ||
-              is_custom_property_width
-            )
+            unless help_line_for_custom_property?(line)
               puts line
               prev_line = line
             end

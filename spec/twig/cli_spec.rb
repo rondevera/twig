@@ -59,6 +59,44 @@ describe Twig::Cli do
     end
   end
 
+  describe '#help_line_for_custom_property?' do
+    before :each do
+      @twig = Twig.new
+    end
+
+    it 'returns true for `--except-foo`' do
+      @twig.help_line_for_custom_property?('  --except-foo  ').should be_true
+    end
+
+    it 'returns false for `--except-branch`' do
+      @twig.help_line_for_custom_property?('  --except-branch  ').should be_false
+    end
+
+    it 'returns false for `--except-PROPERTY`' do
+      @twig.help_line_for_custom_property?('  --except-PROPERTY  ').should be_false
+    end
+
+    it 'returns true for `--only-foo`' do
+      @twig.help_line_for_custom_property?('  --only-foo  ').should be_true
+    end
+
+    it 'returns false for `--only-branch`' do
+      @twig.help_line_for_custom_property?('  --only-branch  ').should be_false
+    end
+
+    it 'returns false for `--only-PROPERTY`' do
+      @twig.help_line_for_custom_property?('  --only-PROPERTY  ').should be_false
+    end
+
+    it 'returns true for `--foo-width`' do
+      @twig.help_line_for_custom_property?('  --foo-width  ').should be_true
+    end
+
+    it 'returns false for `--PROPERTY-width`' do
+      @twig.help_line_for_custom_property?('  --PROPERTY-width  ').should be_false
+    end
+  end
+
   describe '#read_cli_options!' do
     before :each do
       @twig = Twig.new
