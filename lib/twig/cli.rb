@@ -55,6 +55,18 @@ class Twig
       lines
     end
 
+    def help_description_for_custom_property(option_parser, desc_lines)
+      indent = '      '
+      left_column_width = 29
+
+      help_desc = desc_lines.inject('') do |desc, (left_column, right_column)|
+        desc + indent +
+        sprintf("%-#{left_column_width}s", left_column) + right_column + "\n"
+      end
+
+      help_separator(option_parser, help_desc, :trailing => "\n")
+    end
+
     def help_paragraph(text)
       help_description(text, :width => 80).join("\n")
     end
@@ -161,18 +173,14 @@ class Twig
             set_option(:property_except, property_name.to_sym => pattern)
           end
         end
-
-        custom_properties_desc_lines = [
+        help_description_for_custom_property(opts, [
           ['--only-PROPERTY PATTERN',   'Only list branches with a given property'],
           ['',                          'that matches a given pattern.'],
-          ['', ''],
+        ])
+        help_description_for_custom_property(opts, [
           ['--except-PROPERTY PATTERN', 'Do not list branches with a given property'],
           ['',                          'that matches a given pattern.']
-        ]
-        custom_properties_desc = custom_properties_desc_lines.inject('') do |desc, line_parts|
-          desc + sprintf('      %-29s', line_parts[0]) + line_parts[1] + "\n"
-        end
-        help_separator(opts, custom_properties_desc, :trailing => "\n")
+        ])
 
         desc =
           'Lists all branches regardless of other filtering options. ' +
@@ -193,13 +201,9 @@ class Twig
             set_option(:property_width, property_name.to_sym => width)
           end
         end
-        custom_properties_desc_lines = [
+        help_description_for_custom_property(opts, [
           ['--PROPERTY-width NUMBER', 'Set column width for a given property.']
-        ]
-        custom_properties_desc = custom_properties_desc_lines.inject('') do |desc, line_parts|
-          desc + sprintf('      %-29s', line_parts[0]) + line_parts[1] + "\n"
-        end
-        help_separator(opts, custom_properties_desc, :trailing => "\n")
+        ])
 
         colors = Twig::Display::COLORS.keys.map do |value|
           format_string(value, :color => value)

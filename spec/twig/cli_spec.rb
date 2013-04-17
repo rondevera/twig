@@ -39,6 +39,25 @@ describe Twig::Cli do
     end
   end
 
+  describe '#help_description_for_custom_property' do
+    before :each do
+      @twig = Twig.new
+    end
+
+    it 'returns a help string for a custom property' do
+      option_parser = OptionParser.new
+      @twig.should_receive(:help_separator) do |opt_parser, desc, options|
+        opt_parser.should == option_parser
+        desc.should == "      --test-option                Test option description\n"
+        options.should == { :trailing => "\n" }
+      end
+
+      @twig.help_description_for_custom_property(option_parser, [
+        ['--test-option', 'Test option description']
+      ])
+    end
+  end
+
   describe '#help_paragraph' do
     before :each do
       @twig = Twig.new
