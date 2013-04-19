@@ -173,6 +173,27 @@ describe Twig::Options do
       @twig.options[:property_only].should == { :branch => /important_prefix_/ }
     end
 
+    context 'when setting a :property_width option' do
+      before :each do
+        @twig.options[:property_width].should be_nil # Precondition
+      end
+
+      it 'succeeds' do
+        @twig.set_option(:property_width, :foo => 20, :bar => 40)
+        @twig.options[:property_width].should == { :foo => 20, :bar => 40 }
+      end
+
+      it 'fails if the option is not numeric' do
+        value = 'blargh'
+        @twig.should_receive(:abort) do |message|
+          message.should include("`--branch-width=#{value}` is invalid")
+        end
+        @twig.set_option(:property_width, :branch => value)
+
+        @twig.options[:property_width].should be_nil
+      end
+    end
+
     it 'sets an :unset_property option' do
       @twig.options[:unset_property].should be_nil # Precondition
       @twig.set_option(:unset_property, 'unwanted_property')

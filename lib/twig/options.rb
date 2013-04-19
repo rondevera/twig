@@ -63,6 +63,16 @@ class Twig
         options[:property_only] ||= {}
         options[:property_only].merge!(property_hash)
 
+      when :property_width
+        value.each do |property_name, property_value|
+          if Twig::Util.numeric?(property_value)
+            options[:property_width] ||= {}
+            options[:property_width].merge!(property_name => property_value)
+          else
+            abort %{The value `--#{property_name}-width=#{property_value}` is invalid.}
+          end
+        end
+
       when :unset_property
         options[:unset_property] = value
       end
