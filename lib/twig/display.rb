@@ -14,6 +14,7 @@ class Twig
       :normal => 0,
       :bold   => 1
     }
+    DEFAULT_PROPERTY_COLUMN_WIDTH = 16
     CURRENT_BRANCH_INDICATOR        = '* '
     EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
@@ -47,7 +48,10 @@ class Twig
     end
 
     def date_time_column_width; 40; end
-    def property_column_width;  16; end
+
+    def property_column_width
+      DEFAULT_PROPERTY_COLUMN_WIDTH
+    end
 
     def branch_list_headers(header_options = {})
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
