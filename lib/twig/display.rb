@@ -49,8 +49,9 @@ class Twig
 
     def date_time_column_width; 40; end
 
-    def property_column_width
-      DEFAULT_PROPERTY_COLUMN_WIDTH
+    def property_column_width(property_name = nil)
+      width = options[:property_width][property_name] if options[:property_width]
+      width || Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
     end
 
     def branch_list_headers(header_options = {})

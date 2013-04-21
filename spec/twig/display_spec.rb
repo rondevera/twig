@@ -35,6 +35,39 @@ describe Twig::Display do
     end
   end
 
+  describe '#property_column_width' do
+    it 'returns a default width if no property name is given' do
+      @twig.property_column_width.should ==
+        Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
+    end
+
+    context 'with no custom column widths set' do
+      before :each do
+        @twig.options[:property_width].should be_nil
+      end
+
+      it 'returns a default width if a property name is given' do
+        @twig.property_column_width(:foo).should ==
+          Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
+      end
+    end
+
+    context 'with custom column widths set' do
+      before :each do
+        @twig.set_option(:property_width, :foo => 20, :bar => 30)
+      end
+
+      it 'returns a default width if a property name is given but it has no custom width' do
+        @twig.property_column_width(:baz).should ==
+          Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
+      end
+
+      it 'returns custom width if a property name is given and it has a custom width' do
+        @twig.property_column_width(:foo).should == 20
+      end
+    end
+  end
+
   describe '#branch_list_headers' do
     before :each do
       Twig::Branch.stub(:all_properties => %w[foo quux])
