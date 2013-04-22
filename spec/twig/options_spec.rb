@@ -179,7 +179,7 @@ describe Twig::Options do
       end
 
       it 'succeeds' do
-        @twig.set_option(:property_width, :foo => 20, :bar => 40)
+        @twig.set_option(:property_width, :foo => '20', :bar => '40')
         @twig.options[:property_width].should == { :foo => 20, :bar => 40 }
       end
 

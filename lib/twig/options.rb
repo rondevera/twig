@@ -67,7 +67,7 @@ class Twig
         value.each do |property_name, property_value|
           if Twig::Util.numeric?(property_value)
             options[:property_width] ||= {}
-            options[:property_width].merge!(property_name => property_value)
+            options[:property_width].merge!(property_name => property_value.to_i)
           else
             abort %{The value `--#{property_name}-width=#{property_value}` is invalid.}
           end
