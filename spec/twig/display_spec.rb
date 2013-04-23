@@ -77,16 +77,34 @@ describe Twig::Display do
       result = @twig.branch_list_headers({})
       result_lines = result.split("\n")
 
-      date_time_column_width = 40
-      property_column_width  = 8
+      date_time_column_width      = 40
+      extra_property_column_width = 8
       result_lines[0].should == (' ' * date_time_column_width) +
-        'foo     ' + (' ' * property_column_width) +
-        'quux    ' + (' ' * property_column_width) +
-        '  branch' + (' ' * property_column_width)
+        'foo     ' + (' ' * extra_property_column_width) +
+        'quux    ' + (' ' * extra_property_column_width) +
+        '  branch' + (' ' * extra_property_column_width)
       result_lines[1].should == (' ' * date_time_column_width) +
-        '---     ' + (' ' * property_column_width) +
-        '----    ' + (' ' * property_column_width) +
-        '  ------' + (' ' * property_column_width)
+        '---     ' + (' ' * extra_property_column_width) +
+        '----    ' + (' ' * extra_property_column_width) +
+        '  ------' + (' ' * extra_property_column_width)
+    end
+
+    it 'sets a header width' do
+      @twig.set_option(:property_width, :foo => 4)
+
+      result = @twig.branch_list_headers({})
+      result_lines = result.split("\n")
+
+      date_time_column_width      = 40
+      extra_property_column_width = 8
+      result_lines[0].should == (' ' * date_time_column_width) +
+        'foo ' +
+        'quux    ' + (' ' * extra_property_column_width) +
+        '  branch' + (' ' * extra_property_column_width)
+      result_lines[1].should == (' ' * date_time_column_width) +
+        '--- ' +
+        '----    ' + (' ' * extra_property_column_width) +
+        '  ------' + (' ' * extra_property_column_width)
     end
 
     it 'sets a header color' do

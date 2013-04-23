@@ -50,7 +50,9 @@ class Twig
     def date_time_column_width; 40; end
 
     def property_column_width(property_name = nil)
-      width = options[:property_width][property_name] if options[:property_width]
+      if property_name && options[:property_width]
+        width = options[:property_width][property_name.to_sym]
+      end
       width || Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
     end
 
@@ -71,14 +73,16 @@ class Twig
       out =
         column(' ', :width => date_time_column_width) <<
         Twig::Branch.all_properties.map do |property|
-          column(property, header_options)
+          width = property_column_width(property)
+          column(property, header_options.merge(:width => width))
         end.join <<
         column(branch_indicator_padding + 'branch', header_options) <<
         "\n"
       out <<
         column(' ', :width => date_time_column_width) <<
         Twig::Branch.all_properties.map do |property|
-          column('-' * property.size, header_options)
+          width = property_column_width(property)
+          column('-' * property.size, header_options.merge(:width => width))
         end.join <<
         column(branch_indicator_padding + '------', header_options) <<
         "\n"
