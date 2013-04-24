@@ -47,7 +47,7 @@ class Twig
       new_string
     end
 
-    def date_time_column_width; 40; end
+    def date_time_column_width; 35; end
 
     def property_column_width(property_name = nil)
       if property_name && options[:property_width]

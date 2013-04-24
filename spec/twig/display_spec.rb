@@ -77,7 +77,7 @@ describe Twig::Display do
       result = @twig.branch_list_headers({})
       result_lines = result.split("\n")
 
-      date_time_column_width      = 40
+      date_time_column_width      = 35
       extra_property_column_width = 8
       result_lines[0].should == (' ' * date_time_column_width) +
         'foo     ' + (' ' * extra_property_column_width) +
@@ -95,7 +95,7 @@ describe Twig::Display do
       result = @twig.branch_list_headers({})
       result_lines = result.split("\n")
 
-      date_time_column_width      = 40
+      date_time_column_width      = 35
       extra_property_column_width = 8
       result_lines[0].should == (' ' * date_time_column_width) +
         'foo ' +
