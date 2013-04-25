@@ -95,7 +95,7 @@ class Twig
 
       properties = Twig::Branch.all_properties.inject({}) do |result, property_name|
         property = (get_branch_property(branch.name, property_name) || '').strip
-        property = column(EMPTY_BRANCH_PROPERTY_INDICATOR) if property.empty?
+        property = EMPTY_BRANCH_PROPERTY_INDICATOR if property.empty?
         property.gsub!(/[\n\r]+/, ' ')
         result.merge(property_name => property)
       end
@@ -104,8 +104,9 @@ class Twig
 
       line <<
         Twig::Branch.all_properties.map do |property_name|
-          property = properties[property_name] || ''
-          column(property, :width => property_column_width)
+          property_value = properties[property_name] || ''
+          width = property_column_width(property_name)
+          column(property_value, :width => width)
         end.join
 
       line <<

@@ -196,6 +196,20 @@ describe Twig::Display do
 
       result.should include('line breaks')
     end
+
+    it 'returns a line with custom column widths' do
+      branch = Twig::Branch.new('other-branch')
+      branch.should_receive(:last_commit_time).and_return(@commit_time)
+      @twig.set_option(:property_width, :foo => 5)
+
+      result = @twig.branch_list_line(branch)
+
+      result.should ==
+        '2000-01-01' + (' ' * 25) +
+        'foo! ' +
+        'bar!' + (' ' * 12) +
+        '  ' + branch.name
+    end
   end
 
   describe '#format_string' do
