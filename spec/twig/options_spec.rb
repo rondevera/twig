@@ -30,13 +30,17 @@ describe Twig::Options do
       File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(true)
       File.should_receive(:open).with(Twig::CONFIG_FILE).and_yield(file)
       file.should_receive(:read).and_return([
+        # Filtering branches:
         'branch:        test',
-        'header-style:  green bold',
         'max-days-old:  30.5',
         'except-branch: test-except-branch',
         'only-branch:   test-only-branch',
         'except-foo:    test-except-foo',
-        'only-foo:      test-only-foo'
+        'only-foo:      test-only-foo',
+
+        # Displaying branches:
+        'header-style:  green bold',
+        'foo-width:     4'
       ].join("\n"))
 
       # Check preconditions
@@ -46,6 +50,7 @@ describe Twig::Options do
       @twig.options[:max_days_old].should be_nil
       @twig.options[:property_except].should be_nil
       @twig.options[:property_only].should be_nil
+      @twig.options[:property_width].should be_nil
 
       @twig.read_config_file!
 
@@ -61,6 +66,7 @@ describe Twig::Options do
         :branch => /test-only-branch/,
         :foo    => /test-only-foo/
       }
+      @twig.options[:property_width].should == { :foo => 4 }
     end
 
     it 'skips comments' do

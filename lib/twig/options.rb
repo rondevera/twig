@@ -16,15 +16,23 @@ class Twig
 
         opts.each do |key, value|
           case key
-          when 'branch'        then set_option(:branch,        value)
-          when 'header-style'  then set_option(:header_style,  value)
-          when 'max-days-old'  then set_option(:max_days_old,  value)
+
+          # Filtering branches:
+          when 'branch'        then set_option(:branch,       value)
+          when 'max-days-old'  then set_option(:max_days_old, value)
           when /^except-/
             property_name = key.sub(/^except-/, '').to_sym
             set_option(:property_except, property_name => value)
           when /^only-/
             property_name = key.sub(/^only-/, '').to_sym
             set_option(:property_only, property_name => value)
+
+          # Displaying branches:
+          when 'header-style'  then set_option(:header_style,  value)
+          when /-width$/
+            property_name = key.sub(/-width$/, '').to_sym
+            set_option(:property_width, property_name => value)
+
           end
         end
       end
