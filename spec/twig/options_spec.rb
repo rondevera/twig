@@ -198,6 +198,16 @@ describe Twig::Options do
 
         @twig.options[:property_width].should be_nil
       end
+
+      it 'fails if the option is too low' do
+        value = Twig::Options::MIN_PROPERTY_WIDTH - 1
+        @twig.should_receive(:abort) do |message|
+          message.should include("`--branch-width=#{value}` is too low")
+        end
+        @twig.set_option(:property_width, :branch => value)
+
+        @twig.options[:property_width].should be_nil
+      end
     end
 
     it 'sets an :unset_property option' do

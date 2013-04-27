@@ -2,6 +2,7 @@ class Twig
   module Options
 
     CONFIG_FILE = '~/.twigrc'
+    MIN_PROPERTY_WIDTH = 4
 
     def read_config_file!
       config_file_path = File.expand_path(Twig::CONFIG_FILE)
@@ -74,8 +75,13 @@ class Twig
       when :property_width
         value.each do |property_name, property_value|
           if Twig::Util.numeric?(property_value)
-            options[:property_width] ||= {}
-            options[:property_width].merge!(property_name => property_value.to_i)
+            property_value = property_value.to_i
+            if property_value >= MIN_PROPERTY_WIDTH
+              options[:property_width] ||= {}
+              options[:property_width].merge!(property_name => property_value)
+            else
+              abort %{The value `--#{property_name}-width=#{property_value}` is too low.}
+            end
           else
             abort %{The value `--#{property_name}-width=#{property_value}` is invalid.}
           end
