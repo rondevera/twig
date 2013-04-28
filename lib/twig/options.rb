@@ -73,19 +73,7 @@ class Twig
         options[:property_only].merge!(property_hash)
 
       when :property_width
-        value.each do |property_name, property_value|
-          if Twig::Util.numeric?(property_value)
-            property_value = property_value.to_i
-            if property_value >= MIN_PROPERTY_WIDTH
-              options[:property_width] ||= {}
-              options[:property_width].merge!(property_name => property_value)
-            else
-              abort %{The value `--#{property_name}-width=#{property_value}` is too low.}
-            end
-          else
-            abort %{The value `--#{property_name}-width=#{property_value}` is invalid.}
-          end
-        end
+        set_property_width_option(value)
 
       when :unset_property
         options[:unset_property] = value
@@ -111,6 +99,22 @@ class Twig
 
       options[:header_color]  = color  if color
       options[:header_weight] = weight if weight
+    end
+
+    def set_property_width_option(value)
+      value.each do |property_name, property_value|
+        if Twig::Util.numeric?(property_value)
+          property_value = property_value.to_i
+          if property_value >= MIN_PROPERTY_WIDTH
+            options[:property_width] ||= {}
+            options[:property_width].merge!(property_name => property_value)
+          else
+            abort %{The value `--#{property_name}-width=#{property_value}` is too low.}
+          end
+        else
+          abort %{The value `--#{property_name}-width=#{property_value}` is invalid.}
+        end
+      end
     end
 
     def unset_option(key)
