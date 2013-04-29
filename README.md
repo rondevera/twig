@@ -154,7 +154,6 @@ a browser window if possible:
 
     $ twig gh-open
     GitHub URL: https://github.com/myname/myproject
-    # Also opens a browser window (OS X only).
 
 If you're working on an issue for a GitHub repository, the `gh-update`
 subcommand syncs issue statuses with GitHub:
@@ -193,7 +192,6 @@ subcommand to view that issue on GitHub:
     # Current branch:
     $ twig gh-open-issue
     GitHub issue URL: https://github.com/myname/myproject/issues/111
-    # Also opens a browser window (OS X only).
 
     # Any branch:
     $ twig gh-open-issue -b <branch name>

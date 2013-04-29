@@ -10,6 +10,7 @@
 
 require 'rubygems'
 require 'twig'
+require 'launchy'
 
 Twig::GithubRepo.new do |gh_repo|
   twig = Twig.new
@@ -25,5 +26,5 @@ Twig::GithubRepo.new do |gh_repo|
   url << "/issues/#{issue_id}"
 
   puts "GitHub issue URL: #{url}"
-  `which open && open #{url}`
+  Launchy.open(url) rescue nil
 end
