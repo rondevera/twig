@@ -289,29 +289,45 @@ describe Twig::Options do
     end
 
     it 'fails if width is not numeric' do
-      value = 'blargh'
+      width = 'blargh'
       @twig.should_receive(:abort) do |message|
-        message.should include("`--branch-width=#{value}` is invalid")
+        message.should include("`--branch-width=#{width}` is invalid")
         abort # Original behavior, but don't show message in test output
       end
 
       begin
-        @twig.set_option(:property_width, :branch => value)
+        @twig.set_option(:property_width, :branch => width)
       rescue SystemExit => exception
       end
 
       @twig.options[:property_width].should be_nil
     end
 
-    it 'fails if width is too low' do
-      value = Twig::Options::MIN_PROPERTY_WIDTH - 1
+    it 'fails if width is below minimum value' do
+      width = Twig::Options::MIN_PROPERTY_WIDTH - 1
       @twig.should_receive(:abort) do |message|
-        message.should include("`--branch-width=#{value}` is too low")
+        message.should include("`--branch-width=#{width}` is too low")
         abort
       end
 
       begin
-        @twig.set_option(:property_width, :branch => value)
+        @twig.set_option(:property_width, :branch => width)
+      rescue SystemExit => exception
+      end
+
+      @twig.options[:property_width].should be_nil
+    end
+
+    it 'fails if width is below width of property name' do
+      property_name = :foobarbaz
+      width = property_name.to_s.size - 1
+      @twig.should_receive(:abort) do |message|
+        message.should include("`--#{property_name}-width=#{width}` is too low")
+        abort
+      end
+
+      begin
+        @twig.set_option(:property_width, property_name => width)
       rescue SystemExit => exception
       end
 
