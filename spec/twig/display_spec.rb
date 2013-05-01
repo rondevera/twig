@@ -11,19 +11,11 @@ describe Twig::Display do
     end
 
     it 'returns a string that fits a column exactly' do
-      @twig.column('asdfasdf', :width => 8).should == 'asdf... '
+      @twig.column('asdfasdf', :width => 8).should == 'asdfasdf'
     end
 
     it 'truncates a wide string with an ellipsis' do
-      @twig.column('asdfasdfasdf', :width => 8).should == 'asdf... '
-    end
-
-    it 'returns a string that spans multiple columns' do
-      @twig.column('foo', :width => 16).should == 'foo' + (' ' * 13)
-    end
-
-    it 'returns a string that spans multiple columns and is truncated' do
-      @twig.column('asdf' * 5, :width => 16).should == 'asdfasdfasdf... '
+      @twig.column('asdfasdfasdf', :width => 8).should == 'asdfa...'
     end
 
     it 'passes options through to `format_string`' do
@@ -79,13 +71,14 @@ describe Twig::Display do
 
       date_time_column_width      = 35
       extra_property_column_width = 8
-      result_lines[0].should == (' ' * date_time_column_width) +
-        'foo     ' + (' ' * extra_property_column_width) +
-        'quux    ' + (' ' * extra_property_column_width) +
+      column_gutter = @twig.column_gutter
+      result_lines[0].should == (' ' * date_time_column_width) + column_gutter +
+        'foo     ' + (' ' * extra_property_column_width) + column_gutter +
+        'quux    ' + (' ' * extra_property_column_width) + column_gutter +
         '  branch' + (' ' * extra_property_column_width)
-      result_lines[1].should == (' ' * date_time_column_width) +
-        '---     ' + (' ' * extra_property_column_width) +
-        '----    ' + (' ' * extra_property_column_width) +
+      result_lines[1].should == (' ' * date_time_column_width) + column_gutter +
+        '---     ' + (' ' * extra_property_column_width) + column_gutter +
+        '----    ' + (' ' * extra_property_column_width) + column_gutter +
         '  ------' + (' ' * extra_property_column_width)
     end
 
@@ -97,13 +90,14 @@ describe Twig::Display do
 
       date_time_column_width      = 35
       extra_property_column_width = 8
-      result_lines[0].should == (' ' * date_time_column_width) +
-        'foo ' +
-        'quux    ' + (' ' * extra_property_column_width) +
+      column_gutter = @twig.column_gutter
+      result_lines[0].should == (' ' * date_time_column_width) + column_gutter +
+        'foo '     + column_gutter +
+        'quux    ' + (' ' * extra_property_column_width) + column_gutter +
         '  branch' + (' ' * extra_property_column_width)
-      result_lines[1].should == (' ' * date_time_column_width) +
-        '--- ' +
-        '----    ' + (' ' * extra_property_column_width) +
+      result_lines[1].should == (' ' * date_time_column_width) + column_gutter +
+        '--- '     + column_gutter +
+        '----    ' + (' ' * extra_property_column_width) + column_gutter +
         '  ------' + (' ' * extra_property_column_width)
     end
 
@@ -204,10 +198,11 @@ describe Twig::Display do
 
       result = @twig.branch_list_line(branch)
 
+      column_gutter = @twig.column_gutter
       result.should ==
-        '2000-01-01' + (' ' * 25) +
-        'foo! ' +
-        'bar!' + (' ' * 12) +
+        '2000-01-01' + (' ' * 25) + column_gutter +
+        'foo! ' + column_gutter +
+        'bar!' + (' ' * 12) + column_gutter +
         '  ' + branch.name
     end
   end

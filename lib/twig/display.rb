@@ -30,9 +30,9 @@ class Twig
       string ||= ' '
       width      = options[:width] || 8
       new_string = string[0, width]
-      omission   = '... '
+      omission   = '...'
 
-      if string.size >= width
+      if string.size > width
         new_string[-omission.size, omission.size] = omission
       else
         new_string = ' ' * width
@@ -48,6 +48,7 @@ class Twig
     end
 
     def date_time_column_width; 35; end
+    def column_gutter; '  '; end
 
     def property_column_width(property_name = nil)
       if property_name && options[:property_width]
@@ -72,17 +73,21 @@ class Twig
 
       out =
         column(' ', :width => date_time_column_width) <<
+        column_gutter <<
         Twig::Branch.all_properties.map do |property|
           width = property_column_width(property)
-          column(property, header_options.merge(:width => width))
+          column(property, header_options.merge(:width => width)) <<
+            column_gutter
         end.join <<
         column(branch_indicator_padding + 'branch', header_options) <<
         "\n"
       out <<
         column(' ', :width => date_time_column_width) <<
+        column_gutter <<
         Twig::Branch.all_properties.map do |property|
           width = property_column_width(property)
-          column('-' * property.size, header_options.merge(:width => width))
+          column('-' * property.size, header_options.merge(:width => width)) <<
+            column_gutter
         end.join <<
         column(branch_indicator_padding + '------', header_options) <<
         "\n"
@@ -101,12 +106,13 @@ class Twig
       end
 
       line = column(branch.last_commit_time.to_s, :width => date_time_column_width)
+      line << column_gutter
 
       line <<
         Twig::Branch.all_properties.map do |property_name|
           property_value = properties[property_name] || ''
           width = property_column_width(property_name)
-          column(property_value, :width => width)
+          column(property_value, :width => width) << column_gutter
         end.join
 
       line <<
