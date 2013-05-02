@@ -71,26 +71,22 @@ class Twig
         end
       ).merge!(:width => property_column_width)
 
-      out =
-        column(' ', :width => date_time_column_width) <<
-        column_gutter <<
-        Twig::Branch.all_properties.map do |property|
-          width = property_column_width(property)
-          column(property, header_options.merge(:width => width)) <<
-            column_gutter
-        end.join <<
-        column(branch_indicator_padding + 'branch', header_options) <<
-        "\n"
-      out <<
-        column(' ', :width => date_time_column_width) <<
-        column_gutter <<
-        Twig::Branch.all_properties.map do |property|
-          width = property_column_width(property)
-          column('-' * property.size, header_options.merge(:width => width)) <<
-            column_gutter
-        end.join <<
-        column(branch_indicator_padding + '------', header_options) <<
-        "\n"
+      out = column(' ', :width => date_time_column_width) << column_gutter
+      out << Twig::Branch.all_properties.map do |property|
+        width = property_column_width(property)
+        column(property, header_options.merge(:width => width)) << column_gutter
+      end.join
+      out << column(branch_indicator_padding + 'branch', header_options)
+      out << "\n"
+
+      out << column(' ', :width => date_time_column_width) << column_gutter
+      out << Twig::Branch.all_properties.map do |property|
+        width = property_column_width(property)
+        underline = '-' * property.size
+        column(underline, header_options.merge(:width => width)) << column_gutter
+      end.join
+      out << column(branch_indicator_padding + '------', header_options)
+      out << "\n"
 
       out
     end
