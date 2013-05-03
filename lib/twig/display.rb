@@ -69,7 +69,7 @@ class Twig
           end
           opts
         end
-      ).merge!(:width => property_column_width)
+      )
 
       out = column(' ', :width => date_time_column_width) << column_gutter
       out << Twig::Branch.all_properties.map do |property|

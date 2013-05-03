@@ -75,11 +75,11 @@ describe Twig::Display do
       result_lines[0].should == (' ' * date_time_column_width) + column_gutter +
         'foo     ' + (' ' * extra_property_column_width) + column_gutter +
         'quux    ' + (' ' * extra_property_column_width) + column_gutter +
-        '  branch' + (' ' * extra_property_column_width)
+        '  branch'
       result_lines[1].should == (' ' * date_time_column_width) + column_gutter +
         '---     ' + (' ' * extra_property_column_width) + column_gutter +
         '----    ' + (' ' * extra_property_column_width) + column_gutter +
-        '  ------' + (' ' * extra_property_column_width)
+        '  ------'
     end
 
     it 'sets a header width' do
@@ -94,11 +94,11 @@ describe Twig::Display do
       result_lines[0].should == (' ' * date_time_column_width) + column_gutter +
         'foo '     + column_gutter +
         'quux    ' + (' ' * extra_property_column_width) + column_gutter +
-        '  branch' + (' ' * extra_property_column_width)
+        '  branch'
       result_lines[1].should == (' ' * date_time_column_width) + column_gutter +
         '--- '     + column_gutter +
         '----    ' + (' ' * extra_property_column_width) + column_gutter +
-        '  ------' + (' ' * extra_property_column_width)
+        '  ------'
     end
 
     it 'sets a header color' do
