@@ -1,6 +1,8 @@
 Twig
 ====
 
+1.2.1 (2013-05-04)
+------------------
 * FIX: Add User-Agent string to `twig-gh-update` GitHub requests to comply with
   GitHub API v3.
 
