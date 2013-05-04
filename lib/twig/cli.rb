@@ -19,7 +19,7 @@ class Twig
 
         #{intro}
 
-        http://rondevera.github.com/twig
+        #{Twig::HOMEPAGE}
 
       BANNER
     end

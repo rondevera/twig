@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'twig/homepage'
 require 'twig/version'
 
 Gem::Specification.new do |spec|
@@ -8,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = Twig::VERSION
   spec.authors       = ['Ron DeVera']
   spec.email         = ["hello@rondevera.com"]
-  spec.homepage      = 'http://rondevera.github.com/twig'
+  spec.homepage      = Twig::HOMEPAGE
   spec.summary       = %{Your personal Git branch assistant.}
   spec.description   =
     'Twig is your personal Git branch assistant. It\'s a command-line tool ' <<
