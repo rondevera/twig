@@ -2,7 +2,7 @@ class Twig
   module Options
 
     CONFIG_FILE = '~/.twigrc'
-    MIN_PROPERTY_WIDTH = 4
+    MIN_PROPERTY_WIDTH = 3
 
     def read_config_file!
       config_file_path = File.expand_path(Twig::CONFIG_FILE)
