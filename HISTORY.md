@@ -8,6 +8,11 @@ Twig
 * FIX: Abort `twig gh-*` subcommands early if working in a non-Github
   repository.
 
+1.2.1 (2013-05-04)
+------------------
+* FIX: Add User-Agent string to `twig-gh-update` GitHub requests to comply with
+  GitHub API v3.
+
 1.2 (2013-03-21)
 ----------------
 * ENHANCEMENT: Add `--only-<property>` and `--except-<property>` options for

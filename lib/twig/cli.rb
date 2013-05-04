@@ -19,7 +19,7 @@ class Twig
 
         #{intro}
 
-        http://rondevera.github.io/twig/
+        #{Twig::HOMEPAGE}
       BANNER
 
       intro + ' ' # Force extra blank line

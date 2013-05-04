@@ -25,13 +25,17 @@ Twig::GithubRepo.new do |gh_repo|
     URI.parse("#{issues_uri_base}?state=open"),
     URI.parse("#{issues_uri_base}?state=closed")
   ]
+  user_agent = "Twig/#{Twig::VERSION} (for Git; <#{Twig::HOMEPAGE}>)"
 
   begin
     issues_uris.each do |issues_uri|
       http = Net::HTTP.new(issues_uri.host, issues_uri.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-      request = Net::HTTP::Get.new(issues_uri.path + '?' + issues_uri.query)
+      request = Net::HTTP::Get.new(
+        issues_uri.path + '?' + issues_uri.query,
+        'User-Agent' => user_agent
+      )
       response = http.request(request)
 
       if response.code.to_i == 200
