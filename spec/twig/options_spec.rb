@@ -76,7 +76,8 @@ describe Twig::Options do
       file.should_receive(:read).and_return([
         '# max-days-old: 40',
         'max-days-old: 30',
-        '# max-days-old: 20'
+        '# max-days-old: 20',
+        ' # foo-width: 4'
       ].join("\n"))
       @twig.options[:max_days_old].should be_nil # Precondition
 

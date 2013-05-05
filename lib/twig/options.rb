@@ -9,9 +9,14 @@ class Twig
       return unless File.readable?(config_file_path)
 
       File.open(config_file_path) do |f|
-        opts = f.read.split("\n").inject({}) do |hsh, opt|
-          key, value = opt.split(':', 2)
-          hsh[key.strip] = value.strip if key && value
+        opts = f.read.split("\n").inject({}) do |hsh, line|
+          line = line.strip
+
+          if line !~ /^#/
+            key, value = line.split(':', 2)
+            hsh[key.strip] = value.strip if key && value
+          end
+
           hsh
         end
 
