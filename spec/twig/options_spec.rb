@@ -305,14 +305,16 @@ describe Twig::Options do
     end
 
     it 'fails if width is below minimum value' do
-      width = Twig::Options::MIN_PROPERTY_WIDTH - 1
+      min_width = Twig::Options::MIN_PROPERTY_WIDTH
+      width     = min_width - 1
       @twig.should_receive(:abort) do |message|
-        message.should include("`--branch-width=#{width}` is too low")
+        message.should include("`--x-width=#{width}` is too low. ")
+        message.should include("The minimum is #{min_width}.")
         abort
       end
 
       begin
-        @twig.set_option(:property_width, :branch => width)
+        @twig.set_option(:property_width, :x => width)
       rescue SystemExit => exception
       end
 
@@ -323,7 +325,8 @@ describe Twig::Options do
       property_name = :foobarbaz
       width = property_name.to_s.size - 1
       @twig.should_receive(:abort) do |message|
-        message.should include("`--#{property_name}-width=#{width}` is too low")
+        message.should include("`--#{property_name}-width=#{width}` is too low. ")
+        message.should include(%{The minimum is 9 (width of "#{property_name}")})
         abort
       end
 

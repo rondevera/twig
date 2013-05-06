@@ -112,10 +112,20 @@ class Twig
           abort %{The value `--#{property_name}-width=#{property_value}` is invalid.}
         end
 
+        property_name_width = property_name.to_s.size
         property_value = property_value.to_i
-        min_width = [MIN_PROPERTY_WIDTH, property_name.to_s.size].max
-        if property_value < min_width
-          abort %{The value `--#{property_name}-width=#{property_value}` is too low.}
+
+        if property_value < [property_name_width, MIN_PROPERTY_WIDTH].max
+          error = %{The value `--#{property_name}-width=#{property_value}` } +
+            %{is too low. The minimum is }
+
+          if property_value < property_name_width
+            error << %{#{property_name_width} (width of "#{property_name}").}
+          elsif property_value < MIN_PROPERTY_WIDTH
+            error << %{#{MIN_PROPERTY_WIDTH}.}
+          end
+
+          abort error
         end
 
         options[:property_width] ||= {}
