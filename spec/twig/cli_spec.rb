@@ -271,6 +271,13 @@ describe Twig::Cli do
       @twig.options[:property_only].should be_nil
     end
 
+    it 'recognizes `--branch-width`' do
+      @twig.options[:property_width].should be_nil
+      @twig.should_receive(:set_option).with(:property_width, :branch => '10')
+
+      @twig.read_cli_options!(%w[--branch-width 10])
+    end
+
     it 'recognizes `--<property>-width`' do
       Twig::Branch.stub(:all_properties) { %w[foo] }
       @twig.options[:property_width].should be_nil

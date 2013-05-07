@@ -196,13 +196,18 @@ class Twig
 
         help_separator(opts, 'Listing branches:')
 
+        desc = 'Set the width for the `branch` column.'
+        opts.on('--branch-width NUMBER', *help_description(desc)) do |width|
+          set_option(:property_width, :branch => width)
+        end
+
         custom_properties.each do |property_name|
           opts.on("--#{property_name}-width NUMBER") do |width|
             set_option(:property_width, property_name.to_sym => width)
           end
         end
         help_description_for_custom_property(opts, [
-          ['--PROPERTY-width NUMBER', 'Set column width for a given property.']
+          ['--PROPERTY-width NUMBER', 'Set the column width for a given property.']
         ])
 
         colors = Twig::Display::COLORS.keys.map do |value|
