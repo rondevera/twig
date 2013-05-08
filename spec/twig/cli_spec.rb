@@ -111,6 +111,10 @@ describe Twig::Cli do
       @twig.help_line_for_custom_property?('  --foo-width  ').should be_true
     end
 
+    it 'returns false for `--branch-width`' do
+      @twig.help_line_for_custom_property?('  --branch-width  ').should be_false
+    end
+
     it 'returns false for `--PROPERTY-width`' do
       @twig.help_line_for_custom_property?('  --PROPERTY-width  ').should be_false
     end

@@ -83,7 +83,8 @@ class Twig
         !line.include?('--only-PROPERTY')
       )
       is_custom_property_width = (
-        line =~ /--.*-width/ &&
+        line =~ /--.+-width/ &&
+        !line.include?('--branch-width') &&
         !line.include?('--PROPERTY-width')
       )
 
