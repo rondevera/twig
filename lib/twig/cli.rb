@@ -208,7 +208,7 @@ class Twig
           end
         end
         help_description_for_custom_property(opts, [
-          ['--PROPERTY-width NUMBER', 'Set the column width for a given property.']
+          ['--PROPERTY-width NUMBER', "Set the width for a given property's column."]
         ])
 
         colors = Twig::Display::COLORS.keys.map do |value|
