@@ -205,6 +205,43 @@ describe Twig::Display do
         'bar!' + (' ' * 12) + column_gutter +
         '  ' + branch.name
     end
+
+    context 'with a custom width for the branch column' do
+      before :each do
+        @twig.set_option(:property_width, :branch => 8)
+      end
+
+      it 'returns a line for the current branch' do
+        indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
+        branch        = Twig::Branch.new('my-branch')
+        branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch.name)}/
+        branch.should_receive(:last_commit_time).and_return(@commit_time)
+
+        result = @twig.branch_list_line(branch)
+        unformatted_result = @twig.unformat_string(result)
+
+        column_gutter = @twig.column_gutter
+        unformatted_result.should ==
+          '2000-01-01' + (' ' * 25) + column_gutter +
+          'foo!' + (' ' * 12) + column_gutter +
+          'bar!' + (' ' * 12) + column_gutter +
+          indicator + 'my-br...'
+      end
+
+      it 'returns a line for a branch other than the current branch' do
+        branch = Twig::Branch.new('other-branch')
+        branch.should_receive(:last_commit_time).and_return(@commit_time)
+
+        result = @twig.branch_list_line(branch)
+
+        column_gutter = @twig.column_gutter
+        result.should ==
+          '2000-01-01' + (' ' * 25) + column_gutter +
+          'foo!' + (' ' * 12) + column_gutter +
+          'bar!' + (' ' * 12) + column_gutter +
+          '  ' + 'other...'
+      end
+    end
   end
 
   describe '#format_string' do

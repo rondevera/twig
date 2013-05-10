@@ -111,11 +111,14 @@ class Twig
           column(property_value, :width => width) << column_gutter
         end.join
 
+      branch_column_width = property_column_width(:branch)
+      branch_column = column(branch.to_s, :width => branch_column_width)
+      branch_column.strip! # Strip final column
       line <<
         if is_current_branch
-          CURRENT_BRANCH_INDICATOR + branch.to_s
+          CURRENT_BRANCH_INDICATOR + branch_column
         else
-          (' ' * CURRENT_BRANCH_INDICATOR.size) + branch.to_s
+          (' ' * CURRENT_BRANCH_INDICATOR.size) + branch_column
         end
 
       line = format_string(line, :weight => :bold) if is_current_branch
