@@ -42,20 +42,32 @@ describe Twig::Display do
         @twig.property_column_width(:foo).should ==
           Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
       end
+
+      it 'returns a default width if :branch is given' do
+        @twig.property_column_width(:branch).should ==
+          Twig::Display::DEFAULT_BRANCH_COLUMN_WIDTH
+      end
     end
 
     context 'with custom column widths set' do
-      before :each do
-        @twig.set_option(:property_width, :foo => 20, :bar => 30)
-      end
-
       it 'returns a default width if a property name is given but it has no custom width' do
         @twig.property_column_width(:baz).should ==
           Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
       end
 
-      it 'returns custom width if a property name is given and it has a custom width' do
+      it 'returns a custom width if a property name is given and it has a custom width' do
+        @twig.set_option(:property_width, :foo => 20)
         @twig.property_column_width(:foo).should == 20
+      end
+
+      it 'returns a default width if :branch is given but it has no custom width' do
+        @twig.property_column_width(:branch).should ==
+          Twig::Display::DEFAULT_BRANCH_COLUMN_WIDTH
+      end
+
+      it 'returns a custom width if :branch is given but it has no custom width' do
+        @twig.set_option(:property_width, :branch => 20)
+        @twig.property_column_width(:branch).should == 20
       end
     end
   end

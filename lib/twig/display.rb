@@ -15,6 +15,7 @@ class Twig
       :bold   => 1
     }
     DEFAULT_PROPERTY_COLUMN_WIDTH = 16
+    DEFAULT_BRANCH_COLUMN_WIDTH   = 48
     CURRENT_BRANCH_INDICATOR        = '* '
     EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
@@ -54,7 +55,14 @@ class Twig
       if property_name && options[:property_width]
         width = options[:property_width][property_name.to_sym]
       end
-      width || Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
+
+      if width
+        width
+      elsif property_name == :branch
+        Twig::Display::DEFAULT_BRANCH_COLUMN_WIDTH
+      else
+        Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH
+      end
     end
 
     def branch_list_headers(header_options = {})
