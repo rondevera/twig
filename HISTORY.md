@@ -1,6 +1,8 @@
 Twig
 ====
 
+* ENHANCEMENT: Add `--branch-width` and `--<property>-width` options for setting
+  custom column widths.
 * ENHANCEMENT: Make `gh-open` and `gh-open-issue` work cross-platform.
   (GH-18. Thanks [ixti](https://github.com/ixti)!)
 * FIX: Allow getting, setting, and unsetting properties for branches older than
