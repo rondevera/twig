@@ -43,13 +43,20 @@ chronologically with their properties.
 * `twig <property> -b <branch>`:         Get property for any branch
 * `twig <property> <value> -b <branch>`: Set property for any branch
 * `twig --unset <property> -b <branch>`: Unset property for any branch
-* `twig --header-style <format>`:        Change the header style, e.g., "red", "green bold"
 * `twig init-completion`:                Set up tab completion for `-b` and `--branch`
 * `twig --help`:                         More info
 
 
-Filtering branches
-------------------
+Display options
+---------------
+
+* `twig --header-style <format>`:       Change the header style, e.g., "red", "green bold"
+* `twig --branch-width <number>`:       Set the character width for the `branch` column
+* `twig --<property>-width <number>`:   Set the character width for a specific property column
+
+
+Filtering options
+-----------------
 
 Twig lists all of your branches by default (newest first), but you can filter
 them by age, name, and custom properties:
