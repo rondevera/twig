@@ -70,7 +70,7 @@ describe Twig::GithubRepo do
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
 
-    it 'aborts if the repo is not hosted by Github' do
+    it 'aborts if the repo is not hosted by GitHub' do
       Twig.stub(:repo?) { true }
       Twig::GithubRepo.any_instance.stub(:origin_url) { @generic_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
@@ -128,7 +128,7 @@ describe Twig::GithubRepo do
       Twig.stub(:repo?) { true }
     end
 
-    context 'with a Github HTTPS URL' do
+    context 'with a GitHub HTTPS URL' do
       before :each do
         Twig::GithubRepo.any_instance.stub(:origin_url) { @github_https_url }
       end
@@ -143,7 +143,7 @@ describe Twig::GithubRepo do
       end
     end
 
-    context 'with a Github Git read-only URL' do
+    context 'with a GitHub Git read-only URL' do
       before :each do
         Twig::GithubRepo.any_instance.stub(:origin_url) { @github_git_read_only_url }
       end
@@ -158,7 +158,7 @@ describe Twig::GithubRepo do
       end
     end
 
-    context 'with a Github SSH read/write URL' do
+    context 'with a GitHub SSH read/write URL' do
       before :each do
         Twig::GithubRepo.any_instance.stub(:origin_url) { @github_ssh_read_write_url }
       end
