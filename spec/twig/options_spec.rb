@@ -187,6 +187,12 @@ describe Twig::Options do
       @twig.set_option(:property_width, width)
     end
 
+    it 'sets a :reverse option' do
+      @twig.options[:reverse].should be_nil # Precondition
+      @twig.set_option(:reverse, 'anything')
+      @twig.options[:reverse].should be_true
+    end
+
     it 'sets an :unset_property option' do
       @twig.options[:unset_property].should be_nil # Precondition
       @twig.set_option(:unset_property, 'unwanted_property')
