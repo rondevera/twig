@@ -298,6 +298,12 @@ describe Twig::Cli do
       @twig.options[:header_weight].should == :bold
     end
 
+    it 'recognizes `--reverse`' do
+      @twig.options[:reverse].should be_nil
+      @twig.read_cli_options!(['--reverse'])
+      @twig.options[:reverse].should be_true
+    end
+
     it 'handles invalid options' do
       @twig.should_receive(:abort_for_option_exception) do |exception|
         exception.should be_a(OptionParser::InvalidOption)

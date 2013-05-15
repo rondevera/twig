@@ -226,8 +226,16 @@ class Twig
           Valid colors are #{colors}. Valid weights are #{weights}.
           The default is "#{default_color}".
         DESC
-        opts.on('--header-style "STYLE"', *help_description(desc)) do |style|
+        opts.on(
+          '--header-style "STYLE"',
+          *help_description(desc, :add_separator => true)
+        ) do |style|
           set_option(:header_style, style)
+        end
+
+        desc = 'Show oldest branches first.'
+        opts.on('--reverse', *help_description(desc)) do
+          set_option(:reverse, true)
         end
 
 
