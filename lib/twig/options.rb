@@ -35,6 +35,7 @@ class Twig
 
           # Displaying branches:
           when 'header-style'  then set_option(:header_style,  value)
+          when 'reverse'       then set_option(:reverse,       value)
           when /-width$/
             property_name = key.sub(/-width$/, '').to_sym
             set_option(:property_width, property_name => value)

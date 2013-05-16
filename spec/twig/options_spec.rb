@@ -40,6 +40,7 @@ describe Twig::Options do
 
         # Displaying branches:
         'header-style:  green bold',
+        'reverse:       true',
         'foo-width:     4'
       ].join("\n"))
 
@@ -51,6 +52,7 @@ describe Twig::Options do
       @twig.options[:property_except].should be_nil
       @twig.options[:property_only].should be_nil
       @twig.options[:property_width].should be_nil
+      @twig.options[:reverse].should be_nil
 
       @twig.read_config_file!
 
@@ -67,6 +69,7 @@ describe Twig::Options do
         :foo    => /test-only-foo/
       }
       @twig.options[:property_width].should == { :foo => 4 }
+      @twig.options[:reverse].should be_true
     end
 
     it 'skips comments' do
