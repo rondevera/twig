@@ -102,9 +102,11 @@ class Twig
 
     out = "\n" << branch_list_headers(options)
 
-    # List most recently modified branches first
-    listable_branches =
-      branches.sort_by { |branch| branch.last_commit_time }.reverse
+    # List least recently modified branches first
+    listable_branches = branches.sort_by { |branch| branch.last_commit_time }
+    if options[:reverse] != true
+      listable_branches.reverse! # List most recently modified branches first
+    end
 
     branch_lines = listable_branches.inject([]) do |result, branch|
       result << branch_list_line(branch)

@@ -192,10 +192,24 @@ describe Twig do
         and_return(@branch_lines[0])
       @twig.should_receive(:branch_list_line).with(@branches[1]).
         and_return(@branch_lines[1])
+
       result = @twig.list_branches
 
       result.should == "\n" + @list_headers +
         @branch_lines[1] + "\n" + @branch_lines[0]
+    end
+
+    it 'returns a list of branches, least recently modified first' do
+      @twig.set_option(:reverse, true)
+      @twig.stub(:branches) { @branches }
+      @twig.stub(:branch_list_headers) { @list_headers }
+      @twig.stub(:branch_list_line).with(@branches[0]) { @branch_lines[0] }
+      @twig.stub(:branch_list_line).with(@branches[1]) { @branch_lines[1] }
+
+      result = @twig.list_branches
+
+      result.should == "\n" + @list_headers +
+        @branch_lines[0] + "\n" + @branch_lines[1]
     end
 
     it 'returns a message if all branches were filtered out by options' do
