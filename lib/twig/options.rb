@@ -86,7 +86,7 @@ class Twig
         set_property_width_option(value)
 
       when :reverse
-        options[:reverse] = true
+        options[:reverse] = Twig::Util.truthy?(value)
 
       when :unset_property
         options[:unset_property] = value

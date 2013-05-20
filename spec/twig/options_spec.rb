@@ -190,10 +190,28 @@ describe Twig::Options do
       @twig.set_option(:property_width, width)
     end
 
-    it 'sets a :reverse option' do
-      @twig.options[:reverse].should be_nil # Precondition
-      @twig.set_option(:reverse, 'anything')
-      @twig.options[:reverse].should be_true
+    context 'when setting a :reverse option' do
+      before :each do
+        @twig.options[:reverse].should be_nil # Precondition
+      end
+
+      it 'sets the option to true when input is truthy' do
+        input = 'yes'
+        Twig::Util.should_receive(:truthy?).with(input).and_call_original
+
+        @twig.set_option(:reverse, input)
+
+        @twig.options[:reverse].should be_true
+      end
+
+      it 'sets the option to false when input is not truthy' do
+        input = 'blargh'
+        Twig::Util.should_receive(:truthy?).with(input).and_call_original
+
+        @twig.set_option(:reverse, input)
+
+        @twig.options[:reverse].should be_false
+      end
     end
 
     it 'sets an :unset_property option' do
