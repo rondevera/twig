@@ -53,6 +53,7 @@ Display options
 * `twig --header-style <format>`:       Change the header style, e.g., "red", "green bold"
 * `twig --branch-width <number>`:       Set the character width for the `branch` column
 * `twig --<property>-width <number>`:   Set the character width for a specific property column
+* `twig --reverse`:                     List oldest branches first
 
 
 Filtering options
