@@ -1,6 +1,8 @@
 Twig
 ====
 
+1.3 (2013-05-22)
+----------------
 * ENHANCEMENT: Add `--branch-width` and `--<property>-width` options for setting
   custom column widths.
 * ENHANCEMENT: Add `--reverse` option for listing least recently updated
