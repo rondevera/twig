@@ -46,6 +46,40 @@ class Twig
       property_name.gsub(/[ _]+/, '')
     end
 
+    def get_properties(property_names)
+      return {} if property_names.empty?
+
+      property_name_regexps = property_names.map do |property_name|
+        property_name = sanitize_property(property_name)
+        raise EmptyPropertyNameError if property_name.empty?
+        Regexp.escape(property_name)
+      end.join('|')
+
+      git_config_regexp = "branch\.#{name}\.(#{ property_name_regexps })$"
+      cmd = %{git config --get-regexp "#{git_config_regexp}"}
+
+      git_result = Twig.run(cmd) || ''
+      git_result_lines = git_result.split("\n")
+
+      git_result_lines.inject({}) do |properties, line|
+        match_data = line.match(/^branch\.#{name}\.([^\s]+)\s+(.*)$/)
+
+        if match_data
+          property_name = match_data[1]
+          property_value = match_data[2]
+        else
+          property_value = ''
+        end
+
+        if property_value.empty?
+          properties
+        else
+          properties.merge(property_name => property_value)
+        end
+      end
+
+    end
+
     def get_property(property_name)
       property_name = sanitize_property(property_name)
       raise EmptyPropertyNameError if property_name.empty?

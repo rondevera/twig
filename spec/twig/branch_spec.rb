@@ -100,6 +100,86 @@ describe Twig::Branch do
     end
   end
 
+  describe '#get_properties' do
+    before :each do
+      @branch = Twig::Branch.new('test')
+    end
+
+    it 'returns a hash of property names and values' do
+      properties = {
+        'test1' => 'value1',
+        'test2' => 'value2'
+      }
+      git_result = [
+        "branch.#{@branch}.test1 value1",
+        "branch.#{@branch}.test2 value2"
+      ].join("\n")
+      Twig.should_receive(:run).
+        with(%{git config --get-regexp "branch.#{@branch}.(test1|test2)$"}).
+        and_return(git_result)
+
+      result = @branch.get_properties(%w[test1 test2])
+      result.should == properties
+    end
+
+    it 'returns an empty hash if no property names are given' do
+      Twig.should_not_receive(:run)
+
+      result = @branch.get_properties([])
+      result.should == {}
+    end
+
+    it 'returns an empty hash if no matching property names are found' do
+      git_result = ''
+      Twig.should_receive(:run).
+        with(%{git config --get-regexp "branch.#{@branch}.(test1|test2)$"}).
+        and_return(git_result)
+
+      result = @branch.get_properties(%w[test1 test2])
+      result.should == {}
+    end
+
+    it 'removes whitespace from property names' do
+      bad_property_name = '  foo foo  '
+      property_name     = 'foofoo'
+      property_value    = 'bar'
+      properties        = { property_name => property_value }
+      git_result = "branch.#{@branch}.#{property_name} #{property_value}"
+      Twig.should_receive(:run).
+        with(%{git config --get-regexp "branch.#{@branch}.(#{property_name})$"}).
+        and_return(git_result)
+
+      result = @branch.get_properties([bad_property_name])
+      result.should == properties
+    end
+
+    it 'excludes properties whose values are empty strings' do
+      git_result = [
+        "branch.#{@branch}.test1 value1",
+        "branch.#{@branch}.test2"
+      ].join("\n")
+      Twig.should_receive(:run).
+        with(%{git config --get-regexp "branch.#{@branch}.(test1|test2)$"}).
+        and_return(git_result)
+
+      result = @branch.get_properties(%w[test1 test2])
+      result.should == { 'test1' => 'value1' }
+    end
+
+    it 'raises an error if any property name is an empty string' do
+      property_name = '  '
+      Twig.should_not_receive(:run)
+
+      begin
+        @branch.get_properties(['test1', property_name])
+      rescue Twig::Branch::EmptyPropertyNameError => exception
+        expected_exception = exception
+      end
+
+      expected_exception.message.should == Twig::Branch::EMPTY_PROPERTY_NAME_ERROR
+    end
+  end
+
   describe '#get_property' do
     before :each do
       @branch = Twig::Branch.new('test')
