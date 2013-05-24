@@ -188,9 +188,9 @@ describe Twig::Branch do
     it 'returns a property value' do
       property = 'test'
       value    = 'value'
-      Twig.should_receive(:run).
-        with(%{git config branch.#{@branch}.#{property}}).
-        and_return(value)
+      @branch.should_receive(:get_properties).
+        with([property]).
+        and_return(property => value)
 
       result = @branch.get_property(property)
       result.should == value
@@ -200,35 +200,12 @@ describe Twig::Branch do
       bad_property = '  foo foo  '
       property     = 'foofoo'
       value        = 'bar'
-      Twig.should_receive(:run).
-        with(%{git config branch.#{@branch}.#{property}}).
-        and_return(value)
+      @branch.should_receive(:get_properties).
+        with([property]).
+        and_return(property => value)
 
       result = @branch.get_property(bad_property)
       result.should == value
-    end
-
-    it 'returns nil if the property value is an empty string' do
-      property = 'test'
-      Twig.should_receive(:run).
-        with(%{git config branch.#{@branch}.#{property}}).
-        and_return('')
-
-      result = @branch.get_property(property)
-      result.should == nil
-    end
-
-    it 'raises an error if the property name is an empty string' do
-      property = ' '
-      Twig.should_not_receive(:run)
-
-      begin
-        @branch.get_property(property)
-      rescue Twig::Branch::EmptyPropertyNameError => exception
-        expected_exception = exception
-      end
-
-      expected_exception.message.should == Twig::Branch::EMPTY_PROPERTY_NAME_ERROR
     end
   end
 

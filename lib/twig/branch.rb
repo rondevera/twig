@@ -82,10 +82,7 @@ class Twig
 
     def get_property(property_name)
       property_name = sanitize_property(property_name)
-      raise EmptyPropertyNameError if property_name.empty?
-
-      value = Twig.run("git config branch.#{name}.#{property_name}")
-      value == '' ? nil : value
+      get_properties([property_name])[property_name]
     end
 
     def set_property(property_name, value)
