@@ -100,20 +100,22 @@ class Twig
     end
 
     def branch_list_line(branch)
-      is_current_branch = branch.name == current_branch_name
+      all_property_names = Twig::Branch.all_properties
+      is_current_branch  = branch.name == current_branch_name
 
-      properties = Twig::Branch.all_properties.inject({}) do |result, property_name|
-        property = (get_branch_property(branch.name, property_name) || '').strip
-        property = EMPTY_BRANCH_PROPERTY_INDICATOR if property.empty?
-        property.gsub!(/[\n\r]+/, ' ')
-        result.merge(property_name => property)
+      properties = branch.get_properties(all_property_names)
+      properties = all_property_names.inject({}) do |result, property_name|
+        property_value = (properties[property_name] || '').strip
+        property_value = EMPTY_BRANCH_PROPERTY_INDICATOR if property_value.empty?
+        property_value.gsub!(/[\n\r]+/, ' ')
+        result.merge(property_name => property_value)
       end
 
       line = column(branch.last_commit_time.to_s, :width => date_time_column_width)
       line << column_gutter
 
       line <<
-        Twig::Branch.all_properties.map do |property_name|
+        all_property_names.map do |property_name|
           property_value = properties[property_name] || ''
           width = property_column_width(property_name)
           column(property_value, :width => width) << column_gutter

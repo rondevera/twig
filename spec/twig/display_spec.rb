@@ -146,21 +146,25 @@ describe Twig::Display do
 
   describe '#branch_list_line' do
     before :each do
-      @current_branch_name = 'my-branch'
+      @current_branch = Twig::Branch.new('my-branch')
+      @other_branch   = Twig::Branch.new('other-branch')
+      @twig.should_receive(:current_branch_name).and_return(@current_branch.name)
       Twig::Branch.stub(:all_properties => %w[foo bar])
-      @twig.should_receive(:get_branch_property).
-        with(anything, 'foo').and_return('foo!')
-      @twig.should_receive(:get_branch_property).
-        with(anything, 'bar').and_return('bar!')
-      @twig.should_receive(:current_branch_name).
-        and_return(@current_branch_name)
+      @current_branch.stub(:get_properties => {
+        'foo' => 'foo!',
+        'bar' => 'bar!'
+      })
+      @other_branch.stub(:get_properties => {
+        'foo' => 'foo!',
+        'bar' => 'bar!'
+      })
       @commit_time = Twig::CommitTime.new(Time.now, '')
       @commit_time.should_receive(:to_s).and_return('2000-01-01')
     end
 
     it 'returns a line for the current branch' do
       indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
-      branch        = Twig::Branch.new('my-branch')
+      branch        = @current_branch
       branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch.name)}/
       branch.should_receive(:last_commit_time).and_return(@commit_time)
 
@@ -170,7 +174,7 @@ describe Twig::Display do
     end
 
     it 'returns a line for a branch other than the current branch' do
-      branch = Twig::Branch.new('other-branch')
+      branch = @other_branch
       branch.should_receive(:last_commit_time).and_return(@commit_time)
 
       result = @twig.branch_list_line(branch)
@@ -179,10 +183,8 @@ describe Twig::Display do
     end
 
     it 'returns a line containing an empty branch property' do
-      Twig::Branch.stub(:all_properties => %w[foo bar baz])
-      @twig.should_receive(:get_branch_property).
-        with(anything, 'baz').and_return(nil)
-      branch = Twig::Branch.new('other-branch')
+      Twig::Branch.should_receive(:all_properties).and_return(%w[foo bar baz])
+      branch = @other_branch
       branch.should_receive(:last_commit_time).and_return(@commit_time)
 
       result = @twig.branch_list_line(branch)
@@ -192,11 +194,15 @@ describe Twig::Display do
     end
 
     it 'changes line break characters to spaces' do
-      branch = Twig::Branch.new('my-branch')
+      branch = @current_branch
+      property_names = %w[foo bar linebreaks]
       branch.should_receive(:last_commit_time).and_return(@commit_time)
-      Twig::Branch.stub(:all_properties => %w[foo bar linebreaks])
-      @twig.should_receive(:get_branch_property).
-        with(anything, 'linebreaks').and_return("line\r\nbreaks!")
+      branch.should_receive(:get_properties).with(property_names).and_return(
+        'foo' => 'foo!',
+        'bar' => 'bar!',
+        'linebreaks' => "line\r\nbreaks!"
+      )
+      Twig::Branch.should_receive(:all_properties).and_return(property_names)
 
       result = @twig.branch_list_line(branch)
 
@@ -204,7 +210,7 @@ describe Twig::Display do
     end
 
     it 'returns a line with custom column widths' do
-      branch = Twig::Branch.new('other-branch')
+      branch = @other_branch
       branch.should_receive(:last_commit_time).and_return(@commit_time)
       @twig.set_option(:property_width, :foo => 5)
 
@@ -225,7 +231,7 @@ describe Twig::Display do
 
       it 'returns a line for the current branch' do
         indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
-        branch        = Twig::Branch.new('my-branch')
+        branch        = @current_branch
         branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch.name)}/
         branch.should_receive(:last_commit_time).and_return(@commit_time)
 
@@ -241,7 +247,7 @@ describe Twig::Display do
       end
 
       it 'returns a line for a branch other than the current branch' do
-        branch = Twig::Branch.new('other-branch')
+        branch = @other_branch
         branch.should_receive(:last_commit_time).and_return(@commit_time)
 
         result = @twig.branch_list_line(branch)
