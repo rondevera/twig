@@ -191,13 +191,13 @@ describe Twig::Cli do
       end
 
       it 'recognizes `--only-<property>` and sets a `:property_only` option' do
-        Twig::Branch.stub(:all_properties) { %w[foo] }
+        Twig::Branch.stub(:all_property_names) { %w[foo] }
         @twig.read_cli_options!(%w[--only-foo test])
         @twig.options[:property_only].should == { :foo => /test/ }
       end
 
       it 'recognizes `--only-branch` and `--only-<property>` together' do
-        Twig::Branch.stub(:all_properties) { %w[foo] }
+        Twig::Branch.stub(:all_property_names) { %w[foo] }
 
         @twig.read_cli_options!(%w[--only-branch test --only-foo bar])
 
@@ -209,7 +209,7 @@ describe Twig::Cli do
 
       it 'does not recognize `--only-<property>` for a missing property' do
         property_name = 'foo'
-        Twig::Branch.all_properties.should_not include(property_name) # Precondition
+        Twig::Branch.all_property_names.should_not include(property_name) # Precondition
         @twig.stub(:puts)
 
         begin
@@ -230,13 +230,13 @@ describe Twig::Cli do
       end
 
       it 'recognizes `--except-<property>` and sets a `:property_except` option' do
-        Twig::Branch.stub(:all_properties) { %w[foo] }
+        Twig::Branch.stub(:all_property_names) { %w[foo] }
         @twig.read_cli_options!(%w[--except-foo test])
         @twig.options[:property_except].should == { :foo => /test/ }
       end
 
       it 'recognizes `--except-branch` and `--except-<property>` together' do
-        Twig::Branch.stub(:all_properties) { %w[foo] }
+        Twig::Branch.stub(:all_property_names) { %w[foo] }
 
         @twig.read_cli_options!(%w[--except-branch test --except-foo bar])
 
@@ -248,7 +248,7 @@ describe Twig::Cli do
 
       it 'does not recognize `--except-<property>` for a missing property' do
         property_name = 'foo'
-        Twig::Branch.all_properties.should_not include(property_name) # Precondition
+        Twig::Branch.all_property_names.should_not include(property_name) # Precondition
         @twig.stub(:puts)
 
         begin
@@ -283,7 +283,7 @@ describe Twig::Cli do
     end
 
     it 'recognizes `--<property>-width`' do
-      Twig::Branch.stub(:all_properties) { %w[foo] }
+      Twig::Branch.stub(:all_property_names) { %w[foo] }
       @twig.options[:property_width].should be_nil
       @twig.should_receive(:set_option).with(:property_width, :foo => '10')
 

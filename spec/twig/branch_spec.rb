@@ -5,9 +5,9 @@ describe Twig::Branch do
     @twig = Twig.new
   end
 
-  describe '.all_properties' do
+  describe '.all_property_names' do
     before :each do
-      Twig::Branch.instance_variable_set(:@_all_properties, nil)
+      Twig::Branch.instance_variable_set(:@_all_property_names, nil)
       @config = %{
         user.name=Ron DeVera
         branch.autosetupmerge=always
@@ -29,7 +29,7 @@ describe Twig::Branch do
     it 'returns the union of properties for all branches' do
       Twig.should_receive(:run).with('git config --list').and_return(@config)
 
-      result = Twig::Branch.all_properties
+      result = Twig::Branch.all_property_names
       result.should == %w[test0 test1 test2]
     end
 
@@ -37,7 +37,7 @@ describe Twig::Branch do
       @config << 'branch.dot1.dot2.dot3.dotproperty=dotvalue'
       Twig.should_receive(:run).with('git config --list').and_return(@config)
 
-      result = Twig::Branch.all_properties
+      result = Twig::Branch.all_property_names
       result.should == %w[dotproperty test0 test1 test2]
     end
 
@@ -45,20 +45,20 @@ describe Twig::Branch do
       @config << 'branch.eq1=eq2=eq3.eqproperty=eqvalue'
       Twig.should_receive(:run).with('git config --list').and_return(@config)
 
-      result = Twig::Branch.all_properties
+      result = Twig::Branch.all_property_names
       result.should == %w[eqproperty test0 test1 test2]
     end
 
     it 'skips path values with an equal sign but no value' do
       @config << 'foo_path='
       Twig.should_receive(:run).with('git config --list').and_return(@config)
-      result = Twig::Branch.all_properties
+      result = Twig::Branch.all_property_names
       result.should_not include 'foo_path'
     end
 
     it 'memoizes the result' do
       Twig.should_receive(:run).once.and_return(@config)
-      2.times { Twig::Branch.all_properties }
+      2.times { Twig::Branch.all_property_names }
     end
   end
 

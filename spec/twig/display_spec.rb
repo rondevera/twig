@@ -74,7 +74,7 @@ describe Twig::Display do
 
   describe '#branch_list_headers' do
     before :each do
-      Twig::Branch.stub(:all_properties => %w[foo quux])
+      Twig::Branch.stub(:all_property_names => %w[foo quux])
     end
 
     it 'returns a string of branch properties and underlines' do
@@ -149,7 +149,7 @@ describe Twig::Display do
       @current_branch = Twig::Branch.new('my-branch')
       @other_branch   = Twig::Branch.new('other-branch')
       @twig.should_receive(:current_branch_name).and_return(@current_branch.name)
-      Twig::Branch.stub(:all_properties => %w[foo bar])
+      Twig::Branch.stub(:all_property_names => %w[foo bar])
       @current_branch.stub(:get_properties => {
         'foo' => 'foo!',
         'bar' => 'bar!'
@@ -183,7 +183,7 @@ describe Twig::Display do
     end
 
     it 'returns a line containing an empty branch property' do
-      Twig::Branch.should_receive(:all_properties).and_return(%w[foo bar baz])
+      Twig::Branch.should_receive(:all_property_names).and_return(%w[foo bar baz])
       branch = @other_branch
       branch.should_receive(:last_commit_time).and_return(@commit_time)
 
@@ -202,7 +202,7 @@ describe Twig::Display do
         'bar' => 'bar!',
         'linebreaks' => "line\r\nbreaks!"
       )
-      Twig::Branch.should_receive(:all_properties).and_return(property_names)
+      Twig::Branch.should_receive(:all_property_names).and_return(property_names)
 
       result = @twig.branch_list_line(branch)
 

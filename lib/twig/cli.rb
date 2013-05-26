@@ -94,7 +94,7 @@ class Twig
     end
 
     def read_cli_options!(args)
-      custom_properties = Twig::Branch.all_properties
+      custom_properties = Twig::Branch.all_property_names
 
       option_parser = OptionParser.new do |opts|
         opts.banner         = help_intro

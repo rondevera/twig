@@ -66,6 +66,7 @@ class Twig
     end
 
     def branch_list_headers(header_options = {})
+      all_property_names = Twig::Branch.all_property_names
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
 
       header_options.merge!(
@@ -80,7 +81,7 @@ class Twig
       )
 
       out = column(' ', :width => date_time_column_width) << column_gutter
-      out << Twig::Branch.all_properties.map do |property|
+      out << all_property_names.map do |property|
         width = property_column_width(property)
         column(property, header_options.merge(:width => width)) << column_gutter
       end.join
@@ -88,7 +89,7 @@ class Twig
       out << "\n"
 
       out << column(' ', :width => date_time_column_width) << column_gutter
-      out << Twig::Branch.all_properties.map do |property|
+      out << all_property_names.map do |property|
         width = property_column_width(property)
         underline = '-' * property.size
         column(underline, header_options.merge(:width => width)) << column_gutter
@@ -100,7 +101,7 @@ class Twig
     end
 
     def branch_list_line(branch)
-      all_property_names = Twig::Branch.all_properties
+      all_property_names = Twig::Branch.all_property_names
       is_current_branch  = branch.name == current_branch_name
 
       properties = branch.get_properties(all_property_names)

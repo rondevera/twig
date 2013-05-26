@@ -15,8 +15,8 @@ class Twig
 
     attr_accessor :name, :last_commit_time
 
-    def self.all_properties
-      @_all_properties ||= begin
+    def self.all_property_names
+      @_all_property_names ||= begin
         config_lines = Twig.run('git config --list').split("\n")
 
         properties = config_lines.map do |line|
