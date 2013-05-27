@@ -158,15 +158,16 @@ describe Twig::Display do
         'foo' => 'foo!',
         'bar' => 'bar!'
       })
-      @commit_time = Twig::CommitTime.new(Time.now, '')
-      @commit_time.should_receive(:to_s).and_return('2000-01-01')
+      commit_time = Twig::CommitTime.new(Time.now, '')
+      commit_time.should_receive(:to_s).and_return('2000-01-01')
+      @current_branch.stub(:last_commit_time => commit_time)
+      @other_branch.stub(:last_commit_time => commit_time)
     end
 
     it 'returns a line for the current branch' do
       indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
       branch        = @current_branch
       branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch.name)}/
-      branch.should_receive(:last_commit_time).and_return(@commit_time)
 
       result = @twig.branch_list_line(branch)
 
@@ -175,17 +176,13 @@ describe Twig::Display do
 
     it 'returns a line for a branch other than the current branch' do
       branch = @other_branch
-      branch.should_receive(:last_commit_time).and_return(@commit_time)
-
       result = @twig.branch_list_line(branch)
-
       result.should =~ /2000-01-01\s+foo!\s+bar!\s+#{Regexp.escape(branch.name)}/
     end
 
     it 'returns a line containing an empty branch property' do
       Twig::Branch.should_receive(:all_property_names).and_return(%w[foo bar baz])
       branch = @other_branch
-      branch.should_receive(:last_commit_time).and_return(@commit_time)
 
       result = @twig.branch_list_line(branch)
 
@@ -196,7 +193,6 @@ describe Twig::Display do
     it 'changes line break characters to spaces' do
       branch = @current_branch
       property_names = %w[foo bar linebreaks]
-      branch.should_receive(:last_commit_time).and_return(@commit_time)
       branch.should_receive(:get_properties).with(property_names).and_return(
         'foo' => 'foo!',
         'bar' => 'bar!',
@@ -211,7 +207,6 @@ describe Twig::Display do
 
     it 'returns a line with custom column widths' do
       branch = @other_branch
-      branch.should_receive(:last_commit_time).and_return(@commit_time)
       @twig.set_option(:property_width, :foo => 5)
 
       result = @twig.branch_list_line(branch)
@@ -233,7 +228,6 @@ describe Twig::Display do
         indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
         branch        = @current_branch
         branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch.name)}/
-        branch.should_receive(:last_commit_time).and_return(@commit_time)
 
         result = @twig.branch_list_line(branch)
         unformatted_result = @twig.unformat_string(result)
@@ -248,7 +242,6 @@ describe Twig::Display do
 
       it 'returns a line for a branch other than the current branch' do
         branch = @other_branch
-        branch.should_receive(:last_commit_time).and_return(@commit_time)
 
         result = @twig.branch_list_line(branch)
 
