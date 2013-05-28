@@ -1,9 +1,9 @@
 class Twig
   class Branch
 
-    EMPTY_PROPERTY_NAME_ERROR     = 'Branch property names cannot be empty strings.'
-    PROPERTY_NAME_FROM_GIT_CONFIG = /^branch\.[^.]+\.([^=]+)=.*$/
-    RESERVED_BRANCH_PROPERTIES    = %w[branch merge rebase remote]
+    EMPTY_PROPERTY_NAME_ERROR      = 'Branch property names cannot be empty strings.'
+    PROPERTY_NAME_FROM_GIT_CONFIG  = /^branch\.[^.]+\.([^=]+)=.*$/
+    RESERVED_BRANCH_PROPERTY_NAMES = %w[branch merge rebase remote]
 
     class EmptyPropertyNameError < ArgumentError
       def initialize(message = nil)
@@ -29,7 +29,7 @@ class Twig
           key_parts.last if key_parts[0] == 'branch' && key_parts.size > 2
         end.compact
 
-        properties.uniq.sort - RESERVED_BRANCH_PROPERTIES
+        properties.uniq.sort - RESERVED_BRANCH_PROPERTY_NAMES
       end
     end
 
@@ -91,7 +91,7 @@ class Twig
 
       if property_name.empty?
         raise EmptyPropertyNameError
-      elsif RESERVED_BRANCH_PROPERTIES.include?(property_name)
+      elsif RESERVED_BRANCH_PROPERTY_NAMES.include?(property_name)
         raise ArgumentError,
           %{Can't modify the reserved property "#{property_name}".}
       elsif value.empty?
