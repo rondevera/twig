@@ -1,6 +1,8 @@
 Twig
 ====
 
+* ENHANCEMENT: Speed up listing branches by 3–4x.
+
 1.3 (2013-05-22)
 ----------------
 * ENHANCEMENT: Add `--branch-width` and `--<property>-width` options for setting
