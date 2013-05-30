@@ -5,7 +5,8 @@
 #
 # Author: Ron DeVera <http://rondevera.com>
 
-debug = ARGV.include?('--debug')
+args  = ARGV.dup
+debug = args.delete('--debug')
 bash_version = `bash -c 'echo $BASH_VERSION'`.strip
 
 if debug
@@ -13,5 +14,5 @@ if debug
   puts "- bash_version: #{bash_version.inspect}"
 end
 
-exec('twig-init-completion-bash') if bash_version != ''
+exec('twig-init-completion-bash ' + args.join(' ')) if bash_version != ''
 abort 'Could not initialize Twig tab completion for this shell.'
