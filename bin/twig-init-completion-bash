@@ -54,13 +54,20 @@ force = args.delete('--force')
 twig_dir = '~/.twig'
 FileUtils.mkdir_p(File.expand_path(twig_dir))
 
-script_path = File.join(twig_dir, '/twig-completion.bash')
+script_path      = File.join(twig_dir, '/twig-completion.bash')
 full_script_path = File.expand_path(script_path)
-if force || !File.exists?(full_script_path)
+script_exists    = File.exists?(full_script_path)
+
+if force || !script_exists
   File.open(full_script_path, 'w') do |file|
     file.write script
   end
-  puts "Created #{script_path}."
+
+  if script_exists
+    puts "Overwrote #{script_path}."
+  else
+    puts "Created #{script_path}."
+  end
 end
 
 puts
