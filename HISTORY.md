@@ -2,6 +2,9 @@ Twig
 ====
 
 * ENHANCEMENT: Speed up listing branches by 3–4x.
+* ENHANCEMENT: Add `twig init-completion --force` for overwriting existing
+  completion scripts. Useful for upgrading to the latest Twig completion
+  scripts.
 
 1.3 (2013-05-22)
 ----------------
