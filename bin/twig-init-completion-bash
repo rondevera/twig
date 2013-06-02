@@ -22,7 +22,7 @@ script = <<-SCRIPT
 __twig_branches() {
   local current words
   current="${COMP_WORDS[COMP_CWORD]}"
-  words="$(git for-each-ref refs/heads/ --format="%(refname:short)" | tr '\n' ' ')"
+  words="$(git for-each-ref refs/heads/ --format="%(refname:short)" | tr '\\n' ' ')"
   COMPREPLY=($(compgen -W "$words" -- "$current"))
   return 0
 }
