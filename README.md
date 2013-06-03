@@ -44,6 +44,7 @@ chronologically with their properties.
 * `twig <property> <value> -b <branch>`: Set property for any branch
 * `twig --unset <property> -b <branch>`: Unset property for any branch
 * `twig init-completion`:                Set up tab completion for `-b` and `--branch`
+* `twig init-completion --force`:        Update to the latest tab completion script
 * `twig --help`:                         More info
 
 
