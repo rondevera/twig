@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# Entry point for Twig: <http://rondevera.github.io/twig/>
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'twig'))
 
 repo_required = ARGV != ['--help'] && ARGV != ['help'] && ARGV != ['--version']

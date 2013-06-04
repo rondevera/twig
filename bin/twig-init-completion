@@ -3,6 +3,7 @@
 # Initializes tab completion for Twig. To use this, run
 # `twig init-completion` and follow the instructions.
 #
+# Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
 
 args  = ARGV.dup

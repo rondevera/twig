@@ -2,6 +2,7 @@
 
 # Opens a browser window for the current GitHub repo.
 #
+# Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
 
 require 'rubygems'
