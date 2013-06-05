@@ -59,7 +59,10 @@ script_path      = File.join(twig_dir, '/twig-completion.bash')
 full_script_path = File.expand_path(script_path)
 script_exists    = File.exists?(full_script_path)
 
-if force || !script_exists
+if script_exists && !force
+  puts "The file `#{script_path}` already exists."
+  puts "To overwrite it, run `twig init-completion --force`."
+else
   File.open(full_script_path, 'w') do |file|
     file.write script
   end
