@@ -10,5 +10,7 @@ branch_name =
   `git rev-parse --abbrev-ref HEAD`.strip # Current branch
 diff_branch = `twig diff-branch -b "#{branch_name}"`.strip
 
+abort if diff_branch.empty?
+
 puts %{Getting diff of "#{branch_name}" against "#{diff_branch}"...}
 exec %{git diff "#{diff_branch}" "#{branch_name}"}
