@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 
 # Usage:
+#
 # - `twig gh-open-issue`:
 #   Opens a browser window for the GitHub issue, if any, for the current branch.
+#
 # - `twig gh-open-issue -b <branch>`:
 #   Opens the GitHub issue, if any, for the specified branch.
 #
