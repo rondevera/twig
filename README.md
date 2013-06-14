@@ -156,8 +156,8 @@ Subcommands
 Twig comes with a few subcommands that are handy for use with GitHub
 repositories: `gh-open`, `gh-open-issue`, and `gh-update`.
 
-While inside a Git repo, run `twig gh-open` to see the repo's GitHub URL, and open
-a browser window if possible:
+While inside a Git repo, run `twig gh-open` to see the repo's GitHub URL, and
+open a browser window if possible:
 
     $ cd myproject
 
