@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+# Rebases the given/current branch onto its `diff-branch`.
+#
+# Subcommand for Twig: <http://rondevera.github.io/twig/>
+# Author: Ron DeVera <http://rondevera.com>
+
+branch_name =
+  (ARGV.first && ARGV.first.strip) ||
+  `git rev-parse --abbrev-ref HEAD`.strip # Current branch
+diff_branch = `twig diff-branch -b "#{branch_name}"`.strip
+
+print %{Rebase "#{branch_name}" onto "#{diff_branch}"? }
+input = STDIN.gets.strip.downcase
+if input == 'y' || input == 'yes'
+  exec %{git rebase "#{diff_branch}" "#{branch_name}"}
+else
+  puts 'Cancelled.'
+end
