@@ -10,6 +10,8 @@ branch_name =
   `git rev-parse --abbrev-ref HEAD`.strip # Current branch
 diff_branch = `twig diff-branch -b "#{branch_name}"`.strip
 
+abort if diff_branch.empty?
+
 print %{Rebase "#{branch_name}" onto "#{diff_branch}"? }
 input = STDIN.gets.strip.downcase
 if input == 'y' || input == 'yes'
