@@ -5,17 +5,20 @@
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
 
-branch_name =
-  (ARGV.first && ARGV.first.strip) ||
-  `git rev-parse --abbrev-ref HEAD`.strip # Current branch
-diff_branch = `twig diff-branch -b "#{branch_name}"`.strip
+args = ARGV.dup
 
-abort if diff_branch.empty?
+topic_branch = args.shift.strip if args.first[0, 1] != '-' # Use given branch
+topic_branch ||= `git rev-parse --abbrev-ref HEAD`.strip   # Use current branch
 
-print %{Rebase "#{branch_name}" onto "#{diff_branch}"? (y/n) }
+base_branch    = `twig diff-branch -b "#{topic_branch}"`.strip
+rebase_options = args.join(' ') # Pass remaining options to `git-rebase`
+
+abort if base_branch.empty?
+
+print %{Rebase "#{topic_branch}" onto "#{base_branch}"? (y/n) }
 input = STDIN.gets.strip.downcase
 if input == 'y' || input == 'yes'
-  exec %{git rebase "#{diff_branch}" "#{branch_name}"}
+  exec %{git rebase #{rebase_options} "#{base_branch}" "#{topic_branch}"}
 else
   puts 'Cancelled.'
 end
