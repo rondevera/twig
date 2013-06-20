@@ -21,13 +21,13 @@
 
 args = ARGV.dup
 
-branch_name = args.shift.strip if args.first[0, 1] != '-' # Use given branch
-branch_name ||= `git rev-parse --abbrev-ref HEAD`.strip   # Use current branch
+topic_branch = args.shift.strip if args.first[0, 1] != '-' # Use given branch
+topic_branch ||= `git rev-parse --abbrev-ref HEAD`.strip   # Use current branch
 
-diff_branch  = `twig diff-branch -b "#{branch_name}"`.strip
+diff_branch  = `twig diff-branch -b "#{topic_branch}"`.strip
 diff_options = args.join(' ') # Pass remaining options to `git-diff`
 
 abort if diff_branch.empty?
 
-puts %{Getting diff of "#{branch_name}" against "#{diff_branch}"...}
-exec %{git diff "#{diff_branch}" "#{branch_name}" #{diff_options}}
+puts %{Getting diff of "#{topic_branch}" against "#{diff_branch}"...}
+exec %{git diff "#{diff_branch}" "#{topic_branch}" #{diff_options}}
