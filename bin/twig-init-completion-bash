@@ -38,6 +38,7 @@ __twig() {
   case "${previous}" in
   -b|--branch)  __twig_branches ;;
   diff)         __twig_branches ;;
+  rebase)       __twig_branches ;;
   esac
 
   return 0
