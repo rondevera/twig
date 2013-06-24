@@ -5,6 +5,9 @@ Twig
 * ENHANCEMENT: Add `twig diff`, which diffs the current branch against its
   `diff-branch` property, and `twig diff <branch>`, which diffs the given branch
   against its `diff-branch` property.
+* ENHANCEMENT: Add `twig rebase`, which rebases the current branch onto the
+  branch in its `diff-branch` property, and `twig rebase <branch>`, which
+  rebases the given branch onto its `diff-branch`.
 * ENHANCEMENT: Add `twig init-completion --force` for overwriting existing
   completion scripts. Useful for upgrading to the latest Twig completion
   scripts.
