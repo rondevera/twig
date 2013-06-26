@@ -13,7 +13,8 @@ script = <<-SCRIPT
 
 #!/usr/bin/env bash
 
-# AUTO-GENERATED with Twig v#{version}. Regenerate with `twig init-completion`.
+# AUTO-GENERATED with Twig v#{version}. Regenerate with
+# `twig init-completion --force`.
 #
 # Initializes bash tab completion for Twig. To use this, run
 # `twig init-completion` and follow the instructions.
