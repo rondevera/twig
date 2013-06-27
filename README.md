@@ -132,15 +132,15 @@ Remember the order in which you were rebasing your stack of branches:
     $ git checkout master
     Switched to branch 'master'.
 
-    $ twig rebase-onto branch2 -b branch3
-    Saved property "rebase-onto" as "branch2" for branch "branch3".
+    $ twig diff-branch branch2 -b branch3
+    Saved property "diff-branch" as "branch2" for branch "branch3".
 
-    $ twig rebase-onto branch1 -b branch2
-    Saved property "rebase-onto" as "branch1" for branch "branch2".
+    $ twig diff-branch branch1 -b branch2
+    Saved property "diff-branch" as "branch1" for branch "branch2".
 
     $ twig
 
-                                  rebase-onto    branch
+                                  diff-branch    branch
                                   -----------    ------
     2013-01-26 18:00:25 (7m ago)  branch2        branch3
     2013-01-26 16:49:47 (2h ago)  branch1        branch2
