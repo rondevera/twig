@@ -153,16 +153,24 @@ You can set just about any custom property you need to remember for each branch.
 Subcommands
 ===========
 
-Twig comes with a few subcommands that are handy for use with GitHub
-repositories: `gh-open`, `gh-open-issue`, and `gh-update`.
+A Twig subcommand is a little script that makes use of a branch's Twig
+properties. You can [write your own](#writing-a-subcommand), but here are some
+subcommands that Twig comes with.
 
-While inside a Git repo, run `twig gh-open` to see the repo's GitHub URL, and
+twig gh-open
+------------
+
+While inside a GitHub repo, run `twig gh-open` to see the repo's GitHub URL, and
 open a browser window if possible:
 
     $ cd myproject
 
     $ twig gh-open
     GitHub URL: https://github.com/myname/myproject
+
+
+twig gh-update
+--------------
 
 If you're working on an issue for a GitHub repository, the `gh-update`
 subcommand syncs issue statuses with GitHub:
@@ -195,6 +203,10 @@ subcommand syncs issue statuses with GitHub:
 
 Run `twig gh-update` periodically to keep up with GitHub issues locally.
 
+
+twig gh-open-issue
+------------------
+
 For any branch that has an `issue` property, you can use the `gh-open-issue`
 subcommand to view that issue on GitHub:
 
@@ -205,6 +217,10 @@ subcommand to view that issue on GitHub:
     # Any branch:
     $ twig gh-open-issue -b <branch name>
     GitHub issue URL: https://github.com/myname/myproject/issues/222
+
+
+Writing a subcommand
+--------------------
 
 You can write any Twig subcommand that fits your own Git workflow. To write a
 Twig subcommand:
@@ -232,8 +248,8 @@ Some ideas for subcommands:
   emailing your team about what you're up to.
 * Create a gem that contains your team's favorite custom Twig subcommands.
 
-If you write a subcommand that others can appreciate, send a pull request or add
-it to the [Twig wiki][wiki]!
+If you write a subcommand that others might appreciate, send a pull request or
+add it to the [Twig wiki][wiki]!
 
 
 More info
