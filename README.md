@@ -157,6 +157,34 @@ A Twig subcommand is a little script that makes use of a branch's Twig
 properties. You can [write your own](#writing-a-subcommand), but here are some
 subcommands that Twig comes with.
 
+
+twig diff
+---------
+
+If you have a stack of branches with different parent branches, it gets tricky
+to remember which branch to diff against. `twig diff` makes it easy:
+
+    $ git checkout branch2
+
+    # Remember your branch's diff branch:
+    $ twig diff-branch branch1
+    Saved property "diff-branch" as "branch1" for branch "branch2".
+
+    # Generate a diff between branch1 (the current branch) and branch2:
+    $ twig diff
+
+More usage:
+
+    # Generate a diff between any given branch and its `diff-branch`:
+    $ twig diff branch3
+
+    # Pass options through to `git diff`:
+    $ twig diff --stat
+
+    # Pipe results to a diff viewer:
+    $ twig diff | gitx
+
+
 twig gh-open
 ------------
 
