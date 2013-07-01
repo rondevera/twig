@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+# Summary:
+#
+#   `twig diff [<branch>] [<options>]`
+#
 # Usage:
 #
 # - `twig diff`:
