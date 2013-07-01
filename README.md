@@ -185,6 +185,31 @@ More usage:
     $ twig diff | gitx
 
 
+twig rebase
+-----------
+
+If you have a stack of branches that you need to rebase in the same order,
+`twig rebase` simplifies the process:
+
+    $ git checkout branch2
+
+    # Remember your branches' diff (parent) branches:
+    $ twig diff-branch branch1
+    Saved property "diff-branch" as "branch1" for branch "branch2".
+
+    # Rebase branch2 (the current branch) onto branch1:
+    $ twig rebase
+    Rebase "rebase_subcommand" onto "development"? (y/n)
+
+More usage:
+
+    # Rebase any given branch onto its `diff-branch`:
+    $ twig rebase branch3
+
+    # Pass options through to `git rebase`:
+    $ twig rebase -i
+
+
 twig gh-open
 ------------
 
