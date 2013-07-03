@@ -98,7 +98,8 @@ class Twig
         raise ArgumentError,
           %{Can't set a branch property to an empty string.}
       else
-        Twig.run(%{git config branch.#{name}.#{property_name} "#{value}"})
+        git_config = "branch.#{name}.#{property_name}"
+        Twig.run(%{git config #{git_config} "#{value}"})
         result_body = %{property "#{property_name}" as "#{value}" for branch "#{name}".}
         if $?.success?
           "Saved #{result_body}"
@@ -115,7 +116,8 @@ class Twig
       value = get_property(property_name)
 
       if value
-        Twig.run(%{git config --unset branch.#{name}.#{property_name}})
+        git_config = "branch.#{name}.#{property_name}"
+        Twig.run(%{git config --unset #{git_config}})
         %{Removed property "#{property_name}" for branch "#{name}".}
       else
         raise MissingPropertyError,
