@@ -122,8 +122,9 @@ class Twig
 
         property_name_width = property_name.to_s.size
         property_value = property_value.to_i
+        min_property_value = [property_name_width, MIN_PROPERTY_WIDTH].max
 
-        if property_value < [property_name_width, MIN_PROPERTY_WIDTH].max
+        if property_value < min_property_value
           error = %{The value `--#{property_name}-width=#{property_value}` } +
             %{is too low. The minimum is }
 
