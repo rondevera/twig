@@ -147,7 +147,10 @@ class Twig
       string_options << WEIGHTS[options[:weight]] if options[:weight]
       return string if string_options.empty?
 
-      "\e[#{string_options.join(';')}m#{string}\e[0m"
+      open_format  = "\e[#{string_options.join(';')}m"
+      close_format = "\e[0m"
+
+      open_format + string.to_s + close_format
     end
 
     def unformat_string(string)
