@@ -20,8 +20,9 @@ Twig::GithubRepo.new do |gh_repo|
   print 'Getting latest states for GitHub issues...'
 
   issues = {}
+  issues_uri_prefix = 'https://api.github.com'
   issues_uri_base =
-    "https://api.github.com/repos/#{gh_repo.username}/#{gh_repo.repository}/issues"
+    "#{issues_uri_prefix}/repos/#{gh_repo.username}/#{gh_repo.repository}/issues"
   issues_uris = [
     URI.parse("#{issues_uri_base}?state=open"),
     URI.parse("#{issues_uri_base}?state=closed")
