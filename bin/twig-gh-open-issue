@@ -25,7 +25,8 @@ Twig::GithubRepo.new do |gh_repo|
     abort %{The branch "#{branch_name}" doesn't have an "issue" property.}
   end
 
-  url = "https://github.com/#{gh_repo.username}/#{gh_repo.repository}"
+  gh_url_prefix = 'https://github.com'
+  url = "#{gh_url_prefix}/#{gh_repo.username}/#{gh_repo.repository}"
   url << "/issues/#{issue_id}"
 
   puts "GitHub issue URL: #{url}"
