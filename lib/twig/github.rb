@@ -1,3 +1,5 @@
+require 'uri'
+
 class Twig
   class GithubRepo
     def initialize
@@ -21,7 +23,9 @@ class Twig
     end
 
     def github_repo?
-      origin_url.include?('github.com')
+      gh_url_prefix = 'https://github.com'
+      uri = URI.parse(gh_url_prefix)
+      origin_url.include?(uri.host)
     end
 
     def username
