@@ -143,6 +143,12 @@ describe Twig::Options do
       end
     end
 
+    it 'sets a :github_uri_prefix option' do
+      prefix = 'http://github-enterprise.example.com'
+      @twig.set_option(:github_uri_prefix, prefix)
+      @twig.options[:github_uri_prefix].should == prefix
+    end
+
     it 'sets a :header_style option' do
       style = 'red bold'
       @twig.should_receive(:set_header_style_option).with(style)

@@ -58,6 +58,9 @@ class Twig
           abort %{The branch "#{value}" could not be found.}
         end
 
+      when :github_uri_prefix
+        options[:github_uri_prefix] = value
+
       when :header_style
         set_header_style_option(value)
 
