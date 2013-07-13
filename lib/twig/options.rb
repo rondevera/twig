@@ -44,6 +44,12 @@ class Twig
             property_name = key.sub(/-width$/, '').to_sym
             set_option(:property_width, property_name => value)
 
+          # GitHub integration:
+          when 'github-api-uri-prefix'
+            set_option(:github_api_uri_prefix, value)
+          when 'github-uri-prefix'
+            set_option(:github_uri_prefix, value)
+
           end
         end
       end

@@ -41,11 +41,17 @@ describe Twig::Options do
         # Displaying branches:
         'header-style:  green bold',
         'reverse:       true',
-        'foo-width:     4'
+        'foo-width:     4',
+
+        # GitHub integration:
+        'github-api-uri-prefix: http://github-enterprise-api.example.com',
+        'github-uri-prefix:     http://github-enterprise.example.com'
       ].join("\n"))
 
       # Check preconditions
       @twig.options[:branch].should be_nil
+      @twig.options[:github_api_uri_prefix].should be_nil
+      @twig.options[:github_uri_prefix].should be_nil
       @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
       @twig.options[:header_weight].should be_nil
       @twig.options[:max_days_old].should be_nil
@@ -57,6 +63,10 @@ describe Twig::Options do
       @twig.read_config_file!
 
       @twig.options[:branch].should == 'test'
+      @twig.options[:github_api_uri_prefix].
+        should == 'http://github-enterprise-api.example.com'
+      @twig.options[:github_uri_prefix].
+        should == 'http://github-enterprise.example.com'
       @twig.options[:header_color].should == :green
       @twig.options[:header_weight].should == :bold
       @twig.options[:max_days_old].should == 30.5
