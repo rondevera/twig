@@ -44,8 +44,8 @@ describe Twig::Options do
         'foo-width:     4',
 
         # GitHub integration:
-        'github-api-uri-prefix: http://github-enterprise-api.example.com',
-        'github-uri-prefix:     http://github-enterprise.example.com'
+        'github-api-uri-prefix: https://github-enterprise.example.com/api/v3',
+        'github-uri-prefix:     https://github-enterprise.example.com'
       ].join("\n"))
 
       # Check preconditions
@@ -64,9 +64,9 @@ describe Twig::Options do
 
       @twig.options[:branch].should == 'test'
       @twig.options[:github_api_uri_prefix].
-        should == 'http://github-enterprise-api.example.com'
+        should == 'https://github-enterprise.example.com/api/v3'
       @twig.options[:github_uri_prefix].
-        should == 'http://github-enterprise.example.com'
+        should == 'https://github-enterprise.example.com'
       @twig.options[:header_color].should == :green
       @twig.options[:header_weight].should == :bold
       @twig.options[:max_days_old].should == 30.5
@@ -154,13 +154,13 @@ describe Twig::Options do
     end
 
     it 'sets a :github_api_uri_prefix option' do
-      prefix = 'http://github-enterprise-api.example.com'
+      prefix = 'https://github-enterprise.example.com/api/v3'
       @twig.set_option(:github_api_uri_prefix, prefix)
       @twig.options[:github_api_uri_prefix].should == prefix
     end
 
     it 'sets a :github_uri_prefix option' do
-      prefix = 'http://github-enterprise.example.com'
+      prefix = 'https://github-enterprise.example.com'
       @twig.set_option(:github_uri_prefix, prefix)
       @twig.options[:github_uri_prefix].should == prefix
     end
