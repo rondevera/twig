@@ -240,6 +240,32 @@ class Twig
 
 
 
+        help_separator(opts, 'GitHub integration:')
+
+        desc = <<-DESC
+          Set a custom GitHub API URI prefix, e.g.,
+          https://github-enterprise.example.com/api/v3.
+        DESC
+        opts.on(
+          '--github-api-uri-prefix PREFIX',
+          *help_description(desc, :add_separator => true)
+        ) do |prefix|
+          set_option(:github_api_uri_prefix, prefix)
+        end
+
+        desc = <<-DESC
+          Set a custom GitHub URI prefix, e.g.,
+          https://github-enterprise.example.com.
+        DESC
+        opts.on(
+          '--github-uri-prefix PREFIX',
+          *help_description(desc, :add_separator => true)
+        ) do |prefix|
+          set_option(:github_uri_prefix, prefix)
+        end
+
+
+
         help_separator(opts, help_paragraph(%{
           You can put your most frequently used options for filtering and
           listing branches into #{Twig::Options::CONFIG_FILE}. For example:

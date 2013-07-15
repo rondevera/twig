@@ -304,6 +304,24 @@ describe Twig::Cli do
       @twig.options[:reverse].should be_true
     end
 
+    it 'recognizes `--github-api-uri-prefix`' do
+      @twig.options[:github_api_uri_prefix].should be_nil
+      prefix = 'https://github-enterprise.example.com/api/v3'
+
+      @twig.read_cli_options!(['--github-api-uri-prefix', prefix])
+
+      @twig.options[:github_api_uri_prefix].should == prefix
+    end
+
+    it 'recognizes `--github-uri-prefix`' do
+      @twig.options[:github_uri_prefix].should be_nil
+      prefix = 'https://github-enterprise.example.com'
+
+      @twig.read_cli_options!(['--github-uri-prefix', prefix])
+
+      @twig.options[:github_uri_prefix].should == prefix
+    end
+
     it 'handles invalid options' do
       @twig.should_receive(:abort_for_option_exception) do |exception|
         exception.should be_a(OptionParser::InvalidOption)
