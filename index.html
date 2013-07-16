@@ -1,9 +1,10 @@
 ---
-version:         1.3
-issues-url:      https://github.com/rondevera/twig/issues
-readme-url:      https://github.com/rondevera/twig/#readme
-repo-url:        https://github.com/rondevera/twig
-subcommands-url: https://github.com/rondevera/twig#subcommands
+version:                  1.3
+issues-url:               https://github.com/rondevera/twig/issues
+readme-url:               https://github.com/rondevera/twig/#readme
+repo-url:                 https://github.com/rondevera/twig
+subcommands-url:          https://github.com/rondevera/twig#subcommands
+subcommands-writing-url:  https://github.com/rondevera/twig#writing-a-subcommand
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -219,6 +220,12 @@ subcommands-url: https://github.com/rondevera/twig#subcommands
       font-weight: 300;
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
     }
+    h3 {
+      margin: 1.5em 0 0;
+      font-size: 1.5em;
+      font-weight: 300;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
     pre, code {
       margin: 0;
       padding: 0;
@@ -404,14 +411,19 @@ Saved property "rebase-onto" as "branch1" for branch "branch2".
   <h2 id="subcommands">Subcommands</h2>
 
   <p>
-    Twig comes with a few subcommands that are handy for use with GitHub
-    repositories: <code>gh-open</code>, <code>gh-open-issue</code>, and
-    <code>gh-update</code>.
+    A Twig subcommand is a little script that makes use of a branch&rsquo;s Twig
+    properties. You can
+    <a href="{{page.subcommands-writing-url}}">write your own</a>,
+    but here are some subcommands that Twig comes with.
   </p>
 
+
+
+  <h3 id="twig-gh-open">twig gh-open</h3>
+
   <p>
-    While inside a Git repo, run <code>twig gh-open</code> to see the repo's
-    GitHub URL, and open a browser window if possible:
+    While inside a Git repo, run <code>twig gh-open</code> to see the
+    repo&rsquo;s GitHub URL, and open a browser window if possible:
   </p>
 
   <pre class="example"><code>
@@ -421,6 +433,10 @@ Saved property "rebase-onto" as "branch1" for branch "branch2".
 GitHub URL: https://github.com/myname/myproject
 <span class="comment"># Also opens a browser window (OS X only).</span>
   </code></pre>
+
+
+
+  <h3 id="twig-gh-update">twig gh-update</h3>
 
   <p>
     If you&rsquo;re working on an issue for a GitHub repository, the
@@ -459,6 +475,10 @@ Saved property "issue" as "222" for branch "add-feature".
     Run <code>twig gh-update</code> periodically to keep up with GitHub issues
     locally.
   </p>
+
+
+
+  <h3 id="twig-gh-open-issue">twig gh-open-issue</h3>
 
   <p>
     For any branch that has an <code>issue</code> property, you can use the
