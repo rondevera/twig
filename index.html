@@ -436,6 +436,26 @@ GitHub URL: https://github.com/myname/myproject
 
 
 
+  <h3 id="twig-gh-open-issue">twig gh-open-issue</h3>
+
+  <p>
+    For any branch that has an <code>issue</code> property, you can use the
+    <code>gh-open-issue</code> subcommand to view that issue on GitHub:
+  </p>
+
+  <pre class="example"><code>
+<span class="comment"># Current branch:</span>
+<span class="prompt">$</span> twig gh-open-issue
+GitHub issue URL: https://github.com/myname/myproject/issues/111
+<span class="comment"># Also opens a browser window.</span>
+
+<span class="comment"># Any branch:</span>
+<span class="prompt">$</span> twig gh-open-issue -b &lt;branch name&gt;
+GitHub issue URL: https://github.com/myname/myproject/issues/222
+  </code></pre>
+
+
+
   <h3 id="twig-gh-update">twig gh-update</h3>
 
   <p>
@@ -477,24 +497,6 @@ Saved property "issue" as "222" for branch "add-feature".
   </p>
 
 
-
-  <h3 id="twig-gh-open-issue">twig gh-open-issue</h3>
-
-  <p>
-    For any branch that has an <code>issue</code> property, you can use the
-    <code>gh-open-issue</code> subcommand to view that issue on GitHub:
-  </p>
-
-  <pre class="example"><code>
-<span class="comment"># Current branch:</span>
-<span class="prompt">$</span> twig gh-open-issue
-GitHub issue URL: https://github.com/myname/myproject/issues/111
-<span class="comment"># Also opens a browser window.</span>
-
-<span class="comment"># Any branch:</span>
-<span class="prompt">$</span> twig gh-open-issue -b &lt;branch name&gt;
-GitHub issue URL: https://github.com/myname/myproject/issues/222
-  </code></pre>
 
   <p>
     You can write any Twig subcommand that fits your Git workflow. Some ideas:
