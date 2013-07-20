@@ -10,8 +10,13 @@ require 'twig'
 require 'launchy'
 
 Twig::GithubRepo.new do |gh_repo|
-  gh_url_prefix = 'https://github.com'
-  url = "#{gh_url_prefix}/#{gh_repo.username}/#{gh_repo.repository}"
+  twig = Twig.new
+  twig.read_config_file!
+  twig.read_cli_args!(ARGV)
+
+  gh_uri_prefix = twig.options[:github_uri_prefix] || 'https://github.com'
+  url = "#{gh_uri_prefix}/#{gh_repo.username}/#{gh_repo.repository}"
+
   puts "GitHub URL: #{url}"
   Launchy.open(url) rescue nil
 end
