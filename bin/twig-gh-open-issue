@@ -17,7 +17,9 @@ require 'launchy'
 
 Twig::GithubRepo.new do |gh_repo|
   twig = Twig.new
+  twig.read_config_file!
   twig.read_cli_options!(ARGV)
+
   branch_name = twig.options[:branch] || twig.current_branch_name
   issue_id = twig.get_branch_property(branch_name, 'issue')
 
@@ -25,8 +27,8 @@ Twig::GithubRepo.new do |gh_repo|
     abort %{The branch "#{branch_name}" doesn't have an "issue" property.}
   end
 
-  gh_url_prefix = 'https://github.com'
-  url = "#{gh_url_prefix}/#{gh_repo.username}/#{gh_repo.repository}"
+  gh_uri_prefix = twig.options[:github_uri_prefix] || 'https://github.com'
+  url = "#{gh_uri_prefix}/#{gh_repo.username}/#{gh_repo.repository}"
   url << "/issues/#{issue_id}"
 
   puts "GitHub issue URL: #{url}"
