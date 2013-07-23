@@ -12,7 +12,7 @@ require 'launchy'
 Twig::GithubRepo.new do |gh_repo|
   twig = Twig.new
   twig.read_config_file!
-  twig.read_cli_args!(ARGV)
+  twig.read_cli_options!(ARGV)
 
   gh_uri_prefix = twig.options[:github_uri_prefix] || 'https://github.com'
   url = "#{gh_uri_prefix}/#{gh_repo.username}/#{gh_repo.repository}"
