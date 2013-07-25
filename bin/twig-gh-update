@@ -29,6 +29,9 @@ Twig::GithubRepo.new do |gh_repo|
   ]
   user_agent = "Twig/#{Twig::VERSION} (for Git; <#{Twig::HOMEPAGE}>)"
 
+  error = "\n\nERROR: Couldn't get open issues from GitHub." <<
+    "\n- API endpoints: " << issues_uris.map { |uri| "<#{uri}>" }.join(', ')
+
   begin
     issues_uris.each do |issues_uri|
       http = Net::HTTP.new(issues_uri.host, issues_uri.port)
@@ -46,10 +49,11 @@ Twig::GithubRepo.new do |gh_repo|
           issues[issue_data['number']] = issue_data
         end
       else
-        abort "\nERROR: Couldn't get open issues from GitHub. " <<
-          "(Response: #{response.code})"
+        abort error + "\n- Response: #{response.code}"
       end
     end
+  rescue OpenSSL::SSL::SSLError => exception
+    abort error
   end
 
   twig.branches.each do |branch|
