@@ -11,6 +11,8 @@ Twig
 * ENHANCEMENT: Add `twig init-completion --force` for overwriting existing
   completion scripts. Useful for upgrading to the latest Twig completion
   scripts.
+* ENHANCEMENT: Improve `twig gh-update` error reporting by listing the affected
+  API endpoints upon failure.
 
 1.3 (2013-05-22)
 ----------------
