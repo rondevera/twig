@@ -222,6 +222,21 @@ open a browser window if possible:
     GitHub URL: https://github.com/myname/myproject
 
 
+twig gh-open-issue
+------------------
+
+For any branch that has an `issue` property, you can use the `gh-open-issue`
+subcommand to view that issue on GitHub:
+
+    # Current branch:
+    $ twig gh-open-issue
+    GitHub issue URL: https://github.com/myname/myproject/issues/111
+
+    # Any branch:
+    $ twig gh-open-issue -b <branch name>
+    GitHub issue URL: https://github.com/myname/myproject/issues/222
+
+
 twig gh-update
 --------------
 
@@ -255,21 +270,6 @@ subcommand syncs issue statuses with GitHub:
     2013-01-22 17:12:23 (4d ago)  -      -         master
 
 Run `twig gh-update` periodically to keep up with GitHub issues locally.
-
-
-twig gh-open-issue
-------------------
-
-For any branch that has an `issue` property, you can use the `gh-open-issue`
-subcommand to view that issue on GitHub:
-
-    # Current branch:
-    $ twig gh-open-issue
-    GitHub issue URL: https://github.com/myname/myproject/issues/111
-
-    # Any branch:
-    $ twig gh-open-issue -b <branch name>
-    GitHub issue URL: https://github.com/myname/myproject/issues/222
 
 
 Writing a subcommand
