@@ -258,6 +258,7 @@ subcommand syncs issue statuses with GitHub:
     2013-01-22 17:12:23 (4d ago)  -      -         master
 
     $ twig gh-update
+    Getting latest states for GitHub issues...
     # Automatically looks up the GitHub issue status for each
     # of your local branches, and saves it locally.
 
