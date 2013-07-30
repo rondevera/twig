@@ -274,7 +274,8 @@ class Twig
         help_separator(opts, [
           '      except-branch: staging',
           '      header-style:  green bold',
-          '      max-days-old:  30'
+          '      max-days-old:  30',
+          '      reverse:       true',
         ].join("\n"), :trailing => '')
 
         help_separator(opts, help_paragraph(%{
