@@ -24,6 +24,27 @@ describe Twig::Options do
       @twig.options[:branch].should == 'test'
     end
 
+    it 'reads an option if only the deprecated config file exists' do
+      @twig.stub(:all_branch_names => ['test'])
+      file = double('file')
+      path = Twig::CONFIG_FILE
+      deprecated_path = Twig::DEPRECATED_CONFIG_FILE
+      File.should_receive(:readable?).with(path).and_return(false)
+      File.should_receive(:readable?).with(deprecated_path).and_return(true)
+      File.should_receive(:expand_path).with(deprecated_path).
+        and_return(deprecated_path)
+      File.should_receive(:open).with(deprecated_path).and_yield(file)
+      file.should_receive(:read).and_return('branch: test')
+      @twig.should_receive(:puts) do |message|
+        message.should =~ /^DEPRECATED:/
+      end
+      @twig.options[:branch].should be_nil
+
+      @twig.read_config_file!
+
+      @twig.options[:branch].should == 'test'
+    end
+
     it 'reads and sets multiple options' do
       @twig.stub(:all_branch_names => ['test'])
       file = double('file')
@@ -120,7 +141,12 @@ describe Twig::Options do
     end
 
     it 'fails gracefully if the config file is not readable' do
-      File.should_receive(:readable?).with(Twig::CONFIG_FILE).and_return(false)
+      path = Twig::CONFIG_FILE
+      deprecated_path = Twig::DEPRECATED_CONFIG_FILE
+      File.should_receive(:readable?).with(path).and_return(false)
+      File.should_receive(:readable?).with(deprecated_path).and_return(false)
+      File.should_receive(:expand_path).with(deprecated_path).
+        and_return(deprecated_path)
       lambda { @twig.read_config_file! }.should_not raise_exception
     end
   end
