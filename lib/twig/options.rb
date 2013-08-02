@@ -1,17 +1,17 @@
 class Twig
   module Options
 
-    CONFIG_FILE = '~/.twigconfig'
-    DEPRECATED_CONFIG_FILE = '~/.twigrc'
+    CONFIG_PATH = '~/.twigconfig'
+    DEPRECATED_CONFIG_PATH = '~/.twigrc'
     MIN_PROPERTY_WIDTH = 3
 
     def read_config_file!
-      config_file_path = File.expand_path(Twig::CONFIG_FILE)
+      config_file_path = File.expand_path(Twig::CONFIG_PATH)
       unless File.readable?(config_file_path)
-        config_file_path = File.expand_path(Twig::DEPRECATED_CONFIG_FILE)
+        config_file_path = File.expand_path(Twig::DEPRECATED_CONFIG_PATH)
         if File.readable?(config_file_path)
-          puts "DEPRECATED: #{DEPRECATED_CONFIG_FILE} is deprecated. " <<
-            "Please rename it to #{CONFIG_FILE}."
+          puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " <<
+            "Please rename it to #{CONFIG_PATH}."
         else
           return
         end

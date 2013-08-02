@@ -186,7 +186,7 @@ class Twig
         desc =
           'Lists all branches regardless of other filtering options. ' +
           'Useful for overriding options in ' +
-          File.basename(Twig::Options::CONFIG_FILE) + '.'
+          File.basename(Twig::Options::CONFIG_PATH) + '.'
         opts.on('--all', *help_description(desc)) do |pattern|
           unset_option(:max_days_old)
           unset_option(:property_except)
@@ -268,7 +268,7 @@ class Twig
 
         help_separator(opts, help_paragraph(%{
           You can put your most frequently used options for filtering and
-          listing branches into #{Twig::Options::CONFIG_FILE}. For example:
+          listing branches into #{Twig::Options::CONFIG_PATH}. For example:
         }), :trailing => '')
 
         help_separator(opts, [
