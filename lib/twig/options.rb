@@ -6,10 +6,10 @@ class Twig
     MIN_PROPERTY_WIDTH = 3
 
     def read_config_file!
-      config_file_path = File.expand_path(Twig::CONFIG_PATH)
-      unless File.readable?(config_file_path)
-        config_file_path = File.expand_path(Twig::DEPRECATED_CONFIG_PATH)
-        if File.readable?(config_file_path)
+      config_path = File.expand_path(Twig::CONFIG_PATH)
+      unless File.readable?(config_path)
+        config_path = File.expand_path(Twig::DEPRECATED_CONFIG_PATH)
+        if File.readable?(config_path)
           puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " <<
             "Please rename it to #{CONFIG_PATH}."
         else
@@ -17,7 +17,7 @@ class Twig
         end
       end
 
-      File.open(config_file_path) do |f|
+      File.open(config_path) do |f|
         opts = f.read.split("\n").inject({}) do |hsh, line|
           line = line.strip
 
