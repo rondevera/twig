@@ -13,6 +13,7 @@ Twig
   scripts.
 * ENHANCEMENT: Improve `twig gh-update` error reporting by listing the affected
   API endpoints upon failure.
+* FIX: Deprecate `~/.twigrc` in favor of `~/.twigconfig`.
 
 1.3 (2013-05-22)
 ----------------
