@@ -10,7 +10,7 @@ class Twig
       unless File.readable?(config_path)
         config_path = File.expand_path(Twig::DEPRECATED_CONFIG_PATH)
         if File.readable?(config_path)
-          puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " <<
+          $stderr.puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " <<
             "Please rename it to #{CONFIG_PATH}."
         else
           return

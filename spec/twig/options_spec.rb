@@ -35,7 +35,7 @@ describe Twig::Options do
         and_return(deprecated_path)
       File.should_receive(:open).with(deprecated_path).and_yield(file)
       file.should_receive(:read).and_return('branch: test')
-      @twig.should_receive(:puts) do |message|
+      $stderr.should_receive(:puts) do |message|
         message.should =~ /^DEPRECATED:/
       end
       @twig.options[:branch].should be_nil
