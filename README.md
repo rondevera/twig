@@ -176,7 +176,7 @@ to remember which branch to diff against. `twig diff` makes it easy:
 More usage:
 
     # Generate a diff between any given branch and its `diff-branch`:
-    $ twig diff branch3
+    $ twig diff my-other-branch
 
     # Pass options through to `git diff`:
     $ twig diff --stat
@@ -199,12 +199,12 @@ If you have a stack of branches that you need to rebase in the same order,
 
     # Rebase branch2 (the current branch) onto branch1:
     $ twig rebase
-    Rebase "rebase_subcommand" onto "development"? (y/n)
+    Rebase "branch2" onto "development"? (y/n)
 
 More usage:
 
     # Rebase any given branch onto its `diff-branch`:
-    $ twig rebase branch3
+    $ twig rebase my-other-branch
 
     # Pass options through to `git rebase`:
     $ twig rebase -i
