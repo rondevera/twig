@@ -17,8 +17,8 @@ class Twig
         end
       end
 
-      File.open(config_path) do |f|
-        opts = f.read.split("\n").inject({}) do |hsh, line|
+      File.open(config_path) do |file|
+        opts = file.read.split("\n").inject({}) do |hsh, line|
           line = line.strip
 
           if line !~ /^#/
