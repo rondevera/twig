@@ -419,6 +419,40 @@ Saved property "diff-branch" as "branch1" for branch "branch2".
 
 
 
+  <h3 id="twig-diff">twig diff</h3>
+
+  <p>
+    If you have a stack of branches with different parent branches, it gets
+    tricky to remember which branch to diff against. <code>twig diff</code>
+    makes it easy:
+  </p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> git checkout branch2
+
+<span class="comment"># Remember your branch's diff branch:</span>
+<span class="prompt">$</span> twig diff-branch branch1
+Saved property "diff-branch" as "branch1" for branch "branch2".
+
+<span class="comment"># Generate a diff between branch1 (the current branch) and branch2:</span>
+<span class="prompt">$</span> twig diff
+  </code></pre>
+
+  <p>More usage:</p>
+
+  <pre class="example"><code>
+<span class="comment"># Generate a diff between any given branch and its `diff-branch`:</span>
+<span class="prompt">$</span> twig diff my-other-branch
+
+<span class="comment"># Pass options through to `git diff`:</span>
+<span class="prompt">$</span> twig diff --stat
+
+<span class="comment"># Pipe results to a diff viewer:</span>
+<span class="prompt">$</span> twig diff | gitx
+  </code></pre>
+
+
+
   <h3 id="twig-gh-open">twig gh-open</h3>
 
   <p>
