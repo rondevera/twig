@@ -1,6 +1,8 @@
 Twig
 ====
 
+1.4 (2013-08-07)
+----------------
 * ENHANCEMENT: Speed up listing branches by 3–4x.
 * ENHANCEMENT: Add `twig diff`, which diffs the current branch against its
   `diff-branch` property, and `twig diff <branch>`, which diffs the given branch
