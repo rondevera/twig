@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Ron DeVera']
   spec.email         = ["hello@rondevera.com"]
   spec.homepage      = Twig::HOMEPAGE
+  spec.license       = 'MIT'
   spec.summary       = %{Your personal Git branch assistant.}
   spec.description   =
     'Twig is your personal Git branch assistant. It\'s a command-line tool ' <<
