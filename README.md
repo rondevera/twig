@@ -1,6 +1,8 @@
 Twig: Your personal Git branch assistant.
 =========================================
 
+[![Gem Version](https://badge.fury.io/rb/twig.png)](http://badge.fury.io/rb/twig)
+
 It's hard enough trying to remember the names of all of your Git branches. You
 also need those branches' issue tracker ids, issue statuses, and reminders of
 what to do next with each branch. `git branch` only lists them in alphabetical
