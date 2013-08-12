@@ -2,6 +2,7 @@ Twig: Your personal Git branch assistant.
 =========================================
 
 [![Gem Version](https://badge.fury.io/rb/twig.png)](http://badge.fury.io/rb/twig)
+[![Build Status](https://travis-ci.org/rondevera/twig.png?branch=development)](https://travis-ci.org/rondevera/twig)
 
 It's hard enough trying to remember the names of all of your Git branches. You
 also need those branches' issue tracker ids, issue statuses, and reminders of
