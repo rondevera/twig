@@ -8,11 +8,21 @@ class Twig
 
   attr_accessor :options
 
+  DEFAULT_HEADER_COLOR = :blue
   REF_FORMAT_SEPARATOR = ','
   REF_FORMAT = %w[refname:short committerdate committerdate:relative].
                 map { |field| '%(' + field + ')' }.join(REF_FORMAT_SEPARATOR)
   REF_PREFIX = 'refs/heads/'
-  DEFAULT_HEADER_COLOR = :blue
+  SUBCOMMANDS = %w[
+    diff
+    gh-open
+    gh-open-issue
+    gh-update
+    help
+    init-completion
+    init-completion-bash
+    rebase
+  ]
 
   def self.run(command)
     `#{command}`.strip
