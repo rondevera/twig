@@ -7,6 +7,8 @@
 # Author: Ron DeVera <http://rondevera.com>
 
 require 'fileutils'
+require 'rubygems'
+require 'twig'
 
 version = `twig --version`.strip
 script = <<-SCRIPT
@@ -30,6 +32,14 @@ __twig_branches() {
   return 0
 }
 
+__twig_subcommands() {
+  local current words
+  current="${COMP_WORDS[COMP_CWORD]}"
+  words="#{Twig::SUBCOMMANDS.join(' ')}"
+  COMPREPLY=($(compgen -W "$words" -- "$current"))
+  return 0
+}
+
 __twig() {
   if [ -z "$(git rev-parse HEAD 2>/dev/null)" ]; then
     return 0;
@@ -42,6 +52,7 @@ __twig() {
   diff)         __twig_branches ;;
   diff-branch)  __twig_branches ;;
   rebase)       __twig_branches ;;
+  twig)         __twig_subcommands ;;
   esac
 
   return 0
