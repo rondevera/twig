@@ -79,10 +79,10 @@ them by age, name, and custom properties:
 * `twig --all`:
   List all branches regardless of other filtering options
 
-You can put your most frequently used options into `~/.twigrc`, and they'll be
-automatically included when you run `twig`. Example:
+You can put your most frequently used options into `~/.twigconfig`, and they'll
+be automatically included when you run `twig`. Example:
 
-    # ~/.twigrc:
+    # ~/.twigconfig:
     except-branch: staging
     header-style:  green bold
     max-days-old:  30
