@@ -10,12 +10,11 @@ require 'fileutils'
 require 'rubygems'
 require 'twig'
 
-version = `twig --version`.strip
 script = <<-SCRIPT
 
 #!/usr/bin/env bash
 
-# AUTO-GENERATED with Twig v#{version}. Regenerate with
+# AUTO-GENERATED with Twig v#{Twig::VERSION}. Regenerate with
 # `twig init-completion --force`.
 #
 # Initializes bash tab completion for Twig. To use this, run
