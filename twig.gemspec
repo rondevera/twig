@@ -12,11 +12,13 @@ Gem::Specification.new do |spec|
   spec.homepage      = Twig::HOMEPAGE
   spec.license       = 'MIT'
   spec.summary       = %{Your personal Git branch assistant.}
-  spec.description   =
-    'Twig is your personal Git branch assistant. It\'s a command-line tool ' <<
-    'for tracking progress on your branches, remembering ticket ids for ' <<
-    'each branch, and more. Twig supports subcommands for managing branches ' <<
-    'however you want.'
+  spec.description   = %w[
+    Twig is your personal Git branch assistant. It's a command-line tool for
+    listing your most recent branches, and for remembering each branch's ticket
+    ids, todos, and other details. Twig supports subcommands for managing
+    branches however you want. It's flexible enough to fit your every Git
+    workflow, and will save you a ton of time.
+  ].join(' ')
   spec.post_install_message =
     "\n**************************************************************" <<
     "\n*                                                            *" <<
