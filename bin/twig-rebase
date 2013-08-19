@@ -35,7 +35,7 @@ rebase_options = args.join(' ') # Pass remaining options to `git-rebase`
 abort if base_branch.empty?
 
 print %{Rebase "#{topic_branch}" onto "#{base_branch}"? (y/n) }
-input = STDIN.gets.strip.downcase
+input = $stdin.gets.strip.downcase
 if input == 'y' || input == 'yes'
   exec %{git rebase #{rebase_options} "#{base_branch}" "#{topic_branch}"}
 else
