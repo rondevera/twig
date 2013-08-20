@@ -1,6 +1,9 @@
 Twig
 ====
 
+* ENHANCEMENT: Add tab completion for known subcommands, like `twig diff` and
+  `twig gh-update`.
+
 1.4 (2013-08-07)
 ----------------
 * ENHANCEMENT: Speed up listing branches by 3–4x.
