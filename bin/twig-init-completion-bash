@@ -34,7 +34,7 @@ __twig_branches() {
 __twig_subcommands() {
   local current words
   current="${COMP_WORDS[COMP_CWORD]}"
-  words="#{Twig::SUBCOMMANDS.join(' ')}"
+  words="#{Twig::Subcommands.all_names.join(' ')}"
   COMPREPLY=($(compgen -W "$words" -- "$current"))
   return 0
 }
