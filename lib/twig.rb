@@ -13,16 +13,6 @@ class Twig
   REF_FORMAT = %w[refname:short committerdate committerdate:relative].
                 map { |field| '%(' + field + ')' }.join(REF_FORMAT_SEPARATOR)
   REF_PREFIX = 'refs/heads/'
-  SUBCOMMANDS = %w[
-    diff
-    gh-open
-    gh-open-issue
-    gh-update
-    help
-    init-completion
-    init-completion-bash
-    rebase
-  ]
 
   def self.run(command)
     `#{command}`.strip
