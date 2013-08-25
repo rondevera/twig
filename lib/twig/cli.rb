@@ -298,8 +298,8 @@ class Twig
     def read_cli_args!(args)
       if args.any?
         # Run subcommand binary, if any, and exit here
-        possible_subcommand_name = args[0]
-        command_path = Twig.run("which twig-#{possible_subcommand_name} 2>/dev/null")
+        possible_subcommand_name = Twig::Subcommands::BIN_PREFIX + args[0]
+        command_path = Twig.run("which #{possible_subcommand_name} 2>/dev/null")
         unless command_path.empty?
           command = ([command_path] + args[1..-1]).join(' ')
           exec(command)
