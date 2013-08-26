@@ -1,8 +1,8 @@
 Twig
 ====
 
-* ENHANCEMENT: Add tab completion for known subcommands, like `twig diff` and
-  `twig gh-update`.
+* ENHANCEMENT: Add tab completion for all subcommands, built-in (e.g., `twig
+  diff`, `twig gh-update`) and custom.
 
 1.4 (2013-08-07)
 ----------------
