@@ -123,6 +123,7 @@ describe Twig::Cli do
   describe '#read_cli_options!' do
     before :each do
       @twig = Twig.new
+      @twig.stub(:run_pager)
     end
 
     it 'recognizes `--unset` and sets an `:unset_property` option' do

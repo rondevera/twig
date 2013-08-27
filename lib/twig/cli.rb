@@ -93,6 +93,36 @@ class Twig
       is_custom_property_width
     end
 
+    def run_pager
+      # Starts a pager so that all following STDOUT output is paginated.
+      # Based on: http://nex-3.com/posts/73-git-style-automatic-paging-in-ruby
+
+      return if RUBY_PLATFORM =~ /win32/ || !$stdout.tty?
+
+      read_io, write_io = IO.pipe
+
+      # Create child process
+      unless Kernel.fork
+        # The following runs only in the child process:
+        $stdout.reopen(write_io)
+        $stderr.reopen(write_io) if $stderr.tty?
+        read_io.close
+        write_io.close
+        return
+      end
+
+      $stdin.reopen(read_io)
+      read_io.close
+      write_io.close
+
+      ENV['LESS'] = 'FSRX'      # Don't page if the input fits on screen
+      Kernel.select([$stdin])   # Wait for input before starting pager
+
+      # Turn parent process into pager
+      pager = ENV['PAGER'] || 'less'
+      exec pager rescue exec '/bin/sh', '-c', pager
+    end
+
     def read_cli_options!(args)
       custom_properties = Twig::Branch.all_property_names
 
@@ -120,6 +150,7 @@ class Twig
         desc = 'Show this help content.'
         opts.on('--help', *help_description(desc)) do
           summary_lines = opts.to_s.split("\n")
+          run_pager
 
           # Filter out custom property lines
           prev_line = nil
