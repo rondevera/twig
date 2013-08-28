@@ -120,6 +120,42 @@ describe Twig::Cli do
     end
   end
 
+  describe '#run_pager' do
+    before :each do
+      @twig = Twig.new
+    end
+
+    it 'turns the current process into a `less` pager' do
+      Kernel.stub(:fork) { true }
+      @twig.should_receive(:exec).with('less')
+
+      @twig.run_pager
+    end
+
+    it 'turns the current process into a custom pager' do
+      Kernel.stub(:fork) { true }
+      pager = 'arbitrary'
+      ENV.should_receive(:[]).with('PAGER').and_return(pager)
+      @twig.should_receive(:exec).with(pager)
+
+      @twig.run_pager
+    end
+
+    it 'does nothing if running on Windows' do
+      stub_const('RUBY_PLATFORM', 'win32')
+      Kernel.should_not_receive(:fork)
+
+      @twig.run_pager
+    end
+
+    it 'does nothing if not running on a terminal device' do
+      $stdout.stub(:tty?) { false }
+      Kernel.should_not_receive(:fork)
+
+      @twig.run_pager
+    end
+  end
+
   describe '#read_cli_options!' do
     before :each do
       @twig = Twig.new
