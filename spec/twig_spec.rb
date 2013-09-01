@@ -5,20 +5,20 @@ describe Twig do
   describe '.repo?' do
     it 'is true when the working directory is a git repository' do
       Dir.chdir(File.dirname(__FILE__)) do
-        Twig.should be_repo
+        expect(Twig).to be_repo
       end
     end
 
     it 'is false when the working directory is not a git repository' do
       Dir.mktmpdir do |tmpdir|
         Dir.chdir(tmpdir) do
-          Twig.should_not be_repo
+          expect(Twig).not_to be_repo
         end
       end
     end
 
     it 'captures stderr' do
-      Twig.should_receive(:run).with(/2>&1/)
+      expect(Twig).to receive(:run).with(/2>&1/)
       Twig.repo?
     end
   end
@@ -26,9 +26,7 @@ describe Twig do
   describe '#initialize' do
     it 'creates a Twig instance' do
       twig = Twig.new
-      twig.options.should == {
-        :header_color => Twig::DEFAULT_HEADER_COLOR
-      }
+      expect(twig.options).to eq(:header_color => Twig::DEFAULT_HEADER_COLOR)
     end
   end
 
@@ -36,12 +34,12 @@ describe Twig do
     it 'returns the current branch name' do
       twig        = Twig.new
       branch_name = 'fix_all_the_things'
-      Twig.should_receive(:run).
+      expect(Twig).to receive(:run).
         with('git rev-parse --abbrev-ref HEAD').
         once. # Should memoize
         and_return(branch_name)
 
-      2.times { twig.current_branch_name.should == branch_name }
+      2.times { expect(twig.current_branch_name).to eq(branch_name) }
     end
   end
 
@@ -63,24 +61,27 @@ describe Twig do
     end
 
     it 'returns an array of branches' do
-      Twig.should_receive(:run).with(@command).and_return(@branch_tuples)
+      expect(Twig).to receive(:run).with(@command).and_return(@branch_tuples)
       twig = Twig.new
 
       branches = twig.all_branches
 
-      branches[0].name.should == @branch_names[0]
-      branches[0].last_commit_time.to_s.
-        should =~ %r{#{@commit_time_strings[0]} .* \(111d ago\)}
-      branches[1].name.should == @branch_names[1]
-      branches[1].last_commit_time.to_s.
-        should =~ %r{#{@commit_time_strings[1]} .* \(222d ago\)}
-      branches[2].name.should == @branch_names[2]
-      branches[2].last_commit_time.to_s.
-        should =~ %r{#{@commit_time_strings[2]} .* \(333d ago\)}
+      expect(branches[0].name).to eq(@branch_names[0])
+      expect(branches[0].last_commit_time.to_s).to match(
+        %r{#{@commit_time_strings[0]} .* \(111d ago\)}
+      )
+      expect(branches[1].name).to eq(@branch_names[1])
+      expect(branches[1].last_commit_time.to_s).to match(
+        %r{#{@commit_time_strings[1]} .* \(222d ago\)}
+      )
+      expect(branches[2].name).to eq(@branch_names[2])
+      expect(branches[2].last_commit_time.to_s).to match(
+        %r{#{@commit_time_strings[2]} .* \(333d ago\)}
+      )
     end
 
     it 'memoizes the result' do
-      Twig.should_receive(:run).with(@command).once.and_return(@branch_tuples)
+      expect(Twig).to receive(:run).with(@command).once.and_return(@branch_tuples)
       twig = Twig.new
 
       2.times { twig.all_branches }
@@ -112,25 +113,28 @@ describe Twig do
     end
 
     it 'returns all branches' do
-      @twig.branches.should == @branches
+      expect(@twig.branches).to eq(@branches)
     end
 
     it 'returns only branches below a certain age' do
       @twig.set_option(:max_days_old, 25)
-      @twig.branches.map { |branch| branch.name }.
-        should == [@branches[0].name, @branches[1].name]
+
+      branch_names = @twig.branches.map { |branch| branch.name }
+      expect(branch_names).to eq([@branches[0].name, @branches[1].name])
     end
 
     it 'returns all branches except those matching a name pattern' do
       @twig.set_option(:property_except, :branch => /fix_some/)
-      @twig.branches.map { |branch| branch.name }.
-        should == [@branches[2].name, @branches[3].name]
+
+      branch_names = @twig.branches.map { |branch| branch.name }
+      expect(branch_names).to eq([@branches[2].name, @branches[3].name])
     end
 
     it 'returns only branches matching a name pattern' do
       @twig.set_option(:property_only, :branch => /fix_some/)
-      @twig.branches.map { |branch| branch.name }.
-        should == [@branches[0].name, @branches[1].name]
+
+      branch_names = @twig.branches.map { |branch| branch.name }
+      expect(branch_names).to eq([@branches[0].name, @branches[1].name])
     end
 
     context 'with property filtering' do
@@ -143,14 +147,16 @@ describe Twig do
 
       it 'returns all branches except those matching a property pattern' do
         @twig.set_option(:property_except, :foo => /bar/)
-        @twig.branches.map { |branch| branch.name }.
-          should == [@branches[2].name, @branches[3].name]
+
+        branch_names = @twig.branches.map { |branch| branch.name }
+        expect(branch_names).to eq([@branches[2].name, @branches[3].name])
       end
 
       it 'returns only branches matching a property pattern' do
         @twig.set_option(:property_only, :foo => /bar/)
-        @twig.branches.map { |branch| branch.name }.
-          should == [@branches[0].name, @branches[1].name]
+
+        branch_names = @twig.branches.map { |branch| branch.name }
+        expect(branch_names).to eq([@branches[0].name, @branches[1].name])
       end
     end
   end
@@ -160,9 +166,9 @@ describe Twig do
       twig = Twig.new
       branch_names = %w[foo bar baz]
       branches = branch_names.map { |name| Twig::Branch.new(name) }
-      twig.should_receive(:all_branches).and_return(branches)
+      expect(twig).to receive(:all_branches).and_return(branches)
 
-      twig.all_branch_names.should == branch_names
+      expect(twig.all_branch_names).to eq(branch_names)
     end
   end
 
@@ -186,17 +192,19 @@ describe Twig do
     end
 
     it 'returns a list of branches, most recently modified first' do
-      @twig.should_receive(:branches).at_least(:once).and_return(@branches)
-      @twig.should_receive(:branch_list_headers).and_return(@list_headers)
-      @twig.should_receive(:branch_list_line).with(@branches[0]).
+      expect(@twig).to receive(:branches).at_least(:once).and_return(@branches)
+      expect(@twig).to receive(:branch_list_headers).and_return(@list_headers)
+      expect(@twig).to receive(:branch_list_line).with(@branches[0]).
         and_return(@branch_lines[0])
-      @twig.should_receive(:branch_list_line).with(@branches[1]).
+      expect(@twig).to receive(:branch_list_line).with(@branches[1]).
         and_return(@branch_lines[1])
 
       result = @twig.list_branches
 
-      result.should == "\n" + @list_headers +
-        @branch_lines[1] + "\n" + @branch_lines[0]
+      expect(result).to eq(
+        "\n" + @list_headers + @branch_lines[1] +
+        "\n" + @branch_lines[0]
+      )
     end
 
     it 'returns a list of branches, least recently modified first' do
@@ -208,15 +216,17 @@ describe Twig do
 
       result = @twig.list_branches
 
-      result.should == "\n" + @list_headers +
-        @branch_lines[0] + "\n" + @branch_lines[1]
+      expect(result).to eq(
+        "\n" + @list_headers + @branch_lines[0] +
+        "\n" + @branch_lines[1]
+      )
     end
 
     it 'returns a message if all branches were filtered out by options' do
       @twig.stub(:all_branches => %w[foo bar])
       @twig.stub(:branches => [])
 
-      @twig.list_branches.should include(
+      expect(@twig.list_branches).to include(
         'There are no branches matching your selected options'
       )
     end
@@ -225,7 +235,7 @@ describe Twig do
       @twig.stub(:all_branches => [])
       @twig.stub(:branches => [])
 
-      @twig.list_branches.should include('This repository has no branches')
+      expect(@twig.list_branches).to include('This repository has no branches')
     end
   end
 
@@ -238,12 +248,12 @@ describe Twig do
     it 'calls `Twig::Branch#get_property`' do
       property_name  = 'foo'
       property_value = 'bar'
-      Twig::Branch.should_receive(:new).with(@branch.name).and_return(@branch)
-      @branch.should_receive(:get_property).with(property_name).
+      expect(Twig::Branch).to receive(:new).with(@branch.name).and_return(@branch)
+      expect(@branch).to receive(:get_property).with(property_name).
         and_return(property_value)
 
       result = @twig.get_branch_property(@branch.name, property_name)
-      result.should == property_value
+      expect(result).to eq(property_value)
     end
   end
 
@@ -253,8 +263,8 @@ describe Twig do
       branch = Twig::Branch.new('test')
       property_name  = 'foo'
       property_value = 'bar'
-      Twig::Branch.should_receive(:new).with(branch.name).and_return(branch)
-      branch.should_receive(:set_property).with(property_name, property_value)
+      expect(Twig::Branch).to receive(:new).with(branch.name).and_return(branch)
+      expect(branch).to receive(:set_property).with(property_name, property_value)
 
       twig.set_branch_property(branch.name, property_name, property_value)
     end
@@ -265,8 +275,8 @@ describe Twig do
       twig   = Twig.new
       branch = Twig::Branch.new('test')
       property_name = 'foo'
-      Twig::Branch.should_receive(:new).with(branch.name).and_return(branch)
-      branch.should_receive(:unset_property).with(property_name)
+      expect(Twig::Branch).to receive(:new).with(branch.name).and_return(branch)
+      expect(branch).to receive(:unset_property).with(property_name)
 
       twig.unset_branch_property(branch.name, property_name)
     end
