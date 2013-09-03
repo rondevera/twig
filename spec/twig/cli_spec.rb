@@ -10,32 +10,32 @@ describe Twig::Cli do
     it 'returns short text in a single line' do
       text = 'The quick brown fox.'
       result = @twig.help_description(text, :width => 80)
-      result.should == [text]
+      expect(result).to eq([text])
     end
 
     it 'returns long text in a string with line breaks' do
       text = 'The quick brown fox jumps over the lazy, lazy dog.'
       result = @twig.help_description(text, :width => 20)
-      result.should == [
+      expect(result).to eq([
         'The quick brown fox',
         'jumps over the lazy,',
         'lazy dog.'
-      ]
+      ])
     end
 
     it 'breaks a long word by max line length' do
       text = 'Thequickbrownfoxjumpsoverthelazydog.'
       result = @twig.help_description(text, :width => 20)
-      result.should == [
+      expect(result).to eq([
         'Thequickbrownfoxjump',
         'soverthelazydog.'
-      ]
+      ])
     end
 
     it 'adds a separator line' do
       text = 'The quick brown fox.'
       result = @twig.help_description(text, :width => 80, :add_separator => true)
-      result.should == [text, ' ']
+      expect(result).to eq([text, ' '])
     end
   end
 
@@ -46,10 +46,10 @@ describe Twig::Cli do
 
     it 'returns a help string for a custom property' do
       option_parser = OptionParser.new
-      @twig.should_receive(:help_separator) do |opt_parser, desc, options|
-        opt_parser.should == option_parser
-        desc.should == "      --test-option                Test option description\n"
-        options.should == { :trailing => "\n" }
+      expect(@twig).to receive(:help_separator) do |opt_parser, desc, options|
+        expect(opt_parser).to eq(option_parser)
+        expect(desc).to eq("      --test-option                Test option description\n")
+        expect(options).to eq(:trailing => "\n")
       end
 
       @twig.help_description_for_custom_property(option_parser, [
@@ -70,11 +70,11 @@ describe Twig::Cli do
 
       result = @twig.help_paragraph(text)
 
-      result.should == [
+      expect(result).to eq([
         "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the",
         "lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps",
         "over the lazy dog. The quick brown fox jumps over the lazy dog."
-      ].join("\n")
+      ].join("\n"))
     end
   end
 
@@ -84,39 +84,39 @@ describe Twig::Cli do
     end
 
     it 'returns true for `--except-foo`' do
-      @twig.help_line_for_custom_property?('  --except-foo  ').should be_true
+      expect(@twig.help_line_for_custom_property?('  --except-foo  ')).to be_true
     end
 
     it 'returns false for `--except-branch`' do
-      @twig.help_line_for_custom_property?('  --except-branch  ').should be_false
+      expect(@twig.help_line_for_custom_property?('  --except-branch  ')).to be_false
     end
 
     it 'returns false for `--except-PROPERTY`' do
-      @twig.help_line_for_custom_property?('  --except-PROPERTY  ').should be_false
+      expect(@twig.help_line_for_custom_property?('  --except-PROPERTY  ')).to be_false
     end
 
     it 'returns true for `--only-foo`' do
-      @twig.help_line_for_custom_property?('  --only-foo  ').should be_true
+      expect(@twig.help_line_for_custom_property?('  --only-foo  ')).to be_true
     end
 
     it 'returns false for `--only-branch`' do
-      @twig.help_line_for_custom_property?('  --only-branch  ').should be_false
+      expect(@twig.help_line_for_custom_property?('  --only-branch  ')).to be_false
     end
 
     it 'returns false for `--only-PROPERTY`' do
-      @twig.help_line_for_custom_property?('  --only-PROPERTY  ').should be_false
+      expect(@twig.help_line_for_custom_property?('  --only-PROPERTY  ')).to be_false
     end
 
     it 'returns true for `--foo-width`' do
-      @twig.help_line_for_custom_property?('  --foo-width  ').should be_true
+      expect(@twig.help_line_for_custom_property?('  --foo-width  ')).to be_true
     end
 
     it 'returns false for `--branch-width`' do
-      @twig.help_line_for_custom_property?('  --branch-width  ').should be_false
+      expect(@twig.help_line_for_custom_property?('  --branch-width  ')).to be_false
     end
 
     it 'returns false for `--PROPERTY-width`' do
-      @twig.help_line_for_custom_property?('  --PROPERTY-width  ').should be_false
+      expect(@twig.help_line_for_custom_property?('  --PROPERTY-width  ')).to be_false
     end
   end
 
@@ -127,7 +127,7 @@ describe Twig::Cli do
 
     it 'turns the current process into a `less` pager' do
       Kernel.stub(:fork) { true }
-      @twig.should_receive(:exec).with('less')
+      expect(@twig).to receive(:exec).with('less')
 
       @twig.run_pager
     end
@@ -135,22 +135,22 @@ describe Twig::Cli do
     it 'turns the current process into a custom pager' do
       Kernel.stub(:fork) { true }
       pager = 'arbitrary'
-      ENV.should_receive(:[]).with('PAGER').and_return(pager)
-      @twig.should_receive(:exec).with(pager)
+      expect(ENV).to receive(:[]).with('PAGER').and_return(pager)
+      expect(@twig).to receive(:exec).with(pager)
 
       @twig.run_pager
     end
 
     it 'does nothing if running on Windows' do
       stub_const('RUBY_PLATFORM', 'win32')
-      Kernel.should_not_receive(:fork)
+      expect(Kernel).not_to receive(:fork)
 
       @twig.run_pager
     end
 
     it 'does nothing if not running on a terminal device' do
       $stdout.stub(:tty?) { false }
-      Kernel.should_not_receive(:fork)
+      expect(Kernel).not_to receive(:fork)
 
       @twig.run_pager
     end
@@ -163,74 +163,74 @@ describe Twig::Cli do
     end
 
     it 'recognizes `--unset` and sets an `:unset_property` option' do
-      @twig.options[:unset_property].should be_nil # Precondition
+      expect(@twig.options[:unset_property]).to be_nil
       @twig.read_cli_options!(%w[--unset test])
-      @twig.options[:unset_property].should == 'test'
+      expect(@twig.options[:unset_property]).to eq('test')
     end
 
     it 'recognizes `--help` and prints the help content' do
       help_lines = []
       @twig.stub(:puts) { |message| help_lines << message.strip }
-      @twig.should_receive(:exit)
+      expect(@twig).to receive(:exit)
 
       @twig.read_cli_options!(['--help'])
 
-      help_lines.should include("Twig v#{Twig::VERSION}")
-      help_lines.should include('http://rondevera.github.io/twig/')
+      expect(help_lines).to include("Twig v#{Twig::VERSION}")
+      expect(help_lines).to include('http://rondevera.github.io/twig/')
     end
 
     it 'recognizes `--version` and prints the current version' do
-      @twig.should_receive(:puts).with(Twig::VERSION)
-      @twig.should_receive(:exit)
+      expect(@twig).to receive(:puts).with(Twig::VERSION)
+      expect(@twig).to receive(:exit)
 
       @twig.read_cli_options!(['--version'])
     end
 
     it 'recognizes `-b` and sets a `:branch` option' do
-      @twig.should_receive(:all_branch_names).and_return(['test'])
-      @twig.options[:branch].should be_nil # Precondition
+      expect(@twig).to receive(:all_branch_names).and_return(['test'])
+      expect(@twig.options[:branch]).to be_nil
 
       @twig.read_cli_options!(%w[-b test])
 
-      @twig.options[:branch].should == 'test'
+      expect(@twig.options[:branch]).to eq('test')
     end
 
     it 'recognizes `--branch` and sets a `:branch` option' do
-      @twig.should_receive(:all_branch_names).and_return(['test'])
-      @twig.options[:branch].should be_nil # Precondition
+      expect(@twig).to receive(:all_branch_names).and_return(['test'])
+      expect(@twig.options[:branch]).to be_nil
 
       @twig.read_cli_options!(%w[--branch test])
 
-      @twig.options[:branch].should == 'test'
+      expect(@twig.options[:branch]).to eq('test')
     end
 
     it 'recognizes `--max-days-old` and sets a `:max_days_old` option' do
-      @twig.options[:max_days_old].should be_nil # Precondition
+      expect(@twig.options[:max_days_old]).to be_nil
       @twig.read_cli_options!(%w[--max-days-old 30])
-      @twig.options[:max_days_old].should == 30
+      expect(@twig.options[:max_days_old]).to eq(30)
     end
 
     it 'recognizes `--except-branch` and sets a `:property_except` option' do
-      @twig.options[:property_except].should be_nil # Precondition
+      expect(@twig.options[:property_except]).to be_nil
       @twig.read_cli_options!(%w[--except-branch test])
-      @twig.options[:property_except].should == { :branch => /test/ }
+      expect(@twig.options[:property_except]).to eq(:branch => /test/)
     end
 
     it 'recognizes `--only-branch` and sets a `:property_only` option' do
-      @twig.options[:property_only].should be_nil # Precondition
+      expect(@twig.options[:property_only]).to be_nil
       @twig.read_cli_options!(%w[--only-branch test])
-      @twig.options[:property_only].should == { :branch => /test/ }
+      expect(@twig.options[:property_only]).to eq(:branch => /test/)
     end
 
     context 'with custom property "only" filtering' do
       before :each do
-        @twig.options[:property_only].should be_nil # Precondition
+        expect(@twig.options[:property_only]).to be_nil
       end
 
       it 'recognizes `--only-<property>` and sets a `:property_only` option' do
         Twig::Branch.stub(:all_property_names) { %w[foo] }
         @twig.read_cli_options!(%w[--only-foo test])
-        @twig.options[:property_only].should == { :foo => /test/ }
+        expect(@twig.options[:property_only]).to eq(:foo => /test/)
       end
 
       it 'recognizes `--only-branch` and `--only-<property>` together' do
@@ -238,15 +238,15 @@ describe Twig::Cli do
 
         @twig.read_cli_options!(%w[--only-branch test --only-foo bar])
 
-        @twig.options[:property_only].should == {
+        expect(@twig.options[:property_only]).to eq(
           :branch => /test/,
           :foo    => /bar/
-        }
+        )
       end
 
       it 'does not recognize `--only-<property>` for a missing property' do
         property_name = 'foo'
-        Twig::Branch.all_property_names.should_not include(property_name) # Precondition
+        expect(Twig::Branch.all_property_names).not_to include(property_name)
         @twig.stub(:puts)
 
         begin
@@ -255,21 +255,21 @@ describe Twig::Cli do
           expected_exception = exception
         end
 
-        expected_exception.should_not be_nil
-        expected_exception.status.should == 0
-        @twig.options[:property_only].should be_nil
+        expect(expected_exception).not_to be_nil
+        expect(expected_exception.status).to eq(0)
+        expect(@twig.options[:property_only]).to be_nil
       end
     end
 
     context 'with custom property "except" filtering' do
       before :each do
-        @twig.options[:property_except].should be_nil # Precondition
+        expect(@twig.options[:property_except]).to be_nil
       end
 
       it 'recognizes `--except-<property>` and sets a `:property_except` option' do
         Twig::Branch.stub(:all_property_names) { %w[foo] }
         @twig.read_cli_options!(%w[--except-foo test])
-        @twig.options[:property_except].should == { :foo => /test/ }
+        expect(@twig.options[:property_except]).to eq(:foo => /test/)
       end
 
       it 'recognizes `--except-branch` and `--except-<property>` together' do
@@ -277,15 +277,15 @@ describe Twig::Cli do
 
         @twig.read_cli_options!(%w[--except-branch test --except-foo bar])
 
-        @twig.options[:property_except].should == {
+        expect(@twig.options[:property_except]).to eq(
           :branch => /test/,
           :foo    => /bar/
-        }
+        )
       end
 
       it 'does not recognize `--except-<property>` for a missing property' do
         property_name = 'foo'
-        Twig::Branch.all_property_names.should_not include(property_name) # Precondition
+        expect(Twig::Branch.all_property_names).not_to include(property_name)
         @twig.stub(:puts)
 
         begin
@@ -294,9 +294,9 @@ describe Twig::Cli do
           expected_exception = exception
         end
 
-        expected_exception.should_not be_nil
-        expected_exception.status.should == 0
-        @twig.options[:property_except].should be_nil
+        expect(expected_exception).not_to be_nil
+        expect(expected_exception.status).to eq(0)
+        expect(@twig.options[:property_except]).to be_nil
       end
     end
 
@@ -307,71 +307,71 @@ describe Twig::Cli do
 
       @twig.read_cli_options!(['--all'])
 
-      @twig.options[:max_days_old].should be_nil
-      @twig.options[:property_except].should be_nil
-      @twig.options[:property_only].should be_nil
+      expect(@twig.options[:max_days_old]).to be_nil
+      expect(@twig.options[:property_except]).to be_nil
+      expect(@twig.options[:property_only]).to be_nil
     end
 
     it 'recognizes `--branch-width`' do
-      @twig.options[:property_width].should be_nil
-      @twig.should_receive(:set_option).with(:property_width, :branch => '10')
+      expect(@twig.options[:property_width]).to be_nil
+      expect(@twig).to receive(:set_option).with(:property_width, :branch => '10')
 
       @twig.read_cli_options!(%w[--branch-width 10])
     end
 
     it 'recognizes `--<property>-width`' do
       Twig::Branch.stub(:all_property_names) { %w[foo] }
-      @twig.options[:property_width].should be_nil
-      @twig.should_receive(:set_option).with(:property_width, :foo => '10')
+      expect(@twig.options[:property_width]).to be_nil
+      expect(@twig).to receive(:set_option).with(:property_width, :foo => '10')
 
       @twig.read_cli_options!(%w[--foo-width 10])
     end
 
     it 'recognizes `--header-style`' do
-      @twig.options[:header_color].should == Twig::DEFAULT_HEADER_COLOR
-      @twig.options[:header_weight].should be_nil
+      expect(@twig.options[:header_color]).to eq(Twig::DEFAULT_HEADER_COLOR)
+      expect(@twig.options[:header_weight]).to be_nil
       @twig.read_cli_options!(['--header-style', 'green bold'])
-      @twig.options[:header_color].should == :green
-      @twig.options[:header_weight].should == :bold
+      expect(@twig.options[:header_color]).to eq(:green)
+      expect(@twig.options[:header_weight]).to eq(:bold)
     end
 
     it 'recognizes `--reverse`' do
-      @twig.options[:reverse].should be_nil
+      expect(@twig.options[:reverse]).to be_nil
       @twig.read_cli_options!(['--reverse'])
-      @twig.options[:reverse].should be_true
+      expect(@twig.options[:reverse]).to be_true
     end
 
     it 'recognizes `--github-api-uri-prefix`' do
-      @twig.options[:github_api_uri_prefix].should be_nil
+      expect(@twig.options[:github_api_uri_prefix]).to be_nil
       prefix = 'https://github-enterprise.example.com/api/v3'
 
       @twig.read_cli_options!(['--github-api-uri-prefix', prefix])
 
-      @twig.options[:github_api_uri_prefix].should == prefix
+      expect(@twig.options[:github_api_uri_prefix]).to eq(prefix)
     end
 
     it 'recognizes `--github-uri-prefix`' do
-      @twig.options[:github_uri_prefix].should be_nil
+      expect(@twig.options[:github_uri_prefix]).to be_nil
       prefix = 'https://github-enterprise.example.com'
 
       @twig.read_cli_options!(['--github-uri-prefix', prefix])
 
-      @twig.options[:github_uri_prefix].should == prefix
+      expect(@twig.options[:github_uri_prefix]).to eq(prefix)
     end
 
     it 'handles invalid options' do
-      @twig.should_receive(:abort_for_option_exception) do |exception|
-        exception.should be_a(OptionParser::InvalidOption)
-        exception.message.should include('invalid option: --foo')
+      expect(@twig).to receive(:abort_for_option_exception) do |exception|
+        expect(exception).to be_a(OptionParser::InvalidOption)
+        expect(exception.message).to include('invalid option: --foo')
       end
 
       @twig.read_cli_options!(['--foo'])
     end
 
     it 'handles missing arguments' do
-      @twig.should_receive(:abort_for_option_exception) do |exception|
-        exception.should be_a(OptionParser::MissingArgument)
-        exception.message.should include('missing argument: --branch')
+      expect(@twig).to receive(:abort_for_option_exception) do |exception|
+        expect(exception).to be_a(OptionParser::MissingArgument)
+        expect(exception.message).to include('missing argument: --branch')
       end
 
       @twig.read_cli_options!(['--branch'])
@@ -385,11 +385,11 @@ describe Twig::Cli do
 
     it 'prints a message and exits' do
       exception = Exception.new('test exception')
-      @twig.should_receive(:puts).with(exception.message)
-      @twig.should_receive(:puts) do |message|
-        message.should include('`twig --help`')
+      expect(@twig).to receive(:puts).with(exception.message)
+      expect(@twig).to receive(:puts) do |message|
+        expect(message).to include('`twig --help`')
       end
-      @twig.should_receive(:exit)
+      expect(@twig).to receive(:exit)
 
       @twig.abort_for_option_exception(exception)
     end
@@ -402,8 +402,8 @@ describe Twig::Cli do
 
     it 'lists branches' do
       branch_list = %[foo bar]
-      @twig.should_receive(:list_branches).and_return(branch_list)
-      @twig.should_receive(:puts).with(branch_list)
+      expect(@twig).to receive(:list_branches).and_return(branch_list)
+      expect(@twig).to receive(:puts).with(branch_list)
 
       @twig.read_cli_args!([])
     end
@@ -417,9 +417,9 @@ describe Twig::Cli do
 
       it 'recognizes a subcommand' do
         command_path = '/path/to/bin/twig-subcommand'
-        Twig.should_receive(:run).with('which twig-subcommand 2>/dev/null').
+        expect(Twig).to receive(:run).with('which twig-subcommand 2>/dev/null').
           and_return(command_path)
-        @twig.should_receive(:exec).with(command_path) { exit }
+        expect(@twig).to receive(:exec).with(command_path) { exit }
 
         # Since we're stubbing `exec` (with an expectation), we still need it
         # to exit early like the real implementation. The following handles the
@@ -430,13 +430,14 @@ describe Twig::Cli do
           expected_exception = exception
         end
 
-        expected_exception.should_not be_nil
-        expected_exception.status.should == 0
+        expect(expected_exception).not_to be_nil
+        expect(expected_exception.status).to eq(0)
       end
 
       it 'does not recognize a subcommand' do
-        Twig.should_receive(:run).with('which twig-subcommand 2>/dev/null').and_return('')
-        @twig.should_not_receive(:exec)
+        expect(Twig).to receive(:run).
+          with('which twig-subcommand 2>/dev/null').and_return('')
+        expect(@twig).not_to receive(:exec)
         @twig.stub(:abort)
 
         @twig.read_cli_args!(['subcommand'])
@@ -451,17 +452,17 @@ describe Twig::Cli do
       end
 
       it 'gets a property for the current branch' do
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:get_branch_property_for_cli).
+        expect(@twig).to receive(:current_branch_name).and_return(@branch_name)
+        expect(@twig).to receive(:get_branch_property_for_cli).
           with(@branch_name, @property_name)
 
         @twig.read_cli_args!([@property_name])
       end
 
       it 'gets a property for a specified branch' do
-        @twig.should_receive(:all_branch_names).and_return([@branch_name])
+        expect(@twig).to receive(:all_branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
-        @twig.should_receive(:get_branch_property_for_cli).
+        expect(@twig).to receive(:get_branch_property_for_cli).
           with(@branch_name, @property_name)
 
         @twig.read_cli_args!([@property_name])
@@ -477,17 +478,17 @@ describe Twig::Cli do
       end
 
       it 'sets a property for the current branch' do
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:set_branch_property_for_cli).
+        expect(@twig).to receive(:current_branch_name).and_return(@branch_name)
+        expect(@twig).to receive(:set_branch_property_for_cli).
           with(@branch_name, @property_name, @property_value)
 
         @twig.read_cli_args!([@property_name, @property_value])
       end
 
       it 'sets a property for a specified branch' do
-        @twig.should_receive(:all_branch_names).and_return([@branch_name])
+        expect(@twig).to receive(:all_branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
-        @twig.should_receive(:set_branch_property_for_cli).
+        expect(@twig).to receive(:set_branch_property_for_cli).
           with(@branch_name, @property_name, @property_value).
           and_return(@message)
 
@@ -504,17 +505,17 @@ describe Twig::Cli do
       end
 
       it 'unsets a property for the current branch' do
-        @twig.should_receive(:current_branch_name).and_return(@branch_name)
-        @twig.should_receive(:unset_branch_property_for_cli).
+        expect(@twig).to receive(:current_branch_name).and_return(@branch_name)
+        expect(@twig).to receive(:unset_branch_property_for_cli).
           with(@branch_name, @property_name)
 
         @twig.read_cli_args!([])
       end
 
       it 'unsets a property for a specified branch' do
-        @twig.should_receive(:all_branch_names).and_return([@branch_name])
+        expect(@twig).to receive(:all_branch_names).and_return([@branch_name])
         @twig.set_option(:branch, @branch_name)
-        @twig.should_receive(:unset_branch_property_for_cli).
+        expect(@twig).to receive(:unset_branch_property_for_cli).
           with(@branch_name, @property_name)
 
         @twig.read_cli_args!([])
@@ -531,20 +532,20 @@ describe Twig::Cli do
 
     it 'gets a property' do
       property_value = 'bar'
-      @twig.should_receive(:get_branch_property).
+      expect(@twig).to receive(:get_branch_property).
         with(@branch_name, @property_name).and_return(property_value)
-      @twig.should_receive(:puts).with(property_value)
+      expect(@twig).to receive(:puts).with(property_value)
 
       @twig.get_branch_property_for_cli(@branch_name, @property_name)
     end
 
     it 'shows an error when getting a property that is not set' do
       error_message = 'test error'
-      @twig.should_receive(:get_branch_property).
+      expect(@twig).to receive(:get_branch_property).
         with(@branch_name, @property_name).and_return(nil)
       Twig::Branch::MissingPropertyError.any_instance.
         stub(:message) { error_message }
-      @twig.should_receive(:abort).with(error_message)
+      expect(@twig).to receive(:abort).with(error_message)
 
       @twig.get_branch_property_for_cli(@branch_name, @property_name)
     end
@@ -552,11 +553,11 @@ describe Twig::Cli do
     it 'handles ArgumentError when getting an invalid branch property name' do
       bad_property_name = ''
       error_message     = 'test error'
-      @twig.should_receive(:get_branch_property).
+      expect(@twig).to receive(:get_branch_property).
         with(@branch_name, bad_property_name) do
           raise ArgumentError, error_message
         end
-      @twig.should_receive(:abort).with(error_message)
+      expect(@twig).to receive(:abort).with(error_message)
 
       @twig.get_branch_property_for_cli(@branch_name, bad_property_name)
     end
@@ -572,10 +573,10 @@ describe Twig::Cli do
     it 'sets a property for the specified branch' do
       success_message = 'test success'
       property_value  = 'bar'
-      @twig.should_receive(:set_branch_property).
+      expect(@twig).to receive(:set_branch_property).
         with(@branch_name, @property_name, property_value).
         and_return(success_message)
-      @twig.should_receive(:puts).with(success_message)
+      expect(@twig).to receive(:puts).with(success_message)
 
       @twig.set_branch_property_for_cli(@branch_name, @property_name, property_value)
     end
@@ -583,11 +584,11 @@ describe Twig::Cli do
     it 'handles ArgumentError when unsetting an invalid branch property name' do
       error_message  = 'test error'
       property_value = ''
-      @twig.should_receive(:set_branch_property).
+      expect(@twig).to receive(:set_branch_property).
         with(@branch_name, @property_name, property_value) do
           raise ArgumentError, error_message
         end
-      @twig.should_receive(:abort).with(error_message)
+      expect(@twig).to receive(:abort).with(error_message)
 
       @twig.set_branch_property_for_cli(@branch_name, @property_name, property_value)
     end
@@ -595,11 +596,11 @@ describe Twig::Cli do
     it 'handles RuntimeError when Git is unable to set a branch property' do
       error_message  = 'test error'
       property_value = ''
-      @twig.should_receive(:set_branch_property).
+      expect(@twig).to receive(:set_branch_property).
         with(@branch_name, @property_name, property_value) do
           raise RuntimeError, error_message
         end
-      @twig.should_receive(:abort).with(error_message)
+      expect(@twig).to receive(:abort).with(error_message)
 
       @twig.set_branch_property_for_cli(@branch_name, @property_name, property_value)
     end
@@ -614,31 +615,31 @@ describe Twig::Cli do
 
     it 'unsets a property for the specified branch' do
       success_message = 'test success'
-      @twig.should_receive(:unset_branch_property).
+      expect(@twig).to receive(:unset_branch_property).
         with(@branch_name, @property_name).and_return(success_message)
-      @twig.should_receive(:puts).with(success_message)
+      expect(@twig).to receive(:puts).with(success_message)
 
       @twig.unset_branch_property_for_cli(@branch_name, @property_name)
     end
 
     it 'handles ArgumentError when unsetting an invalid branch property name' do
       error_message = 'test error'
-      @twig.should_receive(:unset_branch_property).
+      expect(@twig).to receive(:unset_branch_property).
         with(@branch_name, @property_name) do
           raise ArgumentError, error_message
         end
-      @twig.should_receive(:abort).with(error_message)
+      expect(@twig).to receive(:abort).with(error_message)
 
       @twig.unset_branch_property_for_cli(@branch_name, @property_name)
     end
 
     it 'handles MissingPropertyError when unsetting a branch property that is not set' do
       error_message = 'test error'
-      @twig.should_receive(:unset_branch_property).
+      expect(@twig).to receive(:unset_branch_property).
         with(@branch_name, @property_name) do
           raise Twig::Branch::MissingPropertyError, error_message
         end
-      @twig.should_receive(:abort).with(error_message)
+      expect(@twig).to receive(:abort).with(error_message)
 
       @twig.unset_branch_property_for_cli(@branch_name, @property_name)
     end
