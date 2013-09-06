@@ -25,7 +25,7 @@ describe Twig::GithubRepo do
         block_has_run = true
       end
 
-      block_has_run.should be_true
+      expect(block_has_run).to be_true
     end
 
     it 'aborts if this is not a Git repo' do
@@ -33,8 +33,8 @@ describe Twig::GithubRepo do
       Twig::GithubRepo.any_instance.stub(:origin_url) { @github_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
-      Twig::GithubRepo.any_instance.should_receive(:abort) do |message|
-        message.should include('not a git repository')
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort) do |message|
+        expect(message).to include('not a git repository')
       end
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
@@ -45,7 +45,7 @@ describe Twig::GithubRepo do
       Twig::GithubRepo.any_instance.stub(:origin_url) { '' }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
-      Twig::GithubRepo.any_instance.should_receive(:abort_for_non_github_repo)
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
@@ -55,7 +55,7 @@ describe Twig::GithubRepo do
       Twig::GithubRepo.any_instance.stub(:origin_url) { @github_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { '' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
-      Twig::GithubRepo.any_instance.should_receive(:abort_for_non_github_repo)
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
@@ -65,7 +65,7 @@ describe Twig::GithubRepo do
       Twig::GithubRepo.any_instance.stub(:origin_url) { @github_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { '' }
-      Twig::GithubRepo.any_instance.should_receive(:abort_for_non_github_repo)
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
@@ -75,7 +75,7 @@ describe Twig::GithubRepo do
       Twig::GithubRepo.any_instance.stub(:origin_url) { @generic_ssh_read_write_url }
       Twig::GithubRepo.any_instance.stub(:username)   { 'username' }
       Twig::GithubRepo.any_instance.stub(:repository) { 'repository' }
-      Twig::GithubRepo.any_instance.should_receive(:abort_for_non_github_repo)
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
@@ -90,7 +90,7 @@ describe Twig::GithubRepo do
 
     it 'gets the origin URL from the repo config' do
       origin_url = @github_ssh_read_write_url
-      Twig.should_receive(:run).
+      expect(Twig).to receive(:run).
         with('git config remote.origin.url').once { origin_url }
 
       Twig::GithubRepo.new do |gh_repo|
@@ -115,11 +115,11 @@ describe Twig::GithubRepo do
         origin_url_parts = gh_repo.origin_url_parts
       end
 
-      origin_url_parts.should == %w[
+      expect(origin_url_parts).to eq(%w[
         git@github.com
         rondevera
         twig.git
-      ]
+      ])
     end
   end
 
@@ -139,7 +139,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        is_github_repo.should be_true
+        expect(is_github_repo).to be_true
       end
     end
 
@@ -154,7 +154,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        is_github_repo.should be_true
+        expect(is_github_repo).to be_true
       end
     end
 
@@ -169,7 +169,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        is_github_repo.should be_true
+        expect(is_github_repo).to be_true
       end
     end
 
@@ -185,7 +185,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        is_github_repo.should be_false
+        expect(is_github_repo).to be_false
       end
     end
 
@@ -201,7 +201,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        is_github_repo.should be_false
+        expect(is_github_repo).to be_false
       end
     end
 
@@ -217,7 +217,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        is_github_repo.should be_false
+        expect(is_github_repo).to be_false
       end
     end
   end
@@ -235,7 +235,7 @@ describe Twig::GithubRepo do
         username = gh_repo.username
       end
 
-      username.should == 'rondevera'
+      expect(username).to eq('rondevera')
     end
 
     it 'gets the username for a Git read-only repo' do
@@ -245,7 +245,7 @@ describe Twig::GithubRepo do
         username = gh_repo.username
       end
 
-      username.should == 'rondevera'
+      expect(username).to eq('rondevera')
     end
 
     it 'gets the username for a SSH read/write repo' do
@@ -255,7 +255,7 @@ describe Twig::GithubRepo do
         username = gh_repo.username
       end
 
-      username.should == 'rondevera'
+      expect(username).to eq('rondevera')
     end
   end
 
@@ -272,7 +272,7 @@ describe Twig::GithubRepo do
         repository = gh_repo.repository
       end
 
-      repository.should == 'twig'
+      expect(repository).to eq('twig')
     end
 
     it 'gets the repo name for a Git read-only repo' do
@@ -282,7 +282,7 @@ describe Twig::GithubRepo do
         repository = gh_repo.repository
       end
 
-      repository.should == 'twig'
+      expect(repository).to eq('twig')
     end
 
     it 'gets the repo name for a SSH read/write repo' do
@@ -292,7 +292,7 @@ describe Twig::GithubRepo do
         repository = gh_repo.repository
       end
 
-      repository.should == 'twig'
+      expect(repository).to eq('twig')
     end
   end
 
