@@ -109,7 +109,7 @@ describe Twig do
         Twig::Branch.new(branch_names[2], :last_commit_time => commit_times[2]),
         Twig::Branch.new(branch_names[3], :last_commit_time => commit_times[3])
       ]
-      @twig.stub(:all_branches => @branches)
+      allow(@twig).to receive(:all_branches) { @branches }
     end
 
     it 'returns all branches' do
@@ -139,10 +139,10 @@ describe Twig do
 
     context 'with property filtering' do
       before :each do
-        @branches[0].stub(:get_property).with('foo') { 'bar1' }
-        @branches[1].stub(:get_property).with('foo') { 'bar2' }
-        @branches[2].stub(:get_property).with('foo') { 'baz' }
-        @branches[3].stub(:get_property).with('foo') { nil }
+        allow(@branches[0]).to receive(:get_property).with('foo') { 'bar1' }
+        allow(@branches[1]).to receive(:get_property).with('foo') { 'bar2' }
+        allow(@branches[2]).to receive(:get_property).with('foo') { 'baz' }
+        allow(@branches[3]).to receive(:get_property).with('foo') { nil }
       end
 
       it 'returns all branches except those matching a property pattern' do
@@ -180,10 +180,10 @@ describe Twig do
         Twig::CommitTime.new(Time.now, '111 days ago'),
         Twig::CommitTime.new(Time.now, '222 days ago')
       ]
-      commit_times[0].stub(:to_i => 2000_01_01 )
-      commit_times[0].stub(:to_s =>'2000-01-01')
-      commit_times[1].stub(:to_i => 2000_01_02 )
-      commit_times[1].stub(:to_s =>'2000-01-02')
+      allow(commit_times[0]).to receive(:to_i) {  2000_01_01  }
+      allow(commit_times[0]).to receive(:to_s) { '2000-01-01' }
+      allow(commit_times[1]).to receive(:to_i) {  2000_01_02  }
+      allow(commit_times[1]).to receive(:to_s) { '2000-01-02' }
       @branches = [
         Twig::Branch.new('foo', :last_commit_time => commit_times[0]),
         Twig::Branch.new('foo', :last_commit_time => commit_times[1])
@@ -209,10 +209,10 @@ describe Twig do
 
     it 'returns a list of branches, least recently modified first' do
       @twig.set_option(:reverse, true)
-      @twig.stub(:branches) { @branches }
-      @twig.stub(:branch_list_headers) { @list_headers }
-      @twig.stub(:branch_list_line).with(@branches[0]) { @branch_lines[0] }
-      @twig.stub(:branch_list_line).with(@branches[1]) { @branch_lines[1] }
+      allow(@twig).to receive(:branches) { @branches }
+      allow(@twig).to receive(:branch_list_headers) { @list_headers }
+      allow(@twig).to receive(:branch_list_line).with(@branches[0]) { @branch_lines[0] }
+      allow(@twig).to receive(:branch_list_line).with(@branches[1]) { @branch_lines[1] }
 
       result = @twig.list_branches
 
@@ -223,8 +223,8 @@ describe Twig do
     end
 
     it 'returns a message if all branches were filtered out by options' do
-      @twig.stub(:all_branches => %w[foo bar])
-      @twig.stub(:branches => [])
+      allow(@twig).to receive(:all_branches) { %w[foo bar] }
+      allow(@twig).to receive(:branches) { [] }
 
       expect(@twig.list_branches).to include(
         'There are no branches matching your selected options'
@@ -232,8 +232,8 @@ describe Twig do
     end
 
     it 'returns a message if the repo has no branches' do
-      @twig.stub(:all_branches => [])
-      @twig.stub(:branches => [])
+      allow(@twig).to receive(:all_branches) { [] }
+      allow(@twig).to receive(:branches) { [] }
 
       expect(@twig.list_branches).to include('This repository has no branches')
     end
