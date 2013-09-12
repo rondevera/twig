@@ -233,7 +233,7 @@ describe Twig::Branch do
     it 'raises an error if Git cannot set the property value' do
       property = 'test'
       value    = 'value'
-      Twig.stub(:run) { `(exit 1)`; value } # Set `$?` to `1`
+      allow(Twig).to receive(:run) { `(exit 1)`; value } # Set `$?` to `1`
 
       begin
         @branch.set_property(property, value)
