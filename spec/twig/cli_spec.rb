@@ -126,14 +126,14 @@ describe Twig::Cli do
     end
 
     it 'turns the current process into a `less` pager' do
-      Kernel.stub(:fork) { true }
+      allow(Kernel).to receive(:fork) { true }
       expect(@twig).to receive(:exec).with('less')
 
       @twig.run_pager
     end
 
     it 'turns the current process into a custom pager' do
-      Kernel.stub(:fork) { true }
+      allow(Kernel).to receive(:fork) { true }
       pager = 'arbitrary'
       expect(ENV).to receive(:[]).with('PAGER').and_return(pager)
       expect(@twig).to receive(:exec).with(pager)
@@ -149,7 +149,7 @@ describe Twig::Cli do
     end
 
     it 'does nothing if not running on a terminal device' do
-      $stdout.stub(:tty?) { false }
+      allow($stdout).to receive(:tty?) { false }
       expect(Kernel).not_to receive(:fork)
 
       @twig.run_pager
@@ -159,7 +159,7 @@ describe Twig::Cli do
   describe '#read_cli_options!' do
     before :each do
       @twig = Twig.new
-      @twig.stub(:run_pager)
+      allow(@twig).to receive(:run_pager)
     end
 
     it 'recognizes `--unset` and sets an `:unset_property` option' do
@@ -170,7 +170,7 @@ describe Twig::Cli do
 
     it 'recognizes `--help` and prints the help content' do
       help_lines = []
-      @twig.stub(:puts) { |message| help_lines << message.strip }
+      allow(@twig).to receive(:puts) { |message| help_lines << message.strip }
       expect(@twig).to receive(:exit)
 
       @twig.read_cli_options!(['--help'])
@@ -228,13 +228,13 @@ describe Twig::Cli do
       end
 
       it 'recognizes `--only-<property>` and sets a `:property_only` option' do
-        Twig::Branch.stub(:all_property_names) { %w[foo] }
+        allow(Twig::Branch).to receive(:all_property_names) { %w[foo] }
         @twig.read_cli_options!(%w[--only-foo test])
         expect(@twig.options[:property_only]).to eq(:foo => /test/)
       end
 
       it 'recognizes `--only-branch` and `--only-<property>` together' do
-        Twig::Branch.stub(:all_property_names) { %w[foo] }
+        allow(Twig::Branch).to receive(:all_property_names) { %w[foo] }
 
         @twig.read_cli_options!(%w[--only-branch test --only-foo bar])
 
@@ -247,7 +247,7 @@ describe Twig::Cli do
       it 'does not recognize `--only-<property>` for a missing property' do
         property_name = 'foo'
         expect(Twig::Branch.all_property_names).not_to include(property_name)
-        @twig.stub(:puts)
+        allow(@twig).to receive(:puts)
 
         begin
           @twig.read_cli_options!(["--only-#{property_name}", 'test'])
@@ -267,13 +267,13 @@ describe Twig::Cli do
       end
 
       it 'recognizes `--except-<property>` and sets a `:property_except` option' do
-        Twig::Branch.stub(:all_property_names) { %w[foo] }
+        allow(Twig::Branch).to receive(:all_property_names) { %w[foo] }
         @twig.read_cli_options!(%w[--except-foo test])
         expect(@twig.options[:property_except]).to eq(:foo => /test/)
       end
 
       it 'recognizes `--except-branch` and `--except-<property>` together' do
-        Twig::Branch.stub(:all_property_names) { %w[foo] }
+        allow(Twig::Branch).to receive(:all_property_names) { %w[foo] }
 
         @twig.read_cli_options!(%w[--except-branch test --except-foo bar])
 
@@ -286,7 +286,7 @@ describe Twig::Cli do
       it 'does not recognize `--except-<property>` for a missing property' do
         property_name = 'foo'
         expect(Twig::Branch.all_property_names).not_to include(property_name)
-        @twig.stub(:puts)
+        allow(@twig).to receive(:puts)
 
         begin
           @twig.read_cli_options!(["--except-#{property_name}", 'test'])
@@ -320,7 +320,7 @@ describe Twig::Cli do
     end
 
     it 'recognizes `--<property>-width`' do
-      Twig::Branch.stub(:all_property_names) { %w[foo] }
+      allow(Twig::Branch).to receive(:all_property_names) { %w[foo] }
       expect(@twig.options[:property_width]).to be_nil
       expect(@twig).to receive(:set_option).with(:property_width, :foo => '10')
 
@@ -410,9 +410,9 @@ describe Twig::Cli do
 
     context 'running a subcommand' do
       before :each do
-        Twig.stub(:run)
+        allow(Twig).to receive(:run)
         @branch_name = 'test'
-        @twig.stub(:current_branch_name => @branch_name)
+        allow(@twig).to receive(:current_branch_name) { @branch_name }
       end
 
       it 'recognizes a subcommand' do
@@ -438,7 +438,7 @@ describe Twig::Cli do
         expect(Twig).to receive(:run).
           with('which twig-subcommand 2>/dev/null').and_return('')
         expect(@twig).not_to receive(:exec)
-        @twig.stub(:abort)
+        allow(@twig).to receive(:abort)
 
         @twig.read_cli_args!(['subcommand'])
       end
@@ -543,8 +543,8 @@ describe Twig::Cli do
       error_message = 'test error'
       expect(@twig).to receive(:get_branch_property).
         with(@branch_name, @property_name).and_return(nil)
-      Twig::Branch::MissingPropertyError.any_instance.
-        stub(:message) { error_message }
+      allow_any_instance_of(Twig::Branch::MissingPropertyError).
+        to receive(:message) { error_message }
       expect(@twig).to receive(:abort).with(error_message)
 
       @twig.get_branch_property_for_cli(@branch_name, @property_name)
