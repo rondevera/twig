@@ -79,7 +79,7 @@ describe Twig::Display do
 
   describe '#branch_list_headers' do
     before :each do
-      Twig::Branch.stub(:all_property_names => %w[foo quux])
+      allow(Twig::Branch).to receive(:all_property_names) { %w[foo quux] }
     end
 
     it 'returns a string of branch properties and underlines' do
@@ -165,19 +165,17 @@ describe Twig::Display do
       @current_branch = Twig::Branch.new('my-branch')
       @other_branch   = Twig::Branch.new('other-branch')
       expect(@twig).to receive(:current_branch_name).and_return(@current_branch.name)
-      Twig::Branch.stub(:all_property_names => %w[foo bar])
-      @current_branch.stub(:get_properties => {
-        'foo' => 'foo!',
-        'bar' => 'bar!'
-      })
-      @other_branch.stub(:get_properties => {
-        'foo' => 'foo!',
-        'bar' => 'bar!'
-      })
+      allow(Twig::Branch).to receive(:all_property_names) { %w[foo bar] }
+      allow(@current_branch).to receive(:get_properties) do
+        { 'foo' => 'foo!', 'bar' => 'bar!' }
+      end
+      allow(@other_branch).to receive(:get_properties) do
+        { 'foo' => 'foo!', 'bar' => 'bar!' }
+      end
       commit_time = Twig::CommitTime.new(Time.now, '')
       expect(commit_time).to receive(:to_s).and_return('2000-01-01')
-      @current_branch.stub(:last_commit_time => commit_time)
-      @other_branch.stub(:last_commit_time => commit_time)
+      allow(@current_branch).to receive(:last_commit_time) { commit_time }
+      allow(@other_branch).to receive(:last_commit_time) { commit_time }
     end
 
     it 'returns a line for the current branch' do
