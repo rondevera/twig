@@ -12,7 +12,7 @@ describe Twig::Options do
     end
 
     it 'reads and sets a single option' do
-      @twig.stub(:all_branch_names => ['test'])
+      allow(@twig).to receive(:all_branch_names) { ['test'] }
       file = double('file')
       expect(File).to receive(:readable?).with(Twig::CONFIG_PATH).and_return(true)
       expect(File).to receive(:open).with(Twig::CONFIG_PATH).and_yield(file)
@@ -25,7 +25,7 @@ describe Twig::Options do
     end
 
     it 'reads an option if only the deprecated config file exists' do
-      @twig.stub(:all_branch_names => ['test'])
+      allow(@twig).to receive(:all_branch_names) { ['test'] }
       file = double('file')
       path = Twig::CONFIG_PATH
       deprecated_path = Twig::DEPRECATED_CONFIG_PATH
@@ -46,7 +46,7 @@ describe Twig::Options do
     end
 
     it 'reads and sets multiple options' do
-      @twig.stub(:all_branch_names => ['test'])
+      allow(@twig).to receive(:all_branch_names) { ['test'] }
       file = double('file')
       expect(File).to receive(:readable?).with(Twig::CONFIG_PATH).and_return(true)
       expect(File).to receive(:open).with(Twig::CONFIG_PATH).and_yield(file)
