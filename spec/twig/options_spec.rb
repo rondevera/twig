@@ -142,13 +142,19 @@ describe Twig::Options do
       expect(@twig.options[:property_only]).to eq(:branch => /test-only/)
     end
 
-    it 'fails gracefully if the config file is not readable' do
+    it 'shows an error if the config file is not readable' do
       path = Twig::CONFIG_PATH
       deprecated_path = Twig::DEPRECATED_CONFIG_PATH
       expect(File).to receive(:readable?).with(path).and_return(false)
       expect(File).to receive(:readable?).with(deprecated_path).and_return(false)
       expect(File).to receive(:expand_path).with(deprecated_path).
         and_return(deprecated_path)
+      expect($stderr).to receive(:puts) do |message|
+        expect(message).to match(/not readable/)
+      end
+      expect(File).not_to receive(:open).with(path)
+      expect(File).not_to receive(:open).with(deprecated_path)
+
       expect { @twig.read_config_file! }.not_to raise_exception
     end
   end
