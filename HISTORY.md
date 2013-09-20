@@ -4,6 +4,7 @@ Twig
 * ENHANCEMENT: Add tab completion for all subcommands, built-in (e.g., `twig
   diff`, `twig gh-update`) and custom.
 * ENHANCEMENT: Paginate help content where possible.
+* ENHANCEMENT: Improve error messages `~/.twigconfig` isn't readable.
 
 1.4 (2013-08-07)
 ----------------
