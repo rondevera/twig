@@ -36,7 +36,13 @@ class Twig
 
           if line !~ /^#/
             key, value = line.split(':', 2)
-            hsh[key.strip] = value.strip if key && value
+
+            if key && value
+              hsh[key.strip] = value.strip
+            elsif !line.empty?
+              $stderr.puts %{Warning: Invalid line "#{line}" in #{config_path}. } <<
+                %{Expected format: `key: value`}
+            end
           end
 
           hsh

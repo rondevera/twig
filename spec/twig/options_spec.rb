@@ -108,6 +108,58 @@ describe Twig::Options do
       expect(@twig.options[:reverse]).to be_true
     end
 
+    it 'skips and reports invalid lines in the config file' do
+      file = double('file')
+      path = Twig::CONFIG_PATH
+      expect(File).to receive(:exists?).with(path).and_return(true)
+      expect(File).to receive(:readable?).with(path).and_return(true)
+      expect(File).to receive(:open).with(path).and_yield(file)
+      expect(file).to receive(:read).and_return([
+        'except-branch: foo',
+        'max-days-old 30'
+      ].join("\n"))
+      expect(@twig.options[:property_except]).to be_nil
+      expect(@twig.options[:max_days_old]).to be_nil
+      expect($stderr).to receive(:puts) do |message|
+        expect(message).to include('Invalid line')
+        expect(message).to include(path)
+      end
+
+      @twig.read_config_file!
+
+      expect(@twig.options[:property_except]).to eq(:branch => /foo/)
+      expect(@twig.options[:max_days_old]).to be_nil
+    end
+
+    it 'skips and reports invalid lines in the deprecated config file' do
+      file = double('file')
+      deprecated_path = Twig::DEPRECATED_CONFIG_PATH
+      expect(File).to receive(:expand_path).with(deprecated_path).
+        and_return(deprecated_path)
+      expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(false)
+      expect(File).to receive(:exists?).with(deprecated_path).and_return(true)
+      expect(File).to receive(:readable?).with(deprecated_path).and_return(true)
+      expect(File).to receive(:open).with(deprecated_path).and_yield(file)
+      expect(file).to receive(:read).and_return([
+        'except-branch: foo',
+        'max-days-old 30'
+      ].join("\n"))
+      expect(@twig.options[:property_except]).to be_nil
+      expect(@twig.options[:max_days_old]).to be_nil
+      expect($stderr).to receive(:puts).ordered do |message|
+        expect(message).to match(/^DEPRECATED:/)
+      end
+      expect($stderr).to receive(:puts).ordered do |message|
+        expect(message).to include('Invalid line')
+        expect(message).to include(deprecated_path)
+      end
+
+      @twig.read_config_file!
+
+      expect(@twig.options[:property_except]).to eq(:branch => /foo/)
+      expect(@twig.options[:max_days_old]).to be_nil
+    end
+
     it 'skips comments' do
       file = double('file')
       expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(true)
@@ -120,6 +172,7 @@ describe Twig::Options do
         ' # foo-width: 4'
       ].join("\n"))
       expect(@twig.options[:max_days_old]).to be_nil
+      expect($stderr).not_to receive(:puts)
 
       @twig.read_config_file!
 
@@ -136,6 +189,7 @@ describe Twig::Options do
         '',
         'only-branch:   test-only'
       ].join("\n"))
+      expect($stderr).not_to receive(:puts)
 
       # Check preconditions
       expect(@twig.options[:property_except]).to be_nil
@@ -170,7 +224,7 @@ describe Twig::Options do
       expect(File).not_to receive(:exists?).with(deprecated_path)
       expect(File).not_to receive(:readable?).with(deprecated_path)
       expect($stderr).to receive(:puts) do |message|
-        expect(message).to match(/not readable/)
+        expect(message).to include('not readable')
       end
       expect(File).not_to receive(:open).with(path)
       expect(File).not_to receive(:open).with(deprecated_path)
@@ -188,7 +242,7 @@ describe Twig::Options do
       expect(File).to receive(:readable?).with(deprecated_path).and_return(false)
       expect($stderr).to receive(:puts) do |message|
         expect(message).to match(/^DEPRECATED:/)
-        expect(message).to match(/make it readable/)
+        expect(message).to include('make it readable')
       end
       expect(File).not_to receive(:open).with(path)
       expect(File).not_to receive(:open).with(deprecated_path)
