@@ -5,7 +5,7 @@ class Twig
     DEPRECATED_CONFIG_PATH = '~/.twigrc'
     MIN_PROPERTY_WIDTH = 3
 
-    def read_config_file!
+    def readable_config_file_path
       config_path = File.expand_path(CONFIG_PATH)
 
       if File.exists?(config_path)
@@ -29,6 +29,13 @@ class Twig
           return # Stop if neither file exists
         end
       end
+
+      config_path
+    end
+
+    def read_config_file!
+      config_path = readable_config_file_path
+      return unless config_path
 
       File.open(config_path) do |file|
         opts = file.read.split("\n").inject({}) do |hsh, line|

@@ -5,10 +5,100 @@ describe Twig::Options do
     @twig = Twig.new
   end
 
-  describe '#read_config_file!' do
+  describe '#readable_config_file_path' do
     before :each do
       expect(File).to receive(:expand_path).with(Twig::CONFIG_PATH).
         and_return(Twig::CONFIG_PATH)
+    end
+
+    context 'with a config path that exists' do
+      before :each do
+        expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(true)
+      end
+
+      it 'returns the config path if is readable' do
+        path = Twig::CONFIG_PATH
+        expect(File).to receive(:readable?).with(path).and_return(true)
+        expect($stderr).not_to receive(:puts)
+
+        result = @twig.readable_config_file_path
+
+        expect(result).to eq(path)
+      end
+
+      it 'prints a warning and returns nil if the config path is not readable' do
+        path = Twig::CONFIG_PATH
+        expect(File).to receive(:readable?).with(path).and_return(false)
+        expect($stderr).to receive(:puts) do |message|
+          expect(message).to include('not readable')
+        end
+
+        result = @twig.readable_config_file_path
+
+        expect(result).to be_nil
+      end
+    end
+
+    context 'with a config path that does not exist' do
+      before :each do
+        expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(false)
+        expect(File).to receive(:expand_path).with(Twig::DEPRECATED_CONFIG_PATH).
+          and_return(Twig::DEPRECATED_CONFIG_PATH)
+      end
+
+      it 'prints a deprecation warning and returns the deprecated config path if it exists and is readable' do
+        path = Twig::DEPRECATED_CONFIG_PATH
+        expect(File).to receive(:exists?).with(path).and_return(true)
+        expect(File).to receive(:readable?).with(path).and_return(true)
+        expect($stderr).to receive(:puts) do |message|
+          expect(message).to match(/^DEPRECATED:/)
+          expect(message).to include('Please rename')
+          expect(message).not_to include('make it readable')
+        end
+
+        result = @twig.readable_config_file_path
+
+        expect(result).to eq(path)
+      end
+
+      it 'prints a deprecation warning and returns nil if the deprecated config path exists but is not readable' do
+        path = Twig::DEPRECATED_CONFIG_PATH
+        expect(File).to receive(:exists?).with(path).and_return(true)
+        expect(File).to receive(:readable?).with(path).and_return(false)
+        expect($stderr).to receive(:puts) do |message|
+          expect(message).to match(/^DEPRECATED:/)
+          expect(message).to include('Please rename')
+          expect(message).to include('make it readable')
+        end
+
+        result = @twig.readable_config_file_path
+
+        expect(result).to be_nil
+      end
+
+      it 'returns nil if the deprecated config path does not exist' do
+        path = Twig::DEPRECATED_CONFIG_PATH
+        expect(File).to receive(:exists?).with(path).and_return(false)
+
+        result = @twig.readable_config_file_path
+
+        expect(result).to be_nil
+      end
+    end
+  end
+
+  describe '#read_config_file!' do
+    before :each do
+      allow(File).to receive(:expand_path).with(Twig::CONFIG_PATH).
+        and_return(Twig::CONFIG_PATH)
+    end
+
+    it 'does nothing if there is no readable config file' do
+      allow(@twig).to receive(:readable_config_file_path).and_return(nil)
+      expect(File).not_to receive(:open).with(Twig::CONFIG_PATH)
+      expect(File).not_to receive(:open).with(Twig::DEPRECATED_CONFIG_PATH)
+
+      @twig.read_config_file!
     end
 
     it 'reads and sets a single option' do
