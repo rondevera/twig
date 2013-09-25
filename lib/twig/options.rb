@@ -33,12 +33,11 @@ class Twig
       config_path
     end
 
-    def read_config_file!
-      config_path = readable_config_file_path
-      return unless config_path
+    def parse_config_file(config_path)
+      options = {}
 
       File.open(config_path) do |file|
-        opts = file.read.split("\n").inject({}) do |hsh, line|
+        options = file.read.split("\n").inject({}) do |hsh, line|
           line = line.strip
 
           if line !~ /^#/
@@ -54,38 +53,46 @@ class Twig
 
           hsh
         end
+      end
 
-        opts.each do |key, value|
-          case key
+      options
+    end
 
-          # Filtering branches:
-          when 'branch'
-            set_option(:branch, value)
-          when 'max-days-old'
-            set_option(:max_days_old, value)
-          when /^except-/
-            property_name = key.sub(/^except-/, '').to_sym
-            set_option(:property_except, property_name => value)
-          when /^only-/
-            property_name = key.sub(/^only-/, '').to_sym
-            set_option(:property_only, property_name => value)
+    def read_config_file!
+      config_path = readable_config_file_path
+      return unless config_path
 
-          # Displaying branches:
-          when 'header-style'
-            set_option(:header_style, value)
-          when 'reverse'
-            set_option(:reverse, value)
-          when /-width$/
-            property_name = key.sub(/-width$/, '').to_sym
-            set_option(:property_width, property_name => value)
+      options = parse_config_file(config_path)
+      options.each do |key, value|
+        case key
 
-          # GitHub integration:
-          when 'github-api-uri-prefix'
-            set_option(:github_api_uri_prefix, value)
-          when 'github-uri-prefix'
-            set_option(:github_uri_prefix, value)
+        # Filtering branches:
+        when 'branch'
+          set_option(:branch, value)
+        when 'max-days-old'
+          set_option(:max_days_old, value)
+        when /^except-/
+          property_name = key.sub(/^except-/, '').to_sym
+          set_option(:property_except, property_name => value)
+        when /^only-/
+          property_name = key.sub(/^only-/, '').to_sym
+          set_option(:property_only, property_name => value)
 
-          end
+        # Displaying branches:
+        when 'header-style'
+          set_option(:header_style, value)
+        when 'reverse'
+          set_option(:reverse, value)
+        when /-width$/
+          property_name = key.sub(/-width$/, '').to_sym
+          set_option(:property_width, property_name => value)
+
+        # GitHub integration:
+        when 'github-api-uri-prefix'
+          set_option(:github_api_uri_prefix, value)
+        when 'github-uri-prefix'
+          set_option(:github_uri_prefix, value)
+
         end
       end
     end

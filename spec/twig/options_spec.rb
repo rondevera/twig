@@ -87,6 +87,102 @@ describe Twig::Options do
     end
   end
 
+  describe '#parse_config_file' do
+    before :each do
+      @file = double('file')
+      @path = Twig::CONFIG_PATH
+      expect(File).to receive(:open).with(@path).and_yield(@file)
+    end
+
+    it 'reads a single option' do
+      expect(@file).to receive(:read).and_return('branch: test')
+      options = @twig.parse_config_file(@path)
+      expect(options).to eq('branch' => 'test')
+    end
+
+    it 'reads multiple options' do
+      expect(@file).to receive(:read).and_return([
+        # Filtering branches:
+        'branch:        test',
+        'max-days-old:  30.5',
+        'except-branch: test-except-branch',
+        'only-branch:   test-only-branch',
+        'except-foo:    test-except-foo',
+        'only-foo:      test-only-foo',
+
+        # Displaying branches:
+        'header-style:  green bold',
+        'reverse:       true',
+        'foo-width:     4',
+
+        # GitHub integration:
+        'github-api-uri-prefix: https://github-enterprise.example.com/api/v3',
+        'github-uri-prefix:     https://github-enterprise.example.com'
+      ].join("\n"))
+
+      options = @twig.parse_config_file(@path)
+
+      expect(options).to eq(
+        'branch'                => 'test',
+        'max-days-old'          => '30.5',
+        'except-branch'         => 'test-except-branch',
+        'only-branch'           => 'test-only-branch',
+        'except-foo'            => 'test-except-foo',
+        'only-foo'              => 'test-only-foo',
+        'header-style'          => 'green bold',
+        'reverse'               => 'true',
+        'foo-width'             => '4',
+        'github-api-uri-prefix' => 'https://github-enterprise.example.com/api/v3',
+        'github-uri-prefix'     => 'https://github-enterprise.example.com'
+      )
+    end
+
+    it 'skips and reports invalid lines' do
+      expect(@file).to receive(:read).and_return([
+        'except-branch: foo',
+        'max-days-old 30'
+      ].join("\n"))
+      expect($stderr).to receive(:puts) do |message|
+        expect(message).to include('Invalid line')
+        expect(message).to include(@path)
+      end
+
+      options = @twig.parse_config_file(@path)
+
+      expect(options).to eq('except-branch' => 'foo')
+    end
+
+    it 'skips comments' do
+      expect(@file).to receive(:read).and_return([
+        '# max-days-old: 40',
+        'max-days-old: 30',
+        '# max-days-old: 20',
+        ' # foo-width: 4'
+      ].join("\n"))
+      expect($stderr).not_to receive(:puts)
+
+      options = @twig.parse_config_file(@path)
+
+      expect(options).to eq('max-days-old' => '30')
+    end
+
+    it 'skips line breaks' do
+      expect(@file).to receive(:read).and_return([
+        'except-branch: test-except',
+        '',
+        'only-branch:   test-only'
+      ].join("\n"))
+      expect($stderr).not_to receive(:puts)
+
+      options = @twig.parse_config_file(@path)
+
+      expect(options).to eq(
+        'except-branch' => 'test-except',
+        'only-branch'   => 'test-only'
+      )
+    end
+  end
+
   describe '#read_config_file!' do
     before :each do
       allow(File).to receive(:expand_path).with(Twig::CONFIG_PATH).
