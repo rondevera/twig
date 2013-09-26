@@ -34,28 +34,27 @@ class Twig
     end
 
     def parse_config_file(config_path)
-      options = {}
+      lines = []
 
       File.open(config_path) do |file|
-        options = file.read.split("\n").inject({}) do |hsh, line|
-          line = line.strip
-
-          if line !~ /^#/
-            key, value = line.split(':', 2)
-
-            if key && value
-              hsh[key.strip] = value.strip
-            elsif !line.empty?
-              $stderr.puts %{Warning: Invalid line "#{line}" in #{config_path}. } <<
-                %{Expected format: `key: value`}
-            end
-          end
-
-          hsh
-        end
+        lines = file.read.split("\n")
       end
 
-      options
+      lines.inject({}) do |opts, line|
+        line = line.strip
+        next opts if line =~ /^#/
+
+        key, value = line.split(':', 2)
+
+        if key && value
+          opts[key.strip] = value.strip
+        elsif !line.empty?
+          $stderr.puts %{Warning: Invalid line "#{line}" in #{config_path}. } <<
+            %{Expected format: `key: value`}
+        end
+
+        opts
+      end
     end
 
     def read_config_file!
