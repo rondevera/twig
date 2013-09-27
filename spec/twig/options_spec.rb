@@ -137,6 +137,21 @@ describe Twig::Options do
       )
     end
 
+    it 'skips and reports empty keys' do
+      expect(@file).to receive(:read).and_return([
+        'except-branch: foo',
+        ': bar'
+      ].join("\n"))
+      expect($stderr).to receive(:puts) do |message|
+        expect(message).to include('Invalid line')
+        expect(message).to include(@path)
+      end
+
+      options = @twig.parse_config_file(@path)
+
+      expect(options).to eq('except-branch' => 'foo')
+    end
+
     it 'skips and reports invalid lines' do
       expect(@file).to receive(:read).and_return([
         'except-branch: foo',

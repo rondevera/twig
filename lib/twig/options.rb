@@ -45,9 +45,10 @@ class Twig
         next opts if line =~ /^#/
 
         key, value = line.split(':', 2)
+        key = key ? key.strip : ''
 
-        if key && value
-          opts[key.strip] = value.strip
+        if !key.empty? && value
+          opts[key] = value.strip
         elsif !line.empty?
           $stderr.puts %{Warning: Invalid line "#{line}" in #{config_path}. } <<
             %{Expected format: `key: value`}
