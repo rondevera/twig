@@ -206,19 +206,15 @@ describe Twig::Options do
 
     it 'does nothing if there is no readable config file' do
       allow(@twig).to receive(:readable_config_file_path).and_return(nil)
-      expect(File).not_to receive(:open).with(Twig::CONFIG_PATH)
-      expect(File).not_to receive(:open).with(Twig::DEPRECATED_CONFIG_PATH)
+      expect(@twig).not_to receive(:parse_config_file)
 
       @twig.read_config_file!
     end
 
     it 'reads and sets a single option' do
       allow(@twig).to receive(:all_branch_names) { ['test'] }
-      file = double('file')
-      expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(true)
-      expect(File).to receive(:readable?).with(Twig::CONFIG_PATH).and_return(true)
-      expect(File).to receive(:open).with(Twig::CONFIG_PATH).and_yield(file)
-      expect(file).to receive(:read).and_return('branch: test')
+      expect(@twig).to receive(:readable_config_file_path).and_return(Twig::CONFIG_PATH)
+      expect(@twig).to receive(:parse_config_file).and_return('branch' => 'test')
       expect(@twig.options[:branch]).to be_nil
 
       @twig.read_config_file!
