@@ -212,9 +212,12 @@ describe Twig::Options do
     end
 
     it 'reads and sets a single option' do
+      path = Twig::CONFIG_PATH
       allow(@twig).to receive(:all_branch_names) { ['test'] }
-      expect(@twig).to receive(:readable_config_file_path).and_return(Twig::CONFIG_PATH)
-      expect(@twig).to receive(:parse_config_file).and_return('branch' => 'test')
+      expect(@twig).to receive(:readable_config_file_path).and_return(path)
+      expect(@twig).to receive(:parse_config_file).with(path).and_return(
+        'branch' => 'test'
+      )
       expect(@twig.options[:branch]).to be_nil
 
       @twig.read_config_file!
@@ -223,29 +226,27 @@ describe Twig::Options do
     end
 
     it 'reads and sets multiple options' do
+      path = Twig::CONFIG_PATH
       allow(@twig).to receive(:all_branch_names) { ['test'] }
-      file = double('file')
-      expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(true)
-      expect(File).to receive(:readable?).with(Twig::CONFIG_PATH).and_return(true)
-      expect(File).to receive(:open).with(Twig::CONFIG_PATH).and_yield(file)
-      expect(file).to receive(:read).and_return([
+      expect(@twig).to receive(:readable_config_file_path).and_return(path)
+      expect(@twig).to receive(:parse_config_file).with(path).and_return(
         # Filtering branches:
-        'branch:        test',
-        'max-days-old:  30.5',
-        'except-branch: test-except-branch',
-        'only-branch:   test-only-branch',
-        'except-foo:    test-except-foo',
-        'only-foo:      test-only-foo',
+        'branch'        => 'test',
+        'max-days-old'  => '30.5',
+        'except-branch' => 'test-except-branch',
+        'only-branch'   => 'test-only-branch',
+        'except-foo'    => 'test-except-foo',
+        'only-foo'      => 'test-only-foo',
 
         # Displaying branches:
-        'header-style:  green bold',
-        'reverse:       true',
-        'foo-width:     4',
+        'header-style'  => 'green bold',
+        'reverse'       => 'true',
+        'foo-width'     => '4',
 
         # GitHub integration:
-        'github-api-uri-prefix: https://github-enterprise.example.com/api/v3',
-        'github-uri-prefix:     https://github-enterprise.example.com'
-      ].join("\n"))
+        'github-api-uri-prefix' => 'https://github-enterprise.example.com/api/v3',
+        'github-uri-prefix'     => 'https://github-enterprise.example.com'
+      )
 
       # Check preconditions
       expect(@twig.options[:branch]).to be_nil
@@ -281,70 +282,6 @@ describe Twig::Options do
       )
       expect(@twig.options[:property_width]).to eq(:foo => 4)
       expect(@twig.options[:reverse]).to be_true
-    end
-
-    it 'skips and reports invalid lines' do
-      file = double('file')
-      path = Twig::CONFIG_PATH
-      expect(File).to receive(:exists?).with(path).and_return(true)
-      expect(File).to receive(:readable?).with(path).and_return(true)
-      expect(File).to receive(:open).with(path).and_yield(file)
-      expect(file).to receive(:read).and_return([
-        'except-branch: foo',
-        'max-days-old 30'
-      ].join("\n"))
-      expect(@twig.options[:property_except]).to be_nil
-      expect(@twig.options[:max_days_old]).to be_nil
-      expect($stderr).to receive(:puts) do |message|
-        expect(message).to include('Invalid line')
-        expect(message).to include(path)
-      end
-
-      @twig.read_config_file!
-
-      expect(@twig.options[:property_except]).to eq(:branch => /foo/)
-      expect(@twig.options[:max_days_old]).to be_nil
-    end
-
-    it 'skips comments' do
-      file = double('file')
-      expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(true)
-      expect(File).to receive(:readable?).with(Twig::CONFIG_PATH).and_return(true)
-      expect(File).to receive(:open).with(Twig::CONFIG_PATH).and_yield(file)
-      expect(file).to receive(:read).and_return([
-        '# max-days-old: 40',
-        'max-days-old: 30',
-        '# max-days-old: 20',
-        ' # foo-width: 4'
-      ].join("\n"))
-      expect(@twig.options[:max_days_old]).to be_nil
-      expect($stderr).not_to receive(:puts)
-
-      @twig.read_config_file!
-
-      expect(@twig.options[:max_days_old]).to eq(30)
-    end
-
-    it 'skips line breaks' do
-      file = double('file')
-      expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(true)
-      expect(File).to receive(:readable?).with(Twig::CONFIG_PATH).and_return(true)
-      expect(File).to receive(:open).with(Twig::CONFIG_PATH).and_yield(file)
-      expect(file).to receive(:read).and_return([
-        'except-branch: test-except',
-        '',
-        'only-branch:   test-only'
-      ].join("\n"))
-      expect($stderr).not_to receive(:puts)
-
-      # Check preconditions
-      expect(@twig.options[:property_except]).to be_nil
-      expect(@twig.options[:property_only]).to be_nil
-
-      @twig.read_config_file!
-
-      expect(@twig.options[:property_except]).to eq(:branch => /test-except/)
-      expect(@twig.options[:property_only]).to eq(:branch => /test-only/)
     end
   end
 
