@@ -103,7 +103,7 @@ class Twig
         if all_branch_names.include?(value)
           options[:branch] = value
         else
-          abort %{The branch "#{value}" could not be found.}
+          abort %{The branch `#{value}` could not be found.}
         end
 
       when :github_api_uri_prefix, :github_uri_prefix

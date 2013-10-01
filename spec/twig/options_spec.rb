@@ -304,7 +304,7 @@ describe Twig::Options do
         branch_name = 'foo'
         expect(@twig).to receive(:all_branch_names).and_return([])
         expect(@twig).to receive(:abort) do |message|
-          expect(message).to include(%{branch "#{branch_name}" could not be found})
+          expect(message).to include(%{branch `#{branch_name}` could not be found})
         end
 
         @twig.set_option(:branch, branch_name)
