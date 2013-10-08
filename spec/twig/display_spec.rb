@@ -272,6 +272,71 @@ describe Twig::Display do
     end
   end
 
+  describe '#branches_json' do
+    before :each do
+      @commit_time = Twig::CommitTime.new(Time.now, '')
+      allow(@commit_time).to receive(:to_s).and_return('2000-01-01')
+    end
+
+    it 'returns branch properties as JSON' do
+      branches = [
+        Twig::Branch.new('branch1'),
+        Twig::Branch.new('branch2')
+      ]
+      expect(@twig).to receive(:branches).and_return(branches)
+      expect(Twig::Branch).to receive(:all_property_names) { %w[foo bar] }
+      expect(branches[0]).to receive(:get_properties) do
+        { 'foo' => 'foo!', 'bar' => 'bar!' }
+      end
+      expect(branches[1]).to receive(:get_properties) do
+        { 'foo' => 'foo!', 'bar' => 'bar!' }
+      end
+      expect(branches[0]).to receive(:last_commit_time) { @commit_time }
+      expect(branches[1]).to receive(:last_commit_time) { @commit_time }
+
+      result = @twig.branches_json
+
+      expect(result).to eq({
+        'branch1' => {
+          'foo' => 'foo!',
+          'bar' => 'bar!',
+          'last-commit-time' => '2000-01-01'
+        },
+        'branch2' => {
+          'foo' => 'foo!',
+          'bar' => 'bar!',
+          'last-commit-time' => '2000-01-01'
+        }
+      }.to_json)
+    end
+
+    it 'returns JSON for an empty hash if there are no branches' do
+      expect(@twig).to receive(:branches).and_return([])
+      result = @twig.branches_json
+      expect(result).to eq({}.to_json)
+    end
+
+    it 'returns valid JSON if no branches have custom properties' do
+      branches = [
+        Twig::Branch.new('branch1'),
+        Twig::Branch.new('branch2')
+      ]
+      expect(Twig::Branch).to receive(:all_property_names) { %w[foo bar] }
+      expect(@twig).to receive(:branches).and_return(branches)
+      expect(branches[0]).to receive(:get_properties).and_return({})
+      expect(branches[1]).to receive(:get_properties).and_return({})
+      expect(branches[0]).to receive(:last_commit_time) { @commit_time }
+      expect(branches[1]).to receive(:last_commit_time) { @commit_time }
+
+      result = @twig.branches_json
+
+      expect(result).to eq({
+        'branch1' => { 'last-commit-time' => '2000-01-01' },
+        'branch2' => { 'last-commit-time' => '2000-01-01' }
+      }.to_json)
+    end
+  end
+
   describe '#format_string' do
     it 'returns a plain string' do
       expect(@twig.format_string('foo', {})).to eq('foo')

@@ -137,6 +137,21 @@ class Twig
       line
     end
 
+    def branches_json
+      all_property_names = Twig::Branch.all_property_names
+
+      branches_data = branches.inject({}) do |data, branch|
+        branch_data = branch.get_properties(all_property_names)
+        branch_data['last-commit-time'] = branch.last_commit_time
+
+        data[branch.name] = branch_data
+        data
+      end
+
+      require 'json'
+      branches_data.to_json
+    end
+
     def format_string(string, options)
       # Options:
       # - `:color`:  `nil` by default. Accepts a key from `COLORS`.
