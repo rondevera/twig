@@ -106,6 +106,13 @@ class Twig
           abort %{The branch `#{value}` could not be found.}
         end
 
+      when :format
+        if value == 'json'
+          options[:format] = value.to_sym
+        else
+          abort %{The format `#{value}` is not supported; only `json` is supported.}
+        end
+
       when :github_api_uri_prefix, :github_uri_prefix
         options[key] = value
 

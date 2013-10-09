@@ -313,6 +313,24 @@ describe Twig::Options do
       end
     end
 
+    context 'when setting a :format option' do
+      it 'succeeds' do
+        @twig.set_option(:format, 'json')
+        expect(@twig.options[:format]).to eq(:json)
+      end
+
+      it 'fails if the option is not :json' do
+        value = 'foo'
+        expect(@twig).to receive(:abort) do |message|
+          expect(message).to include("format `#{value}` is not supported")
+        end
+
+        @twig.set_option(:format, value)
+
+        expect(@twig.options[:format]).to be_nil
+      end
+    end
+
     it 'sets a :github_api_uri_prefix option' do
       prefix = 'https://github-enterprise.example.com/api/v3'
       @twig.set_option(:github_api_uri_prefix, prefix)
