@@ -79,6 +79,8 @@ class Twig
           set_option(:property_only, property_name => value)
 
         # Displaying branches:
+        when 'format'
+          set_option(:format, value)
         when 'header-style'
           set_option(:header_style, value)
         when 'reverse'

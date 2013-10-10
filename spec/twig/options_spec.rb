@@ -239,6 +239,7 @@ describe Twig::Options do
         'only-foo'      => 'test-only-foo',
 
         # Displaying branches:
+        'format'        => 'json',
         'header-style'  => 'green bold',
         'reverse'       => 'true',
         'foo-width'     => '4',
@@ -250,6 +251,7 @@ describe Twig::Options do
 
       # Check preconditions
       expect(@twig.options[:branch]).to be_nil
+      expect(@twig.options[:format]).to be_nil
       expect(@twig.options[:github_api_uri_prefix]).to be_nil
       expect(@twig.options[:github_uri_prefix]).to be_nil
       expect(@twig.options[:header_color]).to eq(Twig::DEFAULT_HEADER_COLOR)
@@ -263,6 +265,7 @@ describe Twig::Options do
       @twig.read_config_file!
 
       expect(@twig.options[:branch]).to eq('test')
+      expect(@twig.options[:format]).to eq(:json)
       expect(@twig.options[:github_api_uri_prefix]).to eq(
         'https://github-enterprise.example.com/api/v3'
       )
