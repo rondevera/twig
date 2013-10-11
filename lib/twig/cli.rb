@@ -215,6 +215,15 @@ class Twig
         ])
 
         desc =
+          'Print branch properties in a format that can be used by other ' +
+          'tools. Currently, the only supported value is `json`.'
+        opts.on(
+          '--format FORMAT', *help_description(desc, :add_separator => true)
+        ) do |format|
+          set_option(:format, format)
+        end
+
+        desc =
           'Lists all branches regardless of other filtering options. ' +
           'Useful for overriding options in ' +
           File.basename(Twig::Options::CONFIG_PATH) + '.'

@@ -300,6 +300,12 @@ describe Twig::Cli do
       end
     end
 
+    it 'recognizes `--format` and sets a `:format` option' do
+      expect(@twig.options[:format]).to be_nil
+      @twig.read_cli_options!(%w[--format json])
+      expect(@twig.options[:format]).to eq(:json)
+    end
+
     it 'recognizes `--all` and unsets other options except `:branch`' do
       @twig.set_option(:max_days_old, 30)
       @twig.set_option(:property_except, :branch => /test/)
