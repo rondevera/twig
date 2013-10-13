@@ -1,6 +1,8 @@
 Twig
 ====
 
+* ENHANCEMENT: Add `--format=json` option for printing branch data as JSON
+  instead of a list. Useful for integrating Twig data into other tools.
 * ENHANCEMENT: Add tab completion for all subcommands, built-in (e.g., `twig
   diff`, `twig gh-update`) and custom.
 * ENHANCEMENT: Paginate help content where possible.
