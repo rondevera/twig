@@ -348,6 +348,7 @@ class Twig
 
       read_cli_options!(args)
       branch_name = options[:branch] || current_branch_name
+      format = options.delete(:format)
       property_to_unset = options.delete(:unset_property)
 
       # Handle remaining arguments, if any
@@ -367,6 +368,9 @@ class Twig
       elsif property_to_unset
         # `$ twig --unset <key>`
         unset_branch_property_for_cli(branch_name, property_to_unset)
+      elsif format == :json
+        # `$ twig --format json`
+        puts branches_json
       else
         # `$ twig`
         puts list_branches

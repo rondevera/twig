@@ -414,6 +414,17 @@ describe Twig::Cli do
       @twig.read_cli_args!([])
     end
 
+    it 'prints branch properties as JSON' do
+      branches_json = {
+        'branch1' => { 'last-commit-time' => '2000-01-01' },
+        'branch2' => { 'last-commit-time' => '2000-01-01' }
+      }.to_json
+      expect(@twig).to receive(:branches_json).and_return(branches_json)
+      expect(@twig).to receive(:puts).with(branches_json)
+
+      @twig.read_cli_args!(%w[--format json])
+    end
+
     context 'running a subcommand' do
       before :each do
         allow(Twig).to receive(:run)
