@@ -297,23 +297,31 @@ describe Twig::Display do
       result = @twig.branches_json
 
       expect(result).to eq({
-        'branch1' => {
-          'foo' => 'foo!',
-          'bar' => 'bar!',
-          'last-commit-time' => '2000-01-01'
-        },
-        'branch2' => {
-          'foo' => 'foo!',
-          'bar' => 'bar!',
-          'last-commit-time' => '2000-01-01'
-        }
+        'branches' => [
+          {
+            'name' => 'branch1',
+            'last-commit-time' => '2000-01-01',
+            'properties' => {
+              'foo' => 'foo!',
+              'bar' => 'bar!'
+            }
+          },
+          {
+            'name' => 'branch2',
+            'last-commit-time' => '2000-01-01',
+            'properties' => {
+              'foo' => 'foo!',
+              'bar' => 'bar!'
+            }
+          }
+        ]
       }.to_json)
     end
 
-    it 'returns JSON for an empty hash if there are no branches' do
+    it 'returns JSON for an empty array if there are no branches' do
       expect(@twig).to receive(:branches).and_return([])
       result = @twig.branches_json
-      expect(result).to eq({}.to_json)
+      expect(result).to eq({ 'branches' => [] }.to_json)
     end
 
     it 'returns valid JSON if no branches have custom properties' do
@@ -331,8 +339,18 @@ describe Twig::Display do
       result = @twig.branches_json
 
       expect(result).to eq({
-        'branch1' => { 'last-commit-time' => '2000-01-01' },
-        'branch2' => { 'last-commit-time' => '2000-01-01' }
+        'branches' => [
+          {
+            'name' => 'branch1',
+            'last-commit-time' => '2000-01-01',
+            'properties' => {}
+          },
+          {
+            'name' => 'branch2',
+            'last-commit-time' => '2000-01-01',
+            'properties' => {}
+          }
+        ]
       }.to_json)
     end
   end
