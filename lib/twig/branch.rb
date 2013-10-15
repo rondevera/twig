@@ -42,6 +42,16 @@ class Twig
 
     def to_s ; name ; end
 
+    def to_hash
+      all_property_names = Twig::Branch.all_property_names
+
+      {
+        'name' => name,
+        'last-commit-time' => last_commit_time.to_s,
+        'properties' => get_properties(all_property_names)
+      }
+    end
+
     def sanitize_property(property_name)
       property_name.gsub(/[ _]+/, '')
     end

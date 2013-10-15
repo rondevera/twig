@@ -86,6 +86,46 @@ describe Twig::Branch do
     end
   end
 
+  describe '#to_hash' do
+    before :each do
+      @branch = Twig::Branch.new('test')
+      commit_time = Twig::CommitTime.new(Time.now, '')
+      allow(commit_time).to receive(:to_s).and_return('2000-01-01')
+      allow(@branch).to receive(:last_commit_time) { commit_time }
+    end
+
+    it 'returns the hash for a branch with properties' do
+      expect(Twig::Branch).to receive(:all_property_names) { %w[foo bar] }
+      expect(@branch).to receive(:get_properties) do
+        { 'foo' => 'foo!', 'bar' => 'bar!' }
+      end
+
+      result = @branch.to_hash
+
+      expect(result).to eq(
+        'name' => 'test',
+        'last-commit-time' => '2000-01-01',
+        'properties' => {
+          'foo' => 'foo!',
+          'bar' => 'bar!'
+        }
+      )
+    end
+
+    it 'returns the hash for a branch with no properties' do
+      expect(Twig::Branch).to receive(:all_property_names) { %w[foo bar] }
+      expect(@branch).to receive(:get_properties).and_return({})
+
+      result = @branch.to_hash
+
+      expect(result).to eq(
+        'name' => 'test',
+        'last-commit-time' => '2000-01-01',
+        'properties' => {}
+      )
+    end
+  end
+
   describe '#sanitize_property' do
     before :each do
       @branch = Twig::Branch.new('test')
