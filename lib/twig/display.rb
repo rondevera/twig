@@ -138,19 +138,12 @@ class Twig
     end
 
     def branches_json
-      all_property_names = Twig::Branch.all_property_names
-
-      branches_data = {}
-      branches_data['branches'] = branches.map do |branch|
-        {
-          'name' => branch.name,
-          'last-commit-time' => branch.last_commit_time,
-          'properties' => branch.get_properties(all_property_names)
-        }
-      end
-
       require 'json'
-      branches_data.to_json
+
+      data = {
+        'branches' => branches.map { |branch| branch.to_hash }
+      }
+      data.to_json
     end
 
     def format_string(string, options)
