@@ -89,8 +89,9 @@ describe Twig::Branch do
   describe '#to_hash' do
     before :each do
       @branch = Twig::Branch.new('test')
-      commit_time = Twig::CommitTime.new(Time.now, '')
-      allow(commit_time).to receive(:to_s).and_return('2000-01-01')
+      time = Time.parse('2000-01-01 18:30 UTC')
+      commit_time = Twig::CommitTime.new(time, '')
+      @time_string = time.iso8601
       allow(@branch).to receive(:last_commit_time) { commit_time }
     end
 
@@ -104,7 +105,7 @@ describe Twig::Branch do
 
       expect(result).to eq(
         'name' => 'test',
-        'last-commit-time' => '2000-01-01',
+        'last-commit-time' => @time_string,
         'properties' => {
           'foo' => 'foo!',
           'bar' => 'bar!'
@@ -120,7 +121,7 @@ describe Twig::Branch do
 
       expect(result).to eq(
         'name' => 'test',
-        'last-commit-time' => '2000-01-01',
+        'last-commit-time' => @time_string,
         'properties' => {}
       )
     end

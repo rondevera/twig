@@ -47,7 +47,7 @@ class Twig
 
       {
         'name' => name,
-        'last-commit-time' => last_commit_time.to_s,
+        'last-commit-time' => last_commit_time.time.iso8601,
         'properties' => get_properties(all_property_names)
       }
     end

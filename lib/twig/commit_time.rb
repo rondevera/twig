@@ -1,6 +1,8 @@
 class Twig
   class CommitTime
 
+    attr_reader :time
+
     def initialize(time, time_ago)
       @time = time
 
