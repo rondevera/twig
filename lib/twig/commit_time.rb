@@ -1,8 +1,6 @@
 class Twig
   class CommitTime
 
-    attr_reader :time
-
     def initialize(time, time_ago)
       @time = time
 
@@ -24,6 +22,10 @@ class Twig
     def to_s
       time_string = @time.strftime('%F %R %z')
       "#{time_string} (#{@time_ago})"
+    end
+
+    def iso8601
+      @time.iso8601
     end
 
     def <=>(other)
