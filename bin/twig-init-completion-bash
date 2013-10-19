@@ -31,6 +31,14 @@ __twig_branches() {
   return 0
 }
 
+__twig_formats() {
+  local current words
+  current="${COMP_WORDS[COMP_CWORD]}"
+  words="json"
+  COMPREPLY=($(compgen -W "$words" -- "$current"))
+  return 0
+}
+
 __twig_subcommands() {
   local current words
   current="${COMP_WORDS[COMP_CWORD]}"
@@ -48,6 +56,7 @@ __twig() {
 
   case "${previous}" in
   -b|--branch)  __twig_branches ;;
+  --format)     __twig_formats ;;
   diff)         __twig_branches ;;
   diff-branch)  __twig_branches ;;
   rebase)       __twig_branches ;;
