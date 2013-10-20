@@ -252,8 +252,12 @@ describe Twig::Options do
       # Check preconditions
       expect(@twig.options[:branch]).to be_nil
       expect(@twig.options[:format]).to be_nil
-      expect(@twig.options[:github_api_uri_prefix]).to be_nil
-      expect(@twig.options[:github_uri_prefix]).to be_nil
+      expect(@twig.options[:github_api_uri_prefix]).to eq(
+        Twig::DEFAULT_GITHUB_API_URI_PREFIX
+      )
+      expect(@twig.options[:github_uri_prefix]).to eq(
+        Twig::DEFAULT_GITHUB_URI_PREFIX
+      )
       expect(@twig.options[:header_color]).to eq(Twig::DEFAULT_HEADER_COLOR)
       expect(@twig.options[:header_weight]).to be_nil
       expect(@twig.options[:max_days_old]).to be_nil

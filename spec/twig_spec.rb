@@ -26,7 +26,11 @@ describe Twig do
   describe '#initialize' do
     it 'creates a Twig instance' do
       twig = Twig.new
-      expect(twig.options).to eq(:header_color => Twig::DEFAULT_HEADER_COLOR)
+      expect(twig.options).to eq(
+        :github_api_uri_prefix => Twig::DEFAULT_GITHUB_API_URI_PREFIX,
+        :github_uri_prefix => Twig::DEFAULT_GITHUB_URI_PREFIX,
+        :header_color => Twig::DEFAULT_HEADER_COLOR
+      )
     end
   end
 

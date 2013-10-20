@@ -20,7 +20,7 @@ Twig::GithubRepo.new do |gh_repo|
   print 'Getting latest states for GitHub issues...'
 
   issues = {}
-  issues_uri_prefix = twig.options[:github_api_uri_prefix] || 'https://api.github.com'
+  issues_uri_prefix = twig.options[:github_api_uri_prefix]
   issues_uri_base =
     "#{issues_uri_prefix}/repos/#{gh_repo.username}/#{gh_repo.repository}/issues"
   issues_uris = [

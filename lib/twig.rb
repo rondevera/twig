@@ -8,6 +8,8 @@ class Twig
 
   attr_accessor :options
 
+  DEFAULT_GITHUB_API_URI_PREFIX = 'https://api.github.com'
+  DEFAULT_GITHUB_URI_PREFIX = 'https://github.com'
   DEFAULT_HEADER_COLOR = :blue
   REF_FORMAT_SEPARATOR = ','
   REF_FORMAT = %w[refname:short committerdate committerdate:relative].
@@ -27,6 +29,8 @@ class Twig
     self.options = {}
 
     # Set defaults
+    set_option(:github_api_uri_prefix, DEFAULT_GITHUB_API_URI_PREFIX)
+    set_option(:github_uri_prefix, DEFAULT_GITHUB_URI_PREFIX)
     set_option(:header_style, DEFAULT_HEADER_COLOR.to_s)
   end
 

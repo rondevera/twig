@@ -348,7 +348,7 @@ describe Twig::Cli do
     end
 
     it 'recognizes `--github-api-uri-prefix`' do
-      expect(@twig.options[:github_api_uri_prefix]).to be_nil
+      expect(@twig.options[:github_api_uri_prefix]).to eq(Twig::DEFAULT_GITHUB_API_URI_PREFIX)
       prefix = 'https://github-enterprise.example.com/api/v3'
 
       @twig.read_cli_options!(['--github-api-uri-prefix', prefix])
@@ -357,7 +357,7 @@ describe Twig::Cli do
     end
 
     it 'recognizes `--github-uri-prefix`' do
-      expect(@twig.options[:github_uri_prefix]).to be_nil
+      expect(@twig.options[:github_uri_prefix]).to eq(Twig::DEFAULT_GITHUB_URI_PREFIX)
       prefix = 'https://github-enterprise.example.com'
 
       @twig.read_cli_options!(['--github-uri-prefix', prefix])
