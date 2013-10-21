@@ -285,6 +285,7 @@ class Twig
         desc = <<-DESC
           Set a custom GitHub API URI prefix, e.g.,
           https://github-enterprise.example.com/api/v3.
+          (Default: "#{Twig::DEFAULT_GITHUB_API_URI_PREFIX}")
         DESC
         opts.on(
           '--github-api-uri-prefix PREFIX',
@@ -296,6 +297,7 @@ class Twig
         desc = <<-DESC
           Set a custom GitHub URI prefix, e.g.,
           https://github-enterprise.example.com.
+          (Default: "#{Twig::DEFAULT_GITHUB_URI_PREFIX}")
         DESC
         opts.on(
           '--github-uri-prefix PREFIX',
