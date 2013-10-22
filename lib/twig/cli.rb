@@ -257,14 +257,14 @@ class Twig
         weights = Twig::Display::WEIGHTS.keys.map do |value|
           format_string(value, :weight => value)
         end.join(' and ')
-        default_color = format_string(
+        default_header_style = format_string(
           Twig::DEFAULT_HEADER_COLOR.to_s,
           :color => Twig::DEFAULT_HEADER_COLOR
         )
         desc = <<-DESC
           STYLE is a color, weight, or a space-separated pair of one of each.
           Valid colors are #{colors}. Valid weights are #{weights}.
-          The default is "#{default_color}".
+          (Default: "#{default_header_style}")
         DESC
         opts.on(
           '--header-style "STYLE"',
