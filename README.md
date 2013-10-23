@@ -224,6 +224,9 @@ open a browser window if possible:
     $ twig gh-open
     GitHub URL: https://github.com/myname/myproject
 
+For GitHub Enterprise or other installations, you can change
+`https://github.com` by setting `github-uri-prefix` in `~/.twigrc`.
+
 
 twig gh-open-issue
 ------------------
@@ -238,6 +241,9 @@ subcommand to view that issue on GitHub:
     # Any branch:
     $ twig gh-open-issue -b <branch name>
     GitHub issue URL: https://github.com/myname/myproject/issues/222
+
+For GitHub Enterprise or other installations, you can change
+`https://github.com` by setting `github-uri-prefix` in `~/.twigrc`.
 
 
 twig gh-update
@@ -274,6 +280,10 @@ subcommand syncs issue statuses with GitHub:
     2013-01-22 17:12:23 (4d ago)  -      -         master
 
 Run `twig gh-update` periodically to keep up with GitHub issues locally.
+
+For GitHub Enterprise or other installations, you can change the default
+`https://api.github.com` endpoint prefix by setting `github-api-uri-prefix` in
+`~/.twigrc`.
 
 
 Writing a subcommand
