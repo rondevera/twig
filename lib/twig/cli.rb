@@ -273,7 +273,7 @@ class Twig
           set_option(:header_style, style)
         end
 
-        desc = 'Show oldest branches first.'
+        desc = 'Show oldest branches first. (Default: false)'
         opts.on('--reverse', *help_description(desc)) do
           set_option(:reverse, true)
         end
