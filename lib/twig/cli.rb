@@ -237,7 +237,10 @@ class Twig
 
         help_separator(opts, 'Listing branches:')
 
-        desc = 'Set the width for the `branch` column.'
+        desc = <<-DESC
+          Set the width for the `branch` column.
+          (Default: #{Twig::DEFAULT_BRANCH_COLUMN_WIDTH})
+        DESC
         opts.on('--branch-width NUMBER', *help_description(desc)) do |width|
           set_option(:property_width, :branch => width)
         end
