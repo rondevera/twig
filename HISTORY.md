@@ -8,6 +8,8 @@ Twig
 * ENHANCEMENT: Paginate help content where possible.
 * ENHANCEMENT: Improve error messages `~/.twigconfig` isn't readable or contains
   invalid lines.
+* ENHANCEMENT: Include default option values for branch listing and GitHub
+  integration in `twig --help`. (GH-30, GH-31)
 
 1.4 (2013-08-07)
 ----------------
