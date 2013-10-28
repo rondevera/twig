@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'spec_helper'
 
 describe Twig::Branch do
@@ -160,6 +161,18 @@ describe Twig::Branch do
         and_return(git_result)
 
       result = @branch.get_properties(%w[test1 test2])
+      expect(result).to eq(properties)
+    end
+
+    it 'returns properties for a branch with UTF-8 characters in its name' do
+      branch     = Twig::Branch.new('utf8_{･ิω･ิ}')
+      properties = { 'test1' => 'value1' }
+      git_result = "branch.#{branch}.test1 value1"
+      expect(Twig).to receive(:run).
+        with(%{git config --get-regexp "branch.#{branch}.(test1)$"}).
+        and_return(git_result)
+
+      result = branch.get_properties(%w[test1])
       expect(result).to eq(properties)
     end
 

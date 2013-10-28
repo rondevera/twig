@@ -72,7 +72,7 @@ class Twig
       git_result_lines = git_result.split("\n")
 
       git_result_lines.inject({}) do |properties, line|
-        match_data = line.match(/^branch\.#{name}\.([^\s]+)\s+(.*)$/)
+        match_data = line.match(/^branch\.#{Regexp.escape(name)}\.([^\s]+)\s+(.*)$/)
 
         if match_data
           property_name = match_data[1]
