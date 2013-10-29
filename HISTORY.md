@@ -10,6 +10,8 @@ Twig
   invalid lines.
 * ENHANCEMENT: Include default option values for branch listing and GitHub
   integration in `twig --help`. (GH-30, GH-31)
+* FIX: Fix warnings when listing branches when a branch has UTF-8 characters in
+  its name. (GH-20)
 
 1.4 (2013-08-07)
 ----------------
