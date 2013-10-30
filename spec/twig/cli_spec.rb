@@ -56,6 +56,19 @@ describe Twig::Cli do
         ['--test-option', 'Test option description']
       ])
     end
+
+    it 'supports custom trailing whitespace' do
+      option_parser = OptionParser.new
+      expect(@twig).to receive(:help_separator) do |opt_parser, desc, options|
+        expect(opt_parser).to eq(option_parser)
+        expect(desc).to eq("      --test-option                Test option description\n")
+        expect(options).to eq(:trailing => '')
+      end
+
+      @twig.help_description_for_custom_property(option_parser, [
+        ['--test-option', 'Test option description']
+      ], :trailing => '')
+    end
   end
 
   describe '#help_paragraph' do

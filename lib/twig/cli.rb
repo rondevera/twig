@@ -55,7 +55,8 @@ class Twig
       lines
     end
 
-    def help_description_for_custom_property(option_parser, desc_lines)
+    def help_description_for_custom_property(option_parser, desc_lines, options = {})
+      options[:trailing] ||= "\n"
       indent = '      '
       left_column_width = 29
 
@@ -64,7 +65,7 @@ class Twig
         sprintf("%-#{left_column_width}s", left_column) + right_column + "\n"
       end
 
-      help_separator(option_parser, help_desc, :trailing => "\n")
+      help_separator(option_parser, help_desc, :trailing => options[:trailing])
     end
 
     def help_paragraph(text)
