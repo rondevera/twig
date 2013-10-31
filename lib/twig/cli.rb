@@ -209,7 +209,7 @@ class Twig
         help_description_for_custom_property(opts, [
           ['--only-PROPERTY PATTERN',   'Only list branches with a given property'],
           ['',                          'that matches a given pattern.'],
-        ])
+        ], :trailing => '')
         help_description_for_custom_property(opts, [
           ['--except-PROPERTY PATTERN', 'Do not list branches with a given property'],
           ['',                          'that matches a given pattern.']
