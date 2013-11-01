@@ -25,12 +25,12 @@ class Twig
       intro + ' ' # Force extra blank line
     end
 
-    def help_separator(option_parser, text, options={})
+    def help_separator(option_parser, text, options = {})
       options[:trailing] ||= "\n\n"
       option_parser.separator "\n#{text}#{options[:trailing]}"
     end
 
-    def help_description(text, options={})
+    def help_description(text, options = {})
       width = options[:width] || 40
       words = text.gsub(/\n?\s+/, ' ').strip.split(' ')
       lines = []
