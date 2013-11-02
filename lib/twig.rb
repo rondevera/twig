@@ -11,7 +11,7 @@ class Twig
   DEFAULT_GITHUB_API_URI_PREFIX = 'https://api.github.com'
   DEFAULT_GITHUB_URI_PREFIX = 'https://github.com'
   DEFAULT_HEADER_COLOR = :blue
-  REF_FORMAT_SEPARATOR = ','
+  REF_FORMAT_SEPARATOR = '|'
   REF_FORMAT = %w[refname:short committerdate committerdate:relative].
                 map { |field| '%(' + field + ')' }.join(REF_FORMAT_SEPARATOR)
   REF_PREFIX = 'refs/heads/'

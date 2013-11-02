@@ -13,6 +13,10 @@ class Twig
         sub(' hours',   'h').
         sub(' minutes', 'm').
         sub(' seconds', 's')
+
+      # Keep only the most significant units in the relative time
+      time_ago_parts = @time_ago.split(/\s+/)
+      @time_ago = "#{time_ago_parts[0]} #{time_ago_parts[-1]}".gsub(/,/, '')
     end
 
     def to_i

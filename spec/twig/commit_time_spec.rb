@@ -12,6 +12,8 @@ describe Twig::CommitTime do
     end
 
     it 'stores a "time ago" string as its shortened version' do
+      expect(Twig::CommitTime.new(@time, '2 years, 2 months ago').
+        instance_variable_get(:@time_ago)).to eq('2y ago')
       expect(Twig::CommitTime.new(@time, '2 years ago').
         instance_variable_get(:@time_ago)).to eq('2y ago')
       expect(Twig::CommitTime.new(@time, '2 months ago').
