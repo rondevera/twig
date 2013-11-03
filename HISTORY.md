@@ -12,6 +12,7 @@ Twig
   integration in `twig --help`. (GH-30, GH-31)
 * FIX: Fix warnings when listing branches when a branch has UTF-8 characters in
   its name. (GH-20)
+* FIX: Fix showing relative time for very old branches (e.g., "2y ago"). (GH-29)
 
 1.4 (2013-08-07)
 ----------------
