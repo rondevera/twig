@@ -1,6 +1,7 @@
 Dir[File.join(File.dirname(__FILE__), 'twig', '*.rb')].each { |file| require file }
 require 'time'
 
+# The main class.
 class Twig
   include Cli
   include Display

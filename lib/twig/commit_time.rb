@@ -1,4 +1,6 @@
 class Twig
+
+  # Stores a branch's last commit time and its relative time representation.
   class CommitTime
 
     def initialize(time, time_ago)

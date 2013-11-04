@@ -1,4 +1,6 @@
 class Twig
+
+  # Represents a Git branch.
   class Branch
 
     EMPTY_PROPERTY_NAME_ERROR      = 'Branch property names cannot be empty strings.'
