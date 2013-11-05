@@ -58,7 +58,8 @@ class Twig
   def branches
     branches = all_branches
     now = Time.now
-    max_seconds_old = options[:max_days_old] * 86400 if options[:max_days_old]
+    max_days_old = options[:max_days_old]
+    max_seconds_old = max_days_old * 86400 if max_days_old
 
     branches.select do |branch|
       catch :skip_branch do
@@ -67,9 +68,11 @@ class Twig
           next if seconds_old > max_seconds_old
         end
 
+        branch_name = branch.name
+
         (options[:property_except] || {}).each do |property_name, property_value|
           if property_name == :branch
-            throw :skip_branch if branch.name =~ property_value
+            throw :skip_branch if branch_name =~ property_value
           elsif branch.get_property(property_name.to_s) =~ property_value
             throw :skip_branch
           end
@@ -77,7 +80,7 @@ class Twig
 
         (options[:property_only] || {}).each do |property_name, property_value|
           if property_name == :branch
-            throw :skip_branch if branch.name !~ property_value
+            throw :skip_branch if branch_name !~ property_value
           elsif branch.get_property(property_name.to_s) !~ property_value
             throw :skip_branch
           end
