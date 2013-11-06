@@ -142,6 +142,18 @@ describe Twig::Branch do
     end
   end
 
+  describe '#escaped_property_names' do
+    before :each do
+      @branch = Twig::Branch.new('test')
+    end
+
+    it 'converts an array of property names into an array of regexps' do
+      property_names = %w[test.1 test.2]
+      result = @branch.escaped_property_names(property_names)
+      expect(result).to eq(%w[test\\.1 test\\.2])
+    end
+  end
+
   describe '#get_properties' do
     before :each do
       @branch = Twig::Branch.new('test')
