@@ -25,7 +25,7 @@ class Twig
           # Split by rightmost `=`, allowing branch names to contain `=`:
           key = value = nil
           line.match(/(.+)=(.+)/).tap { |md| key, value = md[1..2] if md }
-          next if key.nil?
+          next unless key
 
           key_parts = key.split('.')
           key_parts.last if key_parts[0] == 'branch' && key_parts.size > 2
