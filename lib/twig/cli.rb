@@ -335,6 +335,8 @@ class Twig
       option_parser.parse!(args)
     rescue OptionParser::InvalidOption, OptionParser::MissingArgument => exception
       abort_for_option_exception(exception)
+    ensure
+      args
     end
 
     def abort_for_option_exception(exception)
@@ -354,7 +356,7 @@ class Twig
         end
       end
 
-      read_cli_options!(args)
+      args = read_cli_options!(args)
       branch_name = options[:branch] || current_branch_name
       format = options.delete(:format)
       property_to_unset = options.delete(:unset_property)
