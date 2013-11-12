@@ -414,9 +414,68 @@ describe Twig::Cli do
     end
   end
 
+  describe '#exec_subcommand_if_any' do
+    before :each do
+      @twig        = Twig.new
+      @branch_name = 'test'
+      allow(Twig).to receive(:run)
+      allow(@twig).to receive(:current_branch_name) { @branch_name }
+    end
+
+    it 'recognizes a subcommand' do
+      command_path = '/path/to/bin/twig-subcommand'
+      expect(Twig).to receive(:run).with('which twig-subcommand 2>/dev/null').
+        and_return(command_path)
+      expect(@twig).to receive(:exec).with(command_path) { exit }
+
+      # Since we're stubbing `exec` (with an expectation), we still need it
+      # to exit early like the real implementation. The following handles the
+      # exit somewhat gracefully.
+      begin
+        @twig.read_cli_args!(['subcommand'])
+      rescue SystemExit => exception
+        expected_exception = exception
+      end
+
+      expect(expected_exception).not_to be_nil
+      expect(expected_exception.status).to eq(0)
+    end
+
+    it 'does not recognize a subcommand' do
+      expect(Twig).to receive(:run).
+        with('which twig-subcommand 2>/dev/null').and_return('')
+      expect(@twig).not_to receive(:exec)
+      allow(@twig).to receive(:abort)
+
+      @twig.read_cli_args!(['subcommand'])
+    end
+  end
+
   describe '#read_cli_args!' do
     before :each do
       @twig = Twig.new
+    end
+
+    it 'checks for and executes a subcommand if there are any args' do
+      expect(@twig).to receive(:exec_subcommand_if_any).with(['foo']) { exit }
+
+      begin
+        @twig.read_cli_args!(['foo'])
+      rescue SystemExit => exception
+        expected_exception = exception
+      end
+
+      expect(expected_exception).not_to be_nil
+      expect(expected_exception.status).to eq(0)
+    end
+
+    it 'does not check for a subcommand if there are no args' do
+      branch_list = %[foo bar]
+      expect(@twig).not_to receive(:exec_subcommand_if_any)
+      allow(@twig).to receive(:list_branches).and_return(branch_list)
+      allow(@twig).to receive(:puts).with(branch_list)
+
+      @twig.read_cli_args!([])
     end
 
     it 'lists branches' do
@@ -436,42 +495,6 @@ describe Twig::Cli do
       expect(@twig).to receive(:puts).with(branches_json)
 
       @twig.read_cli_args!(%w[--format json])
-    end
-
-    context 'running a subcommand' do
-      before :each do
-        allow(Twig).to receive(:run)
-        @branch_name = 'test'
-        allow(@twig).to receive(:current_branch_name) { @branch_name }
-      end
-
-      it 'recognizes a subcommand' do
-        command_path = '/path/to/bin/twig-subcommand'
-        expect(Twig).to receive(:run).with('which twig-subcommand 2>/dev/null').
-          and_return(command_path)
-        expect(@twig).to receive(:exec).with(command_path) { exit }
-
-        # Since we're stubbing `exec` (with an expectation), we still need it
-        # to exit early like the real implementation. The following handles the
-        # exit somewhat gracefully.
-        begin
-          @twig.read_cli_args!(['subcommand'])
-        rescue SystemExit => exception
-          expected_exception = exception
-        end
-
-        expect(expected_exception).not_to be_nil
-        expect(expected_exception.status).to eq(0)
-      end
-
-      it 'does not recognize a subcommand' do
-        expect(Twig).to receive(:run).
-          with('which twig-subcommand 2>/dev/null').and_return('')
-        expect(@twig).not_to receive(:exec)
-        allow(@twig).to receive(:abort)
-
-        @twig.read_cli_args!(['subcommand'])
-      end
     end
 
     context 'getting properties' do

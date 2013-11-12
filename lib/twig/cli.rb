@@ -345,16 +345,18 @@ class Twig
       exit
     end
 
-    def read_cli_args!(args)
-      if args.any?
-        # Run subcommand binary, if any, and exit here
-        possible_subcommand_name = Twig::Subcommands::BIN_PREFIX + args[0]
-        command_path = Twig.run("which #{possible_subcommand_name} 2>/dev/null")
-        unless command_path.empty?
-          command = ([command_path] + args[1..-1]).join(' ')
-          exec(command)
-        end
+    def exec_subcommand_if_any(args)
+      # Run subcommand binary, if any, and exit here
+      possible_subcommand_name = Twig::Subcommands::BIN_PREFIX + args[0]
+      command_path = Twig.run("which #{possible_subcommand_name} 2>/dev/null")
+      unless command_path.empty?
+        command = ([command_path] + args[1..-1]).join(' ')
+        exec(command)
       end
+    end
+
+    def read_cli_args!(args)
+      exec_subcommand_if_any(args) if args.any?
 
       args = read_cli_options!(args)
       branch_name = options[:branch] || current_branch_name
