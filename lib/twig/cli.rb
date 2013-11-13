@@ -199,12 +199,14 @@ class Twig
         end
 
         custom_properties.each do |property_name|
+          property_name_sym = property_name.to_sym
+
           opts.on("--only-#{property_name} PATTERN") do |pattern|
-            set_option(:property_only, property_name.to_sym => pattern)
+            set_option(:property_only, property_name_sym => pattern)
           end
 
           opts.on("--except-#{property_name} PATTERN") do |pattern|
-            set_option(:property_except, property_name.to_sym => pattern)
+            set_option(:property_except, property_name_sym => pattern)
           end
         end
         help_description_for_custom_property(opts, [
