@@ -99,7 +99,7 @@ class Twig
       # Starts a pager so that all following STDOUT output is paginated.
       # Based on: http://nex-3.com/posts/73-git-style-automatic-paging-in-ruby
 
-      return if RUBY_PLATFORM =~ /win32/ || !$stdout.tty?
+      return if Twig::System.windows? || !$stdout.tty?
 
       read_io, write_io = IO.pipe
 

@@ -155,7 +155,7 @@ describe Twig::Cli do
     end
 
     it 'does nothing if running on Windows' do
-      stub_const('RUBY_PLATFORM', 'win32')
+      expect(Twig::System).to receive(:windows?).and_return(true)
       expect(Kernel).not_to receive(:fork)
 
       @twig.run_pager
