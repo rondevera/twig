@@ -1,4 +1,5 @@
 require 'optparse'
+require 'rbconfig'
 
 class Twig
   module Cli
