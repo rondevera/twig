@@ -2,7 +2,7 @@ class Twig
   module System
 
     def self.windows?
-      RUBY_PLATFORM =~ /win32/
+      RbConfig::CONFIG['host_os'] =~ /win32/
     end
 
   end
