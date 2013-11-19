@@ -2,7 +2,7 @@ class Twig
   module System
 
     def self.windows?
-      RbConfig::CONFIG['host_os'] =~ /win32/
+      RbConfig::CONFIG['host_os'] =~ /(windows|win32)/
     end
 
   end
