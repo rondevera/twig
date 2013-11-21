@@ -1,6 +1,8 @@
 Twig
 ====
 
+1.5 (2013-11-21)
+----------------
 * ENHANCEMENT: Add `--format=json` option for printing branch data as JSON
   instead of a list. Useful for integrating Twig data into other tools.
 * ENHANCEMENT: Add tab completion for all subcommands, built-in (e.g., `twig
