@@ -145,6 +145,30 @@ describe Twig do
       expect(branch_names).to eq([@branches[0].name, @branches[1].name])
     end
 
+    it 'returns a list of branches, most recently modified first' do
+      branch_names = @twig.branches.map { |branch| branch.name }
+
+      expect(branch_names).to eq([
+        @branches[0].name,
+        @branches[1].name,
+        @branches[2].name,
+        @branches[3].name
+      ])
+    end
+
+    it 'returns a list of branches, least recently modified first' do
+      @twig.set_option(:reverse, true)
+
+      branch_names = @twig.branches.map { |branch| branch.name }
+
+      expect(branch_names).to eq([
+        @branches[3].name,
+        @branches[2].name,
+        @branches[1].name,
+        @branches[0].name
+      ])
+    end
+
     context 'with property filtering' do
       before :each do
         allow(@branches[0]).to receive(:get_property).with('foo') { 'bar1' }
@@ -199,28 +223,13 @@ describe Twig do
       @branch_lines = ['[foo line]', '[bar line]']
     end
 
-    it 'returns a list of branches, most recently modified first' do
+    it 'returns a formatted list of branches' do
       expect(@twig).to receive(:branches).at_least(:once).and_return(@branches)
       expect(@twig).to receive(:branch_list_headers).and_return(@list_headers)
       expect(@twig).to receive(:branch_list_line).with(@branches[0]).
         and_return(@branch_lines[0])
       expect(@twig).to receive(:branch_list_line).with(@branches[1]).
         and_return(@branch_lines[1])
-
-      result = @twig.list_branches
-
-      expect(result).to eq(
-        "\n" + @list_headers + @branch_lines[1] +
-        "\n" + @branch_lines[0]
-      )
-    end
-
-    it 'returns a list of branches, least recently modified first' do
-      @twig.set_option(:reverse, true)
-      allow(@twig).to receive(:branches) { @branches }
-      allow(@twig).to receive(:branch_list_headers) { @list_headers }
-      allow(@twig).to receive(:branch_list_line).with(@branches[0]) { @branch_lines[0] }
-      allow(@twig).to receive(:branch_list_line).with(@branches[1]) { @branch_lines[1] }
 
       result = @twig.list_branches
 

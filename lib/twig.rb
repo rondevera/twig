@@ -61,7 +61,7 @@ class Twig
     max_days_old = options[:max_days_old]
     max_seconds_old = max_days_old * 86400 if max_days_old
 
-    branches.select do |branch|
+    branches = branches.select do |branch|
       catch :skip_branch do
         if max_seconds_old
           seconds_old = now.to_i - branch.last_commit_time.to_i
@@ -89,6 +89,14 @@ class Twig
         true
       end
     end
+
+    # List least recently modified branches first
+    branches = branches.sort_by { |branch| branch.last_commit_time }
+    if options[:reverse] != true
+      branches.reverse! # List most recently modified branches first
+    end
+
+    branches
   end
 
   def all_branch_names
@@ -110,13 +118,7 @@ class Twig
 
     out = "\n" << branch_list_headers(options)
 
-    # List least recently modified branches first
-    listable_branches = branches.sort_by { |branch| branch.last_commit_time }
-    if options[:reverse] != true
-      listable_branches.reverse! # List most recently modified branches first
-    end
-
-    branch_lines = listable_branches.inject([]) do |result, branch|
+    branch_lines = branches.inject([]) do |result, branch|
       result << branch_list_line(branch)
     end
 
