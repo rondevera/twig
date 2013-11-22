@@ -273,11 +273,6 @@ describe Twig::Display do
   end
 
   describe '#branches_json' do
-    before :each do
-      @commit_time = Twig::CommitTime.new(Time.now, '')
-      allow(@commit_time).to receive(:to_s).and_return('2000-01-01')
-    end
-
     it 'returns JSON for an array of branches' do
       branches = [
         Twig::Branch.new('branch1'),
