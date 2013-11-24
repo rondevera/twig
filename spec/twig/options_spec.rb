@@ -519,7 +519,7 @@ describe Twig::Options do
     end
 
     it 'succeeds' do
-      @twig.set_option(:property_width, :foo => '20', :bar => '40')
+      @twig.set_property_width_option(:foo => '20', :bar => '40')
       expect(@twig.options[:property_width]).to eq(:foo => 20, :bar => 40)
     end
 
@@ -531,7 +531,7 @@ describe Twig::Options do
       end
 
       begin
-        @twig.set_option(:property_width, :branch => width)
+        @twig.set_property_width_option(:branch => width)
       rescue SystemExit => exception
       end
 
@@ -548,7 +548,7 @@ describe Twig::Options do
       end
 
       begin
-        @twig.set_option(:property_width, :x => width)
+        @twig.set_property_width_option(:x => width)
       rescue SystemExit => exception
       end
 
@@ -565,7 +565,7 @@ describe Twig::Options do
       end
 
       begin
-        @twig.set_option(:property_width, property_name => width)
+        @twig.set_property_width_option(property_name => width)
       rescue SystemExit => exception
       end
 
