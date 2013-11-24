@@ -8,7 +8,7 @@ class Twig
 
       # Shorten relative time
       @time_ago = time_ago.
-        sub(' years',   'y').
+        sub(/ years?/,  'y').
         sub(' months',  'mo').
         sub(' weeks',   'w').
         sub(' days',    'd').
