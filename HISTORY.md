@@ -1,6 +1,8 @@
 Twig
 ====
 
+* Fix `(1y ago)` (previously displayed as `(1 ago)`) in branch list view.
+
 1.5 (2013-11-21)
 ----------------
 * ENHANCEMENT: Add `--format=json` option for printing branch data as JSON
