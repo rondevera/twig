@@ -262,14 +262,13 @@ describe Twig::Cli do
         expect(Twig::Branch.all_property_names).not_to include(property_name)
         allow(@twig).to receive(:puts)
 
-        begin
+        expect {
           @twig.read_cli_options!(["--only-#{property_name}", 'test'])
-        rescue SystemExit => exception
-          expected_exception = exception
-        end
+        }.to raise_exception { |exception|
+          expect(exception).to be_a(SystemExit)
+          expect(exception.status).to eq(0)
+        }
 
-        expect(expected_exception).not_to be_nil
-        expect(expected_exception.status).to eq(0)
         expect(@twig.options[:property_only]).to be_nil
       end
     end
@@ -301,14 +300,13 @@ describe Twig::Cli do
         expect(Twig::Branch.all_property_names).not_to include(property_name)
         allow(@twig).to receive(:puts)
 
-        begin
+        expect {
           @twig.read_cli_options!(["--except-#{property_name}", 'test'])
-        rescue SystemExit => exception
-          expected_exception = exception
-        end
+        }.to raise_exception { |exception|
+          expect(exception).to be_a(SystemExit)
+          expect(exception.status).to eq(0)
+        }
 
-        expect(expected_exception).not_to be_nil
-        expect(expected_exception.status).to eq(0)
         expect(@twig.options[:property_except]).to be_nil
       end
     end
@@ -431,14 +429,12 @@ describe Twig::Cli do
       # Since we're stubbing `exec` (with an expectation), we still need it
       # to exit early like the real implementation. The following handles the
       # exit somewhat gracefully.
-      begin
+      expect {
         @twig.read_cli_args!(['subcommand'])
-      rescue SystemExit => exception
-        expected_exception = exception
-      end
-
-      expect(expected_exception).not_to be_nil
-      expect(expected_exception.status).to eq(0)
+      }.to raise_exception { |exception|
+        expect(exception).to be_a(SystemExit)
+        expect(exception.status).to eq(0)
+      }
     end
 
     it 'does not recognize a subcommand' do
@@ -459,14 +455,12 @@ describe Twig::Cli do
     it 'checks for and executes a subcommand if there are any args' do
       expect(@twig).to receive(:exec_subcommand_if_any).with(['foo']) { exit }
 
-      begin
+      expect {
         @twig.read_cli_args!(['foo'])
-      rescue SystemExit => exception
-        expected_exception = exception
-      end
-
-      expect(expected_exception).not_to be_nil
-      expect(expected_exception.status).to eq(0)
+      }.to raise_exception { |exception|
+        expect(exception).to be_a(SystemExit)
+        expect(exception.status).to eq(0)
+      }
     end
 
     it 'does not check for a subcommand if there are no args' do
