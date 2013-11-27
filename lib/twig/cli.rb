@@ -343,9 +343,8 @@ class Twig
     end
 
     def abort_for_option_exception(exception)
-      puts exception.message
-      puts 'For a list of options, run `twig --help`.'
-      exit
+      puts exception.message + "\nFor a list of options, run `twig --help`."
+      exit 1
     end
 
     def exec_subcommand_if_any(args)

@@ -266,7 +266,7 @@ describe Twig::Cli do
           @twig.read_cli_options!(["--only-#{property_name}", 'test'])
         }.to raise_exception { |exception|
           expect(exception).to be_a(SystemExit)
-          expect(exception.status).to eq(0)
+          expect(exception.status).to eq(1)
         }
 
         expect(@twig.options[:property_only]).to be_nil
@@ -304,7 +304,7 @@ describe Twig::Cli do
           @twig.read_cli_options!(["--except-#{property_name}", 'test'])
         }.to raise_exception { |exception|
           expect(exception).to be_a(SystemExit)
-          expect(exception.status).to eq(0)
+          expect(exception.status).to eq(1)
         }
 
         expect(@twig.options[:property_except]).to be_nil
@@ -400,15 +400,18 @@ describe Twig::Cli do
       @twig = Twig.new
     end
 
-    it 'prints a message and exits' do
+    it 'prints a message and aborts' do
       exception = Exception.new('test exception')
-      expect(@twig).to receive(:puts).with(exception.message)
       expect(@twig).to receive(:puts) do |message|
         expect(message).to include('`twig --help`')
       end
-      expect(@twig).to receive(:exit)
 
-      @twig.abort_for_option_exception(exception)
+      expect {
+        @twig.abort_for_option_exception(exception)
+      }.to raise_exception { |exception|
+        expect(exception).to be_a(SystemExit)
+        expect(exception.status).to eq(1)
+      }
     end
   end
 
