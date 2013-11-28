@@ -430,7 +430,6 @@ describe Twig::Options do
 
   describe '#set_header_style_option' do
     before :each do
-      # Preconditions:
       expect(@twig.options[:header_color]).to eq(Twig::DEFAULT_HEADER_COLOR)
       expect(@twig.options[:header_weight]).to be_nil
     end
