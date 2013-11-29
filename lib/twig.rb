@@ -46,10 +46,10 @@ class Twig
         split("\n")
 
       branch_tuples.inject([]) do |result, branch_tuple|
-        ref, time_string, time_ago = branch_tuple.split(REF_FORMAT_SEPARATOR)
+        name, time_string, time_ago = branch_tuple.split(REF_FORMAT_SEPARATOR)
         time        = Time.parse(time_string)
         commit_time = Twig::CommitTime.new(time, time_ago)
-        branch      = Branch.new(ref, :last_commit_time => commit_time)
+        branch      = Branch.new(name, :last_commit_time => commit_time)
         result << branch
       end
     end
