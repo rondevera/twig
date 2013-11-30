@@ -63,6 +63,20 @@ describe Twig::Branch do
     end
   end
 
+  describe '.validate_property_name' do
+    it 'raises an exception if the property name is empty' do
+      expect {
+        Twig::Branch.validate_property_name('')
+      }.to raise_exception(Twig::Branch::EmptyPropertyNameError)
+    end
+
+    it 'does nothing if the property name is not empty' do
+      expect {
+        Twig::Branch.validate_property_name('test')
+      }.not_to raise_exception
+    end
+  end
+
   describe '#initialize' do
     it 'requires a name' do
       branch = Twig::Branch.new('test')

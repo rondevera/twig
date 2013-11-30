@@ -35,6 +35,10 @@ class Twig
       end
     end
 
+    def self.validate_property_name(property_name)
+      raise EmptyPropertyNameError if property_name.empty?
+    end
+
     def initialize(name, attrs = {})
       self.name = name
       raise ArgumentError, '`name` is required' if name.empty?
@@ -61,7 +65,7 @@ class Twig
     def escaped_property_names(property_names)
       property_names.map do |property_name|
         property_name = sanitize_property(property_name)
-        raise EmptyPropertyNameError if property_name.empty?
+        Branch.validate_property_name(property_name)
         Regexp.escape(property_name)
       end
     end
@@ -103,10 +107,9 @@ class Twig
     def set_property(property_name, value)
       property_name = sanitize_property(property_name)
       value = value.to_s.strip
+      Branch.validate_property_name(property_name)
 
-      if property_name.empty?
-        raise EmptyPropertyNameError
-      elsif RESERVED_BRANCH_PROPERTY_NAMES.include?(property_name)
+      if RESERVED_BRANCH_PROPERTY_NAMES.include?(property_name)
         raise ArgumentError,
           %{Can't modify the reserved property "#{property_name}".}
       elsif value.empty?
@@ -126,7 +129,7 @@ class Twig
 
     def unset_property(property_name)
       property_name = sanitize_property(property_name)
-      raise EmptyPropertyNameError if property_name.empty?
+      Branch.validate_property_name(property_name)
 
       value = get_property(property_name)
 
