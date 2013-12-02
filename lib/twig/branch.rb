@@ -5,7 +5,7 @@ class Twig
 
     EMPTY_PROPERTY_NAME_ERROR      = 'Branch property names cannot be empty strings.'
     PROPERTY_NAME_FROM_GIT_CONFIG  = /^branch\.[^.]+\.([^=]+)=.*$/
-    RESERVED_BRANCH_PROPERTY_NAMES = %w[branch merge rebase remote]
+    RESERVED_BRANCH_PROPERTY_NAMES = %w[branch merge property rebase remote]
 
     class EmptyPropertyNameError < ArgumentError
       def initialize(message = nil)
