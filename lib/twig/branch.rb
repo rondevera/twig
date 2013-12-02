@@ -22,9 +22,9 @@ class Twig
         config_lines = Twig.run('git config --list').split("\n")
 
         properties = config_lines.map do |line|
-          # Split by rightmost `=`, allowing branch names to contain `=`:
-          key = value = nil
-          line.match(/(.+)=(.+)/).tap { |md| key, value = md[1..2] if md }
+          # Split by rightmost `=`, allowing branch names to contain `=`
+          match_data = line.match(/(.+)=(.+)/)
+          key, value = match_data[1..2] if match_data
           next unless key
 
           key_parts = key.split('.')
