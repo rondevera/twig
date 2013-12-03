@@ -2,6 +2,8 @@ Twig
 ====
 
 * Fix `(1y ago)` (previously displayed as `(1 ago)`) in branch list view.
+* FIX: Make `property` a reserved property name, along with `branch`, `merge`,
+  `rebase`, and `remote`.
 
 1.5 (2013-11-21)
 ----------------
