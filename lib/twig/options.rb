@@ -198,7 +198,7 @@ class Twig
         end
 
         options[:property_width] ||= {}
-        options[:property_width].merge!(property_name => property_value)
+        options[:property_width][property_name] = property_value
       end
     end
 
