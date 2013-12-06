@@ -534,7 +534,7 @@ describe Twig::Options do
       rescue SystemExit => exception
       end
 
-      expect(@twig.options[:property_width]).to be_nil
+      expect(@twig.options[:property_width]).to eq({})
     end
 
     it 'fails if width is below minimum value' do
@@ -551,7 +551,7 @@ describe Twig::Options do
       rescue SystemExit => exception
       end
 
-      expect(@twig.options[:property_width]).to be_nil
+      expect(@twig.options[:property_width]).to eq({})
     end
 
     it 'fails if width is below width of property name' do
@@ -568,7 +568,7 @@ describe Twig::Options do
       rescue SystemExit => exception
       end
 
-      expect(@twig.options[:property_width]).to be_nil
+      expect(@twig.options[:property_width]).to eq({})
     end
   end
 

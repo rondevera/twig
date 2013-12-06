@@ -175,6 +175,8 @@ class Twig
     end
 
     def set_property_width_option(value)
+      options[:property_width] ||= {}
+
       value.each do |property_name, property_value|
         unless Twig::Util.numeric?(property_value)
           abort %{The value `--#{property_name}-width=#{property_value}` is invalid.}
@@ -197,7 +199,6 @@ class Twig
           abort error
         end
 
-        options[:property_width] ||= {}
         options[:property_width][property_name] = property_value
       end
     end
