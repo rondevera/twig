@@ -142,6 +142,9 @@ class Twig
         options[:property_only] ||= {}
         options[:property_only].merge!(property_hash)
 
+      when :property_only_name
+        options[key] = value
+
       when :property_width
         set_property_width_option(value)
 

@@ -390,6 +390,12 @@ describe Twig::Options do
       expect(@twig.options[:property_only]).to eq(:branch => /important_prefix_/)
     end
 
+    it 'sets a :property_only_name option' do
+      expect(@twig.options[:property_only_name]).to be_nil
+      @twig.set_option(:property_only_name, /foo/)
+      expect(@twig.options[:property_only_name]).to eq(/foo/)
+    end
+
     it 'sets a :property_width option' do
       width = 10
       expect(@twig).to receive(:set_property_width_option).with(width)
