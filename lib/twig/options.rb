@@ -128,19 +128,12 @@ class Twig
           abort %{The value `--max-days-old=#{value}` is invalid.}
         end
 
-      when :property_except
+      when :property_except, :property_only
         property_hash = value.inject({}) do |hsh, (property, val)|
           hsh.merge(property => Regexp.new(val))
         end
-        options[:property_except] ||= {}
-        options[:property_except].merge!(property_hash)
-
-      when :property_only
-        property_hash = value.inject({}) do |hsh, (property, val)|
-          hsh.merge(property => Regexp.new(val))
-        end
-        options[:property_only] ||= {}
-        options[:property_only].merge!(property_hash)
+        options[key] ||= {}
+        options[key].merge!(property_hash)
 
       when :property_except_name, :property_only_name
         options[key] = value
