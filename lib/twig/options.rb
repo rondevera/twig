@@ -145,7 +145,7 @@ class Twig
         options[:reverse] = Twig::Util.truthy?(value)
 
       when :unset_property
-        options[:unset_property] = value
+        options[key] = value
       end
     end
 
