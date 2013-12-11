@@ -66,6 +66,19 @@ class Twig
       options.each do |key, value|
         case key
 
+        # Displaying branches:
+        when 'format'
+          set_option(:format, value)
+        when 'except-property'
+          set_option(:property_except_name, value)
+        when 'header-style'
+          set_option(:header_style, value)
+        when 'reverse'
+          set_option(:reverse, value)
+        when /-width$/
+          property_name = key.sub(/-width$/, '').to_sym
+          set_option(:property_width, property_name => value)
+
         # Filtering branches:
         when 'branch'
           set_option(:branch, value)
@@ -77,17 +90,6 @@ class Twig
         when /^only-/
           property_name = key.sub(/^only-/, '').to_sym
           set_option(:property_only, property_name => value)
-
-        # Displaying branches:
-        when 'format'
-          set_option(:format, value)
-        when 'header-style'
-          set_option(:header_style, value)
-        when 'reverse'
-          set_option(:reverse, value)
-        when /-width$/
-          property_name = key.sub(/-width$/, '').to_sym
-          set_option(:property_width, property_name => value)
 
         # GitHub integration:
         when 'github-api-uri-prefix'
@@ -136,7 +138,7 @@ class Twig
         options[key].merge!(property_hash)
 
       when :property_except_name, :property_only_name
-        options[key] = value
+        options[key] = Regexp.new(value)
 
       when :property_width
         set_property_width_option(value)
