@@ -71,6 +71,8 @@ class Twig
           set_option(:format, value)
         when 'except-property'
           set_option(:property_except_name, value)
+        when 'only-property'
+          set_option(:property_only_name, value)
         when 'header-style'
           set_option(:header_style, value)
         when 'reverse'

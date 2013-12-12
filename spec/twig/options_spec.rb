@@ -241,6 +241,7 @@ describe Twig::Options do
         # Displaying branches:
         'format'        => 'json',
         'except-property' => 'foo',
+        'only-property' => 'bar',
         'header-style'  => 'green bold',
         'reverse'       => 'true',
         'foo-width'     => '4',
@@ -265,6 +266,7 @@ describe Twig::Options do
       expect(@twig.options[:property_except]).to be_nil
       expect(@twig.options[:property_only]).to be_nil
       expect(@twig.options[:property_except_name]).to be_nil
+      expect(@twig.options[:property_only_name]).to be_nil
       expect(@twig.options[:property_width]).to be_nil
       expect(@twig.options[:reverse]).to be_nil
 
@@ -290,6 +292,7 @@ describe Twig::Options do
         :foo    => /test-only-foo/
       )
       expect(@twig.options[:property_except_name]).to eq(/foo/)
+      expect(@twig.options[:property_only_name]).to eq(/bar/)
       expect(@twig.options[:property_width]).to eq(:foo => 4)
       expect(@twig.options[:reverse]).to be_true
     end
