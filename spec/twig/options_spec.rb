@@ -239,12 +239,12 @@ describe Twig::Options do
         'only-foo'      => 'test-only-foo',
 
         # Displaying branches:
-        'format'        => 'json',
+        'format'          => 'json',
         'except-property' => 'foo',
-        'only-property' => 'bar',
-        'header-style'  => 'green bold',
-        'reverse'       => 'true',
-        'foo-width'     => '4',
+        'only-property'   => 'bar',
+        'header-style'    => 'green bold',
+        'reverse'         => 'true',
+        'foo-width'       => '4',
 
         # GitHub integration:
         'github-api-uri-prefix' => 'https://github-enterprise.example.com/api/v3',
