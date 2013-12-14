@@ -116,6 +116,10 @@ describe Twig::Cli do
       expect(@twig.help_line_for_custom_property?('  --only-branch  ')).to be_false
     end
 
+    it 'returns false for `--only-property`' do
+      expect(@twig.help_line_for_custom_property?('  --only-property  ')).to be_false
+    end
+
     it 'returns false for `--only-PROPERTY`' do
       expect(@twig.help_line_for_custom_property?('  --only-PROPERTY  ')).to be_false
     end
@@ -342,6 +346,12 @@ describe Twig::Cli do
       expect(@twig).to receive(:set_option).with(:property_width, :foo => '10')
 
       @twig.read_cli_options!(%w[--foo-width 10])
+    end
+
+    it 'recognizes `--only-property`' do
+      expect(@twig.options[:property_only_name]).to be_nil
+      @twig.read_cli_options!(%w[--only-property foo])
+      expect(@twig.options[:property_only_name]).to eq(/foo/)
     end
 
     it 'recognizes `--header-style`' do

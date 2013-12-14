@@ -83,6 +83,7 @@ class Twig
       is_custom_property_only = (
         line.include?('--only-') &&
         !line.include?('--only-branch') &&
+        !line.include?('--only-property') &&
         !line.include?('--only-PROPERTY')
       )
       is_custom_property_width = (
@@ -259,6 +260,17 @@ class Twig
           ['--PROPERTY-width NUMBER', "Set the width for a given property's column."],
           ['',                        "(Default: #{Twig::DEFAULT_PROPERTY_COLUMN_WIDTH})"]
         ])
+
+        desc = <<-DESC
+          Only include properties where the property name matches the given
+          regular expression.
+        DESC
+        opts.on(
+          '--only-property PATTERN',
+          *help_description(desc, :add_separator => true)
+        ) do |pattern|
+          set_option(:property_only_name, pattern)
+        end
 
         colors = Twig::Display::COLORS.keys.map do |value|
           format_string(value, :color => value)
