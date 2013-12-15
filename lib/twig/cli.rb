@@ -78,6 +78,7 @@ class Twig
       is_custom_property_except = (
         line.include?('--except-') &&
         !line.include?('--except-branch') &&
+        !line.include?('--except-property') &&
         !line.include?('--except-PROPERTY')
       )
       is_custom_property_only = (
@@ -270,6 +271,17 @@ class Twig
           *help_description(desc, :add_separator => true)
         ) do |pattern|
           set_option(:property_only_name, pattern)
+        end
+
+        desc = <<-DESC
+          Exclude properties where the property name matches the given regular
+          expression.
+        DESC
+        opts.on(
+          '--except-property PATTERN',
+          *help_description(desc, :add_separator => true)
+        ) do |pattern|
+          set_option(:property_except_name, pattern)
         end
 
         colors = Twig::Display::COLORS.keys.map do |value|

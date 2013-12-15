@@ -104,6 +104,10 @@ describe Twig::Cli do
       expect(@twig.help_line_for_custom_property?('  --except-branch  ')).to be_false
     end
 
+    it 'returns false for `--except-property`' do
+      expect(@twig.help_line_for_custom_property?('  --except-property  ')).to be_false
+    end
+
     it 'returns false for `--except-PROPERTY`' do
       expect(@twig.help_line_for_custom_property?('  --except-PROPERTY  ')).to be_false
     end
@@ -352,6 +356,12 @@ describe Twig::Cli do
       expect(@twig.options[:property_only_name]).to be_nil
       @twig.read_cli_options!(%w[--only-property foo])
       expect(@twig.options[:property_only_name]).to eq(/foo/)
+    end
+
+    it 'recognizes `--except-property`' do
+      expect(@twig.options[:property_except_name]).to be_nil
+      @twig.read_cli_options!(%w[--except-property foo])
+      expect(@twig.options[:property_except_name]).to eq(/foo/)
     end
 
     it 'recognizes `--header-style`' do
