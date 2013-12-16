@@ -204,6 +204,33 @@ describe Twig do
     end
   end
 
+  describe '#property_names' do
+    before :each do
+      @twig = Twig.new
+      property_names = %w[foo bar baz]
+      expect(Twig::Branch).to receive(:all_property_names).and_return(property_names)
+    end
+
+    it 'returns an array of all property names' do
+      property_names = @twig.property_names
+      expect(property_names).to eq(%w[foo bar baz])
+    end
+
+    it 'returns an array with only certain property names' do
+      @twig.set_option(:property_only_name, /ba/)
+      property_names = @twig.property_names
+
+      expect(property_names).to eq(%w[bar baz])
+    end
+
+    it 'returns an array without certain property names' do
+      @twig.set_option(:property_except_name, /ba/)
+      property_names = @twig.property_names
+
+      expect(property_names).to eq(%w[foo])
+    end
+  end
+
   describe '#list_branches' do
     before :each do
       @twig = Twig.new

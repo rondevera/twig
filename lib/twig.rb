@@ -103,6 +103,24 @@ class Twig
     all_branches.map { |branch| branch.name }
   end
 
+  def property_names
+    @_property_names ||= begin
+      property_names = Twig::Branch.all_property_names
+      only_name      = options[:property_only_name]
+      except_name    = options[:property_except_name]
+
+      if only_name
+        property_names = property_names.select { |name| name =~ only_name }
+      end
+
+      if except_name
+        property_names = property_names.select { |name| name !~ except_name }
+      end
+
+      property_names
+    end
+  end
+
 
 
   ### Actions ###
