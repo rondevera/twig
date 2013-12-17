@@ -66,7 +66,6 @@ class Twig
     end
 
     def branch_list_headers(header_options = {})
-      all_property_names = Twig::Branch.all_property_names
       branch_indicator_padding = ' ' * CURRENT_BRANCH_INDICATOR.size
 
       header_options.merge!(
@@ -81,7 +80,7 @@ class Twig
       )
 
       out = column(' ', :width => date_time_column_width) << column_gutter
-      out << all_property_names.map do |property|
+      out << property_names.map do |property|
         width = property_column_width(property)
         column(property, header_options.merge(:width => width)) << column_gutter
       end.join
@@ -89,7 +88,7 @@ class Twig
       out << "\n"
 
       out << column(' ', :width => date_time_column_width) << column_gutter
-      out << all_property_names.map do |property|
+      out << property_names.map do |property|
         width = property_column_width(property)
         underline = '-' * property.size
         column(underline, header_options.merge(:width => width)) << column_gutter
@@ -101,11 +100,10 @@ class Twig
     end
 
     def branch_list_line(branch)
-      all_property_names = Twig::Branch.all_property_names
       is_current_branch  = branch.name == current_branch_name
 
-      properties = branch.get_properties(all_property_names)
-      properties = all_property_names.inject({}) do |result, property_name|
+      properties = branch.get_properties(property_names)
+      properties = property_names.inject({}) do |result, property_name|
         property_value = (properties[property_name] || '').strip
         property_value = EMPTY_BRANCH_PROPERTY_INDICATOR if property_value.empty?
         property_value.gsub!(/[\n\r]+/, ' ')
@@ -116,7 +114,7 @@ class Twig
       line << column_gutter
 
       line <<
-        all_property_names.map do |property_name|
+        property_names.map do |property_name|
           property_value = properties[property_name] || ''
           width = property_column_width(property_name)
           column(property_value, :width => width) << column_gutter

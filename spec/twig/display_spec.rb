@@ -103,6 +103,28 @@ describe Twig::Display do
       )
     end
 
+    it 'only includes certain property names' do
+      @twig.set_option(:property_only_name, /foo/)
+
+      result = @twig.branch_list_headers({})
+      result_lines = result.split("\n")
+
+      expect(result_lines[0]).to include('foo')
+      expect(result_lines[0]).not_to include('quux')
+      expect(result_lines[0]).to include('branch')
+    end
+
+    it 'excludes certain property names' do
+      @twig.set_option(:property_except_name, /foo/)
+
+      result = @twig.branch_list_headers({})
+      result_lines = result.split("\n")
+
+      expect(result_lines[0]).not_to include('foo')
+      expect(result_lines[0]).to include('quux')
+      expect(result_lines[0]).to include('branch')
+    end
+
     it 'sets a header width' do
       @twig.set_option(:property_width, :foo => 4)
 
@@ -217,6 +239,30 @@ describe Twig::Display do
       result = @twig.branch_list_line(branch)
 
       expect(result).to include('line breaks')
+    end
+
+    it 'only includes certain property names' do
+      @twig.set_option(:property_only_name, /foo/)
+      branch = @current_branch
+      expect(branch).to receive(:get_properties).
+        with(['foo']).
+        and_return('foo' => 'foo!')
+
+      result = @twig.branch_list_line(branch)
+
+      expect(result).to include('foo!')
+    end
+
+    it 'excludes certain property names' do
+      @twig.set_option(:property_except_name, /foo/)
+      branch = @current_branch
+      expect(branch).to receive(:get_properties).
+        with(['bar']).
+        and_return('bar' => 'bar!')
+
+      result = @twig.branch_list_line(branch)
+
+      expect(result).to include('bar!')
     end
 
     it 'returns a line with custom column widths' do
