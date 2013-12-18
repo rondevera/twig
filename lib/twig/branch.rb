@@ -48,13 +48,11 @@ class Twig
 
     def to_s ; name ; end
 
-    def to_hash
-      all_property_names = Twig::Branch.all_property_names
-
+    def to_hash(property_names)
       {
         'name' => name,
         'last-commit-time' => last_commit_time.iso8601,
-        'properties' => get_properties(all_property_names)
+        'properties' => get_properties(property_names)
       }
     end
 

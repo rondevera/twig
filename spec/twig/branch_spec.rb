@@ -111,12 +111,11 @@ describe Twig::Branch do
     end
 
     it 'returns the hash for a branch with properties' do
-      expect(Twig::Branch).to receive(:all_property_names) { %w[foo bar] }
-      expect(@branch).to receive(:get_properties) do
+      expect(@branch).to receive(:get_properties).with(%w[foo bar]) do
         { 'foo' => 'foo!', 'bar' => 'bar!' }
       end
 
-      result = @branch.to_hash
+      result = @branch.to_hash(%w[foo bar])
 
       expect(result).to eq(
         'name' => 'test',
@@ -129,10 +128,9 @@ describe Twig::Branch do
     end
 
     it 'returns the hash for a branch with no properties' do
-      expect(Twig::Branch).to receive(:all_property_names) { %w[foo bar] }
-      expect(@branch).to receive(:get_properties).and_return({})
+      expect(@branch).to receive(:get_properties).with(%w[foo bar]).and_return({})
 
-      result = @branch.to_hash
+      result = @branch.to_hash(%w[foo bar])
 
       expect(result).to eq(
         'name' => 'test',
