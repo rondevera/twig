@@ -139,7 +139,7 @@ class Twig
       require 'json'
 
       data = {
-        'branches' => branches.map { |branch| branch.to_hash }
+        'branches' => branches.map { |branch| branch.to_hash(property_names) }
       }
       data.to_json
     end

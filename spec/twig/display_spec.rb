@@ -319,6 +319,11 @@ describe Twig::Display do
   end
 
   describe '#branches_json' do
+    before :each do
+      @property_names = %w[foo bar]
+      allow(@twig).to receive(:property_names).and_return(@property_names)
+    end
+
     it 'returns JSON for an array of branches' do
       branches = [
         Twig::Branch.new('branch1'),
@@ -329,8 +334,12 @@ describe Twig::Display do
         { 'name' => 'branch2' }
       ]
       expect(@twig).to receive(:branches).and_return(branches)
-      expect(branches[0]).to receive(:to_hash).and_return(branch_hashes[0])
-      expect(branches[1]).to receive(:to_hash).and_return(branch_hashes[1])
+      expect(branches[0]).to receive(:to_hash).
+        with(@property_names).
+        and_return(branch_hashes[0])
+      expect(branches[1]).to receive(:to_hash).
+        with(@property_names).
+        and_return(branch_hashes[1])
 
       result = @twig.branches_json
 
