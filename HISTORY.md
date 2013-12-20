@@ -1,6 +1,11 @@
 Twig
 ====
 
+* ENHANCEMENT: Add `--only-property <pattern>` and `--except-property <pattern>`
+  for including/excluding property names in list view and JSON view. Useful for
+  hiding properties that are frequently too long to show in list view (e.g.,
+  `todo`), or for hiding groups of properties that are just issue tracker
+  metadata. (GH-25. Thanks [slucero](https://github.com/slucero) for the idea!)
 * FIX: Fix `(1y ago)` (previously displayed as `(1 ago)`) in branch list view.
 * FIX: Make `property` a reserved property name, along with `branch`, `merge`,
   `rebase`, and `remote`.
