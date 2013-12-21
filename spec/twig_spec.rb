@@ -47,55 +47,6 @@ describe Twig do
     end
   end
 
-  describe '#all_branches' do
-    before :each do
-      @branch_names = %w[
-        fix_some_of_the_things
-        fix_some_other_of_the_things
-        fix_nothing
-      ]
-      @commit_time_strings = ['2001-01-01',   '2002-02-02',   '2003-03-03'           ]
-      @commit_time_agos    = ['111 days ago', '2 months ago', '3 years, 3 months ago']
-      @command =
-        %{git for-each-ref #{Twig::REF_PREFIX} --format="#{Twig::REF_FORMAT}"}
-
-      @branch_tuples = (0..2).map do |i|
-        [
-          @branch_names[i],
-          @commit_time_strings[i],
-          @commit_time_agos[i]
-        ].join(Twig::REF_FORMAT_SEPARATOR)
-      end.join("\n")
-    end
-
-    it 'returns an array of branches' do
-      expect(Twig).to receive(:run).with(@command).and_return(@branch_tuples)
-      twig = Twig.new
-
-      branches = twig.all_branches
-
-      expect(branches[0].name).to eq(@branch_names[0])
-      expect(branches[0].last_commit_time.to_s).to match(
-        %r{#{@commit_time_strings[0]} .* \(111d ago\)}
-      )
-      expect(branches[1].name).to eq(@branch_names[1])
-      expect(branches[1].last_commit_time.to_s).to match(
-        %r{#{@commit_time_strings[1]} .* \(2mo ago\)}
-      )
-      expect(branches[2].name).to eq(@branch_names[2])
-      expect(branches[2].last_commit_time.to_s).to match(
-        %r{#{@commit_time_strings[2]} .* \(3y ago\)}
-      )
-    end
-
-    it 'memoizes the result' do
-      expect(Twig).to receive(:run).with(@command).once.and_return(@branch_tuples)
-      twig = Twig.new
-
-      2.times { twig.all_branches }
-    end
-  end
-
   describe '#branches' do
     before :each do
       @twig = Twig.new
@@ -117,7 +68,7 @@ describe Twig do
         Twig::Branch.new(branch_names[2], :last_commit_time => commit_times[2]),
         Twig::Branch.new(branch_names[3], :last_commit_time => commit_times[3])
       ]
-      allow(@twig).to receive(:all_branches) { @branches }
+      allow(Twig::Branch).to receive(:all_branches) { @branches }
     end
 
     it 'returns all branches' do
@@ -198,7 +149,7 @@ describe Twig do
       twig = Twig.new
       branch_names = %w[foo bar baz]
       branches = branch_names.map { |name| Twig::Branch.new(name) }
-      expect(twig).to receive(:all_branches).and_return(branches)
+      expect(Twig::Branch).to receive(:all_branches).and_return(branches)
 
       expect(twig.all_branch_names).to eq(branch_names)
     end

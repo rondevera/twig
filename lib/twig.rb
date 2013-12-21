@@ -39,24 +39,8 @@ class Twig
     @_current_branch_name ||= Twig.run('git rev-parse --abbrev-ref HEAD')
   end
 
-  def all_branches
-    @_all_branches ||= begin
-      branch_tuples = Twig.
-        run(%{git for-each-ref #{ REF_PREFIX } --format="#{ REF_FORMAT }"}).
-        split("\n")
-
-      branch_tuples.inject([]) do |result, branch_tuple|
-        name, time_string, time_ago = branch_tuple.split(REF_FORMAT_SEPARATOR)
-        time        = Time.parse(time_string)
-        commit_time = Twig::CommitTime.new(time, time_ago)
-        branch      = Branch.new(name, :last_commit_time => commit_time)
-        result << branch
-      end
-    end
-  end
-
   def branches
-    branches = all_branches
+    branches = Twig::Branch.all_branches
     now = Time.now
     max_days_old = options[:max_days_old]
     max_seconds_old = max_days_old * 86400 if max_days_old
@@ -100,7 +84,7 @@ class Twig
   end
 
   def all_branch_names
-    all_branches.map { |branch| branch.name }
+    Twig::Branch.all_branches.map { |branch| branch.name }
   end
 
   def property_names

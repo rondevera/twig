@@ -17,6 +17,22 @@ class Twig
 
     attr_accessor :name, :last_commit_time
 
+    def self.all_branches
+      @_all_branches ||= begin
+        branch_tuples = Twig.
+          run(%{git for-each-ref #{ REF_PREFIX } --format="#{ REF_FORMAT }"}).
+          split("\n")
+
+        branch_tuples.inject([]) do |result, branch_tuple|
+          name, time_string, time_ago = branch_tuple.split(REF_FORMAT_SEPARATOR)
+          time        = Time.parse(time_string)
+          commit_time = Twig::CommitTime.new(time, time_ago)
+          branch      = Branch.new(name, :last_commit_time => commit_time)
+          result << branch
+        end
+      end
+    end
+
     def self.all_property_names
       @_all_property_names ||= begin
         config_lines = Twig.run('git config --list').split("\n")
