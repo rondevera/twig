@@ -86,6 +86,7 @@ be automatically included when you run `twig`. Example:
     except-branch: staging
     header-style:  green bold
     max-days-old:  30
+    reverse:       true
 
 
 Examples
