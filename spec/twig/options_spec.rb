@@ -213,7 +213,7 @@ describe Twig::Options do
 
     it 'reads and sets a single option' do
       path = Twig::CONFIG_PATH
-      allow(@twig).to receive(:all_branch_names) { ['test'] }
+      allow(Twig::Branch).to receive(:all_branch_names) { ['test'] }
       expect(@twig).to receive(:readable_config_file_path).and_return(path)
       expect(@twig).to receive(:parse_config_file).with(path).and_return(
         'branch' => 'test'
@@ -227,7 +227,7 @@ describe Twig::Options do
 
     it 'reads and sets multiple options' do
       path = Twig::CONFIG_PATH
-      allow(@twig).to receive(:all_branch_names) { ['test'] }
+      allow(Twig::Branch).to receive(:all_branch_names) { ['test'] }
       expect(@twig).to receive(:readable_config_file_path).and_return(path)
       expect(@twig).to receive(:parse_config_file).with(path).and_return(
         # Filtering branches:
@@ -306,7 +306,7 @@ describe Twig::Options do
 
       it 'succeeds' do
         branch_name = 'foo'
-        expect(@twig).to receive(:all_branch_names).and_return(%[foo bar])
+        expect(Twig::Branch).to receive(:all_branch_names).and_return(%[foo bar])
 
         @twig.set_option(:branch, branch_name)
 
@@ -315,7 +315,7 @@ describe Twig::Options do
 
       it 'fails if the branch is unknown' do
         branch_name = 'foo'
-        expect(@twig).to receive(:all_branch_names).and_return([])
+        expect(Twig::Branch).to receive(:all_branch_names).and_return([])
         expect(@twig).to receive(:abort) do |message|
           expect(message).to include(%{branch `#{branch_name}` could not be found})
         end

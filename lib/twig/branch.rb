@@ -33,6 +33,10 @@ class Twig
       end
     end
 
+    def self.all_branch_names
+      self.all_branches.map { |branch| branch.name }
+    end
+
     def self.all_property_names
       @_all_property_names ||= begin
         config_lines = Twig.run('git config --list').split("\n")

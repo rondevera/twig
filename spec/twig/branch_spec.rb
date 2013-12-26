@@ -54,6 +54,16 @@ describe Twig::Branch do
     end
   end
 
+  describe '.all_branch_names' do
+    it 'returns an array of all branch names' do
+      branch_names = %w[foo bar baz]
+      branches = branch_names.map { |name| Twig::Branch.new(name) }
+      expect(Twig::Branch).to receive(:all_branches).and_return(branches)
+
+      expect(Twig::Branch.all_branch_names).to eq(branch_names)
+    end
+  end
+
   describe '.all_property_names' do
     before :each do
       Twig::Branch.instance_variable_set(:@_all_property_names, nil)

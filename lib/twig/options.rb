@@ -106,7 +106,7 @@ class Twig
     def set_option(key, value)
       case key
       when :branch
-        if all_branch_names.include?(value)
+        if Twig::Branch.all_branch_names.include?(value)
           options[:branch] = value
         else
           abort %{The branch `#{value}` could not be found.}

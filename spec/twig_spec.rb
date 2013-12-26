@@ -144,17 +144,6 @@ describe Twig do
     end
   end
 
-  describe '#all_branch_names' do
-    it 'returns an array of all branch names' do
-      twig = Twig.new
-      branch_names = %w[foo bar baz]
-      branches = branch_names.map { |name| Twig::Branch.new(name) }
-      expect(Twig::Branch).to receive(:all_branches).and_return(branches)
-
-      expect(twig.all_branch_names).to eq(branch_names)
-    end
-  end
-
   describe '#property_names' do
     before :each do
       @twig = Twig.new

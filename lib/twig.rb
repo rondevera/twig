@@ -83,10 +83,6 @@ class Twig
     branches
   end
 
-  def all_branch_names
-    Twig::Branch.all_branches.map { |branch| branch.name }
-  end
-
   def property_names
     @_property_names ||= begin
       property_names = Twig::Branch.all_property_names
