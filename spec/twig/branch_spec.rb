@@ -55,12 +55,21 @@ describe Twig::Branch do
   end
 
   describe '.all_branch_names' do
-    it 'returns an array of all branch names' do
-      branch_names = %w[foo bar baz]
-      branches = branch_names.map { |name| Twig::Branch.new(name) }
-      expect(Twig::Branch).to receive(:all_branches).and_return(branches)
+    before :each do
+      @branch_names = %w[foo bar baz]
+      @branches = @branch_names.map { |name| Twig::Branch.new(name) }
+    end
 
-      expect(Twig::Branch.all_branch_names).to eq(branch_names)
+    it 'returns an array of all branch names' do
+      expect(Twig::Branch).to receive(:all_branches).and_return(@branches)
+      expect(Twig::Branch.all_branch_names).to eq(@branch_names)
+    end
+
+    it 'memoizes the result' do
+      Twig::Branch.instance_variable_set(:@_all_branch_names, nil)
+      expect(Twig::Branch).to receive(:all_branches).once.and_return(@branches)
+
+      2.times { Twig::Branch.all_branch_names }
     end
   end
 
