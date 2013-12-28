@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+parent_branch = `twig diff-branch`.strip
+exec %{git checkout "#{parent_branch}"} unless parent_branch.empty?
