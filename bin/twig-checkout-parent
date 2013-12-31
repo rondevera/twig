@@ -1,4 +1,10 @@
 #!/usr/bin/env ruby
 
-parent_branch = `twig diff-branch`.strip
+args = ARGV.dup
+
+given_branch = args.any? && args.first[0, 1] != '-'
+topic_branch = args.shift.strip if given_branch           # Use given branch
+topic_branch ||= `git rev-parse --abbrev-ref HEAD`.strip  # Use current branch
+
+parent_branch = `twig diff-branch -b "#{topic_branch}"`.strip
 exec %{git checkout "#{parent_branch}"} unless parent_branch.empty?
