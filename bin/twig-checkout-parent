@@ -1,5 +1,21 @@
 #!/usr/bin/env ruby
 
+# Synopsis:
+#
+# - `twig checkout-parent [<branch>]`
+#
+# Usage:
+#
+# - `twig checkout-parent`:
+#   Checks out the current branch's parent branch, if any, based on its
+#   `diff-branch` property.
+#
+# - `twig checkout-parent <branch>`:
+#   Checks out the given branch's parent branch, if any.
+#
+# Subcommand for Twig: <http://rondevera.github.io/twig/>
+# Author: Ron DeVera <http://rondevera.com>
+
 args = ARGV.dup
 
 given_branch = args.any? && args.first[0, 1] != '-'
