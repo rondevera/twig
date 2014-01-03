@@ -2,7 +2,7 @@
 
 # Synopsis:
 #
-# - `twig checkout-parent [<branch>]`
+# - `twig checkout-parent [-b|--branch <branch>]`
 #
 # Usage:
 #
@@ -10,17 +10,20 @@
 #   Checks out the current branch's parent branch, if any, based on its
 #   `diff-branch` property.
 #
-# - `twig checkout-parent <branch>`:
+# - `twig checkout-parent -b <branch>`:
 #   Checks out the given branch's parent branch, if any.
 #
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
 
-args = ARGV.dup
+require 'rubygems'
+require 'twig'
 
-given_branch = args.any? && args.first[0, 1] != '-'
-topic_branch = args.shift.strip if given_branch           # Use given branch
-topic_branch ||= `git rev-parse --abbrev-ref HEAD`.strip  # Use current branch
+twig = Twig.new
+twig.read_config_file!
+twig.read_cli_options!(ARGV)
 
-parent_branch = `twig diff-branch -b "#{topic_branch}"`.strip
+branch_name = twig.options[:branch] || twig.current_branch_name
+parent_branch = twig.get_branch_property(branch_name, 'diff-branch') || ''
+
 exec %{git checkout "#{parent_branch}"} unless parent_branch.empty?
