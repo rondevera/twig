@@ -23,7 +23,7 @@ twig = Twig.new
 twig.read_config_file!
 twig.read_cli_options!(ARGV)
 
-branch_name = twig.options[:branch] || twig.current_branch_name
-parent_branch = twig.get_branch_property(branch_name, 'diff-branch') || ''
+target_branch = twig.options[:branch] || twig.current_branch_name
+parent_branch = twig.get_branch_property(target_branch, 'diff-branch') || ''
 
 exec %{git checkout "#{parent_branch}"} unless parent_branch.empty?
