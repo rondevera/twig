@@ -162,6 +162,29 @@ properties. You can [write your own](#writing-a-subcommand), but here are some
 subcommands that Twig comes with.
 
 
+twig checkout-parent
+--------------------
+
+If your branch has a `diff-branch` property, you can use `twig checkout-parent`
+to quickly switch to that branch:
+
+    $ git checkout branch2
+
+    # Remember your branch's diff branch:
+    $ twig diff-branch branch1
+    Saved property "diff-branch" as "branch1" for branch "branch2".
+
+    # Later, switch from branch2 (the current branch) to its parent branch:
+    $ twig checkout-parent
+    Switched to branch 'branch1'
+
+More advanced usage:
+
+    # Switch to the parent branch of any other branch:
+    $ twig checkout-parent -b other-branch-2
+    Switched to branch 'other-branch-1'
+
+
 twig diff
 ---------
 
@@ -177,7 +200,7 @@ to remember which branch to diff against. `twig diff` makes it easy:
     # Generate a diff between branch1 (the current branch) and branch2:
     $ twig diff
 
-More usage:
+More advanced usage:
 
     # Generate a diff between any given branch and its `diff-branch`:
     $ twig diff my-other-branch
@@ -205,7 +228,7 @@ If you have a stack of branches that you need to rebase in the same order,
     $ twig rebase
     Rebase "branch2" onto "development"? (y/n)
 
-More usage:
+More advanced usage:
 
     # Rebase any given branch onto its `diff-branch`:
     $ twig rebase my-other-branch
