@@ -6,6 +6,9 @@ Twig
   hiding properties that are frequently too long to show in list view (e.g.,
   `todo`), or for hiding groups of properties that are just issue tracker
   metadata. (GH-25. Thanks [slucero](https://github.com/slucero) for the idea!)
+* ENHANCEMENT: Add `twig checkout-parent` subcommand, which checks out the
+  current branch's parent branch, if any, based on its `diff-branch` property.
+  (GH-34)
 * FIX: Fix `(1y ago)` (previously displayed as `(1 ago)`) in branch list view.
 * FIX: Make `property` a reserved property name, along with `branch`, `merge`,
   `rebase`, and `remote`.
