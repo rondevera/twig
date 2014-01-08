@@ -316,7 +316,7 @@ Writing a subcommand
 You can write any Twig subcommand that fits your own Git workflow. To write a
 Twig subcommand:
 
-1.  Write a script. Any language will do. (If you want to take advantage of
+1.  Write a script—any language will do. (If you want to take advantage of
     Twig's option parsing and branch processing, you'll need Ruby. See
     [`bin/twig-checkout-parent`][twig-checkout-parent] for an example.)
 2.  Save it with the `twig-` prefix in your `$PATH`,
