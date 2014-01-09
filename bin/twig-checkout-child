@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'twig'
+
+twig = Twig.new
+twig.read_config_file!
+twig.read_cli_options!(ARGV)
+
+branch_name = twig.options[:branch] || twig.current_branch_name
+branch_name_regexp = Regexp.new("\\A#{branch_name}\\z")
+twig.set_option(:property_only, :'diff-branch' => branch_name_regexp)
+child_branch_names = twig.branches
+
+if child_branch_names.size > 1
+  index = 1
+  indexed_child_branches = child_branch_names.inject({}) do |hsh, child_branch_name|
+    hsh[index.to_s] = child_branch_name
+    index += 1
+    hsh
+  end
+
+  puts 'Checkout which child branch?'
+  indexed_child_branches.each do |index, child_branch_name|
+    puts "#{sprintf('%2s', index)}. #{child_branch_name}"
+  end
+  print '> '
+
+  input = $stdin.gets.strip.downcase
+  child_branch_name = indexed_child_branches[input]
+
+  if child_branch_name
+    `git checkout "#{child_branch_name}"`
+  else
+    abort 'No child branch selected.'
+  end
+elsif child_branch_names.size == 1
+  `git checkout "#{child_branch_names.first}"`
+else
+  abort "There are no branches whose `diff-branch` property is `#{branch_name}`."
+end
