@@ -3,6 +3,12 @@
 require 'rubygems'
 require 'twig'
 
+def checkout_branch(branch_name)
+  `git checkout "#{branch_name}"`
+end
+
+
+
 twig = Twig.new
 twig.read_config_file!
 twig.read_cli_options!(ARGV)
@@ -30,12 +36,12 @@ if child_branch_names.size > 1
   child_branch_name = indexed_child_branches[input]
 
   if child_branch_name
-    `git checkout "#{child_branch_name}"`
+    checkout_branch(child_branch_name)
   else
     abort 'No child branch selected.'
   end
 elsif child_branch_names.size == 1
-  `git checkout "#{child_branch_names.first}"`
+  checkout_branch(child_branch_names.first)
 else
   abort "There are no branches whose `diff-branch` property is `#{branch_name}`."
 end
