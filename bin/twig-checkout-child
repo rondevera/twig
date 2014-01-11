@@ -7,18 +7,7 @@ def checkout_branch(branch_name)
   `git checkout "#{branch_name}"`
 end
 
-
-
-twig = Twig.new
-twig.read_config_file!
-twig.read_cli_options!(ARGV)
-
-branch_name = twig.options[:branch] || twig.current_branch_name
-branch_name_regexp = Regexp.new("\\A#{branch_name}\\z")
-twig.set_option(:property_only, :'diff-branch' => branch_name_regexp)
-child_branch_names = twig.branches
-
-if child_branch_names.size > 1
+def prompt_for_child_branch(child_branch_names)
   index = 1
   indexed_child_branches = child_branch_names.inject({}) do |hsh, child_branch_name|
     hsh[index.to_s] = child_branch_name
@@ -34,6 +23,21 @@ if child_branch_names.size > 1
 
   input = $stdin.gets.strip.downcase
   child_branch_name = indexed_child_branches[input]
+end
+
+
+
+twig = Twig.new
+twig.read_config_file!
+twig.read_cli_options!(ARGV)
+
+branch_name = twig.options[:branch] || twig.current_branch_name
+branch_name_regexp = Regexp.new("\\A#{branch_name}\\z")
+twig.set_option(:property_only, :'diff-branch' => branch_name_regexp)
+child_branch_names = twig.branches
+
+if child_branch_names.size > 1
+  child_branch_name = prompt_for_child_branch(child_branch_names)
 
   if child_branch_name
     checkout_branch(child_branch_name)
