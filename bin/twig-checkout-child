@@ -31,9 +31,9 @@ twig = Twig.new
 twig.read_config_file!
 twig.read_cli_options!(ARGV)
 
-branch_name = twig.options[:branch] || twig.current_branch_name
-branch_name_regexp = Regexp.new("\\A#{branch_name}\\z")
-twig.set_option(:property_only, :'diff-branch' => branch_name_regexp)
+target_branch = twig.options[:branch] || twig.current_branch_name
+target_branch_regexp = Regexp.new("\\A#{target_branch}\\z")
+twig.set_option(:property_only, :'diff-branch' => target_branch_regexp)
 child_branch_names = twig.branches
 
 if child_branch_names.size > 1
@@ -47,5 +47,5 @@ if child_branch_names.size > 1
 elsif child_branch_names.size == 1
   checkout_branch(child_branch_names.first)
 else
-  abort "There are no branches whose `diff-branch` property is `#{branch_name}`."
+  abort "There are no branches whose `diff-branch` property is `#{target_branch}`."
 end
