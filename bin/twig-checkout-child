@@ -1,5 +1,23 @@
 #!/usr/bin/env ruby
 
+# Synopsis:
+#
+# - `twig checkout-child [-b|--branch <branch>]`
+#
+# Usage:
+#
+# - `twig checkout-child`:
+#   Checks out the current branch's child branch, if any, based on the child's
+#   `diff-branch` property. If the current branch has multiple child branches,
+#   this subcommand lists all of them and prompts for a selection.
+#
+# - `twig checkout-child -b <branch>`:
+#   Checks out the given branch's child branch, if any, based on the child's
+#   `diff-branch` property.
+#
+# Subcommand for Twig: <http://rondevera.github.io/twig/>
+# Author: Ron DeVera <http://rondevera.com>
+
 require 'rubygems'
 require 'twig'
 
