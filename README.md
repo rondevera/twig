@@ -162,6 +162,34 @@ properties. You can [write your own](#writing-a-subcommand), but here are some
 subcommands that Twig comes with.
 
 
+twig checkout-child
+-------------------
+
+Twig uses each branch's `diff-branch` property to remember its parent branch so
+you don't have to. If you need to check out one of the child branches for your
+current branch, you can use `twig checkout-child`:
+
+    $ git checkout feature-branch
+
+    # Look for any branch whose `diff-branch` property is `feature-branch`, and
+    # checkout that branch:
+    $ twig checkout-child
+
+    # If the current branch has multiple child, Twig asks what to do:
+    Checkout which child branch?
+     1. child-branch-1
+     2. child-branch-2
+     3. child-branch-3
+    > 3
+    Switched to 'child-branch-3'
+
+More advanced usage:
+
+    # Switch to a child branch of any other branch:
+    $ twig checkout-child -b other-feature-branch
+    Switched to 'other-child-branch'
+
+
 twig checkout-parent
 --------------------
 
