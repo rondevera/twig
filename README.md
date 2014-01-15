@@ -189,6 +189,8 @@ More advanced usage:
     $ twig checkout-child -b other-feature-branch
     Switched to 'other-child-branch'
 
+You can use this with `twig checkout-parent` to traverse your tree of branches.
+
 
 twig checkout-parent
 --------------------
@@ -211,6 +213,8 @@ More advanced usage:
     # Switch to the parent branch of any other branch:
     $ twig checkout-parent -b other-branch-2
     Switched to branch 'other-branch-1'
+
+You can use this with `twig checkout-child` to traverse your tree of branches.
 
 
 twig diff
