@@ -9,6 +9,10 @@ Twig
 * ENHANCEMENT: Add `twig checkout-parent` subcommand, which checks out the
   current branch's parent branch, if any, based on its `diff-branch` property.
   (GH-34)
+* ENHANCEMENT: Add `twig checkout-child` subcommand, which checks out the
+  current branch's child branch, if any, based on the child's `diff-branch`
+  property. If the current branch has multiple child branches, this subcommand
+  lists all of them and prompts for a selection. (GH-35)
 * FIX: Fix `(1y ago)` (previously displayed as `(1 ago)`) in branch list view.
 * FIX: Make `property` a reserved property name, along with `branch`, `merge`,
   `rebase`, and `remote`.
