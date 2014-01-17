@@ -26,13 +26,18 @@ class Twig
     $?.success?
   end
 
-  def initialize
+  def initialize(options = {})
     self.options = {}
 
     # Set defaults
     set_option(:github_api_uri_prefix, DEFAULT_GITHUB_API_URI_PREFIX)
     set_option(:github_uri_prefix, DEFAULT_GITHUB_URI_PREFIX)
     set_option(:header_style, DEFAULT_HEADER_COLOR.to_s)
+
+    if options[:read_options]
+      read_config_file!
+      read_cli_options!(ARGV)
+    end
   end
 
   def current_branch_name

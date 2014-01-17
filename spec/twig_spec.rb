@@ -32,6 +32,22 @@ describe Twig do
         :header_color => Twig::DEFAULT_HEADER_COLOR
       )
     end
+
+    it 'reads config files and command-line options when `:read_options` is true' do
+      expect_any_instance_of(Twig).to receive(:read_config_file!)
+      expect_any_instance_of(Twig).to receive(:read_cli_options!)
+
+      Twig.new(:read_options => true)
+    end
+
+    it 'does not read config files or command-line options when `:read_options` is falsy' do
+      expect_any_instance_of(Twig).not_to receive(:read_config_file!)
+      expect_any_instance_of(Twig).not_to receive(:read_cli_options!)
+
+      Twig.new(:read_options => false)
+      Twig.new(:read_options => nil)
+      Twig.new
+    end
   end
 
   describe '#current_branch_name' do
