@@ -21,10 +21,7 @@
 require 'rubygems'
 require 'twig'
 
-twig = Twig.new
-twig.read_config_file!
-twig.read_cli_options!(ARGV)
-
+twig = Twig.new(:read_options => true)
 target_branch = twig.options[:branch] || twig.current_branch_name
 parent_branch = twig.get_branch_property(target_branch, 'diff-branch') || ''
 

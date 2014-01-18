@@ -48,10 +48,7 @@ end
 
 
 
-twig = Twig.new
-twig.read_config_file!
-twig.read_cli_options!(ARGV)
-
+twig = Twig.new(:read_options => true)
 target_branch = twig.options[:branch] || twig.current_branch_name
 target_branch_regexp = Regexp.new("\\A#{target_branch}\\z")
 twig.set_option(:property_only, :'diff-branch' => target_branch_regexp)

@@ -11,9 +11,7 @@ require 'json'
 require 'net/https'
 require 'uri'
 
-twig = Twig.new
-twig.read_config_file!
-twig.read_cli_options!(ARGV)
+twig = Twig.new(:read_options => true)
 
 Twig::GithubRepo.new do |gh_repo|
   $stdout.sync = true

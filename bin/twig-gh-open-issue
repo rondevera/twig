@@ -16,10 +16,7 @@ require 'twig'
 require 'launchy'
 
 Twig::GithubRepo.new do |gh_repo|
-  twig = Twig.new
-  twig.read_config_file!
-  twig.read_cli_options!(ARGV)
-
+  twig = Twig.new(:read_options => true)
   branch_name = twig.options[:branch] || twig.current_branch_name
   issue_id = twig.get_branch_property(branch_name, 'issue')
 
