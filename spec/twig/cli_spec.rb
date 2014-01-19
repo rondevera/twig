@@ -2,6 +2,44 @@ require 'spec_helper'
 
 describe Twig::Cli do
 
+  describe '.prompt_with_choices' do
+    it 'prints a prompt with the given choices' do
+      stdout_orig = $stdout
+      stdout_test = StringIO.new
+      $stdout     = stdout_test
+      prompt      = 'What does the fox say?'
+      choices     = [
+        'Ring-ding-ding-ding-dingeringeding!',
+        'Wa-pa-pa-pa-pa-pa-pow!',
+        'Hatee-hatee-hatee-ho!',
+        'Joff-tchoff-tchoffo-tchoffo-tchoff!'
+      ]
+      expect($stdin).to receive(:gets).and_return('4')
+
+      result = Twig::Cli.prompt_with_choices(prompt, choices)
+
+      $stdout = stdout_orig
+      expect(stdout_test.string).to eq(
+        prompt + "\n" +
+        " 1. #{choices[0]}\n" +
+        " 2. #{choices[1]}\n" +
+        " 3. #{choices[2]}\n" +
+        " 4. #{choices[3]}\n" +
+        '> '
+      )
+      expect(result).to eq(choices[3])
+    end
+
+    it 'requires at least two choices' do
+      expect {
+        Twig::Cli.prompt_with_choices(
+          'What does the fox say?',
+          ['Ring-ding-ding-ding-dingeringeding!']
+        )
+      }.to raise_exception(ArgumentError)
+    end
+  end
+
   describe '#help_description' do
     before :each do
       @twig = Twig.new

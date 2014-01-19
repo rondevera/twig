@@ -4,6 +4,25 @@ require 'rbconfig'
 class Twig
   module Cli
 
+    def self.prompt_with_choices(prompt, choices)
+      # Prints the given string `prompt` and the array `choices` numbered, and
+      # prompts the user to enter a number. Returns the matching value, or nil
+      # if the user input is invalid.
+
+      if choices.size < 2
+        raise ArgumentError, 'At least two choices required'
+      end
+
+      puts prompt
+      choices.each_with_index do |choice, index|
+        puts "#{sprintf('%2s', index + 1)}. #{choice}"
+      end
+      print '> '
+
+      input = $stdin.gets.to_i
+      choices[input - 1]
+    end
+
     def help_intro
       version_string = "Twig v#{Twig::VERSION}"
 
