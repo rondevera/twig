@@ -41,7 +41,13 @@ class Twig
   end
 
   def current_branch_name
+    # Returns the name of the branch that is currently checked out in Git.
     @_current_branch_name ||= Twig.run('git rev-parse --abbrev-ref HEAD')
+  end
+
+  def target_branch_name
+    # Returns the name of the branch to work on, e.g., for setting a property.
+    options[:branch] || current_branch_name
   end
 
   def branches

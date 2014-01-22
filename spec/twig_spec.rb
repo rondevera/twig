@@ -63,6 +63,26 @@ describe Twig do
     end
   end
 
+  describe '#target_branch_name' do
+    before :each do
+      @current_branch_name = 'current-branch'
+      @twig = Twig.new
+      allow(@twig).to receive(:current_branch_name).and_return(@current_branch_name)
+    end
+
+    it 'returns the branch specified in options' do
+      feature_branch_name = 'feature-branch'
+      expect(Twig::Branch).to receive(:all_branch_names).and_return([feature_branch_name])
+      @twig.set_option(:branch, feature_branch_name)
+
+      expect(@twig.target_branch_name).to eq(feature_branch_name)
+    end
+
+    it 'returns the current branch by default' do
+      expect(@twig.target_branch_name).to eq(@current_branch_name)
+    end
+  end
+
   describe '#branches' do
     before :each do
       @twig = Twig.new
