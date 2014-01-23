@@ -29,7 +29,7 @@ def checkout_branch(branch_name)
 end
 
 twig = Twig.new(:read_options => true)
-target_branch = twig.options[:branch] || twig.current_branch_name
+target_branch = twig.target_branch_name
 target_branch_regexp = Regexp.new("\\A#{target_branch}\\z")
 twig.set_option(:property_only, :'diff-branch' => target_branch_regexp)
 child_branch_names = twig.branches

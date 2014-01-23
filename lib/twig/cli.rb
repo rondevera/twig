@@ -404,7 +404,7 @@ class Twig
       exec_subcommand_if_any(args) if args.any?
 
       args = read_cli_options!(args)
-      branch_name = options[:branch] || current_branch_name
+      branch_name = target_branch_name
       format = options.delete(:format)
       property_to_unset = options.delete(:unset_property)
 

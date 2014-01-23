@@ -17,11 +17,11 @@ require 'launchy'
 
 Twig::GithubRepo.new do |gh_repo|
   twig = Twig.new(:read_options => true)
-  branch_name = twig.options[:branch] || twig.current_branch_name
-  issue_id = twig.get_branch_property(branch_name, 'issue')
+  target_branch_name = twig.target_branch_name
+  issue_id = twig.get_branch_property(target_branch_name, 'issue')
 
   unless issue_id
-    abort %{The branch "#{branch_name}" doesn't have an "issue" property.}
+    abort %{The branch "#{target_branch_name}" doesn't have an "issue" property.}
   end
 
   gh_uri_prefix = twig.options[:github_uri_prefix]
