@@ -15,7 +15,7 @@ class Twig
 
       puts prompt
       choices.each_with_index do |choice, index|
-        puts "#{sprintf('%2s', index + 1)}. #{choice}"
+        puts "#{sprintf('%3s', index + 1)}. #{choice}"
       end
       print '> '
 
