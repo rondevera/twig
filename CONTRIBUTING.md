@@ -17,8 +17,9 @@ If you want to hack on some code, even better! Here are the basics:
 4.  Run the tests to make sure that they pass on your machine: `bundle && rake`
 5.  Add one or more failing tests for your feature or bug fix.
 6.  Write your feature or bug fix to make the test(s) pass.
-    * Tests should pass in the latest **Ruby 1.8.7** and **Ruby 1.9.3**, which
-      you can do with [rvm][rvm] or [rbenv][rbenv].
+    * Tests should pass for the Ruby versions listed in
+      [travis.yml][travis.yml], which you can confirm with [rvm][rvm] or
+      [rbenv][rbenv].
     * Keep the branch focused on a single topic, rather than covering multiple
       features or bug fixes in a single branch. This makes branches quicker to
       review and merge.
@@ -34,3 +35,4 @@ Thanks for contributing!
 [dev branch]: https://github.com/rondevera/twig/commits/development
 [rvm]:        https://rvm.io/
 [rbenv]:      http://rbenv.org/
+[travis.yml]: https://github.com/rondevera/twig/blob/master/.travis.yml
