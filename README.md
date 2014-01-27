@@ -378,8 +378,8 @@ add it to the [Twig wiki][wiki]!
 More info
 =========
 
-* **Requirements:** Tested with Git 1.6.5+ and Ruby 1.8.7/1.9.2/1.9.3. Probably
-  works with older software, but it's not guaranteed.
+* **Requirements:** Tested with Git 1.6.5+ and Ruby 1.8.7, 1.9.2, 1.9.3, 2.0.0,
+  and 2.1.0. Probably works with older software, but it's not guaranteed.
 * **Contributing:** Found a bug or have a suggestion? [Please open an
   issue][issues] or ping [@ronalddevera on Twitter][twitter]. If you want to
   hack on some features or contribute a subcommand you've written, feel free to
