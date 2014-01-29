@@ -247,8 +247,8 @@ More advanced usage:
 twig rebase
 -----------
 
-If you have a stack of branches that you need to rebase in the same order,
-`twig rebase` simplifies the process:
+If you have a stack of branches that you need to rebase in the same order every
+time, `twig rebase` simplifies the process:
 
     $ git checkout branch2
 
