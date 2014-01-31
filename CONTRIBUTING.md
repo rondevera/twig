@@ -18,7 +18,7 @@ If you want to hack on some code, even better! Here are the basics:
 5.  Add one or more failing tests for your feature or bug fix.
 6.  Write your feature or bug fix to make the test(s) pass.
     * Tests should pass for the Ruby versions listed in
-      [travis.yml][travis.yml], which you can confirm with [rvm][rvm] or
+      [.travis.yml][travis.yml], which you can confirm with [rvm][rvm] or
       [rbenv][rbenv].
     * Keep the branch focused on a single topic, rather than covering multiple
       features or bug fixes in a single branch. This makes branches quicker to
