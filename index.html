@@ -421,6 +421,46 @@ Saved property "diff-branch" as "branch1" for branch "branch2".
 
 
 
+  <h3 id="twig-checkout-child">twig checkout-child</h3>
+
+  <p>
+    Twig uses each branch&rsquo;s <code>diff-branch</code> property to remember
+    its parent branch so you don&rsquo;t have to. If you need to check out one
+    of the child branches for your current branch, you can use twig
+    <code>checkout-child</code>:
+  </p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> git checkout feature-branch
+
+<span class="comment"># Look for any branch whose `diff-branch` property is</span>
+<span class="comment"># `feature-branch`, and checkout that branch:</span>
+<span class="prompt">$</span> twig checkout-child
+
+<span class="comment"># If the current branch has multiple child, Twig asks what to do:</span>
+Checkout which child branch?
+  1. child-branch-1
+  2. child-branch-2
+  3. child-branch-3
+> 3
+Switched to branch 'child-branch-3'
+  </code></pre>
+
+  <p>More advanced usage:</p>
+
+  <pre class="example"><code>
+<span class="comment"># Switch to a child branch of any other branch:</span>
+<span class="prompt">$</span> twig checkout-child -b other-feature-branch
+Switched to branch 'other-child-branch'
+  </code></pre>
+
+  <p>
+    You can use this with <code>twig checkout-parent</code> and <code>twig
+    create-branch</code> to traverse your tree of branches.
+  </p>
+
+
+
   <h3 id="twig-diff">twig diff</h3>
 
   <p>
