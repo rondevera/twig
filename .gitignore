@@ -1,5 +1,6 @@
 *.gem
 .bundle/
+.ruby-gemset
 .rvmrc
 Gemfile.lock
 _site/
