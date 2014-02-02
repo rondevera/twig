@@ -461,6 +461,41 @@ Switched to branch 'other-child-branch'
 
 
 
+  <h3 id="twig-checkout-parent">twig checkout-parent</h3>
+
+  <p>
+    If your branch has a <code>diff-branch</code> property, you can use
+    <code>twig checkout-parent</code> to quickly switch to that branch:
+  </p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> git checkout branch2
+
+<span class="comment"># Remember your branch's diff branch:</span>
+<span class="prompt">$</span> twig diff-branch branch1
+Saved property "diff-branch" as "branch1" for branch "branch2".
+
+<span class="comment"># Later, switch from branch2 (the current branch) to</span>
+<span class="comment"># its parent branch:</span>
+<span class="prompt">$</span> twig checkout-parent
+Switched to branch 'branch1'
+  </code></pre>
+
+  <p>More advanced usage:</p>
+
+  <pre class="example"><code>
+<span class="comment"># Switch to the parent branch of any other branch:</span>
+<span class="prompt">$</span> twig checkout-parent -b other-branch-2
+Switched to branch 'other-branch-1'
+  </code></pre>
+
+  <p>
+    You can use this with <code>twig checkout-child</code> and
+    <code>twig create-branch</code> to traverse your tree of branches.
+  </p>
+
+
+
   <h3 id="twig-diff">twig diff</h3>
 
   <p>
