@@ -1,7 +1,7 @@
 How to contribute
 =================
 
-Let's make life easier for people with lots of Git branches.
+Let's make life easier for people who have lots of Git branches.
 
 Found a bug or have a suggestion? [Please open an issue][issues] or ping
 [@ronalddevera on Twitter][twitter].
