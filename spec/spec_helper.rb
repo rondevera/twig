@@ -1,5 +1,6 @@
 require 'twig'
 require 'json'
+require 'rspec/radar'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |c|

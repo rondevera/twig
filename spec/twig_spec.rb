@@ -243,7 +243,7 @@ describe Twig do
     end
 
     it 'returns a message if all branches were filtered out by options' do
-      allow(@twig).to receive(:all_branches) { %w[foo bar] }
+      allow(Twig::Branch).to receive(:all_branches) { %w[foo bar] }
       allow(@twig).to receive(:branches) { [] }
 
       expect(@twig.list_branches).to include(
@@ -252,7 +252,7 @@ describe Twig do
     end
 
     it 'returns a message if the repo has no branches' do
-      allow(@twig).to receive(:all_branches) { [] }
+      allow(Twig::Branch).to receive(:all_branches) { [] }
       allow(@twig).to receive(:branches) { [] }
 
       expect(@twig.list_branches).to include('This repository has no branches')

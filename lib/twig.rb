@@ -118,7 +118,7 @@ class Twig
 
   def list_branches
     if branches.empty?
-      if all_branches.any?
+      if Twig::Branch.all_branches.any?
         return 'There are no branches matching your selected options.'
       else
         return 'This repository has no branches.'
