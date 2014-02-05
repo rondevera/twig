@@ -1,4 +1,15 @@
-Dir[File.join(File.dirname(__FILE__), 'twig', '*.rb')].each { |file| require file }
+$LOAD_PATH.unshift(File.dirname(__FILE__)) # For gem development
+require 'twig/branch'
+require 'twig/cli'
+require 'twig/commit_time'
+require 'twig/display'
+require 'twig/github'
+require 'twig/homepage'
+require 'twig/options'
+require 'twig/subcommands'
+require 'twig/system'
+require 'twig/util'
+require 'twig/version'
 require 'time'
 
 # The main class.
