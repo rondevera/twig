@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 # Entry point for Twig: <http://rondevera.github.io/twig/>
+# More info: `twig --help`
 
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'twig'))
 
