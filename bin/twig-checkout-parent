@@ -2,18 +2,20 @@
 
 # Synopsis:
 #
-# - `twig checkout-parent [-b|--branch <branch>]`
+#   twig checkout-parent [-b|--branch <branch>]
 #
-# Usage:
+# Description:
 #
-# - `twig checkout-parent`:
-#   Checks out the current branch's parent branch, if any, based on its
-#   `diff-branch` property.
+#   Checks out the current branch's parent branch, if any, based on the current
+#   branch's `diff-branch` property.
 #
-# - `twig checkout-parent -b <branch>`:
-#   Checks out the given branch's parent branch, if any.
+#   You can use this with `twig checkout-child` to traverse your tree of
+#   branches.
 #
-# You can use this with `twig checkout-child` to traverse your tree of branches.
+# Options:
+#
+#   `-b` or `--branch`: Checks out the parent branch of the given branch, rather
+#   than the current branch.
 #
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
