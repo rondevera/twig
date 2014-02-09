@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+new_branch_name = (ARGV[0] || '').strip
+abort 'Usage: twig create-branch <branch name>' if new_branch_name.empty?
+
+current_branch_name = `git rev-parse --abbrev-ref HEAD`.strip
+
+cmd = %{git checkout -b "#{new_branch_name}"}
+cmd << %{ && twig diff-branch "#{current_branch_name}"}
+exec(cmd)
