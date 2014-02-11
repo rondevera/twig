@@ -181,15 +181,16 @@ current branch, you can use `twig checkout-child`:
      2. child-branch-2
      3. child-branch-3
     > 3
-    Switched to 'child-branch-3'
+    Switched to branch 'child-branch-3'
 
 More advanced usage:
 
     # Switch to a child branch of any other branch:
     $ twig checkout-child -b other-feature-branch
-    Switched to 'other-child-branch'
+    Switched to branch 'other-child-branch'
 
-You can use this with `twig checkout-parent` to traverse your tree of branches.
+You can use this with `twig checkout-parent` and `twig create-branch` to
+traverse your tree of branches.
 
 
 twig checkout-parent
@@ -214,7 +215,32 @@ More advanced usage:
     $ twig checkout-parent -b other-branch-2
     Switched to branch 'other-branch-1'
 
-You can use this with `twig checkout-child` to traverse your tree of branches.
+You can use this with `twig checkout-child` and `twig create-branch` to traverse
+your tree of branches.
+
+
+twig create-branch
+------------------
+
+When creating a branch, you can use `twig create-branch` to create a child
+branch and set its `diff-branch` property automatically:
+
+    $ git checkout master
+    $ twig create-branch my-branch
+    Branch my-branch set up to track local branch master.
+    Switched to a new branch 'my-branch'
+    Saved property "diff-branch" as "master" for branch "my-branch".
+
+    # Confirm that the new branch's `diff-branch` is its parent:
+    $ twig diff-branch
+    master
+
+    # Check out the new branch's parent:
+    $ twig checkout-parent
+    Switched to branch 'master'
+
+You can use this with `twig checkout-child` and `twig checkout-parent` to
+traverse your tree of branches.
 
 
 twig diff
