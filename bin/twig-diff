@@ -1,24 +1,27 @@
 #!/usr/bin/env ruby
 
-# Summary:
+# Synopsis:
 #
-#   `twig diff [<branch>] [<options>]`
+#   twig diff [<branch>] [<options>]
 #
-# Usage:
+# Description:
 #
-# - `twig diff`:
 #   Shows the diff between the current branch and its `diff-branch` property.
+#   All options are passed through to `git-diff`.
 #
-# - `twig diff <options>`:
-#   Shows the diff between the current branch and its `diff-branch`, and passes
-#   options through to `git-diff`, e.g., `twig diff --stat`.
+# Examples:
 #
-# - `twig diff <branch>`:
-#   Shows the diff between the given branch and its `diff-branch` property.
+#   Show diff stats between the current branch and its `diff-branch`:
 #
-# - `twig diff <branch> <options>`:
-#   Shows the diff between the given branch and its `diff-branch`, and passes
-#   options through to `git-diff`, e.g., `twig diff my_branch --stat`.
+#     twig diff --stat
+#
+#   Show the diff between the given branch and its `diff-branch`:
+#
+#     twig diff my_branch
+#
+#   Show diff stats between the given branch and its `diff-branch`:
+#
+#     twig diff my_branch --stat
 #
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
