@@ -1,12 +1,22 @@
 #!/usr/bin/env ruby
 
-# Usage:
+# Synopsis:
 #
-# - `twig gh-open-issue`:
-#   Opens a browser window for the GitHub issue, if any, for the current branch.
+#   twig gh-open-issue [-b|--branch <branch>]
 #
-# - `twig gh-open-issue -b <branch>`:
-#   Opens the GitHub issue, if any, for the specified branch.
+# Description:
+#
+#   Opens a browser window the GitHub issue, if any, for the current branch.
+#
+#   To customize the GitHub URI prefix (e.g., for GitHub Enterprise
+#   installations), set GitHub options in `~/.twigconfig`:
+#
+#     github-uri-prefix:     http://example-enterprise.github.com
+#     github-api-uri-prefix: http://example-enterprise.github.com
+#
+# Options:
+#
+#   `-b` or `--branch`: Opens the GitHub issue, if any, for the given branch.
 #
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
