@@ -1,7 +1,19 @@
 #!/usr/bin/env ruby
 
-# Initializes tab completion for Twig. To use this, run
-# `twig init-completion` and follow the instructions.
+# Synopsis:
+#
+#   twig init-completion [--force]
+#
+# Description:
+#
+#   Initializes tab completion for Twig. To use this, run `twig init-completion`
+#   and follow the instructions.
+#
+# Options:
+#
+#   `--force`: By default, `twig init-completion` preserves the existing tab
+#   completion script, if any. If this option is used, the command will
+#   overwrite any existing tab completion script.
 #
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
