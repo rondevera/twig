@@ -1,24 +1,27 @@
 #!/usr/bin/env ruby
 
-# Summary:
+# Synopsis:
 #
-#   `twig rebase [<branch>] [<options>]`
+#   twig rebase [<branch>] [<options>]
 #
-# Usage:
+# Description:
 #
-# - `twig rebase`:
 #   Rebases the current branch onto the branch in its `diff-branch` property.
+#   All options are passed through to `git-rebase`.
 #
-# - `twig rebase <options>`:
-#   Rebases the current branch onto its `diff-branch`, and passes options
-#   through to `git-rebase`, e.g., `twig rebase -i`.
+# Examples:
 #
-# - `twig rebase <branch>`:
-#   Rebases the given branch onto its `diff-branch`.
+#   Rebase the current branch onto its `diff-branch` interactively:
 #
-# - `twig rebase <branch> <options>`:
-#   Rebases the given branch and its `diff-branch`, and passes options
-#   through to `git-rebase`, e.g., `twig rebase my_branch -i`.
+#     twig rebase -i
+#
+#   Rebase the given branch onto its `diff-branch`:
+#
+#     twig rebase my_branch
+#
+#   Rebase the given branch onto its `diff-branch` interactively:
+#
+#     twig rebase my_branch -i
 #
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
