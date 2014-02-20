@@ -6,7 +6,7 @@
 #
 # Description:
 #
-#   Initializes bash tag completion for Twig. Instead of running this directly,
+#   Initializes bash tab completion for Twig. Instead of running this directly,
 #   run `twig init-completion` to initialize tab completion for the current
 #   shell.
 #
