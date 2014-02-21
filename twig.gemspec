@@ -14,10 +14,11 @@ Gem::Specification.new do |spec|
   spec.summary       = %{Your personal Git branch assistant.}
   spec.description   = %w[
     Twig is your personal Git branch assistant. It's a command-line tool for
-    listing your most recent branches, and for remembering each branch's ticket
-    ids, todos, and other details. Twig supports subcommands for managing
-    branches however you want. It's flexible enough to fit your every Git
-    workflow, and will save you a ton of time.
+    listing your most recent branches, and for remembering branch details for
+    you, like issue tracker ids and todos. It supports subcommands, like
+    automatically fetching statuses from your issue tracking system. It's
+    flexible enough to fit your everyday Git workflow, and will save you a ton
+    of time.
   ].join(' ')
   spec.post_install_message =
     "\n**************************************************************" <<
