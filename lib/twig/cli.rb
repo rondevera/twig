@@ -27,9 +27,10 @@ class Twig
       version_string = "Twig v#{Twig::VERSION}"
 
       intro = help_paragraph(%{
-        Twig is your personal Git branch assistant. It shows you your most
-        recent branches, and tracks issue tracker ids, tasks, and other metadata
-        for your Git branches.
+        Twig is your personal Git branch assistant. It's a command-line tool for
+        listing your most recent branches, and for remembering branch details
+        for you, like issue tracker ids and todos. It also supports subcommands,
+        like automatically fetching statuses from your issue tracking system.
       })
 
       intro = <<-BANNER.gsub(/^[ ]+/, '')
