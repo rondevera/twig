@@ -25,8 +25,13 @@ Gem::Specification.new do |spec|
     "\n*                                                            *" <<
     "\n* Welcome to Twig!                                           *" <<
     "\n*                                                            *" <<
-    "\n* To get started, run `twig` to list your Git branches, and  *" <<
-    "\n* `twig --help` for more info.                               *" <<
+    "\n* Quick start:                                               *" <<
+    "\n*                                                            *" <<
+    "\n* 1. Run `twig init` to set up tab completion                *" <<
+    "\n* 2. Run `twig` to list your Git branches                    *" <<
+    "\n* 3. Run `twig --help` for more info                         *" <<
+    "\n*                                                            *" <<
+    "\n* Even more info: #{sprintf('%-43s', Twig::HOMEPAGE)        }*" <<
     "\n*                                                            *" <<
     "\n**************************************************************" <<
     "\n\n"
