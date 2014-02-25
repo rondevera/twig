@@ -27,11 +27,11 @@ Gem::Specification.new do |spec|
     "\n*                                                            *" <<
     "\n* Quick start:                                               *" <<
     "\n*                                                            *" <<
-    "\n* 1. Run `twig init` to set up tab completion                *" <<
-    "\n* 2. Run `twig` to list your Git branches                    *" <<
-    "\n* 3. Run `twig --help` for more info                         *" <<
+    "\n* 1. Run `twig init` to set up tab completion.               *" <<
+    "\n* 2. Run `twig` to list your Git branches.                   *" <<
     "\n*                                                            *" <<
-    "\n* Even more info: #{sprintf('%-43s', Twig::HOMEPAGE)        }*" <<
+    "\n* For more info, run `twig --help` or visit                  *" <<
+    "\n* #{sprintf('%-59s', Twig::HOMEPAGE)                        }*" <<
     "\n*                                                            *" <<
     "\n**************************************************************" <<
     "\n\n"
