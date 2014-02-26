@@ -27,10 +27,14 @@ Here's how Twig looks in action:
     2013-01-20 19:45:42 (6d ago)  -      -            -               master
 
 
-Installation
-============
+Quick start
+===========
 
     gem install twig
+
+    twig init    # Sets up tab completion; one run works across all repos
+    twig         # Lists your branches
+    twig --help  # More info
 
 
 Usage
@@ -46,7 +50,7 @@ chronologically with their properties.
 * `twig <property> -b <branch>`:         Get property for any branch
 * `twig <property> <value> -b <branch>`: Set property for any branch
 * `twig --unset <property> -b <branch>`: Unset property for any branch
-* `twig init-completion`:                Set up tab completion for `-b` and `--branch`
+* `twig init`:                           Set up tab completion for `-b` and `--branch`; one run works across all repos
 * `twig init-completion --force`:        Update to the latest tab completion script
 * `twig --help`:                         More info
 
