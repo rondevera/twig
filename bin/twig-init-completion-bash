@@ -7,8 +7,8 @@
 # Description:
 #
 #   Initializes bash tab completion for Twig. Instead of running this directly,
-#   run `twig init-completion` to initialize tab completion for the current
-#   shell.
+#   run `twig init` to run all setup tasks for the current shell. Uses all
+#   options available for `twig init-completion`.
 #
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>

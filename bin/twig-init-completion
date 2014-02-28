@@ -6,8 +6,8 @@
 #
 # Description:
 #
-#   Initializes tab completion for Twig. To use this, run `twig init-completion`
-#   and follow the instructions.
+#   Initializes tab completion for Twig. Instead of running this directly,
+#   run `twig init` to run all setup tasks.
 #
 # Options:
 #
