@@ -6,6 +6,8 @@ Twig
   hiding properties that are frequently too long to show in list view (e.g.,
   `todo`), or for hiding groups of properties that are just issue tracker
   metadata. (GH-25. Thanks [slucero](https://github.com/slucero) for the idea!)
+* ENHANCEMENT: Add `twig init` subcommand, the new recommended way to set up
+  Twig after installing the gem.
 * ENHANCEMENT: Add `twig checkout-parent` subcommand, which checks out the
   current branch's parent branch, if any, based on its `diff-branch` property.
   (GH-34)
