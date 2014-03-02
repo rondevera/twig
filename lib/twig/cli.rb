@@ -234,7 +234,7 @@ class Twig
         end
         help_description_for_custom_property(opts, [
           ['--only-PROPERTY PATTERN',   'Only list branches with a given property'],
-          ['',                          'that matches a given pattern.'],
+          ['',                          'that matches a given pattern.']
         ], :trailing => '')
         help_description_for_custom_property(opts, [
           ['--except-PROPERTY PATTERN', 'Do not list branches with a given property'],
@@ -370,7 +370,7 @@ class Twig
           '      except-branch: staging',
           '      header-style:  green bold',
           '      max-days-old:  30',
-          '      reverse:       true',
+          '      reverse:       true'
         ].join("\n"), :trailing => '')
 
         help_separator(opts, help_paragraph(%{
