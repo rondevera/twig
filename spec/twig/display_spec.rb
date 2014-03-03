@@ -149,7 +149,7 @@ describe Twig::Display do
     end
 
     it 'sets a header color' do
-      result = @twig.branch_list_headers({ :header_color => :green })
+      result = @twig.branch_list_headers(:header_color => :green)
       header_line = result.split("\n").first
       color = Twig::Display::COLORS[:green]
       expect(header_line.gsub(/\s/, '')).to eq(
@@ -160,7 +160,7 @@ describe Twig::Display do
     end
 
     it 'sets a header weight' do
-      result = @twig.branch_list_headers({ :header_weight => :bold })
+      result = @twig.branch_list_headers(:header_weight => :bold)
       header_line = result.split("\n").first
       weight = Twig::Display::WEIGHTS[:bold]
       expect(header_line.gsub(/\s/, '')).to eq(
@@ -171,7 +171,7 @@ describe Twig::Display do
     end
 
     it 'sets a header color and weight' do
-      result = @twig.branch_list_headers({ :header_color => :red, :header_weight => :bold })
+      result = @twig.branch_list_headers(:header_color => :red, :header_weight => :bold)
       header_line = result.split("\n").first
       color, weight = Twig::Display::COLORS[:red], Twig::Display::WEIGHTS[:bold]
       expect(header_line.gsub(/\s/, '')).to eq(
