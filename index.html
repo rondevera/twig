@@ -496,6 +496,37 @@ Switched to branch 'other-branch-1'
 
 
 
+  <h3 id="twig-create-branch">twig create-branch</h3>
+
+  <p>
+    When creating a branch, you can use <code>twig create-branch</code> to
+    create a child branch and set its <code>diff-branch</code> property
+    automatically:
+  </p>
+
+  <pre class="example"><code>
+<span class="prompt">$</span> git checkout master
+<span class="prompt">$</span> twig create-branch my-branch
+Branch my-branch set up to track local branch master.
+Switched to a new branch 'my-branch'
+Saved property "diff-branch" as "master" for branch "my-branch".
+
+<span class="comment"># Confirm that the new branch's `diff-branch` is its parent:</span>
+<span class="prompt">$</span> twig diff-branch
+master
+
+<span class="comment"># Check out the new branch's parent:</span>
+<span class="prompt">$</span> twig checkout-parent
+Switched to branch 'master'
+  </code></pre>
+
+  <p>
+    You can use this with <code>twig checkout-child</code> and
+    <code>twig checkout-parent</code> to traverse your tree of branches.
+  </p>
+
+
+
   <h3 id="twig-diff">twig diff</h3>
 
   <p>
