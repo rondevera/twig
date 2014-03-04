@@ -1,6 +1,8 @@
 Twig
 ====
 
+1.6 (2014-03-04)
+----------------
 * ENHANCEMENT: Add `--only-property <pattern>` and `--except-property <pattern>`
   for including/excluding property names in list view and JSON view. Useful for
   hiding properties that are frequently too long to show in list view (e.g.,
