@@ -5,9 +5,8 @@ Twig: Your personal Git branch assistant.
 [![Build Status](https://travis-ci.org/rondevera/twig.png?branch=development)](https://travis-ci.org/rondevera/twig)
 
 It's hard enough trying to remember the names of all of your Git branches. You
-also need those branches' issue tracker ids, issue statuses, and reminders of
-what to do next with each branch. `git branch` only lists them in alphabetical
-order, which just doesn't cut it.
+also need their issue tracker ids, issue statuses, and reminders of what to do
+next with each branch. `git branch` just isn't cutting it.
 
 **Twig shows you your most recent branches, and remembers branch details for
 you.** It supports subcommands, like automatically fetching statuses from your
