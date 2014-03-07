@@ -310,7 +310,7 @@ open a browser window if possible:
     GitHub URL: https://github.com/myname/myproject
 
 For GitHub Enterprise or other installations, you can change
-`https://github.com` by setting `github-uri-prefix` in `~/.twigrc`.
+`https://github.com` by setting `github-uri-prefix` in `~/.twigconfig`.
 
 
 twig gh-open-issue
@@ -328,7 +328,7 @@ subcommand to view that issue on GitHub:
     GitHub issue URL: https://github.com/myname/myproject/issues/222
 
 For GitHub Enterprise or other installations, you can change
-`https://github.com` by setting `github-uri-prefix` in `~/.twigrc`.
+`https://github.com` by setting `github-uri-prefix` in `~/.twigconfig`.
 
 
 twig gh-update
@@ -368,7 +368,7 @@ Run `twig gh-update` periodically to keep up with GitHub issues locally.
 
 For GitHub Enterprise or other installations, you can change the default
 `https://api.github.com` endpoint prefix by setting `github-api-uri-prefix` in
-`~/.twigrc`.
+`~/.twigconfig`.
 
 
 Writing a subcommand
