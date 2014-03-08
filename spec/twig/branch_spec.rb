@@ -322,7 +322,7 @@ describe Twig::Branch do
       end
 
       expect(expected_exception.message).to eq(
-        Twig::Branch::EMPTY_PROPERTY_NAME_ERROR
+        Twig::Branch::EmptyPropertyNameError::DEFAULT_MESSAGE
       )
     end
   end
@@ -403,7 +403,7 @@ describe Twig::Branch do
       end
 
       expect(expected_exception.message).to eq(
-        Twig::Branch::EMPTY_PROPERTY_NAME_ERROR
+        Twig::Branch::EmptyPropertyNameError::DEFAULT_MESSAGE
       )
     end
 
@@ -530,7 +530,7 @@ describe Twig::Branch do
       end
 
       expect(expected_exception.message).to eq(
-        Twig::Branch::EMPTY_PROPERTY_NAME_ERROR
+        Twig::Branch::EmptyPropertyNameError::DEFAULT_MESSAGE
       )
     end
 
