@@ -33,14 +33,14 @@ topic_branch = args.shift.strip if branch_given           # Use given branch
 topic_branch ||= `git rev-parse --abbrev-ref HEAD`.strip  # Use current branch
 
 base_branch    = `twig diff-branch -b "#{topic_branch}"`.strip
-rebase_options = args.join(' ') # Pass remaining options to `git-rebase`
+git_rebase_options = args.join(' ') # Pass remaining options to `git-rebase`
 
 abort if base_branch.empty?
 
 print %{Rebase "#{topic_branch}" onto "#{base_branch}"? (y/n) }
 input = $stdin.gets.strip.downcase
 if input == 'y' || input == 'yes'
-  exec %{git rebase #{rebase_options} "#{base_branch}" "#{topic_branch}"}
+  exec %{git rebase #{git_rebase_options} "#{base_branch}" "#{topic_branch}"}
 else
   puts 'Cancelled.'
 end
