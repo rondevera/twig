@@ -50,5 +50,5 @@ end
 if autoconfirm || input == 'y' || input == 'yes'
   exec %{git rebase #{git_rebase_options} "#{base_branch}" "#{topic_branch}"}
 else
-  puts 'Cancelled.'
+  abort 'Cancelled.'
 end
