@@ -439,6 +439,30 @@ describe Twig::Options do
       end
     end
 
+    context 'when setting a :twig_rebase_autoconfirm option' do
+      before :each do
+        expect(@twig.options[:twig_rebase_autoconfirm]).to be_nil
+      end
+
+      it 'sets the option to true when input is truthy' do
+        input = 'yes'
+        expect(Twig::Util).to receive(:truthy?).with(input).and_call_original
+
+        @twig.set_option(:twig_rebase_autoconfirm, input)
+
+        expect(@twig.options[:twig_rebase_autoconfirm]).to be_true
+      end
+
+      it 'sets the option to false when input is not truthy' do
+        input = 'blargh'
+        expect(Twig::Util).to receive(:truthy?).with(input).and_call_original
+
+        @twig.set_option(:twig_rebase_autoconfirm, input)
+
+        expect(@twig.options[:twig_rebase_autoconfirm]).to be_false
+      end
+    end
+
     it 'sets an :unset_property option' do
       expect(@twig.options[:unset_property]).to be_nil
       @twig.set_option(:unset_property, 'unwanted_property')

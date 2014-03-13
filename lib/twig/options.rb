@@ -148,6 +148,9 @@ class Twig
       when :reverse
         options[:reverse] = Twig::Util.truthy?(value)
 
+      when :twig_rebase_autoconfirm
+        options[:twig_rebase_autoconfirm] = Twig::Util.truthy?(value)
+
       when :unset_property
         options[key] = value
       end
