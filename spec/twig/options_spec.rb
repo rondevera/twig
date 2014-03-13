@@ -248,7 +248,10 @@ describe Twig::Options do
 
         # GitHub integration:
         'github-api-uri-prefix' => 'https://github-enterprise.example.com/api/v3',
-        'github-uri-prefix'     => 'https://github-enterprise.example.com'
+        'github-uri-prefix'     => 'https://github-enterprise.example.com',
+
+        # Subcommands:
+        'twig-rebase-autoconfirm' => 'true'
       )
 
       # Check preconditions
@@ -269,6 +272,7 @@ describe Twig::Options do
       expect(@twig.options[:property_only_name]).to be_nil
       expect(@twig.options[:property_width]).to be_nil
       expect(@twig.options[:reverse]).to be_nil
+      expect(@twig.options[:twig_rebase_autoconfirm]).to be_nil
 
       @twig.read_config_file!
 
@@ -295,6 +299,7 @@ describe Twig::Options do
       expect(@twig.options[:property_only_name]).to eq(/bar/)
       expect(@twig.options[:property_width]).to eq(:foo => 4)
       expect(@twig.options[:reverse]).to be_true
+      expect(@twig.options[:twig_rebase_autoconfirm]).to be_true
     end
   end
 

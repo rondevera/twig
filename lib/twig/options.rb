@@ -99,6 +99,10 @@ class Twig
         when 'github-uri-prefix'
           set_option(:github_uri_prefix, value)
 
+        # Subcommands:
+        when 'twig-rebase-autoconfirm'
+          set_option(:twig_rebase_autoconfirm, value)
+
         end
       end
     end
