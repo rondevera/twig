@@ -578,7 +578,7 @@ describe Twig::Options do
 
       begin
         @twig.set_property_width_option(:branch => width)
-      rescue SystemExit => exception
+      rescue SystemExit
       end
 
       expect(@twig.options[:property_width]).to eq({})
@@ -595,7 +595,7 @@ describe Twig::Options do
 
       begin
         @twig.set_property_width_option(:x => width)
-      rescue SystemExit => exception
+      rescue SystemExit
       end
 
       expect(@twig.options[:property_width]).to eq({})
@@ -612,7 +612,7 @@ describe Twig::Options do
 
       begin
         @twig.set_property_width_option(property_name => width)
-      rescue SystemExit => exception
+      rescue SystemExit
       end
 
       expect(@twig.options[:property_width]).to eq({})
