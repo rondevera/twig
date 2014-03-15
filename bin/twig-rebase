@@ -26,7 +26,14 @@
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
 
+require 'rubygems'
+require 'twig'
+
 args = ARGV.dup
+twig = Twig.new
+twig.read_config_file!
+  # Only read options from the config file, not from arguments, because most
+  # of the latter is passed through to `git-rebase`.
 
 branch_given = args.any? && args.first[0, 1] != '-'
 topic_branch = args.shift.strip if branch_given           # Use given branch
@@ -38,7 +45,9 @@ abort if base_branch.empty?
 twig_rebase_options = [args.delete('--autoconfirm')] # Twig-specific options
 git_rebase_options  = args.join(' ') # Pass remaining options to `git-rebase`
 
-autoconfirm = twig_rebase_options.include?('--autoconfirm')
+autoconfirm =
+  twig.options[:twig_rebase_autoconfirm] ||     # Option set via config file
+  twig_rebase_options.include?('--autoconfirm') # Option set via CLI
 
 if autoconfirm
   puts %{Rebasing "#{topic_branch}" onto "#{base_branch}"...}
