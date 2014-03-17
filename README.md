@@ -297,6 +297,12 @@ More advanced usage:
     # Pass options through to `git rebase`:
     $ twig rebase -i
 
+    # Skip the prompt when rebasing:
+    $ twig rebase --autoconfirm
+
+    # Skip the prompt every time you run `twig rebase`:
+    $ echo 'twig-rebase-autoconfirm: true' >> ~/.twigconfig
+
 
 twig gh-open
 ------------
