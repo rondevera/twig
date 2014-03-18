@@ -1,6 +1,12 @@
 Twig
 ====
 
+* ENHANCEMENT: Support `twig rebase --autoconfirm` for skipping the prompt when
+  rebasing a branch onto its parent branch. To skip the prompt every time you
+  use `twig rebase`, add `twig-rebase-autoconfirm: true` to your
+  `~/.twigconfig`. (GH-24. Thanks [ljharb](https://github.com/ljharb) for the
+  idea!)
+
 1.6 (2014-03-04)
 ----------------
 * ENHANCEMENT: Add `--only-property <pattern>` and `--except-property <pattern>`
