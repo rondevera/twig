@@ -62,7 +62,7 @@ Twig::GithubRepo.new do |gh_repo|
         abort error + "\n- Response: #{response.code}"
       end
     end
-  rescue OpenSSL::SSL::SSLError => exception
+  rescue OpenSSL::SSL::SSLError
     abort error
   end
 

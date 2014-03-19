@@ -519,7 +519,6 @@ describe Twig::Branch do
 
     it 'raises an error if the property name is an empty string' do
       bad_property = ' '
-      property     = ''
       expect(@branch).not_to receive(:get_property)
       expect(Twig).not_to receive(:run)
 
