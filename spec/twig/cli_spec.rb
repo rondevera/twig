@@ -200,6 +200,15 @@ describe Twig::Cli do
       @twig.run_pager
     end
 
+    it 'reopens original stdout and stderr if unable to fork' do
+      allow(Kernel).to receive(:fork) { false }
+      expect($stdout).to receive(:reopen)
+      expect($stderr).to receive(:reopen)
+      expect($stdin).not_to receive(:reopen)
+
+      @twig.run_pager
+    end
+
     it 'does nothing if running on Windows' do
       expect(Twig::System).to receive(:windows?).and_return(true)
       expect(Kernel).not_to receive(:fork)
