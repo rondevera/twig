@@ -207,6 +207,24 @@ describe Twig::Branch do
     end
   end
 
+  describe '#parent_name' do
+    before :each do
+      @branch = Twig::Branch.new('test')
+    end
+
+    it 'returns the parent branch name' do
+      parent_name = 'parent'
+      allow(@branch).to receive(:get_property).with('diff-branch').and_return(parent_name)
+
+      expect(@branch.parent_name).to eq(parent_name)
+    end
+
+    it 'returns nil if the parent branch is unknown' do
+      allow(@branch).to receive(:get_property).with('diff-branch')
+      expect(@branch.parent_name).to be_nil
+    end
+  end
+
   describe '#sanitize_property' do
     before :each do
       @branch = Twig::Branch.new('test')

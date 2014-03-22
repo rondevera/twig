@@ -24,12 +24,12 @@ require 'rubygems'
 require 'twig'
 
 twig = Twig.new(:read_options => true)
-parent_property = 'diff-branch'
 target_branch = twig.target_branch_name
-parent_branch = twig.get_branch_property(target_branch, parent_property) || ''
+parent_branch = Twig::Branch.new(target_branch).parent_name
 
-if parent_branch.empty?
-  abort %{The branch "#{target_branch}" does not have the property "#{parent_property}".}
-else
+if parent_branch && !parent_branch.empty?
   exec %{git checkout "#{parent_branch}"}
+else
+  parent_property = Twig::Branch::PARENT_PROPERTY
+  abort %{The branch "#{target_branch}" does not have the property "#{parent_property}".}
 end

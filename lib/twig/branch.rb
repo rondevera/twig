@@ -3,6 +3,7 @@ class Twig
   # Represents a Git branch.
   class Branch
 
+    PARENT_PROPERTY = 'diff-branch'
     PROPERTY_NAME_FROM_GIT_CONFIG  = /^branch\.[^.]+\.([^=]+)=.*$/
     RESERVED_BRANCH_PROPERTY_NAMES = %w[branch merge property rebase remote]
 
@@ -74,6 +75,10 @@ class Twig
         'last-commit-time' => last_commit_time.iso8601,
         'properties' => get_properties(property_names)
       }
+    end
+
+    def parent_name
+      get_property(PARENT_PROPERTY)
     end
 
     def sanitize_property(property_name)
