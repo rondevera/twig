@@ -83,6 +83,21 @@ describe Twig do
     end
   end
 
+  describe '#target_branch' do
+    before :each do
+      @twig = Twig.new
+    end
+
+    it 'returns a Branch object for the target branch name' do
+      branch_name = 'feature-branch'
+      allow(@twig).to receive(:target_branch_name).and_return(branch_name)
+
+      branch = @twig.target_branch
+
+      expect(branch.name).to eq(branch_name)
+    end
+  end
+
   describe '#branches' do
     before :each do
       @twig = Twig.new

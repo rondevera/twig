@@ -61,6 +61,10 @@ class Twig
     options[:branch] || current_branch_name
   end
 
+  def target_branch
+    Twig::Branch.new(target_branch_name)
+  end
+
   def branches
     branches = Twig::Branch.all_branches
     now = Time.now

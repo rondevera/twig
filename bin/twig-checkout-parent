@@ -24,7 +24,7 @@ require 'rubygems'
 require 'twig'
 
 twig = Twig.new(:read_options => true)
-target_branch = Twig::Branch.new(twig.target_branch_name)
+target_branch = twig.target_branch
 parent_branch_name = target_branch.parent_name
 
 if parent_branch_name && !parent_branch_name.empty?
