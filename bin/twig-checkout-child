@@ -29,9 +29,11 @@ def checkout_branch(branch_name)
 end
 
 twig = Twig.new(:read_options => true)
-target_branch = twig.target_branch_name
-target_branch_regexp = Regexp.new("\\A#{target_branch}\\z")
-twig.set_option(:property_only, :'diff-branch' => target_branch_regexp)
+target_branch_name = twig.target_branch_name
+target_branch_regexp = Regexp.new("\\A#{target_branch_name}\\z")
+parent_property = Twig::Branch::PARENT_PROPERTY
+
+twig.set_option(:property_only, parent_property.to_sym => target_branch_regexp)
 child_branch_names = twig.branches
 
 if child_branch_names.size > 1
@@ -46,5 +48,5 @@ if child_branch_names.size > 1
 elsif child_branch_names.size == 1
   checkout_branch(child_branch_names.first)
 else
-  abort "There are no branches whose `diff-branch` property is `#{target_branch}`."
+  abort "There are no branches whose `diff-branch` property is `#{target_branch_name}`."
 end
