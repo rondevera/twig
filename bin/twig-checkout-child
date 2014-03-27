@@ -48,5 +48,7 @@ if child_branch_names.size > 1
 elsif child_branch_names.size == 1
   checkout_branch(child_branch_names.first)
 else
-  abort "There are no branches whose `diff-branch` property is `#{target_branch_name}`."
+  abort %{The branch "#{target_branch_name}" has no known child branches.\n} <<
+    "To set this as parent branch for some child branch, run:\n\n" <<
+    "  twig diff-branch #{target_branch_name} -b <child branch name>"
 end
