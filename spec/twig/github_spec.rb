@@ -47,7 +47,9 @@ describe Twig::GithubRepo do
       allow_any_instance_of(Twig::GithubRepo).to receive(:origin_url) { '' }
       allow_any_instance_of(Twig::GithubRepo).to receive(:username)   { 'username' }
       allow_any_instance_of(Twig::GithubRepo).to receive(:repository) { 'repository' }
-      expect_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort) do |message|
+        expect(message).to include('GitHub repository')
+      end
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
@@ -58,7 +60,9 @@ describe Twig::GithubRepo do
       allow_any_instance_of(Twig::GithubRepo).to receive(:origin_url) { origin_url }
       allow_any_instance_of(Twig::GithubRepo).to receive(:username)   { '' }
       allow_any_instance_of(Twig::GithubRepo).to receive(:repository) { 'repository' }
-      expect_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort) do |message|
+        expect(message).to include('GitHub repository')
+      end
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
@@ -69,7 +73,9 @@ describe Twig::GithubRepo do
       allow_any_instance_of(Twig::GithubRepo).to receive(:origin_url) { origin_url }
       allow_any_instance_of(Twig::GithubRepo).to receive(:username)   { 'username' }
       allow_any_instance_of(Twig::GithubRepo).to receive(:repository) { '' }
-      expect_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort) do |message|
+        expect(message).to include('GitHub repository')
+      end
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
@@ -80,7 +86,9 @@ describe Twig::GithubRepo do
       allow_any_instance_of(Twig::GithubRepo).to receive(:origin_url) { origin_url }
       allow_any_instance_of(Twig::GithubRepo).to receive(:username)   { 'username' }
       allow_any_instance_of(Twig::GithubRepo).to receive(:repository) { 'repository' }
-      expect_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
+      expect_any_instance_of(Twig::GithubRepo).to receive(:abort) do |message|
+        expect(message).to include('GitHub repository')
+      end
 
       Twig::GithubRepo.new { |gh_repo| } # Do nothing
     end
@@ -185,7 +193,9 @@ describe Twig::GithubRepo do
       before :each do
         origin_url = @generic_https_url
         allow_any_instance_of(Twig::GithubRepo).to receive(:origin_url) { origin_url }
-        allow_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
+        expect_any_instance_of(Twig::GithubRepo).to receive(:abort) do |message|
+          expect(message).to include('GitHub repository')
+        end
       end
 
       it 'returns false' do
@@ -202,7 +212,9 @@ describe Twig::GithubRepo do
       before :each do
         origin_url = @generic_git_read_only_url
         allow_any_instance_of(Twig::GithubRepo).to receive(:origin_url) { origin_url }
-        allow_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
+        expect_any_instance_of(Twig::GithubRepo).to receive(:abort) do |message|
+          expect(message).to include('GitHub repository')
+        end
       end
 
       it 'returns false' do
@@ -219,7 +231,9 @@ describe Twig::GithubRepo do
       before :each do
         origin_url = @generic_ssh_read_write_url
         allow_any_instance_of(Twig::GithubRepo).to receive(:origin_url) { origin_url }
-        allow_any_instance_of(Twig::GithubRepo).to receive(:abort_for_non_github_repo)
+        expect_any_instance_of(Twig::GithubRepo).to receive(:abort) do |message|
+          expect(message).to include('GitHub repository')
+        end
       end
 
       it 'returns false' do

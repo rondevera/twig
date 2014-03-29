@@ -8,7 +8,7 @@ class Twig
       end
 
       if origin_url.empty? || !github_repo? || username.empty? || repository.empty?
-        abort_for_non_github_repo
+        abort 'This does not appear to be a GitHub repository.'
       end
 
       yield(self)
@@ -34,10 +34,6 @@ class Twig
 
     def repository
       @repo ||= origin_url_parts[-1].sub(/\.git$/, '') || ''
-    end
-
-    def abort_for_non_github_repo
-      abort 'This does not appear to be a GitHub repository.'
     end
   end
 end
