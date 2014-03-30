@@ -34,15 +34,15 @@ describe Twig::Branch do
 
       expect(branches[0].name).to eq(@branch_names[0])
       expect(branches[0].last_commit_time.to_s).to match(
-        %r{#{@commit_time_strings[0]} .* \(111d ago\)}
+        /#{@commit_time_strings[0]} .* \(111d ago\)/
       )
       expect(branches[1].name).to eq(@branch_names[1])
       expect(branches[1].last_commit_time.to_s).to match(
-        %r{#{@commit_time_strings[1]} .* \(2mo ago\)}
+        /#{@commit_time_strings[1]} .* \(2mo ago\)/
       )
       expect(branches[2].name).to eq(@branch_names[2])
       expect(branches[2].last_commit_time.to_s).to match(
-        %r{#{@commit_time_strings[2]} .* \(3y ago\)}
+        /#{@commit_time_strings[2]} .* \(3y ago\)/
       )
     end
 
