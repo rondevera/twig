@@ -436,33 +436,27 @@ class Twig
     end
 
     def get_branch_property_for_cli(branch_name, property_name)
-      begin
-        value = get_branch_property(branch_name, property_name)
-        if value
-          puts value
-        else
-          raise Twig::Branch::MissingPropertyError,
-            %{The branch "#{branch_name}" does not have the property "#{property_name}".}
-        end
-      rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
-        abort exception.message
+      value = get_branch_property(branch_name, property_name)
+      if value
+        puts value
+      else
+        raise Twig::Branch::MissingPropertyError,
+          %{The branch "#{branch_name}" does not have the property "#{property_name}".}
       end
+    rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
+      abort exception.message
     end
 
     def set_branch_property_for_cli(branch_name, property_name, property_value)
-      begin
-        puts set_branch_property(branch_name, property_name, property_value)
-      rescue ArgumentError, RuntimeError => exception
-        abort exception.message
-      end
+      puts set_branch_property(branch_name, property_name, property_value)
+    rescue ArgumentError, RuntimeError => exception
+      abort exception.message
     end
 
     def unset_branch_property_for_cli(branch_name, property_name)
-      begin
-        puts unset_branch_property(branch_name, property_name)
-      rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
-        abort exception.message
-      end
+      puts unset_branch_property(branch_name, property_name)
+    rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
+      abort exception.message
     end
 
   end
