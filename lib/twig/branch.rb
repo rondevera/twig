@@ -35,7 +35,7 @@ class Twig
     end
 
     def self.all_branch_names
-      @_all_branch_names ||= self.all_branches.map { |branch| branch.name }
+      @_all_branch_names ||= all_branches.map { |branch| branch.name }
     end
 
     def self.all_property_names
