@@ -122,9 +122,9 @@ describe Twig::Cli do
       result = @twig.help_paragraph(text)
 
       expect(result).to eq([
-        "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the",
-        "lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps",
-        "over the lazy dog. The quick brown fox jumps over the lazy dog."
+        'The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the',
+        'lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps',
+        'over the lazy dog. The quick brown fox jumps over the lazy dog.'
       ].join("\n"))
     end
   end
