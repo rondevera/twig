@@ -370,12 +370,12 @@ describe Twig::Display do
     end
 
     it 'returns a string with a color and weight code 'do
-    color_code  = Twig::Display::COLORS[:red]
-    weight_code = Twig::Display::WEIGHTS[:bold]
+      color_code  = Twig::Display::COLORS[:red]
+      weight_code = Twig::Display::WEIGHTS[:bold]
 
-    expect(@twig.format_string('foo', :color => :red, :weight => :bold)).to eq(
-      "\e[#{color_code};#{weight_code}mfoo\e[0m"
-    )
+      expect(@twig.format_string('foo', :color => :red, :weight => :bold)).to eq(
+        "\e[#{color_code};#{weight_code}mfoo\e[0m"
+      )
     end
   end
 
