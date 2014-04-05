@@ -1,6 +1,14 @@
 require 'uri'
 
 class Twig
+
+  # Represents a Git repository that is hosted on GitHub. Usage:
+  #
+  #     Twig::GithubRepo.new do |gh_repo|
+  #       puts gh_repo.username
+  #       puts gh_repo.repository
+  #     end
+  #
   class GithubRepo
     def initialize
       unless Twig.repo?
