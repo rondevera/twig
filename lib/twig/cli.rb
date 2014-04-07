@@ -9,9 +9,7 @@ class Twig
       # prompts the user to enter a number. Returns the matching value, or nil
       # if the user input is invalid.
 
-      if choices.size < 2
-        raise ArgumentError, 'At least two choices required'
-      end
+      raise ArgumentError, 'At least two choices required' if choices.size < 2
 
       puts prompt
       choices.each_with_index do |choice, index|
@@ -194,7 +192,8 @@ class Twig
 
         desc = 'Show Twig version.'
         opts.on('--version', *help_description(desc)) do
-          puts Twig::VERSION; exit
+          puts Twig::VERSION
+          exit
         end
 
 
@@ -304,12 +303,12 @@ class Twig
           set_option(:property_except_name, pattern)
         end
 
-        colors = Twig::Display::COLORS.keys.map do |value|
-          format_string(value, :color => value)
-        end.join(', ')
-        weights = Twig::Display::WEIGHTS.keys.map do |value|
-          format_string(value, :weight => value)
-        end.join(' and ')
+        colors = Twig::Display::COLORS.keys.
+          map { |value| format_string(value, :color => value) }.
+          join(',')
+        weights = Twig::Display::WEIGHTS.keys.
+          map { |value| format_string(value, :weight => value) }.
+          join(' and ')
         default_header_style = format_string(
           Twig::DEFAULT_HEADER_COLOR.to_s,
           :color => Twig::DEFAULT_HEADER_COLOR
