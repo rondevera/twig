@@ -25,7 +25,8 @@ class Twig
   DEFAULT_HEADER_COLOR = :blue
   REF_FORMAT_SEPARATOR = '|'
   REF_FORMAT = %w[refname:short committerdate committerdate:relative].
-                map { |field| '%(' + field + ')' }.join(REF_FORMAT_SEPARATOR)
+                map { |field| '%(' + field + ')' }.
+                join(REF_FORMAT_SEPARATOR)
   REF_PREFIX = 'refs/heads/'
 
   def self.run(command)
@@ -127,8 +128,6 @@ class Twig
     end
   end
 
-
-
   ### Actions ###
 
   def list_branches
@@ -163,5 +162,4 @@ class Twig
     branch = Branch.new(branch_name)
     branch.unset_property(property_name)
   end
-
 end

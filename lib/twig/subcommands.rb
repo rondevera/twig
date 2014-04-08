@@ -1,6 +1,5 @@
 class Twig
   module Subcommands
-
     BIN_PREFIX = 'twig-'
 
     def self.all_names
@@ -21,6 +20,5 @@ class Twig
     def self.bin_dir_paths
       ENV['PATH'].split(':')
     end
-
   end
 end

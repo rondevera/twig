@@ -1,6 +1,5 @@
 class Twig
   module Options
-
     CONFIG_PATH = '~/.twigconfig'
     DEPRECATED_CONFIG_PATH = '~/.twigrc'
     MIN_PROPERTY_WIDTH = 3
@@ -214,6 +213,5 @@ class Twig
     def unset_option(key)
       options.delete(key)
     end
-
-  end # module Options
+  end
 end

@@ -2,7 +2,6 @@ class Twig
 
   # Represents a Git branch.
   class Branch
-
     PARENT_PROPERTY = 'diff-branch'
     PROPERTY_NAME_FROM_GIT_CONFIG  = /^branch\.[^.]+\.([^=]+)=.*$/
     RESERVED_BRANCH_PROPERTY_NAMES = %w[branch merge property rebase remote]
@@ -119,7 +118,6 @@ class Twig
           properties.merge(property_name => property_value)
         end
       end
-
     end
 
     def get_property(property_name)
@@ -165,6 +163,5 @@ class Twig
           %{The branch "#{name}" does not have the property "#{property_name}".}
       end
     end
-
   end
 end

@@ -78,8 +78,6 @@ complete -F __twig twig
 SCRIPT
 script = script.strip + "\n"
 
-
-
 args  = ARGV.dup
 force = args.delete('--force')
 

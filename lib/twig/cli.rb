@@ -3,7 +3,6 @@ require 'rbconfig'
 
 class Twig
   module Cli
-
     def self.prompt_with_choices(prompt, choices)
       # Prints the given string `prompt` and the array `choices` numbered, and
       # prompts the user to enter a number. Returns the matching value, or nil
@@ -154,7 +153,7 @@ class Twig
         opts.summary_indent = ' ' * 2
         opts.summary_width  = 32
 
-
+        ###
 
         help_separator(opts, 'Common options:')
 
@@ -196,7 +195,7 @@ class Twig
           exit
         end
 
-
+        ###
 
         help_separator(opts, 'Filtering branches:')
 
@@ -259,7 +258,7 @@ class Twig
           unset_option(:property_only)
         end
 
-
+        ###
 
         help_separator(opts, 'Listing branches:')
 
@@ -330,7 +329,7 @@ class Twig
           set_option(:reverse, true)
         end
 
-
+        ###
 
         help_separator(opts, 'GitHub integration:')
 
@@ -358,7 +357,7 @@ class Twig
           set_option(:github_uri_prefix, prefix)
         end
 
-
+        ###
 
         help_separator(opts, help_paragraph(%{
           You can put your most frequently used options for filtering and
@@ -457,6 +456,5 @@ class Twig
     rescue ArgumentError, Twig::Branch::MissingPropertyError => exception
       abort exception.message
     end
-
   end
 end

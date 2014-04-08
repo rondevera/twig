@@ -163,5 +163,5 @@ class Twig
     def unformat_string(string)
       string.gsub(/\e\[[0-9]+(;[0-9]+)?m/, '')
     end
-  end # module Display
+  end
 end
