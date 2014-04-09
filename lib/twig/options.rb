@@ -197,7 +197,7 @@ class Twig
             if property_value < property_name_width
               %{#{property_name_width} (width of "#{property_name}")}
             else
-              %{#{MIN_PROPERTY_WIDTH}}
+              MIN_PROPERTY_WIDTH.to_s
             end
 
           error = %{The value `--#{property_name}-width=#{property_value}` } +
