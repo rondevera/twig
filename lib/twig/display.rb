@@ -1,4 +1,7 @@
 class Twig
+
+  # Handles displaying matching branches as a command-line table or as
+  # serialized data.
   module Display
     COLORS = {
       :black  => 30,
