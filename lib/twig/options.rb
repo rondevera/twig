@@ -1,4 +1,6 @@
 class Twig
+
+  # Handles reading options from command-line switches and config files.
   module Options
     CONFIG_PATH = '~/.twigconfig'
     DEPRECATED_CONFIG_PATH = '~/.twigrc'
