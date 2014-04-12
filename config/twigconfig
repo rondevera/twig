@@ -1,0 +1,47 @@
+# This file belongs at `~/.twigconfig`. You can regenerate it with `twig init`.
+#
+# For more info, run `twig help` or visit <http://rondevera.github.io/twig/>.
+
+
+### Filtering branches ###
+
+# Limit how many branches you list when running `twig`:
+# (Temporarily override with `twig --all`)
+max-days-old: 30
+
+
+### Displaying branches ###
+
+# Set the width of the `branch` column:
+# (Use `<property>-width` to set the width of any property column, e.g.,
+# `todo-width: 30`)
+branch-width: 30
+
+# Customize the headers above each column (e.g., "red", "blue bold"):
+# header-style: blue bold
+
+# Set to `true` to list the oldest branches first:
+# reverse: true
+
+# Hide branches that have a property value matching a regex:
+# except-branch: production_release_*
+# except-status: closed|resolved
+
+# Hide columns where the property name matches a regex:
+# (e.g., Hide long todos; hide issue tracker metadata)
+# except-property: todo
+
+
+### GitHub integration ###
+
+# If you're working with GitHub Enterprise repositories, change these to match
+# your installation. This will let you use `twig gh-update`, `twig gh-open`, and
+# `twig gh-open-issue`:
+# github-api-uri-prefix: 'https://api.my-github-enterprise.example.com'
+# github-uri-prefix:     'https://my-github-enterprise.example.com'
+
+
+### Subcommands ###
+
+# Set to `true` to skip prompts when using `twig rebase`:
+# twig-rebase-autoconfirm: true
