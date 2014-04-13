@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+# Synopsis:
+#
+#   twig init-config [--force]
+#
+# Description:
+#
+#   Creates a default `.twigconfig` in your home directory. Instead of running
+#   this directly, run `twig init` to run all setup tasks.
+#
+# Options:
+#
+#   `--force`: By default, `twig init-config` preserves the existing
+#   `.twigconfig` file, if any. If this option is used, the command will
+#   overwrite any existing config file.
+#
+# Subcommand for Twig: <http://rondevera.github.io/twig/>
+# Author: Ron DeVera <http://rondevera.com>
+
+require 'rubygems'
+require 'twig'
+
+args  = ARGV.dup
+force = args.delete('--force')
+
+config_path      = Twig::Options::CONFIG_PATH
+full_config_path = File.expand_path(config_path)
+config_exists    = File.exists?(full_config_path)
+
+if config_exists && !force
+  twig = Twig.new
+  puts twig.format_string("The file `#{config_path}` already exists.", :color => :red)
+  puts 'To overwrite it with a default file, run `twig init-config --force`.'
+else
+  config_template_path = File.expand_path(
+    File.join(File.dirname(__FILE__), '..', 'config', 'twigconfig')
+  )
+  FileUtils.cp(config_template_path, full_config_path)
+
+  if config_exists
+    puts "Overwrote `#{config_path}`."
+  else
+    puts "Created `#{config_path}`."
+  end
+end
