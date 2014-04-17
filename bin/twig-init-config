@@ -45,3 +45,7 @@ else
     puts "Created `#{config_path}`."
   end
 end
+
+puts
+puts " => You can edit `#{config_path}` to customize Twig's appearance and behavior."
+puts

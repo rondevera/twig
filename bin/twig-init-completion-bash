@@ -105,9 +105,10 @@ else
 end
 
 puts
-puts 'To enable tab completion for Twig, add the following to your `~/.bashrc`'
-puts 'or equivalent:'
+puts ' => To enable tab completion for Twig, add the following to your `~/.bashrc`'
+puts '    or equivalent:'
 puts
-puts "  [[ -s #{script_path} ]] && source #{script_path}"
+puts "      [[ -s #{script_path} ]] && source #{script_path}"
 puts
-puts 'To finish setup, open a new command-line window or run `source ~/.bashrc`.'
+puts ' => To finish setup, open a new command-line window or run `source ~/.bashrc`.'
+puts
