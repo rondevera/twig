@@ -359,9 +359,18 @@ class Twig
 
         ###
 
+        help_separator(opts, 'Config files and tab completion:', :trailing => '')
+
         help_separator(opts, help_paragraph(%{
-          You can put your most frequently used options for filtering and
-          listing branches into #{Twig::Options::CONFIG_PATH}. For example:
+          Twig can automatically set up a config file for you, where you can put
+          your most frequently used options for filtering and listing branches.
+          To get started, run `twig init` and follow the instructions. This does
+          two things:
+        }), :trailing => '')
+
+        help_separator(opts, help_paragraph(%{
+          * Creates #{Twig::Options::CONFIG_PATH}, where you can put your
+            favorite options, e.g.:
         }), :trailing => '')
 
         help_separator(opts, [
@@ -372,8 +381,9 @@ class Twig
         ].join("\n"), :trailing => '')
 
         help_separator(opts, help_paragraph(%{
-          To enable tab completion for Twig, run `twig init-completion` and
-          follow the instructions.
+          * Enables tab completion for Twig subcommands
+            (e.g., `twig cre<tab>` -> `twig create-branch`) and branch names
+            (e.g., `twig status -b my-br<tab>` -> `twig status -b my-branch`).
         }))
       end
 
