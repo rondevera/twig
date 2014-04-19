@@ -381,10 +381,13 @@ class Twig
         ].join("\n"), :trailing => '')
 
         help_separator(opts, help_paragraph(%{
-          * Enables tab completion for Twig subcommands
-            (e.g., `twig cre<tab>` -> `twig create-branch`) and branch names
-            (e.g., `twig status -b my-br<tab>` -> `twig status -b my-branch`).
-        }))
+          * Enables tab completion for Twig subcommands and branch names, e.g.:
+        }), :trailing => '')
+
+        help_separator(opts, [
+          '      `twig cre<tab>` -> `twig create-branch`',
+          '      `twig status -b my-br<tab>` -> `twig status -b my-branch`'
+        ].join("\n"), :trailing => '')
       end
 
       option_parser.parse!(args)
