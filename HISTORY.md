@@ -1,6 +1,8 @@
 Twig
 ====
 
+* ENHANCEMENT: Expand `twig init` to also create a default `~/.twigconfig` file.
+  This uses a new `twig init-config` subcommand behind the scenes.
 * ENHANCEMENT: Support `twig rebase --autoconfirm` for skipping the prompt when
   rebasing a branch onto its parent branch. To skip the prompt every time you
   use `twig rebase`, add `twig-rebase-autoconfirm: true` to your
