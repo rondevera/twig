@@ -2,6 +2,7 @@ require 'optparse'
 require 'rbconfig'
 
 class Twig
+  # Handles raw input from the command-line interface.
   module Cli
     def self.prompt_with_choices(prompt, choices)
       # Prints the given string `prompt` and the array `choices` numbered, and
