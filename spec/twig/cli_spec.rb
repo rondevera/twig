@@ -115,9 +115,9 @@ describe Twig::Cli do
     end
 
     it 'returns long text in a paragraph with line breaks' do
-      text = Array.new(5) {
+      text = Array.new(5) do
         'The quick brown fox jumps over the lazy dog.'
-      }.join(' ')
+      end.join(' ')
 
       result = @twig.help_paragraph(text)
 
