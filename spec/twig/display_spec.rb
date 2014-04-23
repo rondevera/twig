@@ -286,8 +286,8 @@ describe Twig::Display do
       end
 
       it 'returns a line for the current branch' do
-        indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
-        branch        = @current_branch
+        indicator = Twig::Display::CURRENT_BRANCH_INDICATOR
+        branch    = @current_branch
 
         result = @twig.branch_list_line(branch)
         unformatted_result = @twig.unformat_string(result)
