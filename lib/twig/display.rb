@@ -22,6 +22,10 @@ class Twig
     CURRENT_BRANCH_INDICATOR        = '* '
     EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
+    def self.unformat_string(string)
+      string.gsub(/\e\[[0-9]+(;[0-9]+)?m/, '')
+    end
+
     def column(string, options = {})
       # Returns `string` with an exact fixed width. If `string` is too wide, it
       # is truncated with an ellipsis and a trailing space to separate columns.
@@ -152,6 +156,9 @@ class Twig
       # - `:color`:  `nil` by default. Accepts a key from `COLORS`.
       # - `:weight`: `nil` by default. Accepts a key from `WEIGHTS`.
 
+      # Unlike `::unformat_string`, this is an instance method so that it can
+      # handle config options, e.g., globally disabling color.
+
       string_options = []
       string_options << COLORS[options[:color]] if options[:color]
       string_options << WEIGHTS[options[:weight]] if options[:weight]
@@ -161,10 +168,6 @@ class Twig
       close_format = "\e[0m"
 
       open_format + string.to_s + close_format
-    end
-
-    def unformat_string(string)
-      string.gsub(/\e\[[0-9]+(;[0-9]+)?m/, '')
     end
   end
 end

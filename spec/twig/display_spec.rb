@@ -290,7 +290,7 @@ describe Twig::Display do
         branch    = @current_branch
 
         result = @twig.branch_list_line(branch)
-        unformatted_result = @twig.unformat_string(result)
+        unformatted_result = Twig::Display.unformat_string(result)
 
         column_gutter = @twig.column_gutter
         expect(unformatted_result).to eq(
@@ -379,10 +379,10 @@ describe Twig::Display do
     end
   end
 
-  describe '#unformat_string' do
+  describe '.unformat_string' do
     it 'unformats a plain text string' do
       string = 'foo'
-      expect(@twig.unformat_string(string)).to eq(string)
+      expect(Twig::Display.unformat_string(string)).to eq(string)
     end
 
     it 'unformats a string with color' do
@@ -390,7 +390,7 @@ describe Twig::Display do
       formatted_string = @twig.format_string(string, :color => :red)
       expect(formatted_string.size).to be > 3
 
-      expect(@twig.unformat_string(formatted_string)).to eq(string)
+      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
     end
 
     it 'unformats a string with weight' do
@@ -398,7 +398,7 @@ describe Twig::Display do
       formatted_string = @twig.format_string(string, :weight => :bold)
       expect(formatted_string.size).to be > 3
 
-      expect(@twig.unformat_string(formatted_string)).to eq(string)
+      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
     end
 
     it 'unformats a string with color and weight' do
@@ -406,7 +406,7 @@ describe Twig::Display do
       formatted_string = @twig.format_string(string, :color => :red, :weight => :bold)
       expect(formatted_string.size).to be > 3
 
-      expect(@twig.unformat_string(formatted_string)).to eq(string)
+      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
     end
   end
 end
