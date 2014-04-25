@@ -305,7 +305,7 @@ class Twig
 
         colors = Twig::Display::COLORS.keys.
           map { |value| format_string(value, :color => value) }.
-          join(',')
+          join(', ')
         weights = Twig::Display::WEIGHTS.keys.
           map { |value| format_string(value, :weight => value) }.
           join(' and ')
