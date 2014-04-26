@@ -1,5 +1,6 @@
 require 'optparse'
 require 'rbconfig'
+require File.expand_path(File.join(File.dirname(__FILE__), 'cli', 'help'))
 
 class Twig
   # Handles raw input from the command-line interface.
@@ -19,101 +20,6 @@ class Twig
 
       input = $stdin.gets.to_i
       choices[input - 1]
-    end
-
-    def help_intro
-      version_string = "Twig v#{Twig::VERSION}"
-
-      intro = help_paragraph(%{
-        Twig is your personal Git branch assistant. It's a command-line tool for
-        listing your most recent branches, and for remembering branch details
-        for you, like issue tracker ids and todos. It also supports subcommands,
-        like automatically fetching statuses from your issue tracking system.
-      })
-
-      intro = <<-BANNER.gsub(/^[ ]+/, '')
-
-        #{version_string}
-        #{'-' * version_string.size}
-
-        #{intro}
-
-        #{Twig::HOMEPAGE}
-      BANNER
-
-      intro + ' ' # Force extra blank line
-    end
-
-    def help_separator(option_parser, text, options = {})
-      options[:trailing] ||= "\n\n"
-      option_parser.separator "\n#{text}#{options[:trailing]}"
-    end
-
-    def help_description(text, options = {})
-      width = options[:width] || 40
-      words = text.gsub(/\n?\s+/, ' ').strip.split(' ')
-      lines = []
-
-      # Split words into lines
-      while words.any?
-        current_word      = words.shift
-        current_word_size = Display.unformat_string(current_word).size
-        last_line         = lines.last
-        last_line_size    = last_line && Display.unformat_string(last_line).size
-
-        if last_line_size && (last_line_size + current_word_size + 1 <= width)
-          last_line << ' ' << current_word
-        elsif current_word_size >= width
-          lines << current_word[0...width]
-          words.unshift(current_word[width..-1])
-        else
-          lines << current_word
-        end
-      end
-
-      lines << ' ' if options[:add_separator]
-      lines
-    end
-
-    def help_description_for_custom_property(option_parser, desc_lines, options = {})
-      options[:trailing] ||= "\n"
-      indent = '      '
-      left_column_width = 29
-
-      help_desc = desc_lines.inject('') do |desc, (left_column, right_column)|
-        desc + indent +
-        sprintf("%-#{left_column_width}s", left_column) + right_column + "\n"
-      end
-
-      help_separator(option_parser, help_desc, :trailing => options[:trailing])
-    end
-
-    def help_paragraph(text)
-      help_description(text, :width => 80).join("\n")
-    end
-
-    def help_line_for_custom_property?(line)
-      is_custom_property_except = (
-        line.include?('--except-') &&
-        !line.include?('--except-branch') &&
-        !line.include?('--except-property') &&
-        !line.include?('--except-PROPERTY')
-      )
-      is_custom_property_only = (
-        line.include?('--only-') &&
-        !line.include?('--only-branch') &&
-        !line.include?('--only-property') &&
-        !line.include?('--only-PROPERTY')
-      )
-      is_custom_property_width = (
-        line =~ /--.+-width/ &&
-        !line.include?('--branch-width') &&
-        !line.include?('--PROPERTY-width')
-      )
-
-      is_custom_property_except ||
-      is_custom_property_only ||
-      is_custom_property_width
     end
 
     def run_pager
@@ -150,28 +56,28 @@ class Twig
       custom_properties = Twig::Branch.all_property_names
 
       option_parser = OptionParser.new do |opts|
-        opts.banner         = help_intro
+        opts.banner         = Help.intro
         opts.summary_indent = ' ' * 2
         opts.summary_width  = 32
 
         ###
 
-        help_separator(opts, 'Common options:')
+        Help.separator(opts, 'Common options:')
 
         desc = 'Use a specific branch.'
         opts.on(
-          '-b BRANCH', '--branch BRANCH', *help_description(desc)
+          '-b BRANCH', '--branch BRANCH', *Help.description(desc)
         ) do |branch|
           set_option(:branch, branch)
         end
 
         desc = 'Unset a branch property.'
-        opts.on('--unset PROPERTY', *help_description(desc)) do |property_name|
+        opts.on('--unset PROPERTY', *Help.description(desc)) do |property_name|
           set_option(:unset_property, property_name)
         end
 
         desc = 'Show this help content.'
-        opts.on('--help', *help_description(desc)) do
+        opts.on('--help', *Help.description(desc)) do
           summary_lines = opts.to_s.split("\n")
           run_pager
 
@@ -181,7 +87,7 @@ class Twig
             # Squash successive blank lines
             next if line == "\n" && prev_line == "\n"
 
-            unless help_line_for_custom_property?(line)
+            unless Help.line_for_custom_property?(line)
               puts line
               prev_line = line
             end
@@ -191,18 +97,18 @@ class Twig
         end
 
         desc = 'Show Twig version.'
-        opts.on('--version', *help_description(desc)) do
+        opts.on('--version', *Help.description(desc)) do
           puts Twig::VERSION
           exit
         end
 
         ###
 
-        help_separator(opts, 'Filtering branches:')
+        Help.separator(opts, 'Filtering branches:')
 
         desc = 'Only list branches below a given age.'
         opts.on(
-          '--max-days-old AGE', *help_description(desc, :add_separator => true)
+          '--max-days-old AGE', *Help.description(desc, :add_separator => true)
         ) do |age|
           set_option(:max_days_old, age)
         end
@@ -210,13 +116,13 @@ class Twig
         desc = 'Only list branches whose name matches a given pattern.'
         opts.on(
           '--only-branch PATTERN',
-          *help_description(desc, :add_separator => true)
+          *Help.description(desc, :add_separator => true)
         ) do |pattern|
           set_option(:property_only, :branch => pattern)
         end
 
         desc = 'Do not list branches whose name matches a given pattern.'
-        opts.on('--except-branch PATTERN', *help_description(desc)) do |pattern|
+        opts.on('--except-branch PATTERN', *Help.description(desc)) do |pattern|
           set_option(:property_except, :branch => pattern)
         end
 
@@ -231,11 +137,11 @@ class Twig
             set_option(:property_except, property_name_sym => pattern)
           end
         end
-        help_description_for_custom_property(opts, [
+        Help.description_for_custom_property(opts, [
           ['--only-PROPERTY PATTERN',   'Only list branches with a given property'],
           ['',                          'that matches a given pattern.']
         ], :trailing => '')
-        help_description_for_custom_property(opts, [
+        Help.description_for_custom_property(opts, [
           ['--except-PROPERTY PATTERN', 'Do not list branches with a given property'],
           ['',                          'that matches a given pattern.']
         ])
@@ -244,7 +150,7 @@ class Twig
           'Print branch properties in a format that can be used by other ' +
           'tools. Currently, the only supported value is `json`.'
         opts.on(
-          '--format FORMAT', *help_description(desc, :add_separator => true)
+          '--format FORMAT', *Help.description(desc, :add_separator => true)
         ) do |format|
           set_option(:format, format)
         end
@@ -253,7 +159,7 @@ class Twig
           'Lists all branches regardless of other filtering options. ' +
           'Useful for overriding options in ' +
           File.basename(Twig::Options::CONFIG_PATH) + '.'
-        opts.on('--all', *help_description(desc)) do |pattern|
+        opts.on('--all', *Help.description(desc)) do |pattern|
           unset_option(:max_days_old)
           unset_option(:property_except)
           unset_option(:property_only)
@@ -261,13 +167,13 @@ class Twig
 
         ###
 
-        help_separator(opts, 'Listing branches:')
+        Help.separator(opts, 'Listing branches:')
 
         desc = <<-DESC
           Set the width for the `branch` column.
           (Default: #{Twig::DEFAULT_BRANCH_COLUMN_WIDTH})
         DESC
-        opts.on('--branch-width NUMBER', *help_description(desc)) do |width|
+        opts.on('--branch-width NUMBER', *Help.description(desc)) do |width|
           set_option(:property_width, :branch => width)
         end
 
@@ -276,7 +182,7 @@ class Twig
             set_option(:property_width, property_name.to_sym => width)
           end
         end
-        help_description_for_custom_property(opts, [
+        Help.description_for_custom_property(opts, [
           ['--PROPERTY-width NUMBER', "Set the width for a given property's column."],
           ['',                        "(Default: #{Twig::DEFAULT_PROPERTY_COLUMN_WIDTH})"]
         ])
@@ -287,7 +193,7 @@ class Twig
         DESC
         opts.on(
           '--only-property PATTERN',
-          *help_description(desc, :add_separator => true)
+          *Help.description(desc, :add_separator => true)
         ) do |pattern|
           set_option(:property_only_name, pattern)
         end
@@ -298,7 +204,7 @@ class Twig
         DESC
         opts.on(
           '--except-property PATTERN',
-          *help_description(desc, :add_separator => true)
+          *Help.description(desc, :add_separator => true)
         ) do |pattern|
           set_option(:property_except_name, pattern)
         end
@@ -320,19 +226,19 @@ class Twig
         DESC
         opts.on(
           '--header-style "STYLE"',
-          *help_description(desc, :add_separator => true)
+          *Help.description(desc, :add_separator => true)
         ) do |style|
           set_option(:header_style, style)
         end
 
         desc = 'Show oldest branches first. (Default: false)'
-        opts.on('--reverse', *help_description(desc)) do
+        opts.on('--reverse', *Help.description(desc)) do
           set_option(:reverse, true)
         end
 
         ###
 
-        help_separator(opts, 'GitHub integration:')
+        Help.separator(opts, 'GitHub integration:')
 
         desc = <<-DESC
           Set a custom GitHub API URI prefix, e.g.,
@@ -341,7 +247,7 @@ class Twig
         DESC
         opts.on(
           '--github-api-uri-prefix PREFIX',
-          *help_description(desc, :add_separator => true)
+          *Help.description(desc, :add_separator => true)
         ) do |prefix|
           set_option(:github_api_uri_prefix, prefix)
         end
@@ -353,39 +259,39 @@ class Twig
         DESC
         opts.on(
           '--github-uri-prefix PREFIX',
-          *help_description(desc, :add_separator => true)
+          *Help.description(desc, :add_separator => true)
         ) do |prefix|
           set_option(:github_uri_prefix, prefix)
         end
 
         ###
 
-        help_separator(opts, 'Config files and tab completion:', :trailing => '')
+        Help.separator(opts, 'Config files and tab completion:', :trailing => '')
 
-        help_separator(opts, help_paragraph(%{
+        Help.separator(opts, Help.paragraph(%{
           Twig can automatically set up a config file for you, where you can put
           your most frequently used options for filtering and listing branches.
           To get started, run `twig init` and follow the instructions. This does
           two things:
         }), :trailing => '')
 
-        help_separator(opts, help_paragraph(%{
+        Help.separator(opts, Help.paragraph(%{
           * Creates #{Twig::Options::CONFIG_PATH}, where you can put your
             favorite options, e.g.:
         }), :trailing => '')
 
-        help_separator(opts, [
+        Help.separator(opts, [
           '      except-branch: staging',
           '      header-style:  green bold',
           '      max-days-old:  30',
           '      reverse:       true'
         ].join("\n"), :trailing => '')
 
-        help_separator(opts, help_paragraph(%{
+        Help.separator(opts, Help.paragraph(%{
           * Enables tab completion for Twig subcommands and branch names, e.g.:
         }), :trailing => '')
 
-        help_separator(opts, [
+        Help.separator(opts, [
           '      `twig cre<tab>` -> `twig create-branch`',
           '      `twig status -b my-br<tab>` -> `twig status -b my-branch`'
         ].join("\n"), :trailing => '')
