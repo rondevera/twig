@@ -16,7 +16,7 @@ class Twig
         intro = <<-BANNER.gsub(/^[ ]+/, '')
 
           #{version_string}
-          #{'-' * version_string.size}
+          #{'=' * version_string.size}
 
           #{intro}
 
