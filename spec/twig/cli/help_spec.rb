@@ -141,4 +141,15 @@ describe Twig::Cli::Help do
       ].join("\n"))
     end
   end
+
+  describe '.subheader' do
+    it 'generates a separator' do
+      option_parser = double
+      text = 'Some header'
+      expected_text = "Some header\n-----------"
+      expect(Help).to receive(:separator).with(option_parser, expected_text, {})
+
+      Help.subheader(option_parser, text)
+    end
+  end
 end

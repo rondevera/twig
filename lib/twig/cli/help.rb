@@ -97,6 +97,14 @@ class Twig
         options[:trailing] ||= "\n\n"
         option_parser.separator "\n#{text}#{options[:trailing]}"
       end
+
+      def self.subheader(option_parser, text, separator_options = {})
+        Help.separator(
+          option_parser,
+          text + "\n" + ('-' * text.size),
+          separator_options
+        )
+      end
     end
   end
 end

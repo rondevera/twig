@@ -62,7 +62,7 @@ class Twig
 
         ###
 
-        Help.separator(opts, 'Common options:')
+        Help.subheader(opts, 'Common options')
 
         desc = 'Use a specific branch.'
         opts.on(
@@ -104,7 +104,7 @@ class Twig
 
         ###
 
-        Help.separator(opts, 'Filtering branches:')
+        Help.subheader(opts, 'Filtering branches')
 
         desc = 'Only list branches below a given age.'
         opts.on(
@@ -167,7 +167,7 @@ class Twig
 
         ###
 
-        Help.separator(opts, 'Listing branches:')
+        Help.subheader(opts, 'Listing branches')
 
         desc = <<-DESC
           Set the width for the `branch` column.
@@ -238,7 +238,7 @@ class Twig
 
         ###
 
-        Help.separator(opts, 'GitHub integration:')
+        Help.subheader(opts, 'GitHub integration')
 
         desc = <<-DESC
           Set a custom GitHub API URI prefix, e.g.,
@@ -266,7 +266,7 @@ class Twig
 
         ###
 
-        Help.separator(opts, 'Config files and tab completion:', :trailing => '')
+        Help.subheader(opts, 'Config files and tab completion', :trailing => '')
 
         Help.separator(opts, Help.paragraph(%{
           Twig can automatically set up a config file for you, where you can put
