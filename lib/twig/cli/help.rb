@@ -48,7 +48,7 @@ class Twig
           end
         end
 
-        lines << ' ' if options[:add_separator]
+        lines << ' ' if options[:add_blank_line]
         lines
       end
 

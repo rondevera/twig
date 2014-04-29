@@ -33,9 +33,9 @@ describe Twig::Cli::Help do
       ])
     end
 
-    it 'adds a separator line' do
+    it 'adds a blank line' do
       text = 'The quick brown fox.'
-      result = Help.description(text, :width => 80, :add_separator => true)
+      result = Help.description(text, :width => 80, :add_blank_line => true)
       expect(result).to eq([text, ' '])
     end
   end

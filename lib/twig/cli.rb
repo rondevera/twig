@@ -108,7 +108,7 @@ class Twig
 
         desc = 'Only list branches below a given age.'
         opts.on(
-          '--max-days-old AGE', *Help.description(desc, :add_separator => true)
+          '--max-days-old AGE', *Help.description(desc, :add_blank_line => true)
         ) do |age|
           set_option(:max_days_old, age)
         end
@@ -116,7 +116,7 @@ class Twig
         desc = 'Only list branches whose name matches a given pattern.'
         opts.on(
           '--only-branch PATTERN',
-          *Help.description(desc, :add_separator => true)
+          *Help.description(desc, :add_blank_line => true)
         ) do |pattern|
           set_option(:property_only, :branch => pattern)
         end
@@ -150,7 +150,7 @@ class Twig
           'Print branch properties in a format that can be used by other ' +
           'tools. Currently, the only supported value is `json`.'
         opts.on(
-          '--format FORMAT', *Help.description(desc, :add_separator => true)
+          '--format FORMAT', *Help.description(desc, :add_blank_line => true)
         ) do |format|
           set_option(:format, format)
         end
@@ -193,7 +193,7 @@ class Twig
         DESC
         opts.on(
           '--only-property PATTERN',
-          *Help.description(desc, :add_separator => true)
+          *Help.description(desc, :add_blank_line => true)
         ) do |pattern|
           set_option(:property_only_name, pattern)
         end
@@ -204,7 +204,7 @@ class Twig
         DESC
         opts.on(
           '--except-property PATTERN',
-          *Help.description(desc, :add_separator => true)
+          *Help.description(desc, :add_blank_line => true)
         ) do |pattern|
           set_option(:property_except_name, pattern)
         end
@@ -226,7 +226,7 @@ class Twig
         DESC
         opts.on(
           '--header-style "STYLE"',
-          *Help.description(desc, :add_separator => true)
+          *Help.description(desc, :add_blank_line => true)
         ) do |style|
           set_option(:header_style, style)
         end
@@ -247,7 +247,7 @@ class Twig
         DESC
         opts.on(
           '--github-api-uri-prefix PREFIX',
-          *Help.description(desc, :add_separator => true)
+          *Help.description(desc, :add_blank_line => true)
         ) do |prefix|
           set_option(:github_api_uri_prefix, prefix)
         end
@@ -259,7 +259,7 @@ class Twig
         DESC
         opts.on(
           '--github-uri-prefix PREFIX',
-          *Help.description(desc, :add_separator => true)
+          *Help.description(desc, :add_blank_line => true)
         ) do |prefix|
           set_option(:github_uri_prefix, prefix)
         end
