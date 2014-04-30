@@ -257,10 +257,7 @@ class Twig
           https://github-enterprise.example.com.
           (Default: "#{Twig::DEFAULT_GITHUB_URI_PREFIX}")
         DESC
-        opts.on(
-          '--github-uri-prefix PREFIX',
-          *Help.description(desc, :add_blank_line => true)
-        ) do |prefix|
+        opts.on('--github-uri-prefix PREFIX', *Help.description(desc)) do |prefix|
           set_option(:github_uri_prefix, prefix)
         end
 
