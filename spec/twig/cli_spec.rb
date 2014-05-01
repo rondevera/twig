@@ -43,6 +43,9 @@ describe Twig::Cli do
   describe '#run_pager' do
     before :each do
       @twig = Twig.new
+      allow(Twig::System).to receive(:windows?) { false }
+      allow($stdout).to receive(:tty?) { true }
+      allow($stderr).to receive(:tty?) { true }
     end
 
     it 'turns the current process into a `less` pager' do
@@ -77,8 +80,15 @@ describe Twig::Cli do
       @twig.run_pager
     end
 
-    it 'does nothing if not running on a terminal device' do
+    it 'does nothing if stdout is not running on a terminal device' do
       allow($stdout).to receive(:tty?) { false }
+      expect(Kernel).not_to receive(:fork)
+
+      @twig.run_pager
+    end
+
+    it 'does nothing if `Kernel.fork` is not supported' do
+      allow(Kernel).to receive(:respond_to?).with(:fork) { false }
       expect(Kernel).not_to receive(:fork)
 
       @twig.run_pager
