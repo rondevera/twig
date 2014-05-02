@@ -1,31 +1,53 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig checkout-child [-b|--branch <branch>]
-#
-# Description:
-#
-#   Checks out the current branch's child branch, if any, based on the child's
-#   `diff-branch` property. If the current branch has multiple child branches,
-#   this subcommand lists all of them and prompts for a selection.
-#
-#   You can use this with `twig checkout-parent` to traverse your tree of
-#   branches.
-#
-# Options:
-#
-#   `-b` or `--branch`: Checks out the child branch for the given branch, rather
-#   than the current branch.
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
-
 require 'rubygems'
 require 'twig'
 
 def checkout_branch(branch_name)
   `git checkout "#{branch_name}"`
+end
+
+def help_content
+  <<-HELP
+
+NAME
+
+  twig-checkout-child: Checks out a branch's child branch, if any.
+
+SYNOPSIS
+
+  twig checkout-child [-b|--branch <branch>]
+
+DESCRIPTION
+
+  Checks out the current branch's child branch, if any, based on the child's
+  `diff-branch` property. If the current branch has multiple child branches,
+  this subcommand lists all of them and prompts for a selection.
+
+  You can use this with `twig checkout-parent` to traverse your tree of
+  branches.
+
+OPTIONS
+
+  `-b` or `--branch`: Checks out the child branch for the given branch, rather
+  than the current branch.
+
+SEE ALSO
+
+  twig-checkout-parent
+  twig-create-branch
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
+
+args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
 end
 
 twig = Twig.new(:read_options => true)
