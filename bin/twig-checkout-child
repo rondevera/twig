@@ -10,15 +10,18 @@ end
 def help_content
   <<-HELP
 
-NAME
+twig-checkout-child
+===================
 
-  twig-checkout-child: Checks out a branch's child branch, if any.
+Checks out a branch's child branch, if any.
 
-SYNOPSIS
+Synopsis
+--------
 
   twig checkout-child [-b|--branch <branch>]
 
-DESCRIPTION
+Description
+-----------
 
   Checks out the current branch's child branch, if any, based on the child's
   `diff-branch` property. If the current branch has multiple child branches,
@@ -27,12 +30,14 @@ DESCRIPTION
   You can use this with `twig checkout-parent` to traverse your tree of
   branches.
 
-OPTIONS
+Options
+-------
 
   `-b` or `--branch`: Checks out the child branch for the given branch, rather
   than the current branch.
 
-SEE ALSO
+See also
+--------
 
   twig-checkout-parent
   twig-create-branch
