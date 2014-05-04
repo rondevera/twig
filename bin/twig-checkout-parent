@@ -1,27 +1,53 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig checkout-parent [-b|--branch <branch>]
-#
-# Description:
-#
-#   Checks out the current branch's parent branch, if any, based on the current
-#   branch's `diff-branch` property.
-#
-#   You can use this with `twig checkout-child` to traverse your tree of
-#   branches.
-#
-# Options:
-#
-#   `-b` or `--branch`: Checks out the parent branch of the given branch, rather
-#   than the current branch.
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
-
 require 'rubygems'
 require 'twig'
+
+def help_content
+  <<-HELP
+
+twig-checkout-parent
+====================
+
+Checks out a branch's parent branch.
+
+Synopsis
+--------
+
+  twig checkout-parent [-b|--branch <branch>]
+
+Description
+-----------
+
+  Checks out the current branch's parent branch, if any, based on the current
+  branch's `diff-branch` property.
+
+  You can use this with `twig checkout-child` to traverse your tree of branches.
+
+Options
+-------
+
+  `-b` or `--branch`: Checks out the parent branch of the given branch, rather
+  than the current branch.
+
+See also
+--------
+
+  twig-checkout-child
+  twig-create-branch
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+HELP
+end
+
+args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
 
 twig = Twig.new(:read_options => true)
 target_branch = twig.target_branch
