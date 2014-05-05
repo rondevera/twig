@@ -1,20 +1,45 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig create-branch <branch>
-#
-# Description:
-#
-#   Creates a branch with the given name, and sets the new branch's
-#   `diff-branch` property to the previous branch's name. This allows for
-#   traversing the branch tree with `twig checkout-parent` and
-#   `twig checkout-child`.
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
+def help_content
+  <<-HELP
 
-new_branch_name = (ARGV[0] || '').strip
+twig-create-branch
+==================
+
+Creates a branch and sets its `diff-branch` property to the previous branch.
+
+Synopsis
+--------
+
+  twig create-branch <branch>
+
+Description
+-----------
+
+  Creates a branch with the given name, and sets the new branch's `diff-branch`
+  property to the previous branch's name. This allows for traversing the branch
+  tree with `twig checkout-parent` and `twig checkout-child`.
+
+See also
+--------
+
+  twig-checkout-child
+  twig-checkout-parent
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
+
+args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
+
+new_branch_name = (args[0] || '').strip
 abort 'Usage: twig create-branch <branch name>' if new_branch_name.empty?
 
 current_branch_name = `git rev-parse --abbrev-ref HEAD`.strip
