@@ -1,32 +1,51 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig diff [<branch>] [<options>]
-#
-# Description:
-#
-#   Shows the diff between the current branch and its `diff-branch` property.
-#   All options are passed through to `git-diff`.
-#
-# Examples:
-#
-#   Show diff stats between the current branch and its `diff-branch`:
-#
-#     twig diff --stat
-#
-#   Show the diff between the given branch and its `diff-branch`:
-#
-#     twig diff my_branch
-#
-#   Show diff stats between the given branch and its `diff-branch`:
-#
-#     twig diff my_branch --stat
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
+def help_content
+  <<-HELP
+
+twig-diff
+=========
+
+Shows the diff between a branch and its parent branch (`diff-branch`).
+
+Synopsis
+--------
+
+  twig diff [<branch>] [<options>]
+
+Description
+-----------
+
+  Shows the diff between the current branch and its `diff-branch` property. All
+  options are passed through to `git-diff`.
+
+Examples
+--------
+
+  Show diff stats between the current branch and its `diff-branch`:
+
+    twig diff --stat
+
+  Show the diff between the given branch and its `diff-branch`:
+
+    twig diff my_branch
+
+  Show diff stats between the given branch and its `diff-branch`:
+
+    twig diff my_branch --stat
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
 
 args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
 
 branch_given = args.any? && args.first[0, 1] != '-'
 topic_branch = args.shift.strip if branch_given           # Use given branch
