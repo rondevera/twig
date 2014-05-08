@@ -1,29 +1,56 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig gh-open-issue [-b|--branch <branch>]
-#
-# Description:
-#
-#   Opens a browser window the GitHub issue, if any, for the current branch.
-#
-#   To customize the GitHub URI prefix (e.g., for GitHub Enterprise
-#   installations), set GitHub options in `~/.twigconfig`:
-#
-#     github-uri-prefix:     http://example-enterprise.github.com
-#     github-api-uri-prefix: http://example-enterprise.github.com
-#
-# Options:
-#
-#   `-b` or `--branch`: Opens the GitHub issue, if any, for the given branch.
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
-
 require 'rubygems'
 require 'twig'
 require 'launchy'
+
+def help_content
+  <<-HELP
+
+twig-gh-open-issue
+==================
+
+Opens a browser window for a branch's GitHub issue, if any.
+
+Synopsis
+--------
+
+  twig gh-open-issue [-b|--branch <branch>]
+
+Description
+-----------
+
+  Opens a browser window for the GitHub issue, if any, for the current branch.
+
+  To customize the GitHub URI prefix (e.g., for GitHub Enterprise
+  installations), set GitHub options in `~/.twigconfig`:
+
+    github-uri-prefix:     http://example-enterprise.github.com
+    github-api-uri-prefix: http://example-enterprise.github.com
+
+Options
+-------
+
+  `-b` or `--branch`: Opens the GitHub issue, if any, for the given branch.
+
+See also
+--------
+
+  twig-gh-open
+  twig-gh-update
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
+
+args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
 
 Twig::GithubRepo.new do |gh_repo|
   twig = Twig.new(:read_options => true)
