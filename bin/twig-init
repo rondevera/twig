@@ -1,16 +1,42 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig init
-#
-# Description:
-#
-#   Runs all initialization commands. This is only needed once after installing
-#   Twig, and affects all Git repositories.
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
+def help_content
+  <<-HELP
+
+twig-init
+=========
+
+Runs all Twig setup commands.
+
+Synopsis
+--------
+
+  twig init
+
+Description
+-----------
+
+  Runs all setup commands. This is only needed once after installing Twig, and
+  affects all Git repositories.
+
+See also
+--------
+
+  twig-init-completion
+  twig-init-config
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
+
+args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
 
 commands = [
   'echo',
