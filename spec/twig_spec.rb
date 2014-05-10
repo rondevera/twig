@@ -108,10 +108,10 @@ describe Twig do
         fix_everything
       ]
       commit_times = [
-        Twig::CommitTime.new(Time.now - 86400 * 10, '10 days ago'),
-        Twig::CommitTime.new(Time.now - 86400 * 20, '20 days ago'),
-        Twig::CommitTime.new(Time.now - 86400 * 30, '30 days ago'),
-        Twig::CommitTime.new(Time.now - 86400 * 40, '40 days ago')
+        Twig::CommitTime.new(Time.now - 86400 * 10),
+        Twig::CommitTime.new(Time.now - 86400 * 20),
+        Twig::CommitTime.new(Time.now - 86400 * 30),
+        Twig::CommitTime.new(Time.now - 86400 * 40)
       ]
       @branches = [
         Twig::Branch.new(branch_names[0], :last_commit_time => commit_times[0]),
@@ -227,8 +227,8 @@ describe Twig do
       @twig = Twig.new
       @list_headers = '[branch list headers]'
       commit_times = [
-        Twig::CommitTime.new(Time.now, '111 days ago'),
-        Twig::CommitTime.new(Time.now, '222 days ago')
+        Twig::CommitTime.new(Time.now),
+        Twig::CommitTime.new(Time.now)
       ]
       allow(commit_times[0]).to receive(:to_i) {  2000_01_01  }
       allow(commit_times[0]).to receive(:to_s) { '2000-01-01' }

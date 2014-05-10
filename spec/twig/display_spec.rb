@@ -194,7 +194,7 @@ describe Twig::Display do
       allow(@other_branch).to receive(:get_properties) do
         { 'foo' => 'foo!', 'bar' => 'bar!' }
       end
-      commit_time = Twig::CommitTime.new(Time.now, '')
+      commit_time = Twig::CommitTime.new(Time.now)
       expect(commit_time).to receive(:to_s).and_return('2000-01-01')
       allow(@current_branch).to receive(:last_commit_time) { commit_time }
       allow(@other_branch).to receive(:last_commit_time) { commit_time }
