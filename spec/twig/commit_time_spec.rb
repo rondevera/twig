@@ -55,7 +55,7 @@ describe Twig::CommitTime do
     end
 
     it 'returns the years count for past dates' do
-      ref_time = Time.new(Time.new.year - 1)
+      ref_time = Time.new - (60 * 60 * 24 * 365)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_years).to eq(1)
     end
@@ -70,7 +70,7 @@ describe Twig::CommitTime do
 
     it 'returns 1 for one month ago' do
       now = Time.new
-      ref_time = Time.new(now.year, now.month - 1)
+      ref_time = Time.new - (60 * 60 * 24 * 31)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_months).to eq(1)
     end
