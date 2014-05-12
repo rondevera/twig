@@ -1,21 +1,48 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig init-completion-bash
-#
-# Description:
-#
-#   Initializes bash tab completion for Twig. Instead of running this directly,
-#   run `twig init` to run all setup tasks for the current shell. Uses all
-#   options available for `twig init-completion`.
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
-
 require 'rubygems'
 require 'twig'
 require 'fileutils'
+
+def help_content
+  <<-HELP
+
+twig-init-completion-bash
+=========================
+
+Initializes bash tab completion for Twig. Use `twig init` to run all setup.
+
+Synopsis
+--------
+
+  twig init-completion-bash
+
+Description
+-----------
+
+  Initializes bash tab completion for Twig. Instead of running this directly,
+  run `twig init` to run all setup tasks for the current shell. Uses all
+  options available for `twig init-completion`.
+
+See also
+--------
+
+  twig-init
+  twig-init-completion
+  twig-init-config
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
+
+args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
 
 script = <<-SCRIPT
 
@@ -78,7 +105,6 @@ complete -F __twig twig
 SCRIPT
 script = script.strip + "\n"
 
-args  = ARGV.dup
 force = args.delete('--force')
 
 twig_dir = '~/.twig'
