@@ -1,28 +1,54 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig init-config [--force]
-#
-# Description:
-#
-#   Creates a default `.twigconfig` in your home directory. Instead of running
-#   this directly, run `twig init` to run all setup tasks.
-#
-# Options:
-#
-#   `--force`: By default, `twig init-config` preserves the existing
-#   `.twigconfig` file, if any. If this option is used, the command will
-#   overwrite any existing config file.
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
-
 require 'rubygems'
 require 'twig'
 require 'fileutils'
 
-args  = ARGV.dup
+def help_content
+  <<-HELP
+
+twig-init-config
+================
+
+Creates a default `.twigconfig` file in your home directory.
+
+Synopsis
+--------
+
+  twig init-config [--force]
+
+Description
+-----------
+
+  Creates a default `.twigconfig` file in your home directory. Instead of
+  running this directly, run `twig init` to run all setup tasks.
+
+Options
+-------
+
+  `--force`: By default, `twig init-config` preserves the existing
+  `.twigconfig` file, if any. If this option is used, the command will
+  overwrite any existing config file.
+
+See also
+--------
+
+  twig-init
+  twig-init-completion
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
+
+args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
+
 force = args.delete('--force')
 
 config_path      = Twig::Options::CONFIG_PATH
