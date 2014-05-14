@@ -1,49 +1,70 @@
 #!/usr/bin/env ruby
 
-# Synopsis:
-#
-#   twig rebase [<branch>] [<options>]
-#
-# Description:
-#
-#   Rebases the current branch onto the branch in its `diff-branch` property.
-#   All options except `--autoconfirm` are passed through to `git-rebase`.
-#
-# Options:
-#
-#   `--autoconfirm`: Automatically confirm rebasing the branch onto its parent
-#   branch without prompting. To automatically confirm whenever running
-#   `twig rebase`, set `twig-rebase-autoconfirm` in `~/.twigconfig`.
-#
-# Examples:
-#
-#   Rebase the current branch onto its `diff-branch` interactively:
-#
-#     twig rebase -i
-#
-#   Rebase the given branch onto its `diff-branch`:
-#
-#     twig rebase my_branch
-#
-#   Rebase the given branch onto its `diff-branch` interactively:
-#
-#     twig rebase my_branch -i
-#
-#   Skip the prompt when rebasing:
-#
-#     twig rebase --autoconfirm
-#
-#   Skip the prompt every time you use `twig-rebase`:
-#
-#     echo 'twig-rebase-autoconfirm: true' >> ~/.twigconfig
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
-
 require 'rubygems'
 require 'twig'
 
+def help_content
+  <<-HELP
+
+twig-rebase
+===========
+
+Rebases a branch onto its parent branch (`diff-branch`).
+
+Synopsis
+--------
+
+  twig rebase [<branch>] [<options>]
+
+Description
+-----------
+
+  Rebases the current branch onto the branch in its `diff-branch` property.
+  All options except `--autoconfirm` are passed through to `git-rebase`.
+
+Options
+-------
+
+  `--autoconfirm`: Automatically confirm rebasing the branch onto its parent
+  branch without prompting. To automatically confirm whenever running
+  `twig rebase`, set `twig-rebase-autoconfirm` in `~/.twigconfig`.
+
+Examples
+--------
+
+  Rebase the current branch onto its `diff-branch` interactively:
+
+    twig rebase -i
+
+  Rebase the given branch onto its `diff-branch`:
+
+    twig rebase my_branch
+
+  Rebase the given branch onto its `diff-branch` interactively:
+
+    twig rebase my_branch -i
+
+  Skip the prompt when rebasing:
+
+    twig rebase --autoconfirm
+
+  Skip the prompt every time you use `twig-rebase`:
+
+    echo 'twig-rebase-autoconfirm: true' >> ~/.twigconfig
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
+
 args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
+
 twig = Twig.new
 twig.read_config_file!
   # Only read options from the config file, not from arguments, because most
