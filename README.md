@@ -31,9 +31,9 @@ Quick start
 
     gem install twig
 
-    twig init    # Sets up tab completion; one run works across all repos
-    twig         # Lists your branches
-    twig --help  # More info
+    twig init  # Sets up tab completion; one run works across all repos
+    twig       # Lists your branches
+    twig help  # More info
 
 
 Usage
@@ -51,7 +51,7 @@ chronologically with their properties.
 * `twig --unset <property> -b <branch>`: Unset property for any branch
 * `twig init`:                           Set up tab completion for `-b` and `--branch`; one run works across all repos
 * `twig init-completion --force`:        Update to the latest tab completion script
-* `twig --help`:                         More info
+* `twig help`:                           More info
 
 
 Display options

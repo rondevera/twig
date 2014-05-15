@@ -302,7 +302,7 @@ class Twig
     end
 
     def abort_for_option_exception(exception)
-      puts exception.message + "\nFor a list of options, run `twig --help`."
+      puts exception.message + "\nFor a list of options, run `twig help`."
       exit 1
     end
 

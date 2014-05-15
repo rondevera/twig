@@ -340,7 +340,7 @@ describe Twig::Cli do
 
     it 'prints a message and aborts' do
       expect(@twig).to receive(:puts) do |message|
-        expect(message).to include('`twig --help`')
+        expect(message).to include('`twig help`')
       end
 
       expect {
