@@ -5,4 +5,8 @@
 # Subcommand for Twig: <http://rondevera.github.io/twig/>
 # Author: Ron DeVera <http://rondevera.com>
 
-exec('twig --help')
+args = ARGV.dup
+subcommand = args[0] || ''
+
+# If no subcommand was given, default to `twig --help`
+exec("twig #{subcommand} --help")
