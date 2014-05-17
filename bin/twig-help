@@ -1,11 +1,51 @@
 #!/usr/bin/env ruby
 
-# Your friendly neighborhood `twig --help` alias.
-#
-# Subcommand for Twig: <http://rondevera.github.io/twig/>
-# Author: Ron DeVera <http://rondevera.com>
+def help_content
+  <<-HELP
+
+twig-help
+=========
+
+Provides help for Twig and for its subcommands.
+
+Synopsis
+--------
+
+  twig help [<subcommand>]
+
+Description
+-----------
+
+  Shows help content for Twig and for its built-in subcommands.
+
+  To make a custom subcommand work with this system (e.g.,
+  `twig help my-subcommand`), simply add `--help` support to the subcommand
+  (e.g., `twig my-subcommand --help`), and Twig will call it automatically.
+
+Examples
+--------
+
+  Show help content for Twig:
+
+    twig help
+
+  Show help content for a Twig subcommand, e.g., `twig-rebase`:
+
+    twig help rebase
+
+Subcommand for Twig: <http://rondevera.github.io/twig/>
+Author: Ron DeVera <http://rondevera.com>
+
+  HELP
+end
 
 args = ARGV.dup
+
+if args.include?('--help')
+  puts help_content
+  exit
+end
+
 subcommand = args[0] || ''
 
 # If no subcommand was given, default to `twig --help`
