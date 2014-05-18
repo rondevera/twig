@@ -42,15 +42,15 @@ describe Twig::Branch do
 
       expect(branches[0].name).to eq(@branch_names[0])
       expect(branches[0].last_commit_time.to_s).to match(
-        /#{@commit_time_strings[0]} .* \(111d ago\)/
+        /#{@commit_time_strings[0]} .* \(13y ago\)/
       )
       expect(branches[1].name).to eq(@branch_names[1])
       expect(branches[1].last_commit_time.to_s).to match(
-        /#{@commit_time_strings[1]} .* \(2mo ago\)/
+        /#{@commit_time_strings[1]} .* \(12y ago\)/
       )
       expect(branches[2].name).to eq(@branch_names[2])
       expect(branches[2].last_commit_time.to_s).to match(
-        /#{@commit_time_strings[2]} .* \(3y ago\)/
+        /#{@commit_time_strings[2]} .* \(11y ago\)/
       )
     end
 
@@ -163,7 +163,7 @@ describe Twig::Branch do
     end
 
     it 'accepts a last commit time' do
-      commit_time = Twig::CommitTime.new(Time.now, '99 days ago')
+      commit_time = Twig::CommitTime.new(Time.now)
       branch = Twig::Branch.new('test', :last_commit_time => commit_time)
       expect(branch.last_commit_time).to eq(commit_time)
     end
@@ -180,7 +180,7 @@ describe Twig::Branch do
     before :each do
       @branch = Twig::Branch.new('test')
       time = Time.parse('2000-01-01 18:30 UTC')
-      commit_time = Twig::CommitTime.new(time, '')
+      commit_time = Twig::CommitTime.new(time)
       @time_string = time.iso8601
       allow(@branch).to receive(:last_commit_time) { commit_time }
     end
