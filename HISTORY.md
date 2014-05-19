@@ -1,6 +1,11 @@
 Twig
 ====
 
+* ENHANCEMENT: Add `twig help <subcommand>` for showing help content for any
+  built-in Twig subcommand (e.g., `twig help rebase`). To make a custom
+  subcommand work with this system (e.g., `twig help my-subcommand`), simply add
+  `--help` support to the subcommand (e.g., `twig my-subcommand --help`), and
+  Twig will call it automatically.
 * ENHANCEMENT: Expand `twig init` to also create a default `~/.twigconfig` file.
   This uses a new `twig init-config` subcommand behind the scenes.
 * ENHANCEMENT: Support `twig rebase --autoconfirm` for skipping the prompt when
