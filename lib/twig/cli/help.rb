@@ -27,7 +27,13 @@ class Twig
       end
 
       def self.description(text, options = {})
-        width = options[:width] || 40
+        defaults = {
+          :add_blank_line => false,
+          :width => 40
+        }
+        options = defaults.merge(options)
+
+        width = options[:width]
         words = text.gsub(/\n?\s+/, ' ').strip.split(' ')
         lines = []
 
