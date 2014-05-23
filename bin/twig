@@ -6,7 +6,10 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'twig'))
 
 args = ARGV.dup
-repo_required = args != ['--help'] && args != ['help'] && args != ['--version']
+repo_required =
+  args != ['--help'] &&
+  args != ['help'] &&
+  args != ['--version']
 
 if repo_required && !Twig.repo?
   abort 'Current directory is not a git repository.'
