@@ -7,9 +7,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'twig'))
 
 args = ARGV.dup
 repo_required =
-  args != ['--help'] &&
+  !args.include?('--help') &&
+  args[0] != 'help' && # e.g., `twig help <subcommand>`
   args != ['--version'] &&
-  args != ['help'] &&
   args != ['init'] &&
   args != ['init-completion'] &&
   args != ['init-completion-bash'] &&
