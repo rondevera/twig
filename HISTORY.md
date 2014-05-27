@@ -13,6 +13,8 @@ Twig
   use `twig rebase`, add `twig-rebase-autoconfirm: true` to your
   `~/.twigconfig`. (GH-24. Thanks [ljharb](https://github.com/ljharb) for the
   idea!)
+* FIX: Don't require a Git repo for initialization (e.g., `twig init`) or for
+  showing help content (e.g., `twig help rebase`).
 
 1.6 (2014-03-04)
 ----------------
