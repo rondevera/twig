@@ -45,8 +45,8 @@ class Twig
 
     def count_years
       seconds_in_a_year = 60 * 60 * 24 * 365
-      seconds = (CommitTime.now - @time).to_i
-      seconds < seconds_in_a_year ? 0 : (seconds / seconds_in_a_year).floor
+      seconds = CommitTime.now - @time
+      seconds < seconds_in_a_year ? 0 : (seconds / seconds_in_a_year).round
     end
 
     def count_months
@@ -56,26 +56,26 @@ class Twig
 
     def count_weeks
       seconds_in_a_week = 60 * 60 * 24 * 7
-      seconds = (CommitTime.now - @time).to_i
-      seconds < seconds_in_a_week ? 0 : (seconds / seconds_in_a_week).floor
+      seconds = CommitTime.now - @time
+      seconds < seconds_in_a_week ? 0 : (seconds / seconds_in_a_week).round
     end
 
     def count_days
       seconds_in_a_day = 60 * 60 * 24
-      seconds = (CommitTime.now - @time).to_i
-      seconds < seconds_in_a_day ? 0 : (seconds / seconds_in_a_day).floor
+      seconds = CommitTime.now - @time
+      seconds < seconds_in_a_day ? 0 : (seconds / seconds_in_a_day).round
     end
 
     def count_hours
       seconds_in_an_hour = 60 * 60
-      seconds = (CommitTime.now - @time).to_i
-      seconds < seconds_in_an_hour ? 0 : (seconds / seconds_in_an_hour).floor
+      seconds = CommitTime.now - @time
+      seconds < seconds_in_an_hour ? 0 : (seconds / seconds_in_an_hour).round
     end
 
     def count_minutes
       seconds_in_a_minute = 60
-      seconds = (CommitTime.now - @time).to_i
-      seconds < seconds_in_a_minute ? 0 : (seconds / seconds_in_a_minute).floor
+      seconds = CommitTime.now - @time
+      seconds < seconds_in_a_minute ? 0 : (seconds / seconds_in_a_minute).round
     end
 
     def count_seconds

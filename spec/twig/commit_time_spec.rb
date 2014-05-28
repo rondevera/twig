@@ -56,10 +56,16 @@ describe Twig::CommitTime do
       expect(commit_time.count_years).to eq(0)
     end
 
-    it 'returns the years count for past dates' do
+    it 'returns 1 for one year ago' do
       ref_time = @time - (60 * 60 * 24 * 365)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_years).to eq(1)
+    end
+
+    it 'returns 2 for 21 months ago' do
+      ref_time = @time - (60 * 60 * 24 * 30 * 21)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_years).to eq(2)
     end
   end
 
@@ -75,6 +81,12 @@ describe Twig::CommitTime do
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_months).to eq(1)
     end
+
+    it 'returns 2 for 50 days ago' do
+      ref_time = @time - (60 * 60 * 24 * 50)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_months).to eq(2)
+    end
   end
 
   describe '#count_weeks' do
@@ -84,8 +96,8 @@ describe Twig::CommitTime do
       expect(commit_time.count_weeks).to eq(0)
     end
 
-    it 'returns 1 for 12 days ago' do
-      ref_time = @time - ( 12 * 60 * 60 * 24 )
+    it 'returns 1 for 8 days ago' do
+      ref_time = @time - ( 8 * 60 * 60 * 24 )
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_weeks).to eq(1)
     end
@@ -94,6 +106,12 @@ describe Twig::CommitTime do
       ref_time = @time - ( 14 * 60 * 60 * 24 )
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_weeks).to eq(2)
+    end
+
+    it 'returns 3 for 2.5 weeks ago' do
+      ref_time = @time - ( 2.5 * 7 * 60 * 60 * 24 )
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_weeks).to eq(3)
     end
   end
 
@@ -109,6 +127,12 @@ describe Twig::CommitTime do
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_days).to eq(1)
     end
+
+    it 'returns 2 for 1.5 days ago' do
+      ref_time = @time - ( 1.5 * 60 * 60 * 24 )
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_days).to eq(2)
+    end
   end
 
   describe '#count_hours' do
@@ -123,6 +147,12 @@ describe Twig::CommitTime do
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_hours).to eq(1)
     end
+
+    it 'returns 2 for 1.5 hours ago' do
+      ref_time = @time - ( 1.5 * 60 * 60 )
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_hours).to eq(2)
+    end
   end
 
   describe '#count_minutes' do
@@ -136,6 +166,18 @@ describe Twig::CommitTime do
       ref_time = @time - 60
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_minutes).to eq(1)
+    end
+
+    it 'returns 20 for 20 minutes ago' do
+      ref_time = @time - ( 20 * 60 )
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_minutes).to eq(20)
+    end
+
+    it 'returns 21 for 20.5 minutes ago' do
+      ref_time = @time - ( 20.5 * 60 )
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_minutes).to eq(21)
     end
   end
 
