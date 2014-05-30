@@ -15,26 +15,26 @@ describe Twig::CommitTime do
     it 'stores a "time ago" string as its shortened version' do
       seconds_in_a_year = 60 * 60 * 24 * 365
       seconds_in_a_week = 60 * 60 * 24 * 7
-      seconds_in_a_day = 60 * 60 * 24
+      seconds_in_a_day  = 60 * 60 * 24
 
-      expect(Twig::CommitTime.new(@time - ( seconds_in_a_year * 2 )).
+      expect(Twig::CommitTime.new(@time - (seconds_in_a_year * 2)).
         instance_variable_get(:@time_ago)).to eq('2y ago')
-      expect(Twig::CommitTime.new(@time - ( seconds_in_a_year * 1 )).
+      expect(Twig::CommitTime.new(@time - (seconds_in_a_year * 1)).
         instance_variable_get(:@time_ago)).to eq('1y ago')
 
-      two_months_ago = @time - ( 7 * seconds_in_a_week )
+      two_months_ago = @time - (7 * seconds_in_a_week)
       expect(Twig::CommitTime.new(two_months_ago).
         instance_variable_get(:@time_ago)).to eq('2mo ago')
 
-      two_weeks_ago = @time - ( 2 * seconds_in_a_week )
+      two_weeks_ago = @time - (2 * seconds_in_a_week)
       expect(Twig::CommitTime.new(two_weeks_ago).
         instance_variable_get(:@time_ago)).to eq('2w ago')
 
-      two_days_ago = @time - ( 2 * seconds_in_a_day )
+      two_days_ago = @time - (2 * seconds_in_a_day)
       expect(Twig::CommitTime.new(two_days_ago).
         instance_variable_get(:@time_ago)).to eq('2d ago')
 
-      two_hours_ago = @time - ( 60 * 120 )
+      two_hours_ago = @time - (60 * 120)
       expect(Twig::CommitTime.new(two_hours_ago).
         instance_variable_get(:@time_ago)).to eq('2h ago')
 
@@ -123,7 +123,7 @@ describe Twig::CommitTime do
     end
 
     it 'returns 1 for one day ago' do
-      ref_time = @time - ( 60 * 60 * 24 )
+      ref_time = @time - (60 * 60 * 24)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_days).to eq(1)
     end
@@ -143,7 +143,7 @@ describe Twig::CommitTime do
     end
 
     it 'returns 1 for one hour ago' do
-      ref_time = @time - ( 60 * 60 )
+      ref_time = @time - (60 * 60)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_hours).to eq(1)
     end
