@@ -15,6 +15,8 @@ Twig
   idea!)
 * FIX: Don't require a Git repo for initialization (e.g., `twig init`) or for
   showing help content (e.g., `twig help rebase`).
+* FIX: Show units of time for relative time strings when not using English.
+  (GH-37, GH-38. Thanks [matteosister](https://github.com/matteosister)!)
 
 1.6 (2014-03-04)
 ----------------
