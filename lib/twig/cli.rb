@@ -265,17 +265,17 @@ class Twig
 
         Help.subheader(opts, 'Config files and tab completion', :trailing => '')
 
-        Help.separator(opts, Help.paragraph(%{
+        Help.print_paragraph(opts, %{
           Twig can automatically set up a config file for you, where you can put
           your most frequently used options for filtering and listing branches.
           To get started, run `twig init` and follow the instructions. This does
           two things:
-        }), :trailing => '')
+        })
 
-        Help.separator(opts, Help.paragraph(%{
+        Help.print_paragraph(opts, %{
           * Creates #{Twig::Options::CONFIG_PATH}, where you can put your
             favorite options, e.g.:
-        }), :trailing => '')
+        })
 
         Help.separator(opts, [
           '      except-branch: staging',
@@ -284,9 +284,9 @@ class Twig
           '      reverse:       true'
         ].join("\n"), :trailing => '')
 
-        Help.separator(opts, Help.paragraph(%{
+        Help.print_paragraph(opts, %{
           * Enables tab completion for Twig subcommands and branch names, e.g.:
-        }), :trailing => '')
+        })
 
         Help.separator(opts, [
           '      `twig cre<tab>` -> `twig create-branch`',

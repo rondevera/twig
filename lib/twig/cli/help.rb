@@ -99,6 +99,16 @@ class Twig
         Help.description(text, :width => 80).join("\n")
       end
 
+      def self.print_paragraph(option_parser, text, separator_options = {})
+        # Prints a long chunk of text with automatic word wrapping and a leading
+        # line break.
+
+        defaults = { :trailing => '' }
+        separator_options = defaults.merge(separator_options)
+
+        Help.separator(option_parser, Help.paragraph(text), separator_options)
+      end
+
       def self.separator(option_parser, text, options = {})
         options[:trailing] ||= "\n\n"
         option_parser.separator "\n#{text}#{options[:trailing]}"
