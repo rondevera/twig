@@ -47,7 +47,7 @@ describe Twig::Cli::Help do
 
     it 'returns a help string for a custom property' do
       option_parser = OptionParser.new
-      expect(Help).to receive(:separator) do |opt_parser, desc, options|
+      expect(Help).to receive(:print_section) do |opt_parser, desc, options|
         expect(opt_parser).to eq(option_parser)
         expect(desc).to eq("      --test-option                Test option description\n")
         expect(options).to eq(:trailing => "\n")
@@ -60,7 +60,7 @@ describe Twig::Cli::Help do
 
     it 'supports custom trailing whitespace' do
       option_parser = OptionParser.new
-      expect(Help).to receive(:separator) do |opt_parser, desc, options|
+      expect(Help).to receive(:print_section) do |opt_parser, desc, options|
         expect(opt_parser).to eq(option_parser)
         expect(desc).to eq("      --test-option                Test option description\n")
         expect(options).to eq(:trailing => '')
@@ -143,11 +143,11 @@ describe Twig::Cli::Help do
   end
 
   describe '.subheader' do
-    it 'generates a separator' do
+    it 'generates a subheader section' do
       option_parser = double
       text = 'Some header'
       expected_text = "Some header\n-----------"
-      expect(Help).to receive(:separator).with(option_parser, expected_text, {})
+      expect(Help).to receive(:print_section).with(option_parser, expected_text, {})
 
       Help.subheader(option_parser, text)
     end

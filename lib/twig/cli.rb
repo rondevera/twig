@@ -277,7 +277,7 @@ class Twig
             favorite options, e.g.:
         })
 
-        Help.separator(opts, [
+        Help.print_section(opts, [
           '      except-branch: staging',
           '      header-style:  green bold',
           '      max-days-old:  30',
@@ -288,7 +288,7 @@ class Twig
           * Enables tab completion for Twig subcommands and branch names, e.g.:
         })
 
-        Help.separator(opts, [
+        Help.print_section(opts, [
           '      `twig cre<tab>` -> `twig create-branch`',
           '      `twig status -b my-br<tab>` -> `twig status -b my-branch`'
         ].join("\n"), :trailing => '')

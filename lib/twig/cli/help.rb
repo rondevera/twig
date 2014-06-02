@@ -68,7 +68,7 @@ class Twig
           sprintf("%-#{left_column_width}s", left_column) + right_column + "\n"
         end
 
-        Help.separator(option_parser, help_desc, :trailing => options[:trailing])
+        Help.print_section(option_parser, help_desc, :trailing => options[:trailing])
       end
 
       def self.line_for_custom_property?(line)
@@ -106,16 +106,18 @@ class Twig
         defaults = { :trailing => '' }
         separator_options = defaults.merge(separator_options)
 
-        Help.separator(option_parser, Help.paragraph(text), separator_options)
+        Help.print_section(option_parser, Help.paragraph(text), separator_options)
       end
 
-      def self.separator(option_parser, text, options = {})
+      def self.print_section(option_parser, text, options = {})
+        # Prints text with leading and trailing line breaks.
+
         options[:trailing] ||= "\n\n"
         option_parser.separator "\n#{text}#{options[:trailing]}"
       end
 
       def self.subheader(option_parser, text, separator_options = {})
-        Help.separator(
+        Help.print_section(
           option_parser,
           text + "\n" + ('-' * text.size),
           separator_options
