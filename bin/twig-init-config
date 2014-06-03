@@ -10,7 +10,7 @@ def help_content
 twig-init-config
 ================
 
-Creates a default `.twigconfig` file in your home directory.
+Creates a default `~/.twigconfig` file. Use `twig init` to run all setup.
 
 Synopsis
 --------

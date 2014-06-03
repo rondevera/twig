@@ -6,7 +6,7 @@ def help_content
 twig-create-branch
 ==================
 
-Creates a branch and sets its `diff-branch` property to the previous branch.
+Creates a branch and sets its `diff-branch` property to the previous branch name.
 
 Synopsis
 --------

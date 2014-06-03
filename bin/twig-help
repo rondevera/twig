@@ -6,7 +6,7 @@ def help_content
 twig-help
 =========
 
-Provides help for Twig and for its subcommands.
+Provides help for Twig and its subcommands.
 
 Synopsis
 --------
