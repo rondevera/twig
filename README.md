@@ -49,7 +49,7 @@ chronologically with their properties.
 * `twig <property> -b <branch>`:         Get property for any branch
 * `twig <property> <value> -b <branch>`: Set property for any branch
 * `twig --unset <property> -b <branch>`: Unset property for any branch
-* `twig init`:                           Set up tab completion for `-b` and `--branch`; one run works across all repos
+* `twig init`:                           Set up tab completion and `~/.twigconfig`; one runs works across all repos
 * `twig init-completion --force`:        Update to the latest tab completion script
 * `twig help`:                           More info
 
@@ -82,14 +82,22 @@ them by age, name, and custom properties:
 * `twig --all`:
   List all branches regardless of other filtering options
 
-You can put your most frequently used options into `~/.twigconfig`, and they'll
-be automatically included when you run `twig`. Example:
+Saving favorite options
+-----------------------
+
+Running `twig init` generates a `~/.twigconfig` file with default options.
+Afterwards, you can put your most frequently used options into this file, and
+they'll automatically be included when you run `twig`. For example:
 
     # ~/.twigconfig:
-    except-branch: staging
+
+    # Display options:
     header-style:  green bold
-    max-days-old:  30
     reverse:       true
+
+    # Filtering options:
+    except-branch: staging
+    max-days-old:  30
 
 
 Examples
