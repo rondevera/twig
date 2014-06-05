@@ -70,7 +70,7 @@ Twig lists all of your branches by default (newest first), but you can filter
 them by age, name, and custom properties:
 
 * `twig --max-days-old <age>`:
-  Only list branches below a given age
+  Only list branches that were touched in the last # days
 * `twig --only-branch <pattern>`:
   Only list branches whose name matches a given pattern
 * `twig --except-branch <pattern>`:
@@ -188,9 +188,9 @@ current branch, you can use `twig checkout-child`:
 
     # If the current branch has multiple child, Twig asks what to do:
     Checkout which child branch?
-     1. child-branch-1
-     2. child-branch-2
-     3. child-branch-3
+      1. child-branch-1
+      2. child-branch-2
+      3. child-branch-3
     > 3
     Switched to branch 'child-branch-3'
 
