@@ -2,6 +2,10 @@ class Twig
   module Cli
     # Handles printing help output for `twig help`.
     module Help
+      def self.console_width
+        80
+      end
+
       def self.intro
         version_string = "Twig v#{Twig::VERSION}"
 
@@ -96,7 +100,7 @@ class Twig
       end
 
       def self.paragraph(text)
-        Help.description(text, :width => 80).join("\n")
+        Help.description(text, :width => console_width).join("\n")
       end
 
       def self.print_paragraph(option_parser, text, separator_options = {})
