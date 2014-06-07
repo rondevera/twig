@@ -103,6 +103,11 @@ class Twig
         Help.description(text, :width => console_width).join("\n")
       end
 
+      def self.print_line(option_parser, text)
+        # Prints a single line of text without line breaks.
+        option_parser.separator(text)
+      end
+
       def self.print_paragraph(option_parser, text, separator_options = {})
         # Prints a long chunk of text with automatic word wrapping and a leading
         # line break.
@@ -118,6 +123,37 @@ class Twig
 
         options[:trailing] ||= "\n\n"
         option_parser.separator "\n#{text}#{options[:trailing]}"
+      end
+
+      def self.subcommand_descriptions
+        descs = {
+          'checkout-child'  => 'Checks out a branch\'s child branch, if any.',
+          'checkout-parent' => 'Checks out a branch\'s parent branch.',
+          'create-branch'   => 'Creates a branch and sets its `diff-branch` property to the previous branch name.',
+          'diff'            => 'Shows the diff between a branch and its parent branch (`diff-branch`).',
+          'gh-open'         => 'Opens a browser window for the current GitHub repository.',
+          'gh-open-issue'   => 'Opens a browser window for a branch\'s GitHub issue, if any.',
+          'gh-update'       => 'Updates each branch with the latest issue status on GitHub.',
+          'help'            => 'Provides help for Twig and its subcommands.',
+          'init'            => 'Runs all Twig setup commands.',
+          'init-completion' => 'Initializes tab completion for Twig. Use `twig init` to run all setup.',
+          'init-config'     => 'Creates a default `~/.twigconfig` file. Use `twig init` to run all setup.',
+          'rebase'          => 'Rebases a branch onto its parent branch (`diff-branch`).'
+        }
+
+        line_prefix    = '- '
+        gutter_width   = 2 # Space between columns
+        names          = descs.keys.sort
+        max_name_width = names.map { |name| name.length }.max
+        names_width    = max_name_width + gutter_width
+        descs_width    = Help.console_width - line_prefix.length - names_width
+        desc_indent    = ' ' * (names_width + line_prefix.length)
+
+        names.map do |name|
+          line_prefix +
+          sprintf("%-#{names_width}s", name) +
+          Help.description(descs[name], :width => descs_width).join("\n" + desc_indent)
+        end
       end
 
       def self.subheader(option_parser, text, separator_options = {})

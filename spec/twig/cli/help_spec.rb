@@ -142,6 +142,19 @@ describe Twig::Cli::Help do
     end
   end
 
+  describe '.subcommand_descriptions' do
+    it 'returns a word-wrapped list of subcommand descriptions' do
+      output_lines = Help.subcommand_descriptions
+
+      # Some lines are actually multi-line descriptions. Split them so we can
+      # count characters per line.
+      output_lines = output_lines.map { |line| line.split("\n") }.flatten
+
+      output_line_max_width = output_lines.map { |line| line.length }.max
+      expect(output_line_max_width).to be <= Help.console_width
+    end
+  end
+
   describe '.subheader' do
     it 'generates a subheader section' do
       option_parser = double

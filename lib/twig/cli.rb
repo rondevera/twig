@@ -238,6 +238,41 @@ class Twig
 
         ###
 
+        Help.subheader(opts, 'Subcommands', :trailing => '')
+
+        Help.print_paragraph(opts, "Twig comes with these subcommands:", :trailing => "\n\n")
+
+        Help.subcommand_descriptions.each do |desc|
+          Help.print_line(opts, desc)
+        end
+
+        Help.print_paragraph(opts, %{
+          You can write any Twig subcommand that fits your own Git workflow. To
+          write a Twig subcommand:
+        })
+
+        Help.print_section(opts, [
+          '1.  Write a script; any language will do. (If you want to take',
+          '    advantage of Twig\'s option parsing and branch processing, you\'ll',
+          '    need Ruby. See `twig-checkout-parent` for an example.)'
+        ].join("\n"), :trailing => '')
+
+        Help.print_section(opts, [
+          '2.  Save it with the `twig-` prefix in your `$PATH`,',
+          '    e.g., `~/bin/twig-my-subcommand`.'
+        ].join("\n"), :trailing => '')
+
+        Help.print_section(opts, [
+          '3.  Make it executable: `chmod ugo+x ~/bin/twig-my-subcommand`'
+        ].join("\n"), :trailing => '')
+
+        Help.print_section(opts, [
+          '4.  Run your subcommand: `twig my-subcommand` (with a *space* after',
+          '    `twig`'
+        ].join("\n"), :trailing => '')
+
+        ###
+
         Help.subheader(opts, 'GitHub integration')
 
         desc = <<-DESC
