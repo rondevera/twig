@@ -112,16 +112,14 @@ class Twig
         # Prints a long chunk of text with automatic word wrapping and a leading
         # line break.
 
-        defaults = { :trailing => '' }
-        separator_options = defaults.merge(separator_options)
-
+        separator_options[:trailing] ||= ''
         Help.print_section(option_parser, Help.paragraph(text), separator_options)
       end
 
       def self.print_section(option_parser, text, options = {})
         # Prints text with leading and trailing line breaks.
 
-        options[:trailing] ||= "\n\n"
+        options[:trailing] ||= ''
         option_parser.separator "\n#{text}#{options[:trailing]}"
       end
 
@@ -157,6 +155,8 @@ class Twig
       end
 
       def self.subheader(option_parser, text, separator_options = {})
+        separator_options[:trailing] ||= "\n\n"
+
         Help.print_section(
           option_parser,
           text + "\n" + ('-' * text.size),

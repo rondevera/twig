@@ -160,7 +160,11 @@ describe Twig::Cli::Help do
       option_parser = double
       text = 'Some header'
       expected_text = "Some header\n-----------"
-      expect(Help).to receive(:print_section).with(option_parser, expected_text, {})
+      expect(Help).to receive(:print_section).with(
+        option_parser,
+        expected_text,
+        :trailing => "\n\n"
+      )
 
       Help.subheader(option_parser, text)
     end
