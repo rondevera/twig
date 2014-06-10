@@ -134,8 +134,8 @@ class Twig
           'gh-update'       => 'Updates each branch with the latest issue status on GitHub.',
           'help'            => 'Provides help for Twig and its subcommands.',
           'init'            => 'Runs all Twig setup commands.',
-          'init-completion' => 'Initializes tab completion for Twig. Use `twig init` to run all setup.',
-          'init-config'     => 'Creates a default `~/.twigconfig` file. Use `twig init` to run all setup.',
+          'init-completion' => 'Initializes tab completion for Twig. Runs as part of `twig init`.',
+          'init-config'     => 'Creates a default `~/.twigconfig` file. Runs as part of `twig init`.',
           'rebase'          => 'Rebases a branch onto its parent branch (`diff-branch`).'
         }
 
