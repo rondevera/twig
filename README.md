@@ -186,7 +186,7 @@ current branch, you can use `twig checkout-child`:
     # checkout that branch:
     $ twig checkout-child
 
-    # If the current branch has multiple child, Twig asks what to do:
+    # If the current branch has multiple child branches, Twig asks what to do:
     Checkout which child branch?
       1. child-branch-1
       2. child-branch-2
