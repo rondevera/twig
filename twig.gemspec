@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
     "\n* 1. Run `twig init` to set up tab completion.               *" <<
     "\n* 2. Run `twig` to list your Git branches.                   *" <<
     "\n*                                                            *" <<
-    "\n* For more info, run `twig --help` or visit                  *" <<
+    "\n* For more info, run `twig help` or visit                    *" <<
     "\n* #{sprintf('%-59s', Twig::HOMEPAGE)                        }*" <<
     "\n*                                                            *" <<
     "\n**************************************************************" <<
