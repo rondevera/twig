@@ -21,19 +21,19 @@ Gem::Specification.new do |spec|
     of time.
   ].join(' ')
   spec.post_install_message =
-    "\n**************************************************************" <<
-    "\n*                                                            *" <<
-    "\n* Welcome to Twig!                                           *" <<
-    "\n*                                                            *" <<
-    "\n* Quick start:                                               *" <<
-    "\n*                                                            *" <<
-    "\n* 1. Run `twig init` to set up tab completion.               *" <<
-    "\n* 2. Run `twig` to list your Git branches.                   *" <<
-    "\n*                                                            *" <<
-    "\n* For more info, run `twig help` or visit                    *" <<
-    "\n* #{sprintf('%-59s', Twig::HOMEPAGE)                        }*" <<
-    "\n*                                                            *" <<
-    "\n**************************************************************" <<
+    "\n*************************************************" <<
+    "\n*                                               *" <<
+    "\n* Welcome to Twig!                              *" <<
+    "\n*                                               *" <<
+    "\n* Quick start:                                  *" <<
+    "\n*                                               *" <<
+    "\n* 1. Run `twig init` to set up tab completion.  *" <<
+    "\n* 2. Run `twig` to list your Git branches.      *" <<
+    "\n*                                               *" <<
+    "\n* For more info, run `twig help` or visit       *" <<
+    "\n* #{sprintf('%-46s', Twig::HOMEPAGE)           }*" <<
+    "\n*                                               *" <<
+    "\n*************************************************" <<
     "\n\n"
 
   spec.files         = `git ls-files`.split($/)
