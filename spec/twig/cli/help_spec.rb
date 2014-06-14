@@ -155,8 +155,8 @@ describe Twig::Cli::Help do
     end
   end
 
-  describe '.subheader' do
-    it 'generates a subheader section' do
+  describe '.header' do
+    it 'generates a header section' do
       option_parser = double
       text = 'Some header'
       expected_text = "Some header\n-----------"
@@ -166,7 +166,7 @@ describe Twig::Cli::Help do
         :trailing => "\n\n"
       )
 
-      Help.subheader(option_parser, text)
+      Help.header(option_parser, text)
     end
   end
 end
