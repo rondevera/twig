@@ -19,6 +19,7 @@ class Twig
 
         intro = <<-BANNER.gsub(/^[ ]+/, '')
 
+          #{'=' * version_string.size}
           #{version_string}
           #{'=' * version_string.size}
 
@@ -159,7 +160,7 @@ class Twig
 
         Help.print_section(
           option_parser,
-          text + "\n" + ('-' * text.size),
+          text + "\n" + ('=' * text.size),
           separator_options
         )
       end

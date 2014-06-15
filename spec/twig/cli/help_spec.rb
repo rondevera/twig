@@ -159,7 +159,7 @@ describe Twig::Cli::Help do
     it 'generates a header section' do
       option_parser = double
       text = 'Some header'
-      expected_text = "Some header\n-----------"
+      expected_text = "Some header\n==========="
       expect(Help).to receive(:print_section).with(
         option_parser,
         expected_text,
