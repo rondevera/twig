@@ -155,14 +155,19 @@ class Twig
         end
       end
 
-      def self.header(option_parser, text, separator_options = {})
+      def self.header(option_parser, text, separator_options = {}, header_options = {})
         separator_options[:trailing] ||= "\n\n"
+        header_options[:underline]   ||= '='
 
         Help.print_section(
           option_parser,
-          text + "\n" + ('=' * text.size),
+          text + "\n" + (header_options[:underline] * text.size),
           separator_options
         )
+      end
+
+      def self.subheader(option_parser, text, separator_options = {})
+        header(option_parser, text, separator_options, :underline => '-')
       end
     end
   end
