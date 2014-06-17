@@ -246,6 +246,8 @@ class Twig
           Help.print_line(opts, desc)
         end
 
+        Help.subheader(opts, 'Writing a subcommand', :trailing => '')
+
         Help.print_paragraph(opts, %{
           You can write any Twig subcommand that fits your own Git workflow. To
           write a Twig subcommand:
