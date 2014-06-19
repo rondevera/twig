@@ -1,4 +1,5 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__)) # For gem development
+require 'shellwords'
 require 'twig/branch'
 require 'twig/cli'
 require 'twig/commit_time'

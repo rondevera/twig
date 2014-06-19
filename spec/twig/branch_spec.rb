@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require 'spec_helper'
+require 'shellwords'
 
 describe Twig::Branch do
   before :each do
@@ -285,6 +286,7 @@ describe Twig::Branch do
       branch     = Twig::Branch.new('utf8_{･ิω･ิ}')
       properties = { 'test1' => 'value1' }
       git_result = "branch.#{branch}.test1 value1"
+      expect(Shellwords).to receive(:shellescape).with(branch.to_s) { branch.to_s }
       expect(Twig).to receive(:run).
         with(%{git config --get-regexp "branch.#{branch}.(test1)$"}).
         and_return(git_result)
