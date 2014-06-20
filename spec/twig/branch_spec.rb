@@ -511,6 +511,37 @@ describe Twig::Branch do
         %{Saved property "#{property}" as "#{value}" for branch "#{@branch}"}
       )
     end
+
+    it 'sets a property for a branch whose name contains a backtick' do
+      branch   = Twig::Branch.new('branch_`ls`')
+      property = 'test'
+      value    = 'value'
+      escaped_branch_name = branch.to_s.shellescape
+      expect(Twig).to receive(:run).
+        with(%{git config branch.#{escaped_branch_name}.#{property} "#{value}"}) do
+          `(exit 0)`; value # Set `$?` to `0`
+        end
+
+      result = branch.set_property(property, value)
+      expect(result).to include(
+        %{Saved property "#{property}" as "#{value}" for branch "#{branch}"}
+      )
+    end
+
+    it 'sets a property value that contains a backtick' do
+      property = 'test'
+      value    = 'value_`ls`'
+      escaped_value = value.shellescape
+      expect(Twig).to receive(:run).
+        with(%{git config branch.#{@branch}.#{property} "#{escaped_value}"}) do
+          `(exit 0)`; value # Set `$?` to `0`
+        end
+
+      result = @branch.set_property(property, value)
+      expect(result).to include(
+        %{Saved property "#{property}" as "#{value}" for branch "#{@branch}"}
+      )
+    end
   end
 
   describe '#unset_property' do

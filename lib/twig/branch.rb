@@ -137,8 +137,8 @@ class Twig
         raise ArgumentError,
           %{Can't set a branch property to an empty string.}
       else
-        git_config = "branch.#{name}.#{property_name}"
-        Twig.run(%{git config #{git_config} "#{value}"})
+        git_config = "branch.#{name.shellescape}.#{property_name}"
+        Twig.run(%{git config #{git_config} "#{value.shellescape}"})
         result_body = %{property "#{property_name}" as "#{value}" for branch "#{name}".}
         if $?.success?
           "Saved #{result_body}"
