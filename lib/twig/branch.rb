@@ -155,7 +155,7 @@ class Twig
       value = get_property(property_name)
 
       if value
-        git_config = "branch.#{name}.#{property_name}"
+        git_config = "branch.#{name.shellescape}.#{property_name}"
         Twig.run(%{git config --unset #{git_config}})
         %{Removed property "#{property_name}" for branch "#{name}".}
       else

@@ -606,6 +606,21 @@ describe Twig::Branch do
         %{The branch "#{@branch}" does not have the property "#{property}"}
       )
     end
+
+    it 'unsets a property for a branch whose name contains a backtick' do
+      branch   = Twig::Branch.new('branch_`ls`')
+      property = 'test'
+      expect(branch).to receive(:get_property).
+        with(property).and_return('value')
+      expect(Twig).to receive(:run).with(
+        %{git config --unset branch.#{branch.to_s.shellescape}.#{property}}
+      )
+
+      result = branch.unset_property(property)
+      expect(result).to include(
+        %{Removed property "#{property}" for branch "#{branch}"}
+      )
+    end
   end
 
 end
