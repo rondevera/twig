@@ -528,10 +528,10 @@ describe Twig::Branch do
       )
     end
 
-    it 'sets a property value that contains a backtick' do
+    it 'sets a property value that contains special shell characters' do
       property = 'test'
-      value    = 'value_`ls`'
-      escaped_value = value.shellescape
+      value    = 'value `ls` $PATH'
+      escaped_value = 'value \`ls\` \$PATH'
       expect(Twig).to receive(:run).
         with(%{git config branch.#{@branch}.#{property} "#{escaped_value}"}) do
           `(exit 0)`; value # Set `$?` to `0`

@@ -138,7 +138,8 @@ class Twig
           %{Can't set a branch property to an empty string.}
       else
         git_config = "branch.#{name.shellescape}.#{property_name}"
-        Twig.run(%{git config #{git_config} "#{value.shellescape}"})
+        sanitized_value = value.gsub('`', '\\\`').gsub('$', '\\\$')
+        Twig.run(%{git config #{git_config} "#{sanitized_value}"})
         result_body = %{property "#{property_name}" as "#{value}" for branch "#{name}".}
         if $?.success?
           "Saved #{result_body}"
