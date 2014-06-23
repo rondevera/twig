@@ -59,6 +59,10 @@ class Twig
       raise EmptyPropertyNameError if property_name.empty?
     end
 
+    def self.shellescape_property_value(property_value)
+      property_value.gsub('`', '\\\`').gsub('$', '\\\$')
+    end
+
     def initialize(name, attrs = {})
       self.name = name
       raise ArgumentError, '`name` is required' if name.empty?
@@ -138,8 +142,8 @@ class Twig
           %{Can't set a branch property to an empty string.}
       else
         git_config = "branch.#{name.shellescape}.#{property_name}"
-        sanitized_value = value.gsub('`', '\\\`').gsub('$', '\\\$')
-        Twig.run(%{git config #{git_config} "#{sanitized_value}"})
+        escaped_value = Branch.shellescape_property_value(value)
+        Twig.run(%{git config #{git_config} "#{escaped_value}"})
         result_body = %{property "#{property_name}" as "#{value}" for branch "#{name}".}
         if $?.success?
           "Saved #{result_body}"

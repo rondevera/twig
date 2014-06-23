@@ -153,6 +153,26 @@ describe Twig::Branch do
     end
   end
 
+  describe '.shellescape_property_value' do
+    it 'escapes backticks' do
+      value  = 'value_`ls`'
+      result = Twig::Branch.shellescape_property_value(value)
+      expect(result).to eql('value_\`ls\`')
+    end
+
+    it 'escapes dollar signs' do
+      value  = 'value_$PATH'
+      result = Twig::Branch.shellescape_property_value(value)
+      expect(result).to eql('value_\$PATH')
+    end
+
+    it 'does not escape spaces' do
+      value  = 'foo bar'
+      result = Twig::Branch.shellescape_property_value(value)
+      expect(result).to eql('foo bar')
+    end
+  end
+
   describe '#initialize' do
     it 'requires a name' do
       branch = Twig::Branch.new('test')
