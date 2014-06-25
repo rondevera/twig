@@ -167,9 +167,9 @@ describe Twig::Branch do
     end
 
     it 'does not escape spaces' do
-      value  = 'foo bar'
+      value  = 'foo  bar'
       result = Twig::Branch.shellescape_property_value(value)
-      expect(result).to eql('foo bar')
+      expect(result).to eql('foo  bar')
     end
   end
 

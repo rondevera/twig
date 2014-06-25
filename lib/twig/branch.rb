@@ -60,7 +60,7 @@ class Twig
     end
 
     def self.shellescape_property_value(property_value)
-      property_value.gsub('`', '\\\`').gsub('$', '\\\$')
+      Shellwords.escape(property_value).gsub('\\ ', ' ')
     end
 
     def initialize(name, attrs = {})
