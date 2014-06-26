@@ -19,6 +19,8 @@ Twig
   showing help content (e.g., `twig help rebase`).
 * FIX: Show units of time for relative time strings when not using English.
   (GH-37, GH-38. Thanks [matteosister](https://github.com/matteosister)!)
+* FIX: Handle special shell characters (e.g., backticks, dollar signs) in branch
+  names and property values.
 
 1.6 (2014-03-04)
 ----------------
