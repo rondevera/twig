@@ -549,8 +549,8 @@ describe Twig::Branch do
     end
 
     it 'sets a property value that contains special shell characters' do
-      property = 'test'
-      value    = 'value `ls` $PATH'
+      property      = 'test'
+      value         = 'value `ls` $PATH'
       escaped_value = 'value \`ls\` \$PATH'
       expect(Twig).to receive(:run).
         with(%{git config branch.#{@branch}.#{property} "#{escaped_value}"}) do
