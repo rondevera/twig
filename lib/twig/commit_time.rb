@@ -10,8 +10,8 @@ class Twig
       @time = time
       suffix = 'ago'
 
-      if count_years > 0
-        @time_ago = "#{count_years}y #{suffix}"
+      if count_years_ago > 0
+        @time_ago = "#{count_years_ago}y #{suffix}"
         return
       end
 
@@ -43,7 +43,7 @@ class Twig
       @time_ago = "#{count_seconds}s #{suffix}"
     end
 
-    def count_years
+    def count_years_ago
       seconds_in_a_year = 60 * 60 * 24 * 365
       seconds = CommitTime.now - @time
       seconds < seconds_in_a_year ? 0 : (seconds / seconds_in_a_year).round
