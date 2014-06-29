@@ -15,8 +15,8 @@ class Twig
         return
       end
 
-      if count_months > 0 and count_weeks > 4
-        @time_ago = "#{count_months}mo #{suffix}"
+      if count_months_ago > 0 and count_weeks > 4
+        @time_ago = "#{count_months_ago}mo #{suffix}"
         return
       end
 
@@ -49,7 +49,7 @@ class Twig
       seconds < seconds_in_a_year ? 0 : (seconds / seconds_in_a_year).round
     end
 
-    def count_months
+    def count_months_ago
       now = CommitTime.now
       (now.year * 12 + now.month) - (@time.year * 12 + @time.month)
     end
