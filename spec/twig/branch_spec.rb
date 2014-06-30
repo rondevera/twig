@@ -19,19 +19,13 @@ describe Twig::Branch do
         2002-02-02
         2003-03-03
       ]
-      @commit_time_agos = [
-        '111 days ago',
-        '2 months ago',
-        '3 years, 3 months ago'
-      ]
       @command =
         %{git for-each-ref #{Twig::REF_PREFIX} --format="#{Twig::REF_FORMAT}"}
 
       @branch_tuples = (0..2).map do |i|
         [
           @branch_names[i],
-          @commit_time_strings[i],
-          @commit_time_agos[i]
+          @commit_time_strings[i]
         ].join(Twig::REF_FORMAT_SEPARATOR)
       end.join("\n")
     end
@@ -43,15 +37,15 @@ describe Twig::Branch do
 
       expect(branches[0].name).to eq(@branch_names[0])
       expect(branches[0].last_commit_time.to_s).to match(
-        /#{@commit_time_strings[0]} .* \(13y ago\)/
+        /#{@commit_time_strings[0]}/
       )
       expect(branches[1].name).to eq(@branch_names[1])
       expect(branches[1].last_commit_time.to_s).to match(
-        /#{@commit_time_strings[1]} .* \(12y ago\)/
+        /#{@commit_time_strings[1]}/
       )
       expect(branches[2].name).to eq(@branch_names[2])
       expect(branches[2].last_commit_time.to_s).to match(
-        /#{@commit_time_strings[2]} .* \(11y ago\)/
+        /#{@commit_time_strings[2]}/
       )
     end
 
