@@ -25,8 +25,8 @@ class Twig
         return
       end
 
-      if count_days > 0
-        @time_ago = "#{count_days}d #{suffix}"
+      if count_days_ago > 0
+        @time_ago = "#{count_days_ago}d #{suffix}"
         return
       end
 
@@ -60,7 +60,7 @@ class Twig
       seconds < seconds_in_a_week ? 0 : (seconds / seconds_in_a_week).round
     end
 
-    def count_days
+    def count_days_ago
       seconds_in_a_day = 60 * 60 * 24
       seconds = CommitTime.now - @time
       seconds < seconds_in_a_day ? 0 : (seconds / seconds_in_a_day).round
