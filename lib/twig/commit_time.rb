@@ -35,8 +35,8 @@ class Twig
         return
       end
 
-      if count_minutes > 0
-        @time_ago = "#{count_minutes}m #{suffix}"
+      if count_minutes_ago > 0
+        @time_ago = "#{count_minutes_ago}m #{suffix}"
         return
       end
 
@@ -72,7 +72,7 @@ class Twig
       seconds < seconds_in_an_hour ? 0 : (seconds / seconds_in_an_hour).round
     end
 
-    def count_minutes
+    def count_minutes_ago
       seconds_in_a_minute = 60
       seconds = CommitTime.now - @time
       seconds < seconds_in_a_minute ? 0 : (seconds / seconds_in_a_minute).round
