@@ -40,7 +40,7 @@ class Twig
         return
       end
 
-      @time_ago = "#{count_seconds}s #{suffix}"
+      @time_ago = "#{count_seconds_ago}s #{suffix}"
     end
 
     def count_years_ago
@@ -78,7 +78,7 @@ class Twig
       seconds < seconds_in_a_minute ? 0 : (seconds / seconds_in_a_minute).round
     end
 
-    def count_seconds
+    def count_seconds_ago
       (CommitTime.now - @time).to_i
     end
 
