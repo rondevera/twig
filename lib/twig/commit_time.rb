@@ -10,37 +10,23 @@ class Twig
       @time = time
       suffix = 'ago'
 
-      if count_years_ago > 0
-        @time_ago = "#{count_years_ago}y #{suffix}"
-        return
-      end
-
-      if count_months_ago > 0 and count_weeks_ago > 4
-        @time_ago = "#{count_months_ago}mo #{suffix}"
-        return
-      end
-
-      if count_weeks_ago > 0
-        @time_ago = "#{count_weeks_ago}w #{suffix}"
-        return
-      end
-
-      if count_days_ago > 0
-        @time_ago = "#{count_days_ago}d #{suffix}"
-        return
-      end
-
-      if count_hours_ago > 0
-        @time_ago = "#{count_hours_ago}h #{suffix}"
-        return
-      end
-
-      if count_minutes_ago > 0
-        @time_ago = "#{count_minutes_ago}m #{suffix}"
-        return
-      end
-
-      @time_ago = "#{count_seconds_ago}s #{suffix}"
+      @time_ago =
+        if count_years_ago > 0
+          "#{count_years_ago}y"
+        elsif count_months_ago > 0 and count_weeks_ago > 4
+          "#{count_months_ago}mo"
+        elsif count_weeks_ago > 0
+          "#{count_weeks_ago}w"
+        elsif count_days_ago > 0
+          "#{count_days_ago}d"
+        elsif count_hours_ago > 0
+          "#{count_hours_ago}h"
+        elsif count_minutes_ago > 0
+          "#{count_minutes_ago}m"
+        else
+          "#{count_seconds_ago}s"
+        end
+      @time_ago << ' ' << suffix
     end
 
     def count_years_ago
