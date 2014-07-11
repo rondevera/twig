@@ -26,7 +26,7 @@ describe Twig::GithubRepo do
         block_has_run = true
       end
 
-      expect(block_has_run).to be_true
+      expect(block_has_run).to eql(true)
     end
 
     it 'aborts if this is not a Git repo' do
@@ -153,7 +153,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        expect(is_github_repo).to be_true
+        expect(is_github_repo).to eql(true)
       end
     end
 
@@ -169,7 +169,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        expect(is_github_repo).to be_true
+        expect(is_github_repo).to eql(true)
       end
     end
 
@@ -185,7 +185,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        expect(is_github_repo).to be_true
+        expect(is_github_repo).to eql(true)
       end
     end
 

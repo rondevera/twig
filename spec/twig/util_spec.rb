@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Twig::Util do
   describe '.numeric?' do
     it 'returns true if an object is numeric' do
-      expect(Twig::Util.numeric?(1)).to be_true
-      expect(Twig::Util.numeric?('1')).to be_true
+      expect(Twig::Util.numeric?(1)).to eql(true)
+      expect(Twig::Util.numeric?('1')).to eql(true)
     end
 
     it 'returns false if an object is not numeric' do
@@ -16,17 +16,17 @@ describe Twig::Util do
 
   describe '.truthy?' do
     it 'returns true if an object is truthy' do
-      expect(Twig::Util.truthy?('true')).to be_true
-      expect(Twig::Util.truthy?('TRUE')).to be_true
-      expect(Twig::Util.truthy?(true)).to be_true
-      expect(Twig::Util.truthy?('yes')).to be_true
-      expect(Twig::Util.truthy?('YES')).to be_true
-      expect(Twig::Util.truthy?('y')).to be_true
-      expect(Twig::Util.truthy?('Y')).to be_true
-      expect(Twig::Util.truthy?('on')).to be_true
-      expect(Twig::Util.truthy?('ON')).to be_true
-      expect(Twig::Util.truthy?('1')).to be_true
-      expect(Twig::Util.truthy?(1)).to be_true
+      expect(Twig::Util.truthy?('true')).to eql(true)
+      expect(Twig::Util.truthy?('TRUE')).to eql(true)
+      expect(Twig::Util.truthy?(true)).to eql(true)
+      expect(Twig::Util.truthy?('yes')).to eql(true)
+      expect(Twig::Util.truthy?('YES')).to eql(true)
+      expect(Twig::Util.truthy?('y')).to eql(true)
+      expect(Twig::Util.truthy?('Y')).to eql(true)
+      expect(Twig::Util.truthy?('on')).to eql(true)
+      expect(Twig::Util.truthy?('ON')).to eql(true)
+      expect(Twig::Util.truthy?('1')).to eql(true)
+      expect(Twig::Util.truthy?(1)).to eql(true)
     end
 
     it 'returns false if an object is falsy' do

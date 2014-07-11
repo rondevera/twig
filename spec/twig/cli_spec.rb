@@ -293,7 +293,7 @@ describe Twig::Cli do
     it 'recognizes `--reverse`' do
       expect(@twig.options[:reverse]).to be_nil
       @twig.read_cli_options!(['--reverse'])
-      expect(@twig.options[:reverse]).to be_true
+      expect(@twig.options[:reverse]).to eql(true)
     end
 
     it 'recognizes `--github-api-uri-prefix`' do

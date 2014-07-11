@@ -298,8 +298,8 @@ describe Twig::Options do
       expect(@twig.options[:property_except_name]).to eq(/foo/)
       expect(@twig.options[:property_only_name]).to eq(/bar/)
       expect(@twig.options[:property_width]).to eq(:foo => 4)
-      expect(@twig.options[:reverse]).to be_true
-      expect(@twig.options[:twig_rebase_autoconfirm]).to be_true
+      expect(@twig.options[:reverse]).to eql(true)
+      expect(@twig.options[:twig_rebase_autoconfirm]).to eql(true)
     end
   end
 
@@ -431,7 +431,7 @@ describe Twig::Options do
 
         @twig.set_option(:reverse, input)
 
-        expect(@twig.options[:reverse]).to be_true
+        expect(@twig.options[:reverse]).to eql(true)
       end
 
       it 'sets the option to false when input is not truthy' do
@@ -455,7 +455,7 @@ describe Twig::Options do
 
         @twig.set_option(:twig_rebase_autoconfirm, input)
 
-        expect(@twig.options[:twig_rebase_autoconfirm]).to be_true
+        expect(@twig.options[:twig_rebase_autoconfirm]).to eql(true)
       end
 
       it 'sets the option to false when input is not truthy' do

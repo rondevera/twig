@@ -78,7 +78,7 @@ describe Twig::Cli::Help do
     end
 
     it 'returns true for `--except-foo`' do
-      expect(Help.line_for_custom_property?('  --except-foo  ')).to be_true
+      expect(Help.line_for_custom_property?('  --except-foo  ')).to eql(true)
     end
 
     it 'returns false for `--except-branch`' do
@@ -94,7 +94,7 @@ describe Twig::Cli::Help do
     end
 
     it 'returns true for `--only-foo`' do
-      expect(Help.line_for_custom_property?('  --only-foo  ')).to be_true
+      expect(Help.line_for_custom_property?('  --only-foo  ')).to eql(true)
     end
 
     it 'returns false for `--only-branch`' do
@@ -110,7 +110,7 @@ describe Twig::Cli::Help do
     end
 
     it 'returns true for `--foo-width`' do
-      expect(Help.line_for_custom_property?('  --foo-width  ')).to be_true
+      expect(Help.line_for_custom_property?('  --foo-width  ')).to eql(true)
     end
 
     it 'returns false for `--branch-width`' do
