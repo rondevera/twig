@@ -204,7 +204,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        expect(is_github_repo).to be_false
+        expect(is_github_repo).to eql(false)
       end
     end
 
@@ -223,7 +223,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        expect(is_github_repo).to be_false
+        expect(is_github_repo).to eql(false)
       end
     end
 
@@ -242,7 +242,7 @@ describe Twig::GithubRepo do
           is_github_repo = gh_repo.github_repo?
         end
 
-        expect(is_github_repo).to be_false
+        expect(is_github_repo).to eql(false)
       end
     end
   end

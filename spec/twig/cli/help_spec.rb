@@ -82,15 +82,15 @@ describe Twig::Cli::Help do
     end
 
     it 'returns false for `--except-branch`' do
-      expect(Help.line_for_custom_property?('  --except-branch  ')).to be_false
+      expect(Help.line_for_custom_property?('  --except-branch  ')).to be_falsy
     end
 
     it 'returns false for `--except-property`' do
-      expect(Help.line_for_custom_property?('  --except-property  ')).to be_false
+      expect(Help.line_for_custom_property?('  --except-property  ')).to be_falsy
     end
 
     it 'returns false for `--except-PROPERTY`' do
-      expect(Help.line_for_custom_property?('  --except-PROPERTY  ')).to be_false
+      expect(Help.line_for_custom_property?('  --except-PROPERTY  ')).to be_falsy
     end
 
     it 'returns true for `--only-foo`' do
@@ -98,15 +98,15 @@ describe Twig::Cli::Help do
     end
 
     it 'returns false for `--only-branch`' do
-      expect(Help.line_for_custom_property?('  --only-branch  ')).to be_false
+      expect(Help.line_for_custom_property?('  --only-branch  ')).to be_falsy
     end
 
     it 'returns false for `--only-property`' do
-      expect(Help.line_for_custom_property?('  --only-property  ')).to be_false
+      expect(Help.line_for_custom_property?('  --only-property  ')).to be_falsy
     end
 
     it 'returns false for `--only-PROPERTY`' do
-      expect(Help.line_for_custom_property?('  --only-PROPERTY  ')).to be_false
+      expect(Help.line_for_custom_property?('  --only-PROPERTY  ')).to be_falsy
     end
 
     it 'returns true for `--foo-width`' do
@@ -114,11 +114,11 @@ describe Twig::Cli::Help do
     end
 
     it 'returns false for `--branch-width`' do
-      expect(Help.line_for_custom_property?('  --branch-width  ')).to be_false
+      expect(Help.line_for_custom_property?('  --branch-width  ')).to be_falsy
     end
 
     it 'returns false for `--PROPERTY-width`' do
-      expect(Help.line_for_custom_property?('  --PROPERTY-width  ')).to be_false
+      expect(Help.line_for_custom_property?('  --PROPERTY-width  ')).to be_falsy
     end
   end
 

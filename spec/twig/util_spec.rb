@@ -8,9 +8,9 @@ describe Twig::Util do
     end
 
     it 'returns false if an object is not numeric' do
-      expect(Twig::Util.numeric?('x')).to be_false
-      expect(Twig::Util.numeric?([])).to be_false
-      expect(Twig::Util.numeric?({})).to be_false
+      expect(Twig::Util.numeric?('x')).to eql(false)
+      expect(Twig::Util.numeric?([])).to eql(false)
+      expect(Twig::Util.numeric?({})).to eql(false)
     end
   end
 
@@ -30,10 +30,10 @@ describe Twig::Util do
     end
 
     it 'returns false if an object is falsy' do
-      expect(Twig::Util.truthy?('false')).to be_false
-      expect(Twig::Util.truthy?(false)).to be_false
-      expect(Twig::Util.truthy?('yep')).to be_false
-      expect(Twig::Util.truthy?('sure, why not')).to be_false
+      expect(Twig::Util.truthy?('false')).to eql(false)
+      expect(Twig::Util.truthy?(false)).to eql(false)
+      expect(Twig::Util.truthy?('yep')).to eql(false)
+      expect(Twig::Util.truthy?('sure, why not')).to eql(false)
     end
   end
 

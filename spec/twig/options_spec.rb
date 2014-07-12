@@ -440,7 +440,7 @@ describe Twig::Options do
 
         @twig.set_option(:reverse, input)
 
-        expect(@twig.options[:reverse]).to be_false
+        expect(@twig.options[:reverse]).to eql(false)
       end
     end
 
@@ -464,7 +464,7 @@ describe Twig::Options do
 
         @twig.set_option(:twig_rebase_autoconfirm, input)
 
-        expect(@twig.options[:twig_rebase_autoconfirm]).to be_false
+        expect(@twig.options[:twig_rebase_autoconfirm]).to eql(false)
       end
     end
 
