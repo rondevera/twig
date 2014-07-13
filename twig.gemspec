@@ -45,6 +45,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency     'json',        '~> 1.7.5'
   spec.add_runtime_dependency     'launchy',     '~> 2.3.0'
   spec.add_development_dependency 'rake',        '~> 0.9.2'
-  spec.add_development_dependency 'rspec',       '~> 2.99.0'
-  spec.add_development_dependency 'rspec-radar', '~> 0.1.0'
+  spec.add_development_dependency 'rspec',       '~> 3.0.0'
 end
