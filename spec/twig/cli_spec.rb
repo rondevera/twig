@@ -75,21 +75,21 @@ describe Twig::Cli do
 
     it 'does nothing if running on Windows' do
       expect(Twig::System).to receive(:windows?).and_return(true)
-      expect(Kernel).not_to receive(:fork)
+      expect(IO).not_to receive(:pipe)
 
       @twig.run_pager
     end
 
     it 'does nothing if stdout is not running on a terminal device' do
       allow($stdout).to receive(:tty?) { false }
-      expect(Kernel).not_to receive(:fork)
+      expect(IO).not_to receive(:pipe)
 
       @twig.run_pager
     end
 
     it 'does nothing if `Kernel.fork` is not supported' do
       allow(Kernel).to receive(:respond_to?).with(:fork) { false }
-      expect(Kernel).not_to receive(:fork)
+      expect(IO).not_to receive(:pipe)
 
       @twig.run_pager
     end
