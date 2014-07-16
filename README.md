@@ -421,7 +421,7 @@ add it to the [Twig wiki][wiki]!
 More info
 =========
 
-* **Requirements:** Tested with Git 1.7.12+ and Ruby 1.8.7+ (see
+* **Requirements:** Tested with Git 1.8.4+ and Ruby 1.8.7+ (see
   [Travis CI config][travis-yml]). Probably works with older software, but it's
   not guaranteed.
 * **Contributing:** Found a bug or have a suggestion? [Please open an
