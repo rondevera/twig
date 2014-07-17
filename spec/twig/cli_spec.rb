@@ -353,48 +353,13 @@ describe Twig::Cli do
     end
   end
 
-  describe '#exec_subcommand_if_any' do
-    before :each do
-      @twig        = Twig.new
-      @branch_name = 'test'
-      allow(Twig).to receive(:run)
-      allow(@twig).to receive(:current_branch_name) { @branch_name }
-    end
-
-    it 'recognizes a subcommand' do
-      command_path = '/path/to/bin/twig-subcommand'
-      expect(Twig).to receive(:run).with('which twig-subcommand 2>/dev/null').
-        and_return(command_path)
-      expect(@twig).to receive(:exec).with(command_path) { exit }
-
-      # Since we're stubbing `exec` (with an expectation), we still need it
-      # to exit early like the real implementation. The following handles the
-      # exit somewhat gracefully.
-      expect {
-        @twig.read_cli_args!(['subcommand'])
-      }.to raise_exception { |exception|
-        expect(exception).to be_a(SystemExit)
-        expect(exception.status).to eq(0)
-      }
-    end
-
-    it 'does not recognize a subcommand' do
-      expect(Twig).to receive(:run).
-        with('which twig-subcommand 2>/dev/null').and_return('')
-      expect(@twig).not_to receive(:exec)
-      allow(@twig).to receive(:abort)
-
-      @twig.read_cli_args!(['subcommand'])
-    end
-  end
-
   describe '#read_cli_args!' do
     before :each do
       @twig = Twig.new
     end
 
     it 'checks for and executes a subcommand if there are any args' do
-      expect(@twig).to receive(:exec_subcommand_if_any).with(['foo']) { exit }
+      expect(Twig::Subcommands).to receive(:exec_subcommand_if_any).with(['foo']) { exit }
 
       expect {
         @twig.read_cli_args!(['foo'])
@@ -406,7 +371,7 @@ describe Twig::Cli do
 
     it 'does not check for a subcommand if there are no args' do
       branch_list = %[foo bar]
-      expect(@twig).not_to receive(:exec_subcommand_if_any)
+      expect(Twig::Subcommands).not_to receive(:exec_subcommand_if_any)
       allow(@twig).to receive(:list_branches).and_return(branch_list)
       allow(@twig).to receive(:puts).with(branch_list)
 
