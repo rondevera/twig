@@ -21,14 +21,18 @@ class Twig
       ENV['PATH'].split(':')
     end
 
-    def self.exec_subcommand_if_any(args)
+    def self.exec_subcommand_if_any(cli_args)
       # Run subcommand binary, if any, and exit here
-      possible_subcommand_name = Twig::Subcommands::BIN_PREFIX + args[0]
-      command_path = Twig.run("which #{possible_subcommand_name} 2>/dev/null")
-      unless command_path.empty?
-        command = ([command_path] + args[1..-1]).join(' ')
-        exec(command)
-      end
+
+      subcommand_name = cli_args[0]
+      bin_name = Twig::Subcommands::BIN_PREFIX + subcommand_name
+      subcommand_path = Twig.run("which #{bin_name} 2>/dev/null")
+      return if subcommand_path.empty?
+
+      subcommand_args = cli_args[1..-1]
+      command = ([subcommand_path] + subcommand_args).join(' ')
+
+      exec(command)
     end
   end
 end

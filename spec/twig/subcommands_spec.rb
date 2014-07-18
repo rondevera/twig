@@ -33,16 +33,17 @@ describe Twig::Subcommands do
     end
 
     it 'recognizes a subcommand' do
-      command_path = '/path/to/bin/twig-subcommand'
-      expect(Twig).to receive(:run).with('which twig-subcommand 2>/dev/null').
-        and_return(command_path)
-      expect(Twig::Subcommands).to receive(:exec).with(command_path) { exit }
+      subcommand_name = 'foo'
+      subcommand_path = '/path/to/bin/twig-foo'
+      expect(Twig).to receive(:run).with('which twig-foo 2>/dev/null').
+        and_return(subcommand_path)
+      expect(Twig::Subcommands).to receive(:exec).with(subcommand_path) { exit }
 
       # Since we're stubbing `exec` (with an expectation), we still need it
       # to exit early like the real implementation. The following handles the
       # exit somewhat gracefully.
       expect {
-        Twig::Subcommands.exec_subcommand_if_any(['subcommand'])
+        Twig::Subcommands.exec_subcommand_if_any([subcommand_name])
       }.to raise_exception { |exception|
         expect(exception).to be_a(SystemExit)
         expect(exception.status).to eq(0)
@@ -50,11 +51,12 @@ describe Twig::Subcommands do
     end
 
     it 'does not recognize a subcommand' do
+      subcommand_name = 'foo'
       expect(Twig).to receive(:run).
-        with('which twig-subcommand 2>/dev/null').and_return('')
+        with('which twig-foo 2>/dev/null').and_return('')
       expect(Twig::Subcommands).not_to receive(:exec)
 
-      Twig::Subcommands.exec_subcommand_if_any(['subcommand'])
+      Twig::Subcommands.exec_subcommand_if_any([subcommand_name])
     end
   end
 end
