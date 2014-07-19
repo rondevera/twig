@@ -23,6 +23,7 @@ class Twig
     EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
     def self.unformat_string(string)
+      # Returns a copy of the given string without color/weight markers.
       string.gsub(/\e\[[0-9]+(;[0-9]+)?m/, '')
     end
 

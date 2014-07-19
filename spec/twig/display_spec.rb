@@ -5,6 +5,37 @@ describe Twig::Display do
     @twig = Twig.new
   end
 
+  describe '.unformat_string' do
+    it 'unformats a plain text string' do
+      string = 'foo'
+      expect(Twig::Display.unformat_string(string)).to eq(string)
+    end
+
+    it 'unformats a string with color' do
+      string = 'foo'
+      formatted_string = @twig.format_string(string, :color => :red)
+      expect(formatted_string.size).to be > 3
+
+      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
+    end
+
+    it 'unformats a string with weight' do
+      string = 'foo'
+      formatted_string = @twig.format_string(string, :weight => :bold)
+      expect(formatted_string.size).to be > 3
+
+      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
+    end
+
+    it 'unformats a string with color and weight' do
+      string = 'foo'
+      formatted_string = @twig.format_string(string, :color => :red, :weight => :bold)
+      expect(formatted_string.size).to be > 3
+
+      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
+    end
+  end
+
   describe '#column' do
     it 'returns a string with an exact fixed width' do
       expect(@twig.column('foo', :width => 8)).to eq('foo' + (' ' * 5))
@@ -376,37 +407,6 @@ describe Twig::Display do
       expect(@twig.format_string('foo', :color => :red, :weight => :bold)).to eq(
         "\e[#{color_code};#{weight_code}mfoo\e[0m"
       )
-    end
-  end
-
-  describe '.unformat_string' do
-    it 'unformats a plain text string' do
-      string = 'foo'
-      expect(Twig::Display.unformat_string(string)).to eq(string)
-    end
-
-    it 'unformats a string with color' do
-      string = 'foo'
-      formatted_string = @twig.format_string(string, :color => :red)
-      expect(formatted_string.size).to be > 3
-
-      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
-    end
-
-    it 'unformats a string with weight' do
-      string = 'foo'
-      formatted_string = @twig.format_string(string, :weight => :bold)
-      expect(formatted_string.size).to be > 3
-
-      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
-    end
-
-    it 'unformats a string with color and weight' do
-      string = 'foo'
-      formatted_string = @twig.format_string(string, :color => :red, :weight => :bold)
-      expect(formatted_string.size).to be > 3
-
-      expect(Twig::Display.unformat_string(formatted_string)).to eq(string)
     end
   end
 end
