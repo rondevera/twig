@@ -152,6 +152,10 @@ class Twig
       data.to_json
     end
 
+    def format_strings?
+      !Twig::System.windows?
+    end
+
     def format_string(string, options)
       # Options:
       # - `:color`:  `nil` by default. Accepts a key from `COLORS`.

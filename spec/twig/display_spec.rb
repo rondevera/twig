@@ -383,6 +383,22 @@ describe Twig::Display do
     end
   end
 
+  describe '#format_strings?' do
+    before :each do
+      @twig = Twig.new
+    end
+
+    it 'returns false if using Windows' do
+      expect(Twig::System).to receive(:windows?) { true }
+      expect(@twig.format_strings?).to eql(false)
+    end
+
+    it 'returns true if expected conditions pass' do
+      expect(Twig::System).to receive(:windows?) { false }
+      expect(@twig.format_strings?).to eql(true)
+    end
+  end
+
   describe '#format_string' do
     it 'returns a plain string' do
       expect(@twig.format_string('foo', {})).to eq('foo')
