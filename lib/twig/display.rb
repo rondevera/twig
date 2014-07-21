@@ -164,6 +164,8 @@ class Twig
       # Unlike `::unformat_string`, this is an instance method so that it can
       # handle config options, e.g., globally disabling color.
 
+      return string unless format_strings?
+
       string_options = []
       string_options << COLORS[options[:color]] if options[:color]
       string_options << WEIGHTS[options[:weight]] if options[:weight]

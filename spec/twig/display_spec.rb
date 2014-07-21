@@ -404,6 +404,11 @@ describe Twig::Display do
       expect(@twig.format_string('foo', {})).to eq('foo')
     end
 
+    it 'returns a plain string if formatting is disabled' do
+      expect(@twig).to receive(:format_strings?) { false }
+      expect(@twig.format_string('foo', :color => :red)).to eql('foo')
+    end
+
     it 'returns a string with a color code' do
       expect(@twig.format_string('foo', :color => :red)).to eq(
         "\e[#{Twig::Display::COLORS[:red]}mfoo\e[0m"
