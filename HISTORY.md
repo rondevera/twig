@@ -22,6 +22,8 @@ Twig
   (GH-37, GH-38. Thanks [matteosister](https://github.com/matteosister)!)
 * FIX: Handle special shell characters (e.g., backticks, dollar signs) in branch
   names and property values.
+* FIX: Disable unsupported string formatting in Windows. (GH-39. Thanks
+  [rcdailey](https://github.com/rcdailey) for the bug report!)
 
 1.6 (2014-03-04)
 ----------------
