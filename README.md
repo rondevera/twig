@@ -79,6 +79,10 @@ them by age, name, and custom properties:
   Only list branches with a given property that matches a given pattern
 * `twig --except-<property> <pattern>`:
   Don't list branches with a given property that matches a given pattern
+* `twig --only-property <pattern>`:
+  Only show columns for properties whose name matches a given pattern
+* `twig --except-property <pattern>`:
+  Don't show columns for properties whose name matches a given pattern
 * `twig --all`:
   List all branches regardless of other filtering options
 
