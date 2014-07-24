@@ -133,11 +133,14 @@ class Twig
 
   def list_branches
     if branches.empty?
-      if Twig::Branch.all_branches.any?
-        return 'There are no branches matching your selected options.'
-      else
-        return 'This repository has no branches.'
-      end
+      msg = 
+        if Twig::Branch.all_branches.any?
+          "There are no branches matching your selected options.\n" <<
+          "To list all branches, use `twig --all`."
+        else
+          'This repository has no branches.'
+        end
+      return msg
     end
 
     out = "\n" << branch_list_headers(options)

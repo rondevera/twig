@@ -15,6 +15,7 @@ Twig
   use `twig rebase`, add `twig-rebase-autoconfirm: true` to your
   `~/.twigconfig`. (GH-24. Thanks [ljharb](https://github.com/ljharb) for the
   idea!)
+* ENHANCEMENT: Suggest `twig --all` if there are no matching branches. (GH-33)
 * ENHANCEMENT: Add Ruby 2.1.1 and 2.1.2 to official list of supported Rubies.
 * FIX: Don't require a Git repo for initialization (e.g., `twig init`) or for
   showing help content (e.g., `twig help rebase`).
