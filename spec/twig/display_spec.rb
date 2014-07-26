@@ -184,8 +184,8 @@ describe Twig::Display do
       header_line = result.split("\n").first
       color = Twig::Display::COLORS[:green]
       expect(header_line.gsub(/\s/, '')).to eq(
-        "\e[#{color}mfoo\e[0m" <<
-        "\e[#{color}mquux\e[0m" <<
+        "\e[#{color}mfoo\e[0m" \
+        "\e[#{color}mquux\e[0m" \
         "\e[#{color}mbranch\e[0m"
       )
     end
@@ -195,8 +195,8 @@ describe Twig::Display do
       header_line = result.split("\n").first
       weight = Twig::Display::WEIGHTS[:bold]
       expect(header_line.gsub(/\s/, '')).to eq(
-        "\e[#{weight}mfoo\e[0m" <<
-        "\e[#{weight}mquux\e[0m" <<
+        "\e[#{weight}mfoo\e[0m" \
+        "\e[#{weight}mquux\e[0m" \
         "\e[#{weight}mbranch\e[0m"
       )
     end
@@ -206,8 +206,8 @@ describe Twig::Display do
       header_line = result.split("\n").first
       color, weight = Twig::Display::COLORS[:red], Twig::Display::WEIGHTS[:bold]
       expect(header_line.gsub(/\s/, '')).to eq(
-        "\e[#{color};#{weight}mfoo\e[0m" <<
-        "\e[#{color};#{weight}mquux\e[0m" <<
+        "\e[#{color};#{weight}mfoo\e[0m" \
+        "\e[#{color};#{weight}mquux\e[0m" \
         "\e[#{color};#{weight}mbranch\e[0m"
       )
     end
@@ -333,6 +333,7 @@ describe Twig::Display do
       end
 
       it 'returns a line for a branch other than the current branch' do
+        no_indicator = ' ' * (Twig::Display::CURRENT_BRANCH_INDICATOR.size)
         branch = @other_branch
 
         result = @twig.branch_list_line(branch)
@@ -342,7 +343,7 @@ describe Twig::Display do
           '2000-01-01' + (' ' * 25) + column_gutter +
           'foo!' + (' ' * 12) + column_gutter +
           'bar!' + (' ' * 12) + column_gutter +
-          '  ' + 'other...'
+          no_indicator + 'other...'
         )
       end
     end

@@ -20,11 +20,11 @@ describe Twig::Cli do
 
       $stdout = stdout_orig
       expect(stdout_test.string).to eq(
-        prompt + "\n" +
-        "  1. #{choices[0]}\n" +
-        "  2. #{choices[1]}\n" +
-        "  3. #{choices[2]}\n" +
-        "  4. #{choices[3]}\n" +
+        prompt + "\n" \
+        "  1. #{choices[0]}\n" \
+        "  2. #{choices[1]}\n" \
+        "  3. #{choices[2]}\n" \
+        "  4. #{choices[3]}\n" \
         '> '
       )
       expect(result).to eq(choices[3])

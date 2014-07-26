@@ -19,10 +19,10 @@ class Twig
 
         if File.exists?(config_path)
           if File.readable?(config_path)
-            $stderr.puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " <<
+            $stderr.puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " \
               "Please rename it to #{CONFIG_PATH}."
           else
-            $stderr.puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " <<
+            $stderr.puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " \
               "Please rename it to #{CONFIG_PATH} and make it readable."
             return # Stop if file exists but is not readable
           end
@@ -51,8 +51,8 @@ class Twig
         if !key.empty? && value
           opts[key] = value.strip
         elsif !line.empty?
-          $stderr.puts %{Warning: Invalid line "#{line}" in #{config_path}. } <<
-            %{Expected format: `key: value`}
+          $stderr.puts %{Warning: Invalid line "#{line}" in #{config_path}. } \
+            'Expected format: `key: value`'
         end
 
         opts

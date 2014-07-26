@@ -147,7 +147,7 @@ class Twig
         ])
 
         desc =
-          'Print branch properties in a format that can be used by other ' +
+          'Print branch properties in a format that can be used by other ' \
           'tools. Currently, the only supported value is `json`.'
         opts.on(
           '--format FORMAT', *Help.description(desc, :add_blank_line => true)
@@ -156,7 +156,7 @@ class Twig
         end
 
         desc =
-          'Lists all branches regardless of other filtering options. ' +
+          'Lists all branches regardless of other filtering options. ' \
           'Useful for overriding options in ' +
           File.basename(Twig::Options::CONFIG_PATH) + '.'
         opts.on('--all', *Help.description(desc)) do |pattern|

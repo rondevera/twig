@@ -57,7 +57,7 @@ if parent_branch_name && !parent_branch_name.empty?
   exec %{git checkout "#{parent_branch_name}"}
 else
   parent_property = Twig::Branch::PARENT_PROPERTY
-  abort %{The branch "#{target_branch}" has no known parent branch.\n} <<
-    "To set the parent branch, run:\n\n" <<
+  abort %{The branch "#{target_branch}" has no known parent branch.\n} \
+    "To set the parent branch, run:\n\n" \
     "  twig diff-branch <parent branch name> -b #{target_branch}"
 end

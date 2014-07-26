@@ -135,7 +135,7 @@ class Twig
     if branches.empty?
       msg = 
         if Twig::Branch.all_branches.any?
-          "There are no branches matching your selected options.\n" <<
+          "There are no branches matching your selected options.\n" \
           "To list all branches, use `twig --all`."
         else
           'This repository has no branches.'

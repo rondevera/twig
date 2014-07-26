@@ -65,7 +65,7 @@ Twig::GithubRepo.new do |gh_repo|
   ]
   user_agent = "Twig/#{Twig::VERSION} (for Git; <#{Twig::HOMEPAGE}>)"
 
-  error = "\n\nERROR: Couldn't get open issues from GitHub." <<
+  error = "\n\nERROR: Couldn't get open issues from GitHub." \
     "\n- API endpoints: " << issues_uris.map { |uri| "<#{uri}>" }.join(', ')
 
   begin

@@ -62,8 +62,9 @@ Twig::GithubRepo.new do |gh_repo|
   end
 
   gh_uri_prefix = twig.options[:github_uri_prefix]
-  url = "#{gh_uri_prefix}/#{gh_repo.username}/#{gh_repo.repository}"
-  url << "/issues/#{issue_id}"
+  url =
+    "#{gh_uri_prefix}/#{gh_repo.username}/#{gh_repo.repository}" \
+    "/issues/#{issue_id}"
 
   puts "GitHub issue URL: #{url}"
   Launchy.open(url) rescue nil
