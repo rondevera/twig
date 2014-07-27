@@ -370,7 +370,7 @@ describe Twig::Cli do
     end
 
     it 'does not check for a subcommand if there are no args' do
-      branch_list = %[foo bar]
+      branch_list = %w[foo bar]
       expect(Twig::Subcommands).not_to receive(:exec_subcommand_if_any)
       allow(@twig).to receive(:list_branches).and_return(branch_list)
       allow(@twig).to receive(:puts).with(branch_list)
@@ -379,7 +379,7 @@ describe Twig::Cli do
     end
 
     it 'lists branches' do
-      branch_list = %[foo bar]
+      branch_list = %w[foo bar]
       expect(@twig).to receive(:list_branches).and_return(branch_list)
       expect(@twig).to receive(:puts).with(branch_list)
 

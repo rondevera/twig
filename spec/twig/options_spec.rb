@@ -311,7 +311,7 @@ describe Twig::Options do
 
       it 'succeeds' do
         branch_name = 'foo'
-        expect(Twig::Branch).to receive(:all_branch_names).and_return(%[foo bar])
+        expect(Twig::Branch).to receive(:all_branch_names).and_return(%w[foo bar])
 
         @twig.set_option(:branch, branch_name)
 
