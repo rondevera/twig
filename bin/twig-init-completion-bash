@@ -112,7 +112,7 @@ FileUtils.mkdir_p(File.expand_path(twig_dir))
 
 script_path      = File.join(twig_dir, '/twig-completion.bash')
 full_script_path = File.expand_path(script_path)
-script_exists    = File.exists?(full_script_path)
+script_exists    = File.exist?(full_script_path)
 
 if script_exists && !force
   twig = Twig.new

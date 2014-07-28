@@ -13,7 +13,7 @@ describe Twig::Options do
 
     context 'with a config path that exists' do
       before :each do
-        expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(true)
+        expect(File).to receive(:exist?).with(Twig::CONFIG_PATH).and_return(true)
       end
 
       it 'returns the config path if is readable' do
@@ -41,14 +41,14 @@ describe Twig::Options do
 
     context 'with a config path that does not exist' do
       before :each do
-        expect(File).to receive(:exists?).with(Twig::CONFIG_PATH).and_return(false)
+        expect(File).to receive(:exist?).with(Twig::CONFIG_PATH).and_return(false)
         expect(File).to receive(:expand_path).with(Twig::DEPRECATED_CONFIG_PATH).
           and_return(Twig::DEPRECATED_CONFIG_PATH)
       end
 
       it 'prints a deprecation warning and returns the deprecated config path if it exists and is readable' do
         path = Twig::DEPRECATED_CONFIG_PATH
-        expect(File).to receive(:exists?).with(path).and_return(true)
+        expect(File).to receive(:exist?).with(path).and_return(true)
         expect(File).to receive(:readable?).with(path).and_return(true)
         expect($stderr).to receive(:puts) do |message|
           expect(message).to match(/^DEPRECATED:/)
@@ -63,7 +63,7 @@ describe Twig::Options do
 
       it 'prints a deprecation warning and returns nil if the deprecated config path exists but is not readable' do
         path = Twig::DEPRECATED_CONFIG_PATH
-        expect(File).to receive(:exists?).with(path).and_return(true)
+        expect(File).to receive(:exist?).with(path).and_return(true)
         expect(File).to receive(:readable?).with(path).and_return(false)
         expect($stderr).to receive(:puts) do |message|
           expect(message).to match(/^DEPRECATED:/)
@@ -78,7 +78,7 @@ describe Twig::Options do
 
       it 'returns nil if the deprecated config path does not exist' do
         path = Twig::DEPRECATED_CONFIG_PATH
-        expect(File).to receive(:exists?).with(path).and_return(false)
+        expect(File).to receive(:exist?).with(path).and_return(false)
 
         result = @twig.readable_config_file_path
 

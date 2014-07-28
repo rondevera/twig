@@ -53,7 +53,7 @@ force = args.delete('--force')
 
 config_path      = Twig::Options::CONFIG_PATH
 full_config_path = File.expand_path(config_path)
-config_exists    = File.exists?(full_config_path)
+config_exists    = File.exist?(full_config_path)
 
 if config_exists && !force
   twig = Twig.new

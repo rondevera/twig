@@ -9,7 +9,7 @@ class Twig
     def readable_config_file_path
       config_path = File.expand_path(CONFIG_PATH)
 
-      if File.exists?(config_path)
+      if File.exist?(config_path)
         unless File.readable?(config_path)
           $stderr.puts "Warning: #{CONFIG_PATH} is not readable."
           return # Stop if file exists but is not readable
@@ -17,7 +17,7 @@ class Twig
       else
         config_path = File.expand_path(DEPRECATED_CONFIG_PATH)
 
-        if File.exists?(config_path)
+        if File.exist?(config_path)
           if File.readable?(config_path)
             $stderr.puts "DEPRECATED: #{DEPRECATED_CONFIG_PATH} is deprecated. " \
               "Please rename it to #{CONFIG_PATH}."
