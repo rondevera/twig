@@ -1,6 +1,8 @@
 Twig
 ====
 
+1.7 (2014-07-29)
+----------------
 * ENHANCEMENT: Expand `twig init` to also create a default `~/.twigconfig` file.
   This uses a new `twig init-config` subcommand behind the scenes.
 * ENHANCEMENT: Add `twig help <subcommand>` for showing help content for any
