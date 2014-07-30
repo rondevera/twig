@@ -297,7 +297,7 @@ class Twig
 
         Help.header(opts, 'Subcommands', :trailing => '')
 
-        Help.print_paragraph(opts, "Twig comes with these subcommands:", :trailing => "\n\n")
+        Help.print_paragraph(opts, 'Twig comes with these subcommands:', :trailing => "\n\n")
 
         Help.subcommand_descriptions.each do |desc|
           Help.print_line(opts, desc)

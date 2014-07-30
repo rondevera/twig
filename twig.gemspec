@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = 'twig'
   spec.version       = Twig::VERSION
   spec.authors       = ['Ron DeVera']
-  spec.email         = ["hello@rondevera.com"]
+  spec.email         = ['hello@rondevera.com']
   spec.homepage      = Twig::HOMEPAGE
   spec.license       = 'MIT'
-  spec.summary       = %{Your personal Git branch assistant.}
+  spec.summary       = 'Your personal Git branch assistant.'
   spec.description   = %w[
     Twig is your personal Git branch assistant. It's a command-line tool for
     listing your most recent branches, and for remembering branch details for
