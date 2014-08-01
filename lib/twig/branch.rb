@@ -70,7 +70,7 @@ class Twig
       self.last_commit_time = attrs[:last_commit_time]
     end
 
-    def to_s ; name ; end
+    def to_s; name; end
 
     def to_hash(property_names)
       {

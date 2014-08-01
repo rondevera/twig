@@ -133,7 +133,7 @@ class Twig
 
   def list_branches
     if branches.empty?
-      msg = 
+      msg =
         if Twig::Branch.all_branches.any?
           "There are no branches matching your selected options.\n" \
           'To list all branches, use `twig --all`.'
