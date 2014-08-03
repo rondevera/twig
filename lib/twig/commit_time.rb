@@ -2,6 +2,12 @@ class Twig
 
   # Stores a branch's last commit time and its relative time representation.
   class CommitTime
+    SECONDS_PER_YEAR   = 60 * 60 * 24 * 365
+    SECONDS_PER_WEEK   = 60 * 60 * 24 * 7
+    SECONDS_PER_DAY    = 60 * 60 * 24
+    SECONDS_PER_HOUR   = 60 * 60
+    SECONDS_PER_MINUTE = 60
+
     def self.now
       Time.now
     end
@@ -39,9 +45,8 @@ class Twig
     end
 
     def count_years_ago
-      seconds_in_a_year = 60 * 60 * 24 * 365
       seconds = CommitTime.now - @time
-      seconds < seconds_in_a_year ? 0 : (seconds / seconds_in_a_year).round
+      seconds < SECONDS_PER_YEAR ? 0 : (seconds / SECONDS_PER_YEAR).round
     end
 
     def count_months_ago
@@ -50,27 +55,23 @@ class Twig
     end
 
     def count_weeks_ago
-      seconds_in_a_week = 60 * 60 * 24 * 7
       seconds = CommitTime.now - @time
-      seconds < seconds_in_a_week ? 0 : (seconds / seconds_in_a_week).round
+      seconds < SECONDS_PER_WEEK ? 0 : (seconds / SECONDS_PER_WEEK).round
     end
 
     def count_days_ago
-      seconds_in_a_day = 60 * 60 * 24
       seconds = CommitTime.now - @time
-      seconds < seconds_in_a_day ? 0 : (seconds / seconds_in_a_day).round
+      seconds < SECONDS_PER_DAY ? 0 : (seconds / SECONDS_PER_DAY).round
     end
 
     def count_hours_ago
-      seconds_in_an_hour = 60 * 60
       seconds = CommitTime.now - @time
-      seconds < seconds_in_an_hour ? 0 : (seconds / seconds_in_an_hour).round
+      seconds < SECONDS_PER_HOUR ? 0 : (seconds / SECONDS_PER_HOUR).round
     end
 
     def count_minutes_ago
-      seconds_in_a_minute = 60
       seconds = CommitTime.now - @time
-      seconds < seconds_in_a_minute ? 0 : (seconds / seconds_in_a_minute).round
+      seconds < SECONDS_PER_MINUTE ? 0 : (seconds / SECONDS_PER_MINUTE).round
     end
 
     def count_seconds_ago
