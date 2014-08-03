@@ -22,7 +22,7 @@ class Twig
       @time_ago =
         if years_ago > 0
           "#{years_ago}y"
-        elsif months_ago > 0 and weeks_ago > 4
+        elsif months_ago > 0 && weeks_ago > 4
           "#{months_ago}mo"
         elsif weeks_ago > 0
           "#{weeks_ago}w"
