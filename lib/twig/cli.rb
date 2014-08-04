@@ -87,10 +87,10 @@ class Twig
             # Squash successive blank lines
             next if line == "\n" && prev_line == "\n"
 
-            unless Help.line_for_custom_property?(line)
-              puts line
-              prev_line = line
-            end
+            next if Help.line_for_custom_property?(line)
+
+            puts line
+            prev_line = line
           end
 
           exit
