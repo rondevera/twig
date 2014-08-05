@@ -25,7 +25,7 @@ class Twig
     end
 
     def origin_url_parts
-      @origin_url_parts ||= origin_url.split(/[\/:]/)
+      @origin_url_parts ||= origin_url.split(%r{[/:]})
     end
 
     def github_repo?
