@@ -322,7 +322,7 @@ class Twig
         ].join("\n"))
 
         Help.print_section(opts, [
-          '3.  Make it executable: `chmod ugo+x ~/bin/twig-my-subcommand`'
+          '3.  Make it executable: `chmod +x ~/bin/twig-my-subcommand`'
         ].join("\n"))
 
         Help.print_section(opts, [

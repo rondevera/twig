@@ -400,7 +400,7 @@ Twig subcommand:
     [`bin/twig-checkout-parent`][twig-checkout-parent] for an example.)
 2.  Save it with the `twig-` prefix in your `$PATH`,
     e.g., `~/bin/twig-my-subcommand`.
-3.  Make it executable: `chmod ugo+x ~/bin/twig-my-subcommand`
+3.  Make it executable: `chmod +x ~/bin/twig-my-subcommand`
 4.  Run your subcommand: `twig my-subcommand` (with a *space* after `twig`)
 
 [twig-checkout-parent]: https://github.com/rondevera/twig/blob/master/bin/twig-checkout-parent
