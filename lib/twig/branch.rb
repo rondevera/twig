@@ -44,7 +44,7 @@ class Twig
         properties = config_lines.map do |line|
           # Split by rightmost `=`, allowing branch names to contain `=`
           match_data = line.match(/(.+)=(.+)/)
-          key, value = match_data[1..2] if match_data
+          key = match_data[1..2].first if match_data
           next unless key
 
           key_parts = key.split('.')
