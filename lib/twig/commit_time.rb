@@ -13,69 +13,63 @@ class Twig
     end
 
     def initialize(time)
-      @time = time
+      @time  = time
       suffix = 'ago'
+      now    = CommitTime.now
 
-      # Cache calculations against current time
-      years_ago   = count_years_ago
-      months_ago  = count_months_ago
-      weeks_ago   = count_weeks_ago
-      days_ago    = count_days_ago
-      hours_ago   = count_hours_ago
-      minutes_ago = count_minutes_ago
-      seconds_ago = count_seconds_ago
-
+      # For speed, lazily evaluate each `ago` computation
       @time_ago =
-        if years_ago > 0
+        if (years_ago = count_years_ago(now)) > 0
           "#{years_ago}y"
-        elsif months_ago > 0 && weeks_ago > 4
+        elsif (months_ago = count_months_ago(now)) > 0 && (weeks_ago = count_weeks_ago(now)) > 4
           "#{months_ago}mo"
-        elsif weeks_ago > 0
+        elsif (weeks_ago = count_weeks_ago(now)) > 0
           "#{weeks_ago}w"
-        elsif days_ago > 0
+        elsif (days_ago = count_days_ago(now)) > 0
           "#{days_ago}d"
-        elsif hours_ago > 0
+        elsif (hours_ago = count_hours_ago(now)) > 0
           "#{hours_ago}h"
-        elsif minutes_ago > 0
+        elsif (minutes_ago = count_minutes_ago(now)) > 0
           "#{minutes_ago}m"
         else
+          seconds_ago = count_seconds_ago(now)
           "#{seconds_ago}s"
         end
       @time_ago << ' ' << suffix
     end
 
-    def count_years_ago
-      seconds = CommitTime.now - @time
+    def count_years_ago(current_time)
+      seconds = current_time - @time
       seconds < SECONDS_PER_YEAR ? 0 : (seconds / SECONDS_PER_YEAR).round
     end
 
-    def count_months_ago
-      now = CommitTime.now
+    def count_months_ago(current_time)
+      now = current_time
       (now.year * 12 + now.month) - (@time.year * 12 + @time.month)
     end
 
-    def count_weeks_ago
-      seconds = CommitTime.now - @time
+    def count_weeks_ago(current_time)
+      seconds = current_time - @time
       seconds < SECONDS_PER_WEEK ? 0 : (seconds / SECONDS_PER_WEEK).round
     end
 
-    def count_days_ago
-      seconds = CommitTime.now - @time
+    def count_days_ago(current_time)
+      seconds = current_time - @time
       seconds < SECONDS_PER_DAY ? 0 : (seconds / SECONDS_PER_DAY).round
     end
 
-    def count_hours_ago
-      seconds = CommitTime.now - @time
+    def count_hours_ago(current_time)
+      seconds = current_time - @time
       seconds < SECONDS_PER_HOUR ? 0 : (seconds / SECONDS_PER_HOUR).round
     end
 
-    def count_minutes_ago
-      seconds = CommitTime.now - @time
+    def count_minutes_ago(current_time)
+      seconds = current_time - @time
       seconds < SECONDS_PER_MINUTE ? 0 : (seconds / SECONDS_PER_MINUTE).round
     end
 
-    def count_seconds_ago
-      (CommitTime.now - @time).to_i
+    def count_seconds_ago(current_time)
+      (current_time - @time).to_i
     end
 
     def to_i
