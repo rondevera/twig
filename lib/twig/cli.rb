@@ -53,6 +53,7 @@ class Twig
     end
 
     def read_cli_options!(args)
+      showing_help = args[0] == 'help' || args.include?('--help')
       custom_properties = Twig::Branch.all_property_names
 
       option_parser = OptionParser.new do |opts|
@@ -263,72 +264,74 @@ class Twig
 
         ###
 
-        Help.header(opts, 'Config files and tab completion', :trailing => '')
+        if showing_help
+          Help.header(opts, 'Config files and tab completion', :trailing => '')
 
-        Help.print_paragraph(opts, %{
-          Twig can automatically set up a config file for you, where you can put
-          your most frequently used options for filtering and listing branches.
-          To get started, run `twig init` and follow the instructions. This does
-          two things:
-        })
+          Help.print_paragraph(opts, %{
+            Twig can automatically set up a config file for you, where you can put
+            your most frequently used options for filtering and listing branches.
+            To get started, run `twig init` and follow the instructions. This does
+            two things:
+          })
 
-        Help.print_paragraph(opts, %{
-          * Creates #{Twig::Options::CONFIG_PATH}, where you can put your
-            favorite options, e.g.:
-        })
+          Help.print_paragraph(opts, %{
+            * Creates #{Twig::Options::CONFIG_PATH}, where you can put your
+              favorite options, e.g.:
+          })
 
-        Help.print_section(opts, [
-          '      except-branch: staging',
-          '      header-style:  green bold',
-          '      max-days-old:  30',
-          '      reverse:       true'
-        ].join("\n"))
+          Help.print_section(opts, [
+            '      except-branch: staging',
+            '      header-style:  green bold',
+            '      max-days-old:  30',
+            '      reverse:       true'
+          ].join("\n"))
 
-        Help.print_paragraph(opts, %{
-          * Enables tab completion for Twig subcommands and branch names, e.g.:
-        })
+          Help.print_paragraph(opts, %{
+            * Enables tab completion for Twig subcommands and branch names, e.g.:
+          })
 
-        Help.print_section(opts, [
-          '      `twig cre<tab>` -> `twig create-branch`',
-          '      `twig status -b my-br<tab>` -> `twig status -b my-branch`'
-        ].join("\n"), :trailing => '')
+          Help.print_section(opts, [
+            '      `twig cre<tab>` -> `twig create-branch`',
+            '      `twig status -b my-br<tab>` -> `twig status -b my-branch`'
+          ].join("\n"), :trailing => '')
 
-        ###
+          ###
 
-        Help.header(opts, 'Subcommands', :trailing => '')
+          Help.header(opts, 'Subcommands', :trailing => '')
 
-        Help.print_paragraph(opts, 'Twig comes with these subcommands:', :trailing => "\n\n")
+          Help.print_paragraph(opts, 'Twig comes with these subcommands:', :trailing => "\n\n")
 
-        Help.subcommand_descriptions.each do |subcommand_desc|
-          Help.print_line(opts, subcommand_desc)
+          Help.subcommand_descriptions.each do |subcommand_desc|
+            Help.print_line(opts, subcommand_desc)
+          end
+
+          Help.subheader(opts, 'Writing a subcommand', :trailing => '')
+
+          Help.print_paragraph(opts, %{
+            You can write any Twig subcommand that fits your own Git workflow. To
+            write a Twig subcommand:
+          })
+
+          Help.print_section(opts, [
+            '1.  Write a script; any language will do. (If you want to take',
+            '    advantage of Twig\'s option parsing and branch processing, you\'ll',
+            '    need Ruby. See `twig-checkout-parent` for an example.)'
+          ].join("\n"))
+
+          Help.print_section(opts, [
+            '2.  Save it with the `twig-` prefix in your `$PATH`,',
+            '    e.g., `~/bin/twig-my-subcommand`.'
+          ].join("\n"))
+
+          Help.print_section(opts, [
+            '3.  Make it executable: `chmod +x ~/bin/twig-my-subcommand`'
+          ].join("\n"))
+
+          Help.print_section(opts, [
+            '4.  Run your subcommand: `twig my-subcommand` (with a *space* after',
+            '    `twig`'
+          ].join("\n"))
         end
-
-        Help.subheader(opts, 'Writing a subcommand', :trailing => '')
-
-        Help.print_paragraph(opts, %{
-          You can write any Twig subcommand that fits your own Git workflow. To
-          write a Twig subcommand:
-        })
-
-        Help.print_section(opts, [
-          '1.  Write a script; any language will do. (If you want to take',
-          '    advantage of Twig\'s option parsing and branch processing, you\'ll',
-          '    need Ruby. See `twig-checkout-parent` for an example.)'
-        ].join("\n"))
-
-        Help.print_section(opts, [
-          '2.  Save it with the `twig-` prefix in your `$PATH`,',
-          '    e.g., `~/bin/twig-my-subcommand`.'
-        ].join("\n"))
-
-        Help.print_section(opts, [
-          '3.  Make it executable: `chmod +x ~/bin/twig-my-subcommand`'
-        ].join("\n"))
-
-        Help.print_section(opts, [
-          '4.  Run your subcommand: `twig my-subcommand` (with a *space* after',
-          '    `twig`'
-        ].join("\n"))
       end
 
       option_parser.parse!(args)
