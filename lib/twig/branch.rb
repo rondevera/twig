@@ -100,7 +100,8 @@ class Twig
       return {} if property_names.empty?
 
       property_names_regexp = escaped_property_names(property_names).join('|')
-      git_config_regexp     = "branch\.#{Shellwords.escape(name)}\.(#{ property_names_regexp })$"
+      name_regexp           = Shellwords.escape(name)
+      git_config_regexp     = "branch\.#{name_regexp}\.(#{property_names_regexp})$"
       cmd = %{git config --get-regexp "#{git_config_regexp}"}
 
       git_result = Twig.run(cmd) || ''
