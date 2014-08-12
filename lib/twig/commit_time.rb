@@ -23,7 +23,7 @@ class Twig
           "#{years_ago}y"
         elsif (months_ago = count_months_ago(now)) > 0 && (weeks_ago = count_weeks_ago(now)) > 4
           "#{months_ago}mo"
-        elsif (weeks_ago = count_weeks_ago(now)) > 0
+        elsif (weeks_ago ||= count_weeks_ago(now)) > 0
           "#{weeks_ago}w"
         elsif (days_ago = count_days_ago(now)) > 0
           "#{days_ago}d"
