@@ -301,6 +301,20 @@ describe Twig::Options do
       expect(@twig.options[:reverse]).to eql(true)
       expect(@twig.options[:twig_rebase_autoconfirm]).to eql(true)
     end
+
+    it 'prints a warning if an option is invalid' do
+      path = Twig::CONFIG_PATH
+      allow(Twig::Branch).to receive(:all_branch_names) { ['test'] }
+      expect(@twig).to receive(:readable_config_file_path).and_return(path)
+      expect(@twig).to receive(:parse_config_file).with(path).and_return(
+        'foo' => 'bar'
+      )
+      expect(@twig).to receive(:puts) do |message|
+        expect(message).to include('Invalid option: foo')
+      end
+
+      @twig.read_config_file!
+    end
   end
 
   describe '#set_option' do

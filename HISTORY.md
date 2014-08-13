@@ -1,6 +1,9 @@
 Twig
 ====
 
+* ENHANCEMENT: Show warning if `~/.twigconfig` contains an invalid option.
+  (GH-40)
+
 1.7 (2014-07-29)
 ----------------
 * ENHANCEMENT: Expand `twig init` to also create a default `~/.twigconfig` file.

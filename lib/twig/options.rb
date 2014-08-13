@@ -104,6 +104,10 @@ class Twig
         when 'twig-rebase-autoconfirm'
           set_option(:twig_rebase_autoconfirm, value)
 
+        else
+          puts "Warning: Invalid option: #{key}" \
+            " (Found in #{config_path})"
+
         end
       end
     end
