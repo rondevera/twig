@@ -590,10 +590,9 @@ describe Twig::Options do
         abort # Original behavior, but don't show message in test output
       end
 
-      begin
+      expect {
         @twig.set_property_width_option(:branch => width)
-      rescue SystemExit
-      end
+      }.to raise_error(SystemExit)
 
       expect(@twig.options[:property_width]).to eq({})
     end
@@ -607,10 +606,9 @@ describe Twig::Options do
         abort
       end
 
-      begin
+      expect {
         @twig.set_property_width_option(:x => width)
-      rescue SystemExit
-      end
+      }.to raise_error(SystemExit)
 
       expect(@twig.options[:property_width]).to eq({})
     end
@@ -624,10 +622,9 @@ describe Twig::Options do
         abort
       end
 
-      begin
+      expect {
         @twig.set_property_width_option(property_name => width)
-      rescue SystemExit
-      end
+      }.to raise_error(SystemExit)
 
       expect(@twig.options[:property_width]).to eq({})
     end
