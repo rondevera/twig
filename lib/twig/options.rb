@@ -186,6 +186,26 @@ class Twig
       options[:header_weight] = weight if weight
     end
 
+    def set_property_style_option(value)
+      require 'json'
+
+      options[:property_style] ||= {}
+
+      value.each do |property_name, property_value|
+        error = %{The value `--#{property_name}-style=#{property_value}` is invalid.}
+        abort(error) if property_value.nil?
+
+        begin
+          styles = JSON.parse("{#{property_value}}")
+          abort(error) if styles.empty?
+
+          options[:property_style][property_name] = styles
+        rescue JSON::ParserError
+          abort(error)
+        end
+      end
+    end
+
     def set_property_width_option(value)
       options[:property_width] ||= {}
 

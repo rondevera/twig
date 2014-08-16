@@ -573,6 +573,68 @@ describe Twig::Options do
     end
   end
 
+  describe '#set_property_style_option' do
+    before :each do
+      expect(@twig.options[:property_style]).to be_nil
+    end
+
+    it 'succeeds' do
+      @twig.set_property_style_option(
+        :owner  => '"me": "green bold"',
+        :status => '"closed": "red", "in progress": "yellow bold"'
+      )
+      expect(@twig.options[:property_style]).to eq(
+        :owner  => { 'me' => 'green bold' },
+        :status => { 'closed' => 'red', 'in progress' => 'yellow bold' }
+      )
+    end
+
+    it 'fails if style cannot be parsed' do
+      property_name = :foo
+      style = 'asdf'
+      expect(@twig).to receive(:abort) do |message|
+        expect(message).to include("`--#{property_name}-style=#{style}` is invalid")
+        abort # Original behavior, but don't show message in test output
+      end
+
+      expect {
+        @twig.set_property_style_option(property_name => style)
+      }.to raise_error(SystemExit)
+
+      expect(@twig.options[:property_style]).to eq({})
+    end
+
+    it 'fails if style is nil' do
+      property_name = :foo
+      style = nil
+      expect(@twig).to receive(:abort) do |message|
+        expect(message).to include("`--#{property_name}-style=#{style}` is invalid")
+        abort
+      end
+
+      expect {
+        @twig.set_property_style_option(property_name => style)
+      }.to raise_error(SystemExit)
+
+      expect(@twig.options[:property_style]).to eq({})
+    end
+
+    it 'fails if style is an empty hash' do
+      property_name = :foo
+      style = {}
+      expect(@twig).to receive(:abort) do |message|
+        expect(message).to include("`--#{property_name}-style=#{style}` is invalid")
+        abort
+      end
+
+      expect {
+        @twig.set_property_style_option(property_name => style)
+      }.to raise_error(SystemExit)
+
+      expect(@twig.options[:property_style]).to eq({})
+    end
+  end
+
   describe '#set_property_width_option' do
     before :each do
       expect(@twig.options[:property_width]).to be_nil
