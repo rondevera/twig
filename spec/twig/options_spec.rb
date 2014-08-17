@@ -598,7 +598,10 @@ describe Twig::Options do
       end
 
       expect {
-        @twig.set_property_style_option(property_name => style)
+        silence_stream($stderr) do
+          # Silence JSON::ParserError in $stderr in Ruby 1.8.7
+          @twig.set_property_style_option(property_name => style)
+        end
       }.to raise_error(SystemExit)
 
       expect(@twig.options[:property_style]).to eq({})

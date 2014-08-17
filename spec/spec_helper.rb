@@ -8,3 +8,15 @@ RSpec.configure do |config|
     mocks.yield_receiver_to_any_instance_implementation_blocks = true
   end
 end
+
+def silence_stream(stream)
+  # Usage:  `silence_stream($stderr) { error_prone_code }`
+  # Source: activesupport v4.1.4
+  old_stream = stream.dup
+  stream.reopen(RbConfig::CONFIG['host_os'] =~ /mswin|mingw/ ? 'NUL:' : '/dev/null')
+  stream.sync = true
+  yield
+ensure
+  stream.reopen(old_stream)
+  old_stream.close
+end
