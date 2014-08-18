@@ -428,10 +428,10 @@ describe Twig::Options do
     end
 
     it 'sets a :property_width option' do
-      width = 10
-      expect(@twig).to receive(:set_property_width_option).with(width)
+      property_width = { :status => '10' }
+      expect(@twig).to receive(:set_property_width_option).with(property_width)
 
-      @twig.set_option(:property_width, width)
+      @twig.set_option(:property_width, property_width)
     end
 
     context 'when setting a :reverse option' do
