@@ -151,6 +151,9 @@ class Twig
       when :property_except_name, :property_only_name
         options[key] = Regexp.new(value)
 
+      when :property_style
+        set_property_style_option(value)
+
       when :property_width
         set_property_width_option(value)
 

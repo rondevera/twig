@@ -427,6 +427,13 @@ describe Twig::Options do
       expect(@twig.options[:property_only_name]).to eq(/foo/)
     end
 
+    it 'sets a :property_style option' do
+      property_style = { :status => '"closed": "red"' }
+      expect(@twig).to receive(:set_property_style_option).with(property_style)
+
+      @twig.set_option(:property_style, property_style)
+    end
+
     it 'sets a :property_width option' do
       property_width = { :status => '10' }
       expect(@twig).to receive(:set_property_width_option).with(property_width)
