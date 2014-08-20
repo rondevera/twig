@@ -262,6 +262,15 @@ describe Twig::Cli do
       @twig.read_cli_options!(%w[--branch-width 10])
     end
 
+    it 'recognizes `--<property>-style`' do
+      property_style = '"in progress": "yellow"'
+      allow(Twig::Branch).to receive(:all_property_names) { %w[foo] }
+      expect(@twig.options[:property_style]).to be_nil
+      expect(@twig).to receive(:set_option).with(:property_style, :foo => property_style)
+
+      @twig.read_cli_options!(['--foo-style', property_style])
+    end
+
     it 'recognizes `--<property>-width`' do
       allow(Twig::Branch).to receive(:all_property_names) { %w[foo] }
       expect(@twig.options[:property_width]).to be_nil

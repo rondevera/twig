@@ -170,6 +170,16 @@ class Twig
 
         Help.header(opts, 'Listing branches')
 
+        custom_properties.each do |property_name|
+          opts.on("--#{property_name}-style JSON") do |width|
+            set_option(:property_style, property_name.to_sym => width)
+          end
+        end
+        Help.description_for_custom_property(opts, [
+          ['--PROPERTY-style JSON', 'Format certain property values. (Example:'],
+          ['',                      '`--status-style \'"in progress": "yellow"\')']
+        ])
+
         desc = <<-DESC
           Set the width for the `branch` column.
           (Default: #{Twig::DEFAULT_BRANCH_COLUMN_WIDTH})
@@ -177,7 +187,6 @@ class Twig
         opts.on('--branch-width NUMBER', *Help.description(desc)) do |width|
           set_option(:property_width, :branch => width)
         end
-
         custom_properties.each do |property_name|
           opts.on("--#{property_name}-width NUMBER") do |width|
             set_option(:property_width, property_name.to_sym => width)
