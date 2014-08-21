@@ -108,7 +108,7 @@ class Twig
     end
 
     def branch_list_line(branch)
-      is_current_branch  = branch.name == current_branch_name
+      is_current_branch = branch.name == current_branch_name
 
       properties = branch.get_properties(property_names)
       properties = property_names.inject({}) do |result, property_name|
