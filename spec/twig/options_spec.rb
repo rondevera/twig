@@ -600,7 +600,7 @@ describe Twig::Options do
       property_name = :foo
       style = 'asdf'
       expect(@twig).to receive(:abort) do |message|
-        expect(message).to include("`--#{property_name}-style=#{style}` is invalid")
+        expect(message).to include("`--#{property_name}-style=#{style}` contains invalid JSON")
         abort # Original behavior, but don't show message in test output
       end
 
@@ -618,7 +618,7 @@ describe Twig::Options do
       property_name = :foo
       style = nil
       expect(@twig).to receive(:abort) do |message|
-        expect(message).to include("`--#{property_name}-style=#{style}` is invalid")
+        expect(message).to include("`--#{property_name}-style=#{style}` contains invalid JSON")
         abort
       end
 
@@ -633,7 +633,7 @@ describe Twig::Options do
       property_name = :foo
       style = {}
       expect(@twig).to receive(:abort) do |message|
-        expect(message).to include("`--#{property_name}-style=#{style}` is invalid")
+        expect(message).to include("`--#{property_name}-style=#{style}` contains invalid JSON")
         abort
       end
 

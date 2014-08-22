@@ -195,7 +195,7 @@ class Twig
       options[:property_style] ||= {}
 
       value.each do |property_name, property_value|
-        error = %{The value `--#{property_name}-style=#{property_value}` is invalid.}
+        error = %{The value `--#{property_name}-style=#{property_value}` contains invalid JSON.}
         abort(error) if property_value.nil?
 
         begin
