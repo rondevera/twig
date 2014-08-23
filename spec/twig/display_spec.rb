@@ -349,6 +349,13 @@ describe Twig::Display do
     end
   end
 
+  describe '#branch_list_column_style' do
+    it 'returns a hash with the column width' do
+      result = @twig.branch_list_column_style('foo', 'foo!')
+      expect(result[:width]).to eql(Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH)
+    end
+  end
+
   describe '#branches_json' do
     before :each do
       @property_names = %w[foo bar]

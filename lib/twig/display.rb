@@ -124,8 +124,8 @@ class Twig
       line <<
         property_names.map do |property_name|
           property_value = properties[property_name] || ''
-          width = property_column_width(property_name)
-          column(property_value, :width => width) << column_gutter
+          column_style = branch_list_column_style(property_name, property_value)
+          column(property_value, column_style) << column_gutter
         end.join
 
       branch_column_width = property_column_width(:branch)
@@ -141,6 +141,12 @@ class Twig
       line = format_string(line, :weight => :bold) if is_current_branch
 
       line
+    end
+
+    def branch_list_column_style(property_name, property_value)
+      style = {}
+      style[:width] = property_column_width(property_name)
+      style
     end
 
     def branches_json
