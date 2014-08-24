@@ -354,6 +354,60 @@ describe Twig::Display do
       result = @twig.branch_list_column_style('foo', 'foo!')
       expect(result[:width]).to eql(Twig::Display::DEFAULT_PROPERTY_COLUMN_WIDTH)
     end
+
+    it 'sets the property color if an option is set' do
+      @twig.set_option(
+        :property_style,
+        :status => '"in progress": "yellow", "closed": "red"'
+      )
+
+      result = @twig.branch_list_column_style('status', 'in progress')
+
+      expect(result[:color]).to eql(:yellow)
+      expect(result[:weight]).to be_nil
+    end
+
+    it 'sets the property weight if an option is set' do
+      @twig.set_option(
+        :property_style,
+        :status => '"in progress": "bold", "closed": "red"'
+      )
+
+      result = @twig.branch_list_column_style('status', 'in progress')
+
+      expect(result[:color]).to be_nil
+      expect(result[:weight]).to eql(:bold)
+    end
+
+    it 'sets the property color and weight if an option is set' do
+      @twig.set_option(
+        :property_style,
+        :status => '"in progress": "yellow bold", "closed": "red"'
+      )
+
+      result = @twig.branch_list_column_style('status', 'in progress')
+
+      expect(result[:color]).to eql(:yellow)
+      expect(result[:weight]).to eql(:bold)
+    end
+
+    it 'does not set the property style if options are only given for other properties' do
+      @twig.set_option(:property_style, :status => '"in progress": "yellow bold"')
+
+      result = @twig.branch_list_column_style('status', 'closed')
+
+      expect(result[:color]).to be_nil
+      expect(result[:weight]).to be_nil
+    end
+
+    it 'does not set the property style if no options are set for any properties' do
+      expect(@twig.options[:property_style]).to be_nil
+
+      result = @twig.branch_list_column_style('status', 'in progress')
+
+      expect(result[:color]).to be_nil
+      expect(result[:weight]).to be_nil
+    end
   end
 
   describe '#branches_json' do

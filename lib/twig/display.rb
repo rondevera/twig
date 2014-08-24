@@ -146,6 +146,21 @@ class Twig
     def branch_list_column_style(property_name, property_value)
       style = {}
       style[:width] = property_column_width(property_name)
+
+      style_options   = options[:property_style] || {}
+      property_styles = style_options[property_name.to_sym]
+
+      if property_styles
+        property_style_string = property_styles[property_value] || ''
+        property_style_tokens = property_style_string.split(/\s/)
+
+        property_style_tokens.each do |style_token|
+          style_key = style_token.to_sym
+          style[:color]  = style_key if COLORS.has_key?(style_key)
+          style[:weight] = style_key if WEIGHTS.has_key?(style_key)
+        end
+      end
+
       style
     end
 
