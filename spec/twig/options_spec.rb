@@ -244,6 +244,7 @@ describe Twig::Options do
         'only-property'   => 'bar',
         'header-style'    => 'green bold',
         'reverse'         => 'true',
+        'status-style'    => '"in progress": "yellow bold", "closed": "red"',
         'foo-width'       => '4',
 
         # GitHub integration:
@@ -270,6 +271,7 @@ describe Twig::Options do
       expect(@twig.options[:property_only]).to be_nil
       expect(@twig.options[:property_except_name]).to be_nil
       expect(@twig.options[:property_only_name]).to be_nil
+      expect(@twig.options[:property_style]).to be_nil
       expect(@twig.options[:property_width]).to be_nil
       expect(@twig.options[:reverse]).to be_nil
       expect(@twig.options[:twig_rebase_autoconfirm]).to be_nil
@@ -297,6 +299,12 @@ describe Twig::Options do
       )
       expect(@twig.options[:property_except_name]).to eq(/foo/)
       expect(@twig.options[:property_only_name]).to eq(/bar/)
+      expect(@twig.options[:property_style]).to eq(
+        :status => {
+          'in progress' => 'yellow bold',
+          'closed' => 'red'
+        }
+      )
       expect(@twig.options[:property_width]).to eq(:foo => 4)
       expect(@twig.options[:reverse]).to eql(true)
       expect(@twig.options[:twig_rebase_autoconfirm]).to eql(true)

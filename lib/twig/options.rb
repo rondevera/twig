@@ -78,6 +78,9 @@ class Twig
           set_option(:header_style, value)
         when 'reverse'
           set_option(:reverse, value)
+        when /-style$/
+          property_name = key.sub(/-style$/, '').to_sym
+          set_option(:property_style, property_name => value)
         when /-width$/
           property_name = key.sub(/-width$/, '').to_sym
           set_option(:property_width, property_name => value)
