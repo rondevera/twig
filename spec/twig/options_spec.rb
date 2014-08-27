@@ -604,7 +604,7 @@ describe Twig::Options do
       )
     end
 
-    it 'fails if style cannot be parsed' do
+    it 'fails if style JSON cannot be parsed' do
       property_name = :foo
       style = 'asdf'
       expect(@twig).to receive(:abort) do |message|
@@ -622,7 +622,7 @@ describe Twig::Options do
       expect(@twig.options[:property_style]).to eq({})
     end
 
-    it 'fails if style is nil' do
+    it 'fails if style JSON is nil' do
       property_name = :foo
       style = nil
       expect(@twig).to receive(:abort) do |message|
@@ -637,9 +637,9 @@ describe Twig::Options do
       expect(@twig.options[:property_style]).to eq({})
     end
 
-    it 'fails if style is an empty hash' do
+    it 'fails if style JSON is an empty string' do
       property_name = :foo
-      style = {}
+      style = ''
       expect(@twig).to receive(:abort) do |message|
         expect(message).to include("`#{property_name}-style=#{style}` contains invalid JSON")
         abort
