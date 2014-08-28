@@ -604,6 +604,17 @@ describe Twig::Options do
       )
     end
 
+    it 'allows the style JSON to have extraneous braces and whitespace' do
+      @twig.set_property_style_option(
+        :owner  => '{"me": "green bold"}',
+        :status => ' { "closed" : "red", "in progress" : "yellow bold" } '
+      )
+      expect(@twig.options[:property_style]).to eq(
+        :owner  => { 'me' => 'green bold' },
+        :status => { 'closed' => 'red', 'in progress' => 'yellow bold' }
+      )
+    end
+
     it 'fails if style JSON cannot be parsed' do
       property_name = :foo
       style = 'asdf'

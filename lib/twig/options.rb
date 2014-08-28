@@ -198,11 +198,16 @@ class Twig
       options[:property_style] ||= {}
 
       value.each do |property_name, property_value|
-        error = %{The value `#{property_name}-style=#{property_value}` contains invalid JSON.}
-        abort(error) if property_value.nil?
+        style_json = (property_value || '').strip
+        error = %{The value `#{property_name}-style=#{style_json}` contains invalid JSON.}
+        abort(error) if style_json.nil?
+
+        unless style_json.start_with?('{') && style_json.end_with?('}')
+          style_json = '{' + style_json + '}'
+        end
 
         begin
-          styles = JSON.parse("{#{property_value}}")
+          styles = JSON.parse(style_json)
           abort(error) if styles.empty?
 
           options[:property_style][property_name] = styles
