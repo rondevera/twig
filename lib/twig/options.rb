@@ -200,7 +200,6 @@ class Twig
       value.each do |property_name, property_value|
         style_json = (property_value || '').strip
         error = %{The value `#{property_name}-style=#{style_json}` contains invalid JSON.}
-        abort(error) if style_json.nil?
 
         unless style_json.start_with?('{') && style_json.end_with?('}')
           style_json = '{' + style_json + '}'
