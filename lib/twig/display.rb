@@ -156,8 +156,8 @@ class Twig
 
         property_style_tokens.each do |style_token|
           style_key = style_token.to_sym
-          style[:color]  = style_key if COLORS.has_key?(style_key)
-          style[:weight] = style_key if WEIGHTS.has_key?(style_key)
+          style[:color]  = style_key if COLORS.key?(style_key)
+          style[:weight] = style_key if WEIGHTS.key?(style_key)
         end
       end
 
