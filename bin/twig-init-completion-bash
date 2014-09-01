@@ -54,6 +54,10 @@ script = <<-SCRIPT
 # Initializes bash tab completion for Twig. To use this, run
 # `twig init-completion` and follow the instructions.
 #
+# If you'd like to help improve tab completion, or add
+# completion for your favorite shell, open an issue to make
+# plans: https://github.com/rondevera/twig/issues
+#
 # Twig: <#{Twig::HOMEPAGE}>
 # Author: Ron DeVera <http://rondevera.com>
 
