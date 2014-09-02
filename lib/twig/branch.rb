@@ -4,7 +4,7 @@ class Twig
   class Branch
     PARENT_PROPERTY = 'diff-branch'
     PROPERTY_NAME_FROM_GIT_CONFIG  = /^branch\.[^.]+\.([^=]+)=.*$/
-    RESERVED_BRANCH_PROPERTY_NAMES = %w[branch merge property rebase remote]
+    RESERVED_BRANCH_PROPERTY_NAMES = %w[branch header merge property rebase remote]
 
     class EmptyPropertyNameError < ArgumentError
       DEFAULT_MESSAGE = 'Branch property names cannot be empty strings.'
