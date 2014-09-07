@@ -13,9 +13,10 @@ max-days-old: 30
 ### Displaying branches ###
 
 # Set the width of the `branch` column:
-# (Use `<property>-width` to set the width of any property column, e.g.,
-# `todo-width: 30`)
 branch-width: 30
+
+# Set the width of any property column with `<property>-width`:
+# todo-width: 30
 
 # Customize the headers above each column (e.g., "red", "blue bold"):
 # header-style: blue bold
