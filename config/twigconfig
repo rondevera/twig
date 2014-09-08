@@ -18,6 +18,9 @@ branch-width: 30
 # Set the width of any property column with `<property>-width`:
 # todo-width: 30
 
+# Set the style of any property column with `<property>-style`:
+# status-style: "in progress": "yellow bold", "closed": "red"
+
 # Customize the headers above each column (e.g., "red", "blue bold"):
 # header-style: blue bold
 
