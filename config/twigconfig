@@ -27,8 +27,10 @@ branch-width: 30
 # Set to `true` to list the oldest branches first:
 # reverse: true
 
-# Hide branches that have a property value matching a regex:
+# Hide branches whose name matches a regex:
 # except-branch: production_release_*
+
+# Hide branches that have a property matching a regex with `except-<property>`:
 # except-status: closed|resolved
 
 # Hide columns where the property name matches a regex:
