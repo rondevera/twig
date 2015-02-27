@@ -7,20 +7,20 @@ require 'fileutils'
 def help_content
   <<-HELP
 
-twig-init-completion-bash
+twig-init-completion-zsh
 =========================
 
-Initializes bash tab completion for Twig. Use `twig init` to run all setup.
+Initializes zsh tab completion for Twig. Use `twig init` to run all setup.
 
 Synopsis
 --------
 
-  twig init-completion-bash
+  twig init-completion-zsh
 
 Description
 -----------
 
-  Initializes bash tab completion for Twig. Instead of running this directly,
+  Initializes zsh tab completion for Twig. Instead of running this directly,
   run `twig init` to run all setup tasks for the current shell. Uses all
   options available for `twig init-completion`.
 
@@ -46,12 +46,12 @@ end
 
 script = <<-SCRIPT
 
-#!/usr/bin/env bash
+#compdef twig
 
 # AUTO-GENERATED with Twig v#{Twig::VERSION}. Regenerate with
 # `twig init-completion --force`.
 #
-# Initializes bash tab completion for Twig. To use this, run
+# Initializes zsh tab completion for Twig. To use this, run
 # `twig init-completion` and follow the instructions.
 #
 # If you'd like to help improve tab completion, or add
@@ -59,52 +59,53 @@ script = <<-SCRIPT
 # plans: https://github.com/rondevera/twig/issues
 #
 # Twig: <#{Twig::HOMEPAGE}>
-# Author: Ron DeVera <http://rondevera.com>
+# Author: Antonio Murdaca <me@runcom.ninja>
+
+local curcontext=$curcontext state line
+declare -A opt_args
 
 __twig_branches() {
-  local current words
-  current="${COMP_WORDS[COMP_CWORD]}"
-  words="$(git for-each-ref refs/heads/ --format="%(refname:short)" | tr '\\n' ' ')"
-  COMPREPLY=($(compgen -W "$words" -- "$current"))
-  return 0
+  compadd "$@" $(git for-each-ref refs/heads/ --format="%(refname:short)" | tr '\n' ' ')
 }
 
 __twig_formats() {
-  local current words
-  current="${COMP_WORDS[COMP_CWORD]}"
-  words="json"
-  COMPREPLY=($(compgen -W "$words" -- "$current"))
-  return 0
+  compadd "$@" json
 }
 
 __twig_subcommands() {
-  local current words
-  current="${COMP_WORDS[COMP_CWORD]}"
-  words="#{Twig::Subcommands.all_names.join(' ')}"
-  COMPREPLY=($(compgen -W "$words" -- "$current"))
-  return 0
+  compadd "$@" #{Twig::Subcommands.all_names.join(' ')}
 }
 
-__twig() {
+_twig () {
   if [ -z "$(git rev-parse HEAD 2>/dev/null)" ]; then
     return 0;
   fi
 
-  local previous=${COMP_WORDS[COMP_CWORD-1]}
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
 
-  case "${previous}" in
-  -b|--branch)  __twig_branches ;;
-  --format)     __twig_formats ;;
-  diff)         __twig_branches ;;
-  diff-branch)  __twig_branches ;;
-  rebase)       __twig_branches ;;
-  twig)         __twig_subcommands ;;
+  _arguments \
+    '1: :->command' \
+    '*: :->args'
+
+  case $state in
+    command) __twig_subcommands ;;
+    *)
+      case $words[2] in
+        -b|--branch)  __twig_branches ;;
+        --format)     __twig_formats ;;
+        diff)         __twig_branches ;;
+        diff-branch)  __twig_branches ;;
+        rebase)       __twig_branches ;;
+        *)            ;;
+        esac
+      ;;
   esac
 
   return 0
 }
 
-complete -F __twig twig
+_twig
 
 SCRIPT
 script = script.strip + "\n"
@@ -114,7 +115,7 @@ force = args.delete('--force')
 twig_dir = '~/.twig'
 FileUtils.mkdir_p(File.expand_path(twig_dir))
 
-script_path      = File.join(twig_dir, '/twig-completion.bash')
+script_path      = File.join(twig_dir, '/_twig-completion.zsh')
 full_script_path = File.expand_path(script_path)
 script_exists    = File.exist?(full_script_path)
 
@@ -135,9 +136,14 @@ else
 end
 
 puts
-puts ' => If you are using bash, add the following to your `~/.bashrc` or equivalent:'
+puts ' => If you are using zsh, add the following to the *beginning* of your `~/.zshrc` or equivalent:'
 puts
-puts "      [[ -s #{script_path} ]] && source #{script_path}"
+puts "      fpath=(#{twig_dir} $fpath)"
+puts '      autoload -U compinit'
+puts '      compinit'
 puts
-puts ' => To finish setup, open a new command-line window or run `source ~/.bashrc`.'
+puts ' => If you are using oh-my-zsh just add the first line to the *beginning* of your `~/.zshrc` or load'
+puts '    the `twig` plugin.'
+puts
+puts ' => To finish setup, open a new command-line window or run `source ~/.zshrc`.'
 puts
