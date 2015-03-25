@@ -31,6 +31,7 @@ See also
 
   twig-init
   twig-init-completion-bash
+  twig-init-completion-zsh
   twig-init-config
 
 Subcommand for Twig: <http://rondevera.github.io/twig/>
@@ -47,12 +48,22 @@ if args.include?('--help')
 end
 
 debug = args.delete('--debug')
-bash_version = `bash -c 'echo $BASH_VERSION'`.strip
+bash_version = `command -v bash >/dev/null 2>&1 && bash -c 'echo $BASH_VERSION'`.strip
+zsh_version  = `command -v zsh >/dev/null 2>&1 && zsh -c 'echo $ZSH_VERSION'`.strip
 
 if debug
   puts "- Ruby version: #{`ruby --version`.strip}"
-  puts "- bash_version: #{bash_version.inspect}"
+  puts "- bash_version: #{bash_version.inspect}" if bash_version != ''
+  puts "- zsh_version: #{zsh_version.inspect}" if zsh_version != ''
 end
 
-exec('twig-init-completion-bash ' + args.join(' ')) if bash_version != ''
-abort 'Could not initialize Twig tab completion for this shell.'
+puts
+puts ' => To enable tab completion for Twig:'
+puts
+
+system('twig-init-completion-bash ' + args.join(' ')) if bash_version != ''
+system('twig-init-completion-zsh ' + args.join(' ')) if zsh_version != ''
+
+if bash_version == '' and zsh_version == ''
+  abort 'Could not initialize Twig tab completion for neither bash nor zsh shell.'
+end
