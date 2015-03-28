@@ -57,10 +57,6 @@ if debug
   puts "- zsh_version: #{zsh_version.inspect}" if zsh_version != ''
 end
 
-puts
-puts ' => To enable tab completion for Twig:'
-puts
-
 system('twig-init-completion-bash ' + args.join(' ')) if bash_version != ''
 system('twig-init-completion-zsh ' + args.join(' ')) if zsh_version != ''
 
