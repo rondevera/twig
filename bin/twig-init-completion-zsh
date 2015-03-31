@@ -136,14 +136,15 @@ else
 end
 
 puts
-puts ' => If you are using zsh, add the following to the *beginning* of your `~/.zshrc` or equivalent:'
+puts ' => If you are using zsh, add the following to the *beginning* of your '
+puts '    `~/.zshrc` or equivalent:'
 puts
 puts "      fpath=(#{twig_dir} $fpath)"
 puts '      autoload -U compinit'
 puts '      compinit'
 puts
-puts ' => If you are using oh-my-zsh just add the first line to the *beginning* of your `~/.zshrc` or load'
-puts '    the `twig` plugin.'
+puts ' => If you are using oh-my-zsh, just add the first line to the *beginning* '
+puts '    of your `~/.zshrc` or load the `twig` plugin.'
 puts
 puts ' => To finish setup, open a new command-line window or run `source ~/.zshrc`.'
 puts
