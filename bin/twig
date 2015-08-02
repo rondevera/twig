@@ -13,6 +13,7 @@ repo_required =
   args != ['init'] &&
   args != ['init-completion'] &&
   args != ['init-completion-bash'] &&
+  args != ['init-completion-zsh'] &&
   args != ['init-config']
 
 if repo_required && !Twig.repo?
