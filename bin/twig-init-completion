@@ -60,6 +60,6 @@ end
 system('twig-init-completion-bash ' + args.join(' ')) if bash_version != ''
 system('twig-init-completion-zsh ' + args.join(' ')) if zsh_version != ''
 
-if bash_version == '' and zsh_version == ''
+if bash_version == '' && zsh_version == ''
   abort 'Could not initialize Twig tab completion for neither bash nor zsh shell.'
 end
