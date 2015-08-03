@@ -1,6 +1,8 @@
 Twig
 ====
 
+* ENHANCEMENT: Add zsh support for `twig init`. (GH-48. Thanks
+  [runcom](https://github.com/runcom)!)
 * ENHANCEMENT: Show warning if `~/.twigconfig` contains an invalid option.
   (GH-40)
 
