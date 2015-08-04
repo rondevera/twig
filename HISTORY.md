@@ -1,6 +1,9 @@
 Twig
 ====
 
+* ENHANCEMENT: Add Ruby 2.2 to official list of supported Rubies. (GH-47. Thanks
+  [apuratepp](https://github.com/apuratepp)!)
+
 1.7 (2014-07-29)
 ----------------
 * ENHANCEMENT: Expand `twig init` to also create a default `~/.twigconfig` file.
