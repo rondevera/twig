@@ -207,12 +207,12 @@ class Twig
 
         begin
           styles = JSON.parse(style_json)
-          abort(error) if styles.empty?
-
-          options[:property_style][property_name] = styles
         rescue JSON::ParserError
           abort(error)
         end
+
+        abort(error) if styles.empty?
+        options[:property_style][property_name] = styles
       end
     end
 
