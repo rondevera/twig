@@ -232,13 +232,20 @@ describe Twig::Display do
     end
 
     it 'returns a line for the current branch' do
-      indicator     = Twig::Display::CURRENT_BRANCH_INDICATOR
-      branch        = @current_branch
-      branch_regexp = /#{Regexp.escape(indicator)}#{Regexp.escape(branch.name)}/
+      indicator   = Twig::Display::CURRENT_BRANCH_INDICATOR
+      branch      = @current_branch
+      style_start = "\e\\[#{Twig::Display::WEIGHTS[:bold]}m"
+      style_end   = "\e\\[0m"
 
       result = @twig.branch_list_line(branch)
 
-      expect(result).to match(/2000-01-01\s+foo!\s+bar!\s+#{branch_regexp}/)
+      result_columns = [
+        '2000-01-01',
+        'foo!',
+        'bar!',
+        indicator + branch.to_s
+      ].map { |column| "#{style_start}#{Regexp.escape(column)}\s*#{style_end}" }
+      expect(result).to match(Regexp.new(result_columns.join("\s+")))
     end
 
     it 'returns a line for a branch other than the current branch' do

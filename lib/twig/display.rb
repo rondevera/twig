@@ -17,9 +17,10 @@ class Twig
       :normal => 0,
       :bold   => 1
     }
-    DEFAULT_PROPERTY_COLUMN_WIDTH = 16
-    DEFAULT_BRANCH_COLUMN_WIDTH   = 48
+    DEFAULT_PROPERTY_COLUMN_WIDTH   = 16
+    DEFAULT_BRANCH_COLUMN_WIDTH     = 48
     CURRENT_BRANCH_INDICATOR        = '* '
+    CURRENT_BRANCH_STYLE            = { :weight => :bold }
     EMPTY_BRANCH_PROPERTY_INDICATOR = '-'
 
     def self.unformat_string(string)
@@ -118,33 +119,45 @@ class Twig
         result.merge(property_name => property_value)
       end
 
-      line = column(branch.last_commit_time.to_s, :width => date_time_column_width)
+      commit_time_style = { :width => date_time_column_width }
+      commit_time_style.merge!(CURRENT_BRANCH_STYLE) if is_current_branch
+      line = column(branch.last_commit_time.to_s, commit_time_style)
       line << column_gutter
 
       line <<
         property_names.map do |property_name|
           property_value = properties[property_name] || ''
-          column_style = branch_list_column_style(property_name, property_value)
+          column_style = branch_list_column_style(
+            property_name,
+            property_value,
+            :is_current_branch => is_current_branch
+          )
           column(property_value, column_style) << column_gutter
         end.join
 
-      branch_column_width = property_column_width(:branch)
-      branch_column = column(branch.to_s, :width => branch_column_width)
-      branch_column.strip! # Strip final column
-      line <<
-        if is_current_branch
-          CURRENT_BRANCH_INDICATOR + branch_column
-        else
-          (' ' * CURRENT_BRANCH_INDICATOR.size) + branch_column
-        end
-
-      line = format_string(line, :weight => :bold) if is_current_branch
+      indicator = CURRENT_BRANCH_INDICATOR
+      branch_column_style = {
+        :width => property_column_width(:branch) + indicator.size
+      }
+      branch_column_style.merge!(CURRENT_BRANCH_STYLE) if is_current_branch
+      branch_column_prefix = is_current_branch ? indicator : (' ' * indicator.size)
+      branch_column = column(
+        branch_column_prefix + branch.to_s,
+        branch_column_style
+      )
+      branch_column.rstrip! # Strip final column
+      line << branch_column
 
       line
     end
 
-    def branch_list_column_style(property_name, property_value)
+    def branch_list_column_style(property_name, property_value, column_options = {})
+      column_options = {
+        :is_current_branch => false
+      }.merge(column_options)
+
       style = {}
+      style.merge!(CURRENT_BRANCH_STYLE) if column_options[:is_current_branch]
       style[:width] = property_column_width(property_name)
 
       style_options   = options[:property_style] || {}
