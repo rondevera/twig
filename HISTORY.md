@@ -1,6 +1,12 @@
 Twig
 ====
 
+* ENHANCEMENT: Support color-customizing specific property values by setting
+  `<property>-style` in `.twigconfig`. For example:
+
+      status-style: "in progress": "yellow bold", "closed": "red"
+
+  Property values can also be styled with `--<property>-style` via command-line.
 * ENHANCEMENT: Add zsh support for `twig init`. (GH-48. Thanks
   [runcom](https://github.com/runcom)!)
 * ENHANCEMENT: Show warning if `~/.twigconfig` contains an invalid option.
