@@ -217,7 +217,7 @@ describe Twig::Display do
     before :each do
       @current_branch = Twig::Branch.new('my-branch')
       @other_branch   = Twig::Branch.new('other-branch')
-      expect(@twig).to receive(:current_branch_name).and_return(@current_branch.name)
+      allow(@twig).to receive(:current_branch_name).and_return(@current_branch.name)
       allow(Twig::Branch).to receive(:all_property_names) { %w[foo bar] }
       allow(@current_branch).to receive(:get_properties) do
         { 'foo' => 'foo!', 'bar' => 'bar!' }
@@ -353,6 +353,36 @@ describe Twig::Display do
           no_indicator + 'other...'
         )
       end
+    end
+  end
+
+  describe '#column_for_branch' do
+    before :each do
+      @current_branch = Twig::Branch.new('my-branch')
+      @other_branch   = Twig::Branch.new('other-branch')
+      allow(@twig).to receive(:current_branch_name).and_return(@current_branch.name)
+    end
+
+    it 'returns a column string for the current branch' do
+      indicator   = Twig::Display::CURRENT_BRANCH_INDICATOR
+      branch      = @current_branch
+      style_start = "\e\\[#{Twig::Display::WEIGHTS[:bold]}m"
+      style_end   = "\e\\[0m"
+
+      result = @twig.column_for_branch(branch)
+
+      expect(result).to match(Regexp.new(
+        "#{style_start}#{Regexp.escape(indicator + branch.to_s)}\s*#{style_end}"
+      ))
+    end
+
+    it 'returns a column string for a branch other than the current branch' do
+      no_indicator = ' ' * (Twig::Display::CURRENT_BRANCH_INDICATOR.size)
+      branch = @other_branch
+
+      result = @twig.column_for_branch(branch)
+
+      expect(result).to eq("#{no_indicator}#{branch}")
     end
   end
 

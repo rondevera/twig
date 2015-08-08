@@ -135,20 +135,21 @@ class Twig
           column(property_value, column_style) << column_gutter
         end.join
 
-      indicator = CURRENT_BRANCH_INDICATOR
-      branch_column_style = {
-        :width => property_column_width(:branch) + indicator.size
-      }
-      branch_column_style.merge!(CURRENT_BRANCH_STYLE) if is_current_branch
-      branch_column_prefix = is_current_branch ? indicator : (' ' * indicator.size)
-      branch_column = column(
-        branch_column_prefix + branch.to_s,
-        branch_column_style
-      )
-      branch_column.rstrip! # Strip final column
-      line << branch_column
+      line << column_for_branch(branch)
 
       line
+    end
+
+    def column_for_branch(branch)
+      is_current_branch = branch.name == current_branch_name
+      indicator = CURRENT_BRANCH_INDICATOR
+
+      column_width = property_column_width(:branch) + indicator.size
+      column_style = { :width => column_width }
+      column_style.merge!(CURRENT_BRANCH_STYLE) if is_current_branch
+      column_prefix = is_current_branch ? indicator : (' ' * indicator.size)
+
+      column(column_prefix + branch.to_s, column_style).rstrip
     end
 
     def branch_list_column_style(property_name, property_value, column_options = {})
