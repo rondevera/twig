@@ -19,7 +19,7 @@ class Twig
 
       # For speed, lazily evaluate each `ago` computation
       @time_ago =
-        if (years_ago = count_years_ago(now)) > 0
+        if (years_ago = count_relative_years(now)) > 0
           "#{years_ago}y"
         elsif (months_ago = count_months_ago(now)) > 0 && (weeks_ago = count_weeks_ago(now)) > 4
           "#{months_ago}mo"
@@ -38,7 +38,7 @@ class Twig
       @time_ago << ' ' << suffix
     end
 
-    def count_years_ago(current_time)
+    def count_relative_years(current_time)
       seconds = current_time - @time
       seconds < SECONDS_PER_YEAR ? 0 : (seconds / SECONDS_PER_YEAR).round
     end
