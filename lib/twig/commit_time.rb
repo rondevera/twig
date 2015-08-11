@@ -21,9 +21,9 @@ class Twig
       @time_ago =
         if (years_ago = count_relative_years(now)) > 0
           "#{years_ago}y"
-        elsif (months_ago = count_relative_months(now)) > 0 && (weeks_ago = count_weeks_ago(now)) > 4
+        elsif (months_ago = count_relative_months(now)) > 0 && (weeks_ago = count_relative_weeks(now)) > 4
           "#{months_ago}mo"
-        elsif (weeks_ago ||= count_weeks_ago(now)) > 0
+        elsif (weeks_ago ||= count_relative_weeks(now)) > 0
           "#{weeks_ago}w"
         elsif (days_ago = count_days_ago(now)) > 0
           "#{days_ago}d"
@@ -48,7 +48,7 @@ class Twig
       (now.year * 12 + now.month) - (@time.year * 12 + @time.month)
     end
 
-    def count_weeks_ago(current_time)
+    def count_relative_weeks(current_time)
       seconds = current_time - @time
       seconds < SECONDS_PER_WEEK ? 0 : (seconds / SECONDS_PER_WEEK).round
     end

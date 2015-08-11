@@ -89,29 +89,29 @@ describe Twig::CommitTime do
     end
   end
 
-  describe '#count_weeks_ago' do
+  describe '#count_relative_weeks' do
     it 'returns 0 for the actual date' do
       ref_time = @time
       commit_time = Twig::CommitTime.new(ref_time)
-      expect(commit_time.count_weeks_ago(@time)).to eq(0)
+      expect(commit_time.count_relative_weeks(@time)).to eq(0)
     end
 
     it 'returns 1 for 8 days ago' do
       ref_time = @time - (60 * 60 * 24 * 8)
       commit_time = Twig::CommitTime.new(ref_time)
-      expect(commit_time.count_weeks_ago(@time)).to eq(1)
+      expect(commit_time.count_relative_weeks(@time)).to eq(1)
     end
 
     it 'returns 2 for 14 days ago' do
       ref_time = @time - (60 * 60 * 24 * 14)
       commit_time = Twig::CommitTime.new(ref_time)
-      expect(commit_time.count_weeks_ago(@time)).to eq(2)
+      expect(commit_time.count_relative_weeks(@time)).to eq(2)
     end
 
     it 'returns 3 for 2.5 weeks ago' do
       ref_time = @time - (60 * 60 * 24 * 7 * 2.5)
       commit_time = Twig::CommitTime.new(ref_time)
-      expect(commit_time.count_weeks_ago(@time)).to eq(3)
+      expect(commit_time.count_relative_weeks(@time)).to eq(3)
     end
   end
 
