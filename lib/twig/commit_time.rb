@@ -29,7 +29,7 @@ class Twig
           "#{days_ago}d"
         elsif (hours_ago = count_relative_hours(now)) > 0
           "#{hours_ago}h"
-        elsif (minutes_ago = count_minutes_ago(now)) > 0
+        elsif (minutes_ago = count_relative_minutes(now)) > 0
           "#{minutes_ago}m"
         else
           seconds_ago = count_seconds_ago(now)
@@ -63,7 +63,7 @@ class Twig
       seconds < SECONDS_PER_HOUR ? 0 : (seconds / SECONDS_PER_HOUR).round
     end
 
-    def count_minutes_ago(current_time)
+    def count_relative_minutes(current_time)
       seconds = current_time - @time
       seconds < SECONDS_PER_MINUTE ? 0 : (seconds / SECONDS_PER_MINUTE).round
     end
