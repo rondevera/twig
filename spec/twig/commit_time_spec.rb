@@ -56,14 +56,26 @@ describe Twig::CommitTime do
       expect(commit_time.count_relative_years(@time)).to eq(0)
     end
 
-    it 'returns 1 for one year ago' do
+    it 'returns -1 for one year ago' do
       ref_time = @time - (60 * 60 * 24 * 365)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_years(@time)).to eq(-1)
+    end
+
+    it 'returns -2 for 21 months ago' do
+      ref_time = @time - (60 * 60 * 24 * 30 * 21)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_years(@time)).to eq(-2)
+    end
+
+    it 'returns 1 for one year from now' do
+      ref_time = @time + (60 * 60 * 24 * 365)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_relative_years(@time)).to eq(1)
     end
 
-    it 'returns 2 for 21 months ago' do
-      ref_time = @time - (60 * 60 * 24 * 30 * 21)
+    it 'returns 2 for 21 months from now' do
+      ref_time = @time + (60 * 60 * 24 * 30 * 21)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_relative_years(@time)).to eq(2)
     end
