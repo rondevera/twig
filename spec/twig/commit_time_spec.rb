@@ -181,23 +181,23 @@ describe Twig::CommitTime do
     end
   end
 
-  describe '#count_seconds_ago' do
+  describe '#count_relative_seconds' do
     it 'returns 0 for the actual date' do
       ref_time = @time
       commit_time = Twig::CommitTime.new(ref_time)
-      expect(commit_time.count_seconds_ago(@time)).to eq(0)
+      expect(commit_time.count_relative_seconds(@time)).to eq(0)
     end
 
     it 'returns 1 for one second ago' do
       ref_time = @time - 1
       commit_time = Twig::CommitTime.new(ref_time)
-      expect(commit_time.count_seconds_ago(@time)).to eq(1)
+      expect(commit_time.count_relative_seconds(@time)).to eq(1)
     end
 
     it 'returns 70 for one minute and 10 second ago' do
       ref_time = @time - 70
       commit_time = Twig::CommitTime.new(ref_time)
-      expect(commit_time.count_seconds_ago(@time)).to eq(70)
+      expect(commit_time.count_relative_seconds(@time)).to eq(70)
     end
   end
 
