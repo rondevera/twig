@@ -35,6 +35,9 @@ class Twig
           seconds_ago = count_relative_seconds(now)
           "#{seconds_ago}s"
         end
+
+      suffix = 'from now' if @time > now
+
       @time_ago << ' ' << suffix
     end
 

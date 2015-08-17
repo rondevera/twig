@@ -7,30 +7,35 @@ describe Twig::CommitTime do
   end
 
   describe '#initialize' do
+    before :each do
+      @seconds_in_a_year = 60 * 60 * 24 * 365
+      @seconds_in_a_week = 60 * 60 * 24 * 7
+      @seconds_in_a_day  = 60 * 60 * 24
+    end
+
     it 'stores a Time object' do
       commit_time = Twig::CommitTime.new(@time)
       expect(commit_time.instance_variable_get(:@time)).to eq(@time)
     end
 
-    it 'stores a "time ago" string as its shortened version' do
-      seconds_in_a_year = 60 * 60 * 24 * 365
-      seconds_in_a_week = 60 * 60 * 24 * 7
-      seconds_in_a_day  = 60 * 60 * 24
-
-      expect(Twig::CommitTime.new(@time - (seconds_in_a_year * 2)).
+    it 'stores a formatted "time ago" string' do
+      two_years_ago = @time - (@seconds_in_a_year * 2)
+      expect(Twig::CommitTime.new(two_years_ago).
         instance_variable_get(:@time_ago)).to eq('2y ago')
-      expect(Twig::CommitTime.new(@time - (seconds_in_a_year * 1)).
+
+      one_year_ago = @time - @seconds_in_a_year
+      expect(Twig::CommitTime.new(one_year_ago).
         instance_variable_get(:@time_ago)).to eq('1y ago')
 
-      two_months_ago = @time - (7 * seconds_in_a_week)
+      two_months_ago = @time - (7 * @seconds_in_a_week)
       expect(Twig::CommitTime.new(two_months_ago).
         instance_variable_get(:@time_ago)).to eq('2mo ago')
 
-      two_weeks_ago = @time - (2 * seconds_in_a_week)
+      two_weeks_ago = @time - (2 * @seconds_in_a_week)
       expect(Twig::CommitTime.new(two_weeks_ago).
         instance_variable_get(:@time_ago)).to eq('2w ago')
 
-      two_days_ago = @time - (2 * seconds_in_a_day)
+      two_days_ago = @time - (2 * @seconds_in_a_day)
       expect(Twig::CommitTime.new(two_days_ago).
         instance_variable_get(:@time_ago)).to eq('2d ago')
 
@@ -46,6 +51,16 @@ describe Twig::CommitTime do
 
       expect(Twig::CommitTime.new(@time).
         instance_variable_get(:@time_ago)).to eq('0s ago')
+    end
+
+    it 'stores a formatted "time from now" string' do
+      two_years_from_now = @time + (@seconds_in_a_year * 2)
+      expect(Twig::CommitTime.new(two_years_from_now).
+        instance_variable_get(:@time_ago)).to eq('2y from now')
+
+      one_year_from_now = @time + @seconds_in_a_year
+      expect(Twig::CommitTime.new(one_year_from_now).
+        instance_variable_get(:@time_ago)).to eq('1y from now')
     end
   end
 
