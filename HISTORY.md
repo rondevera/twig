@@ -11,6 +11,9 @@ Twig
   [runcom](https://github.com/runcom)!)
 * ENHANCEMENT: Show warning if `~/.twigconfig` contains an invalid option.
   (GH-40)
+
+1.7.1 (2015-08-19)
+------------------
 * ENHANCEMENT: Add Ruby 2.2 to official list of supported Rubies. (GH-47. Thanks
   [apuratepp](https://github.com/apuratepp)!)
 
