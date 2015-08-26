@@ -14,8 +14,8 @@ class Twig
 
     def initialize(time)
       @time  = time
-      suffix = 'ago'
       now    = CommitTime.now
+      suffix = @time > now ? 'from now' : 'ago'
 
       # For speed, lazily evaluate each `ago` computation
       @time_ago =
@@ -35,9 +35,6 @@ class Twig
           seconds_ago = count_relative_seconds(now)
           "#{seconds_ago}s"
         end
-
-      suffix = 'from now' if @time > now
-
       @time_ago << ' ' << suffix
     end
 
