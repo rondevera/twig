@@ -57,7 +57,10 @@ class Twig
       new_string
     end
 
-    def date_time_column_width; 35; end
+    def date_time_column_width
+      'YYYY-MM-DD HH:II -ZZZZ (___ from now)'.size
+    end
+
     def column_gutter; '  '; end
 
     def property_column_width(property_name = nil)

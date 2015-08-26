@@ -117,9 +117,9 @@ describe Twig::Display do
       result = @twig.branch_list_headers({})
       result_lines = result.split("\n")
 
-      date_time_column_width      = 35
+      date_time_column_width      = @twig.date_time_column_width
       extra_property_column_width = 8
-      column_gutter = @twig.column_gutter
+      column_gutter               = @twig.column_gutter
       expect(result_lines[0]).to eq(
         (' ' * date_time_column_width) + column_gutter +
         'foo     ' + (' ' * extra_property_column_width) + column_gutter +
@@ -162,9 +162,9 @@ describe Twig::Display do
       result = @twig.branch_list_headers({})
       result_lines = result.split("\n")
 
-      date_time_column_width      = 35
+      date_time_column_width      = @twig.date_time_column_width
       extra_property_column_width = 8
-      column_gutter = @twig.column_gutter
+      column_gutter               = @twig.column_gutter
       expect(result_lines[0]).to eq(
         (' ' * date_time_column_width) + column_gutter +
         'foo '     + column_gutter +
@@ -311,7 +311,7 @@ describe Twig::Display do
 
       column_gutter = @twig.column_gutter
       expect(result).to eq(
-        '2000-01-01' + (' ' * 25) + column_gutter +
+        '2000-01-01' + (' ' * 27) + column_gutter +
         'foo! ' + column_gutter +
         'bar!' + (' ' * 12) + column_gutter +
         '  ' + branch.name
@@ -332,7 +332,7 @@ describe Twig::Display do
 
         column_gutter = @twig.column_gutter
         expect(unformatted_result).to eq(
-          '2000-01-01' + (' ' * 25) + column_gutter +
+          '2000-01-01' + (' ' * 27) + column_gutter +
           'foo!' + (' ' * 12) + column_gutter +
           'bar!' + (' ' * 12) + column_gutter +
           indicator + 'my-br...'
@@ -347,7 +347,7 @@ describe Twig::Display do
 
         column_gutter = @twig.column_gutter
         expect(result).to eq(
-          '2000-01-01' + (' ' * 25) + column_gutter +
+          '2000-01-01' + (' ' * 27) + column_gutter +
           'foo!' + (' ' * 12) + column_gutter +
           'bar!' + (' ' * 12) + column_gutter +
           no_indicator + 'other...'
