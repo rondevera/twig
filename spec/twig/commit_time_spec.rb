@@ -61,6 +61,14 @@ describe Twig::CommitTime do
       one_year_from_now = @time + @seconds_in_a_year
       expect(Twig::CommitTime.new(one_year_from_now).
         instance_variable_get(:@time_ago)).to eq('1y from now')
+
+      two_months_from_now = @time + (9 * @seconds_in_a_week)
+      expect(Twig::CommitTime.new(two_months_from_now).
+        instance_variable_get(:@time_ago)).to eq('2mo from now')
+
+      two_weeks_from_now = @time + (2 * @seconds_in_a_week)
+      expect(Twig::CommitTime.new(two_weeks_from_now).
+        instance_variable_get(:@time_ago)).to eq('2w from now')
     end
   end
 
@@ -103,15 +111,33 @@ describe Twig::CommitTime do
       expect(commit_time.count_relative_months(@time)).to eq(0)
     end
 
-    it 'returns 1 for 20 days ago' do
+    it 'returns -1 for 20 days ago' do
       ref_time = @time - (60 * 60 * 24 * 20)
       commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_months(@time)).to eq(-1)
+    end
+
+    it 'returns -2 for 50 days ago' do
+      ref_time = @time - (60 * 60 * 24 * 50)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_months(@time)).to eq(-2)
+    end
+
+    it 'returns 1 for 31 days from now' do
+      days_per_month = 31
+      ref_time = @time + (60 * 60 * 24 * days_per_month)
+
+      commit_time = Twig::CommitTime.new(ref_time)
+
       expect(commit_time.count_relative_months(@time)).to eq(1)
     end
 
-    it 'returns 2 for 50 days ago' do
-      ref_time = @time - (60 * 60 * 24 * 50)
+    it 'returns 2 for 62 days from now' do
+      days_per_month = 31
+      ref_time = @time + (60 * 60 * 24 * days_per_month * 2)
+
       commit_time = Twig::CommitTime.new(ref_time)
+
       expect(commit_time.count_relative_months(@time)).to eq(2)
     end
   end
@@ -123,20 +149,38 @@ describe Twig::CommitTime do
       expect(commit_time.count_relative_weeks(@time)).to eq(0)
     end
 
-    it 'returns 1 for 8 days ago' do
+    it 'returns -1 for 8 days ago' do
       ref_time = @time - (60 * 60 * 24 * 8)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_weeks(@time)).to eq(-1)
+    end
+
+    it 'returns -2 for 14 days ago' do
+      ref_time = @time - (60 * 60 * 24 * 14)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_weeks(@time)).to eq(-2)
+    end
+
+    it 'returns -3 for 2.5 weeks ago' do
+      ref_time = @time - (60 * 60 * 24 * 7 * 2.5)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_weeks(@time)).to eq(-3)
+    end
+
+    it 'returns 1 for 8 days from now' do
+      ref_time = @time + (60 * 60 * 24 * 8)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_relative_weeks(@time)).to eq(1)
     end
 
-    it 'returns 2 for 14 days ago' do
-      ref_time = @time - (60 * 60 * 24 * 14)
+    it 'returns 2 for 14 days from now' do
+      ref_time = @time + (60 * 60 * 24 * 14)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_relative_weeks(@time)).to eq(2)
     end
 
-    it 'returns 3 for 2.5 weeks ago' do
-      ref_time = @time - (60 * 60 * 24 * 7 * 2.5)
+    it 'returns 3 for 2.5 weeks from now' do
+      ref_time = @time + (60 * 60 * 24 * 7 * 2.5)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_relative_weeks(@time)).to eq(3)
     end
