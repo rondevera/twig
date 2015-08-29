@@ -25,7 +25,7 @@ class Twig
           "#{months_ago}mo"
         elsif (weeks_ago ||= count_relative_weeks(now).abs) > 0
           "#{weeks_ago}w"
-        elsif (days_ago = count_relative_days(now)) > 0
+        elsif (days_ago = count_relative_days(now).abs) > 0
           "#{days_ago}d"
         elsif (hours_ago = count_relative_hours(now)) > 0
           "#{hours_ago}h"
@@ -54,8 +54,8 @@ class Twig
     end
 
     def count_relative_days(current_time)
-      seconds = current_time - @time
-      seconds < SECONDS_PER_DAY ? 0 : (seconds / SECONDS_PER_DAY).round
+      seconds = @time - current_time
+      seconds.abs < SECONDS_PER_DAY ? 0 : (seconds / SECONDS_PER_DAY).round
     end
 
     def count_relative_hours(current_time)
