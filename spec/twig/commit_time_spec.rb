@@ -27,15 +27,15 @@ describe Twig::CommitTime do
       expect(Twig::CommitTime.new(one_year_ago).
         instance_variable_get(:@time_ago)).to eq('1y ago')
 
-      two_months_ago = @time - (7 * @seconds_in_a_week)
+      two_months_ago = @time - (@seconds_in_a_week * 7)
       expect(Twig::CommitTime.new(two_months_ago).
         instance_variable_get(:@time_ago)).to eq('2mo ago')
 
-      two_weeks_ago = @time - (2 * @seconds_in_a_week)
+      two_weeks_ago = @time - (@seconds_in_a_week * 2)
       expect(Twig::CommitTime.new(two_weeks_ago).
         instance_variable_get(:@time_ago)).to eq('2w ago')
 
-      two_days_ago = @time - (2 * @seconds_in_a_day)
+      two_days_ago = @time - (@seconds_in_a_day * 2)
       expect(Twig::CommitTime.new(two_days_ago).
         instance_variable_get(:@time_ago)).to eq('2d ago')
 
@@ -62,15 +62,15 @@ describe Twig::CommitTime do
       expect(Twig::CommitTime.new(one_year_from_now).
         instance_variable_get(:@time_ago)).to eq('1y from now')
 
-      two_months_from_now = @time + (9 * @seconds_in_a_week)
+      two_months_from_now = @time + (@seconds_in_a_week * 9)
       expect(Twig::CommitTime.new(two_months_from_now).
         instance_variable_get(:@time_ago)).to eq('2mo from now')
 
-      two_weeks_from_now = @time + (2 * @seconds_in_a_week)
+      two_weeks_from_now = @time + (@seconds_in_a_week * 2)
       expect(Twig::CommitTime.new(two_weeks_from_now).
         instance_variable_get(:@time_ago)).to eq('2w from now')
 
-      two_days_from_now = @time + (2 * @seconds_in_a_day)
+      two_days_from_now = @time + (@seconds_in_a_day * 2)
       expect(Twig::CommitTime.new(two_days_from_now).
         instance_variable_get(:@time_ago)).to eq('2d from now')
     end
