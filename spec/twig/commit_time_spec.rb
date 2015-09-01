@@ -78,6 +78,9 @@ describe Twig::CommitTime do
       two_hours_from_now = @time + (@seconds_in_an_hour * 2)
       expect(Twig::CommitTime.new(two_hours_from_now).
         instance_variable_get(:@time_ago)).to eq('2h from now')
+
+      expect(Twig::CommitTime.new(@time + 120).
+        instance_variable_get(:@time_ago)).to eq('2m from now')
     end
   end
 
@@ -266,20 +269,38 @@ describe Twig::CommitTime do
       expect(commit_time.count_relative_minutes(@time)).to eq(0)
     end
 
-    it 'returns 1 for one minute ago' do
+    it 'returns -1 for one minute ago' do
       ref_time = @time - 60
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_minutes(@time)).to eq(-1)
+    end
+
+    it 'returns -20 for 20 minutes ago' do
+      ref_time = @time - (60 * 20)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_minutes(@time)).to eq(-20)
+    end
+
+    it 'returns -21 for 20.5 minutes ago' do
+      ref_time = @time - (60 * 20.5)
+      commit_time = Twig::CommitTime.new(ref_time)
+      expect(commit_time.count_relative_minutes(@time)).to eq(-21)
+    end
+
+    it 'returns 1 for one minute from now' do
+      ref_time = @time + 60
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_relative_minutes(@time)).to eq(1)
     end
 
-    it 'returns 20 for 20 minutes ago' do
-      ref_time = @time - (60 * 20)
+    it 'returns 20 for 20 minutes from now' do
+      ref_time = @time + (60 * 20)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_relative_minutes(@time)).to eq(20)
     end
 
-    it 'returns 21 for 20.5 minutes ago' do
-      ref_time = @time - (60 * 20.5)
+    it 'returns 21 for 20.5 minutes from now' do
+      ref_time = @time + (60 * 20.5)
       commit_time = Twig::CommitTime.new(ref_time)
       expect(commit_time.count_relative_minutes(@time)).to eq(21)
     end
