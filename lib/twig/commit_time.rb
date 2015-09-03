@@ -32,7 +32,7 @@ class Twig
         elsif (minutes_ago = count_relative_minutes(now).abs) > 0
           "#{minutes_ago}m"
         else
-          seconds_ago = count_relative_seconds(now)
+          seconds_ago = count_relative_seconds(now).abs
           "#{seconds_ago}s"
         end
       @time_ago << ' ' << suffix
@@ -69,7 +69,7 @@ class Twig
     end
 
     def count_relative_seconds(current_time)
-      (current_time - @time).to_i
+      (@time - current_time).to_i
     end
 
     def to_i
