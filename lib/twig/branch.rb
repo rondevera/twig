@@ -112,7 +112,7 @@ class Twig
 
         if match_data
           property_name = match_data[1]
-          property_value = match_data[2]
+          property_value = match_data[2].gsub(/\\/, '')
         else
           property_value = ''
         end

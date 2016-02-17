@@ -367,6 +367,19 @@ describe Twig::Branch do
         Twig::Branch::EmptyPropertyNameError::DEFAULT_MESSAGE
       )
     end
+
+    it 'removes extra backslashes from property values for display' do
+      property_name = 'foo'
+      property_value = '!!'
+      properties = {'foo' => '!!'}
+      git_result = "branch.#{@branch}.#{property_name} #{Shellwords.escape(property_value)}"
+      expect(Twig).to receive(:run).
+        with(%{git config --get-regexp "branch.#{@branch}.(#{property_name})$"}).
+        and_return(git_result)
+
+      result = @branch.get_properties([property_name])
+      expect(result).to eq(properties)
+    end
   end
 
   describe '#get_property' do
