@@ -11,6 +11,7 @@ Twig
   [runcom](https://github.com/runcom)!)
 * ENHANCEMENT: Show warning if `~/.twigconfig` contains an invalid option.
   (GH-40)
+* FIX: Unescape branch properties on display. (GH-52. Thanks [rcoder](https://github.com/rcoder)!)
 
 1.7.1 (2015-08-19)
 ------------------
